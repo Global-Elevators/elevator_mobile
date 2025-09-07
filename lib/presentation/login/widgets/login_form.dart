@@ -76,7 +76,6 @@ class LoginForm extends StatelessWidget {
                   ),
                 ],
               ),
-
               Align(
                 alignment: Alignment.center,
                 child: TextButtonWidget(

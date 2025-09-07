@@ -15,6 +15,7 @@ class TextFromFieldWidget extends StatelessWidget {
   final TextInputAction textInputAction;
   final FocusNode? focusNode;
   final bool enabled;
+  final void Function()? onTap;
 
   const TextFromFieldWidget({
     super.key,
@@ -29,6 +30,7 @@ class TextFromFieldWidget extends StatelessWidget {
     this.textInputAction = TextInputAction.done,
     this.focusNode,
     this.enabled = true,
+    this.onTap,
   });
 
   @override
@@ -44,6 +46,7 @@ class TextFromFieldWidget extends StatelessWidget {
       enabled: enabled,
       onFieldSubmitted: onFieldSubmitted,
       cursorColor: ColorManager.blueColor,
+      onTap: onTap,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(color: ColorManager.greyColor, fontSize: 14.sp),

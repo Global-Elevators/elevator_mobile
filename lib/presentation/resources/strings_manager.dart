@@ -12,7 +12,7 @@ class Strings {
   static const String englishText = 'English';
 
   // Sign-up screen strings
-  static const String backSignUp = 'Back sign up';
+  static const String backSignIn = 'Back Sign in';
   static const String createAccountTitle = 'Create an account';
   static const String createAccountMessage = 'Please enter your details to sign up';
   static const String nameLabel = 'Name';
@@ -24,6 +24,7 @@ class Strings {
   static const String month = 'Months';
   static const String year = 'Year';
   static const String emailLabel = 'Email (optional)';
+  static const String email = 'Email';
   static const String addressLabel = 'Address';
   static const String selectAddress = 'Select your address';
   static const String confirmPassword = 'Confirm password';
@@ -33,6 +34,7 @@ class Strings {
   static const String repair = 'Repair';
   static const String consultancy = 'Consultancy';
   static const String jointVenture = 'joint venture';
+  static const String setBirthday = 'Set your Birthday';
 
   // Phone verification screen strings
   static const String verifyPhoneTitle = 'Verify Your Phone Number';

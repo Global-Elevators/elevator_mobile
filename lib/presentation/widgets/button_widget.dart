@@ -8,10 +8,13 @@ class ButtonWidget extends StatelessWidget {
   final double radius, width;
   final String text;
   final void Function()? onTap;
+  final Color color;
 
-  const ButtonWidget({super.key,
+  const ButtonWidget({
+    super.key,
     required this.radius,
     this.width = double.infinity,
+    this.color = ColorManager.blueColor,
     required this.text,
     required this.onTap,
   });
@@ -24,7 +27,7 @@ class ButtonWidget extends StatelessWidget {
         height: AppSize.s50.h,
         width: width.w,
         decoration: BoxDecoration(
-          color: ColorManager.blueColor,
+          color: color,
           borderRadius: BorderRadius.circular(radius.r),
         ),
         child: Center(
