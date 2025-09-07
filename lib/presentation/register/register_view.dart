@@ -1,3 +1,4 @@
+import 'package:elevator/presentation/otp/otp_view.dart';
 import 'package:elevator/presentation/register/widgets/back_to_signIn_button.dart';
 import 'package:elevator/presentation/register/widgets/date_of_birth_row.dart';
 import 'package:elevator/presentation/register/widgets/interest_item.dart';
@@ -12,6 +13,7 @@ import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterView extends StatefulWidget {
   static const String registerRoute = '/register';
@@ -236,6 +238,6 @@ class _RegisterViewState extends State<RegisterView> {
   Widget _buildSignUpButton() => ButtonWidget(
     radius: AppSize.s14,
     text: Strings.signUpButton,
-    onTap: () {},
+    onTap: () => context.go(OtpView.otpRoute,extra: _phoneController.text),
   );
 }

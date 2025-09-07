@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:elevator/presentation/login/login_view.dart';
-import 'package:elevator/presentation/register/register_view.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +19,7 @@ class _SplashViewState extends State<SplashView> {
   void _goNext() async => goToLoginScreen(context);
 
   void goToLoginScreen(BuildContext context) =>
-      context.go(RegisterView.registerRoute);
+      context.go(LoginView.loginRoute);
 
   _startDelay() => _timer = Timer(const Duration(seconds: 2), _goNext);
 

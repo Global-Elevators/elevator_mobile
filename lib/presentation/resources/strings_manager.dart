@@ -38,7 +38,7 @@ class Strings {
 
   // Phone verification screen strings
   static const String verifyPhoneTitle = 'Verify Your Phone Number';
-  static const String verifyPhoneMessage = 'Please enter the code that was sent to your phone number +20XXXXXXXXXX';
+  static const String verifyPhoneMessage = 'Please enter the code that was sent to your phone number ';
   static const String verifyButton = 'Verify';
   static const String resendCode = 'Resend Code ';
 
