@@ -105,4 +105,10 @@ class Strings {
   static const String emailError = "invalid email";
   static const String mobileNumberError = "invalid mobile number";
   static const String passwordValid = "invalid password";
+
+  // Home screen strings
+  static const String home = 'Home';
+  static const String catalogue = 'Catalog';
+  static const String library = 'Library';
+  static const String profile = 'Profile';
 }

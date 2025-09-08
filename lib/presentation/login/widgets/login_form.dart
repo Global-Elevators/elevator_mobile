@@ -1,4 +1,5 @@
 import 'package:elevator/presentation/forget_password/forget_password_view.dart';
+import 'package:elevator/presentation/main/main_view.dart';
 import 'package:elevator/presentation/widgets/password_field.dart';
 import 'package:elevator/presentation/widgets/phone_field.dart';
 import 'package:elevator/presentation/login/widgets/login_texts.dart';
@@ -56,7 +57,7 @@ class LoginForm extends StatelessWidget {
               ButtonWidget(
                 radius: AppSize.s14,
                 text: Strings.signInButton,
-                onTap: () {},
+                onTap: () => context.push(MainView.mainRoute),
               ),
 
               Gap(AppSize.s25.h),

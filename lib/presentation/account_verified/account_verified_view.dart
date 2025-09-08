@@ -1,5 +1,5 @@
-import 'package:elevator/presentation/home/home_view.dart';
 import 'package:elevator/presentation/login/login_view.dart';
+import 'package:elevator/presentation/main/main_view.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -63,9 +63,10 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
                     : Strings.signInButton,
                 onTap: () => context.go(
                   widget.title == "register"
-                      ? HomeView.homeRoute
+                      ? MainView.mainRoute
                       : LoginView.loginRoute,
                 ),
+
               ),
             ],
           ),

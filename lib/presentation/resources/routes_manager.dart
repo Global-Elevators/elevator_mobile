@@ -1,7 +1,11 @@
 import 'package:elevator/presentation/account_verified/account_verified_view.dart';
 import 'package:elevator/presentation/forget_password/forget_password_view.dart';
-import 'package:elevator/presentation/home/home_view.dart';
 import 'package:elevator/presentation/login/login_view.dart';
+import 'package:elevator/presentation/main/catalogue/catalogue_view.dart';
+import 'package:elevator/presentation/main/home/view/home_view.dart';
+import 'package:elevator/presentation/main/library/library_view.dart';
+import 'package:elevator/presentation/main/main_view.dart';
+import 'package:elevator/presentation/main/profile/profile_view.dart';
 import 'package:elevator/presentation/new_password/new_password_view.dart';
 import 'package:elevator/presentation/register/register_view.dart';
 import 'package:elevator/presentation/splash/splash_view.dart';
@@ -49,9 +53,9 @@ class GoRouterConfig {
         routes: <RouteBase>[],
       ),
       GoRoute(
-        path: HomeView.homeRoute,
+        path: MainView.mainRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: HomeView()),
+            getCustomTransitionPage(state: state, child: MainView()),
         routes: <RouteBase>[],
       ),
       GoRoute(
@@ -64,6 +68,30 @@ class GoRouterConfig {
         path: NewPasswordView.newPasswordRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             getCustomTransitionPage(state: state, child: NewPasswordView()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: HomePage.homeRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: HomePage()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: CatalogueView.catalogueRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: CatalogueView()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: LibraryView.libraryRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: LibraryView()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: ProfileView.profileRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: ProfileView()),
         routes: <RouteBase>[],
       ),
     ],

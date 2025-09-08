@@ -23,4 +23,5 @@ class ImageAssets {
   static const String home = "$iconsPath/home.svg";
   static const String library = "$iconsPath/library.svg";
   static const String warning = "$iconsPath/warning.svg";
+  static const String profile = "$iconsPath/profile.svg";
 }
