@@ -1,4 +1,5 @@
 import 'package:elevator/presentation/home/home_view.dart';
+import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -12,9 +13,10 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 class AccountVerifiedView extends StatefulWidget {
+  final String title;
   static const String accountVerifiedRoute = '/accountVerified';
 
-  const AccountVerifiedView({super.key});
+  const AccountVerifiedView(this.title, {super.key});
 
   @override
   State<AccountVerifiedView> createState() => _AccountVerifiedViewState();
@@ -30,17 +32,24 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(ImageAssets.verification),
+              Image.asset(
+                ImageAssets.verification,
+              ),
               Gap(AppSize.s25.h),
               Text(
-                Strings.accountVerifiedTitle,
+                textAlign: TextAlign.center,
+                widget.title == "register"
+                    ? Strings.accountVerifiedTitle
+                    : Strings.passwordChangedTitle,
                 style: getBoldTextStyle(
                   color: ColorManager.blueColor,
                   fontSize: FontSizeManager.s28.sp,
                 ),
               ),
               Text(
-                Strings.accountVerifiedMessage,
+                widget.title == "register"
+                    ? Strings.accountVerifiedMessage
+                    : Strings.passwordChangedMessage,
                 style: getMediumTextStyle(
                   color: ColorManager.greyColor,
                   fontSize: FontSizeManager.s18.sp,
@@ -49,8 +58,14 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
               Gap(AppSize.s40.h),
               ButtonWidget(
                 radius: AppSize.s14,
-                text: Strings.doneButton,
-                onTap: () => context.go(HomeView.homeRoute),
+                text: widget.title == "register"
+                    ? Strings.doneButton
+                    : Strings.signInButton,
+                onTap: () => context.go(
+                  widget.title == "register"
+                      ? HomeView.homeRoute
+                      : LoginView.loginRoute,
+                ),
               ),
             ],
           ),

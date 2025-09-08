@@ -6,10 +6,10 @@ import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoginPhoneField extends StatelessWidget {
+class PhoneField extends StatelessWidget {
   final TextEditingController controller;
 
-  const LoginPhoneField({super.key, required this.controller});
+  const PhoneField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

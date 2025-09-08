@@ -1,5 +1,6 @@
-import 'package:elevator/presentation/login/widgets/login_password_field.dart';
-import 'package:elevator/presentation/login/widgets/login_phone_field.dart';
+import 'package:elevator/presentation/forget_password/forget_password_view.dart';
+import 'package:elevator/presentation/widgets/password_field.dart';
+import 'package:elevator/presentation/widgets/phone_field.dart';
 import 'package:elevator/presentation/login/widgets/login_texts.dart';
 import 'package:elevator/presentation/register/register_view.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
@@ -44,16 +45,13 @@ class LoginForm extends StatelessWidget {
               const WelcomeTitle(),
               const WelcomeMessage(),
               Gap(AppSize.s34.h),
-
               const InputLabel(title: Strings.phoneNumberTitle),
               Gap(AppSize.s8.h),
-              LoginPhoneField(controller: phoneController),
-
+              PhoneField(controller: phoneController),
               Gap(AppSize.s16.h),
               const InputLabel(title: Strings.passwordTitle),
               Gap(AppSize.s8.h),
-              LoginPasswordField(controller: passwordController),
-
+              PasswordField(controller: passwordController, hintText: Strings.passwordTitle),
               Gap(AppSize.s28.h),
               ButtonWidget(
                 radius: AppSize.s14,
@@ -82,7 +80,7 @@ class LoginForm extends StatelessWidget {
                   Strings.forgetPassword,
                   ColorManager.blueColor,
                   AppSize.s18,
-                  () {},
+                  () => context.push(ForgetPasswordView.forgetPasswordRoute),
                 ),
               ),
             ],

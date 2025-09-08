@@ -1,26 +1,26 @@
 import 'dart:async';
-import 'package:elevator/presentation/otp/widget/number_label.dart';
-import 'package:elevator/presentation/otp/widget/otp_image.dart';
-import 'package:elevator/presentation/otp/widget/otp_input_field.dart';
-import 'package:elevator/presentation/otp/widget/resend_code.dart';
-import 'package:elevator/presentation/otp/widget/verify_button.dart';
-import 'package:elevator/presentation/otp/widget/verify_title.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/presentation/verify/widget/number_label.dart';
+import 'package:elevator/presentation/verify/widget/resend_code.dart';
+import 'package:elevator/presentation/verify/widget/verify_button.dart';
+import 'package:elevator/presentation/verify/widget/verify_image.dart';
+import 'package:elevator/presentation/verify/widget/verify_input_field.dart';
+import 'package:elevator/presentation/verify/widget/verify_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
-class OtpView extends StatefulWidget {
-  static const String otpRoute = '/otp';
-  final String phone;
-
-  const OtpView(this.phone, {super.key});
+class VerifyView extends StatefulWidget {
+  static const String verifyRoute = '/verify';
+  // final String phone;
+  final List<String> codes;
+  const VerifyView({required this.codes, super.key});
 
   @override
-  State<OtpView> createState() => _OtpViewState();
+  State<VerifyView> createState() => _VerifyViewState();
 }
 
-class _OtpViewState extends State<OtpView> {
+class _VerifyViewState extends State<VerifyView> {
   int _seconds = 30;
   late final Timer _timer;
 
@@ -48,9 +48,8 @@ class _OtpViewState extends State<OtpView> {
 
   @override
   Widget build(BuildContext context) {
-    final String firstThree = widget.phone.substring(0, 3);
-    final String stars = 'X' * (widget.phone.length - 3);
-
+    final String firstThree = widget.codes[0].substring(0, 3);
+    final String stars = 'X' * (widget.codes[0].length - 3);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s16.r),
@@ -58,14 +57,14 @@ class _OtpViewState extends State<OtpView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              OtpImage(),
+              VerifyImage(),
               VerifyTitle(),
               Gap(AppSize.s8.h),
               NumberLabel(firstThree: firstThree, stars: stars),
               Gap(AppSize.s28.h),
-              OtpInputField(),
+              VerifyInputField(),
               Gap(AppSize.s40.h),
-              VerifyButton(),
+              VerifyButton(widget.codes[1]),
               Gap(AppSize.s25.h),
               ResendCode(seconds: _seconds),
             ],

@@ -1,9 +1,11 @@
+import 'package:elevator/presentation/account_verified/account_verified_view.dart';
+import 'package:elevator/presentation/forget_password/forget_password_view.dart';
 import 'package:elevator/presentation/home/home_view.dart';
 import 'package:elevator/presentation/login/login_view.dart';
-import 'package:elevator/presentation/otp/otp_view.dart';
+import 'package:elevator/presentation/new_password/new_password_view.dart';
 import 'package:elevator/presentation/register/register_view.dart';
 import 'package:elevator/presentation/splash/splash_view.dart';
-import 'package:elevator/presentation/verified/account_verified_view.dart';
+import 'package:elevator/presentation/verify/verify_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,24 +32,38 @@ class GoRouterConfig {
         routes: <RouteBase>[],
       ),
       GoRoute(
-        path: OtpView.otpRoute,
+        path: VerifyView.verifyRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             getCustomTransitionPage(
               state: state,
-              child: OtpView(state.extra as String),
+              child: VerifyView(
+                codes: state.extra as List<String>,
+              ),
             ),
         routes: <RouteBase>[],
       ),
       GoRoute(
         path: AccountVerifiedView.accountVerifiedRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: AccountVerifiedView()),
+            getCustomTransitionPage(state: state, child: AccountVerifiedView(state.extra as String)),
         routes: <RouteBase>[],
       ),
       GoRoute(
         path: HomeView.homeRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             getCustomTransitionPage(state: state, child: HomeView()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: ForgetPasswordView.forgetPasswordRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: ForgetPasswordView()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: NewPasswordView.newPasswordRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: NewPasswordView()),
         routes: <RouteBase>[],
       ),
     ],

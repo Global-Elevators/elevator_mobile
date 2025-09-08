@@ -1,5 +1,4 @@
-import 'package:elevator/presentation/otp/otp_view.dart';
-import 'package:elevator/presentation/register/widgets/back_to_signIn_button.dart';
+import 'package:elevator/presentation/widgets/back_to_button.dart';
 import 'package:elevator/presentation/register/widgets/date_of_birth_row.dart';
 import 'package:elevator/presentation/register/widgets/interest_item.dart';
 import 'package:elevator/presentation/register/widgets/label_field.dart';
@@ -9,11 +8,15 @@ import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/button_widget.dart';
+import 'package:elevator/presentation/widgets/password_field.dart';
+import 'package:elevator/presentation/widgets/phone_field.dart';
 import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+
+import '../verify/verify_view.dart';
 
 class RegisterView extends StatefulWidget {
   static const String registerRoute = '/register';
@@ -89,7 +92,7 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  Widget _buildBackButton() => const BackToSignInButton();
+  Widget _buildBackButton() => BackToButton(text: Strings.backSignIn);
 
   Widget _buildHeader() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,10 +175,7 @@ class _RegisterViewState extends State<RegisterView> {
     children: [
       const LabelField(Strings.phoneNumberTitle),
       Gap(AppSize.s8.h),
-      TextFromFieldWidget(
-        hintText: Strings.phoneNumberTitle,
-        controller: _phoneController,
-      ),
+      PhoneField(controller: _phoneController),
       Gap(AppSize.s25.h),
       const LabelField(Strings.emailLabel),
       Gap(AppSize.s8.h),
@@ -198,21 +198,9 @@ class _RegisterViewState extends State<RegisterView> {
     children: [
       const LabelField(Strings.passwordTitle),
       Gap(AppSize.s8.h),
-      TextFromFieldWidget(
-        hintText: Strings.passwordTitle,
-        controller: _passwordController,
-        obscureText: true,
-        keyboardType: TextInputType.visiblePassword,
-        prefixIcon: Icon(Icons.lock_outline, color: ColorManager.blueColor),
-      ),
+      PasswordField(controller: _passwordController, hintText: Strings.passwordTitle,),
       Gap(AppSize.s8.h),
-      TextFromFieldWidget(
-        hintText: Strings.confirmPasswordLabel,
-        controller: _confirmPasswordController,
-        obscureText: true,
-        keyboardType: TextInputType.visiblePassword,
-        prefixIcon: Icon(Icons.lock_outline, color: ColorManager.blueColor),
-      ),
+      PasswordField(controller: _confirmPasswordController, hintText: Strings.confirmPassword),
     ],
   );
 
@@ -238,6 +226,9 @@ class _RegisterViewState extends State<RegisterView> {
   Widget _buildSignUpButton() => ButtonWidget(
     radius: AppSize.s14,
     text: Strings.signUpButton,
-    onTap: () => context.go(OtpView.otpRoute,extra: _phoneController.text),
+    onTap: () => context.go(VerifyView.verifyRoute, extra: [
+      _phoneController.text,
+      "register"
+    ]),
   );
 }

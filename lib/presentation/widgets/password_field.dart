@@ -2,10 +2,11 @@ import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
 import 'package:flutter/material.dart';
 
-class LoginPasswordField extends StatelessWidget {
+class PasswordField extends StatelessWidget {
   final TextEditingController controller;
+  final String hintText;
 
-  const LoginPasswordField({super.key, required this.controller});
+  const PasswordField({super.key, required this.controller, required this.hintText});
 
   @override
   Widget build(BuildContext context) {

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class OtpInputField extends StatelessWidget {
-  const OtpInputField({super.key});
+class VerifyInputField extends StatelessWidget {
+  const VerifyInputField({super.key});
 
   @override
   Widget build(BuildContext context) {

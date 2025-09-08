@@ -44,7 +44,7 @@ class Strings {
 
   // Verification success strings
   static const String accountVerifiedTitle = 'Account Verified';
-  static const String accountVerifiedMessage = 'Your account has been verified.';
+  static const String accountVerifiedMessage = 'Your account has been account_verified.';
   static const String doneButton = 'Done';
 
   // Forget password screen strings
