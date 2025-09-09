@@ -35,7 +35,7 @@ class InterestItem extends StatelessWidget {
         child: Text(
           text,
           style: getRegularTextStyle(
-            color: ColorManager.blueColor,
+            color: ColorManager.primaryColor,
             fontSize: FontSizeManager.s16,
           ),
         ),

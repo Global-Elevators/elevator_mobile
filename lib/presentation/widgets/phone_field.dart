@@ -29,7 +29,7 @@ class PhoneField extends StatelessWidget {
           child: Text(
             "+964",
             style: getRegularTextStyle(
-              color: ColorManager.blueColor,
+              color: ColorManager.primaryColor,
               fontSize: AppSize.s18.sp,
             ),
           ),

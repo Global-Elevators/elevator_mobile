@@ -1,5 +1,16 @@
+import 'package:elevator/presentation/main/widgets/free_button.dart';
+import 'package:elevator/presentation/main/widgets/home_bar.dart';
+import 'package:elevator/presentation/main/widgets/premium_container.dart';
+import 'package:elevator/presentation/main/widgets/registration_box.dart';
+import 'package:elevator/presentation/resources/assets_manager.dart';
+import 'package:elevator/presentation/resources/color_manager.dart';
+import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
+import 'package:elevator/presentation/resources/styles_manager.dart';
+import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 
 class HomePage extends StatefulWidget {
   static const String homeRoute = '/home';
@@ -11,10 +22,50 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool isPremium = false;
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(Strings.home, style: Theme.of(context).textTheme.headlineLarge),
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            HomeBar(),
+            Gap(AppSize.s24.h),
+            if(isPremium)
+              ...[
+                RegistrationBox(),
+                Gap(AppSize.s24.h),
+              ],
+            PremiumContainer(isPremium),
+            Gap(AppSize.s24.h),
+            Text(
+              Strings.servicesTitle,
+              style: getBoldTextStyle(
+                fontSize: FontSizeManager.s23.sp,
+                color: ColorManager.primaryColor,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FreeButton(
+                  imageAsset: ImageAssets.worker,
+                  title: Strings.requestSiteSurvey,
+                  onTap: () {},
+                ),
+                FreeButton(
+                  imageAsset: ImageAssets.note,
+                  title: Strings.requestTechnicalOffer,
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

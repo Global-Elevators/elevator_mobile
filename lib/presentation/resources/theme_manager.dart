@@ -12,9 +12,9 @@ ThemeData getApplicationTheme() {
     // primaryColorDark: ColorManager.gray600,
     buttonTheme: ButtonThemeData(
       shape: const StadiumBorder(),
-      buttonColor: ColorManager.blueColor,
-      disabledColor: ColorManager.blueColor,
-      splashColor: ColorManager.blueColor,
+      buttonColor: ColorManager.primaryColor,
+      disabledColor: ColorManager.primaryColor,
+      splashColor: ColorManager.primaryColor,
     ),
     // Input decoration theme
     inputDecorationTheme: InputDecorationTheme(
@@ -31,7 +31,7 @@ ThemeData getApplicationTheme() {
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: ColorManager.blueColor,
+          color: ColorManager.primaryColor,
           width: AppSize.s1_5,
         ),
         borderRadius: BorderRadius.circular(AppSize.s8),
@@ -42,7 +42,7 @@ ThemeData getApplicationTheme() {
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: ColorManager.blueColor,
+          color: ColorManager.primaryColor,
           width: AppSize.s1_5,
         ),
         borderRadius: BorderRadius.circular(AppSize.s8),

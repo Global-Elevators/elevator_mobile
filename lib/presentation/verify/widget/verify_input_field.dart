@@ -11,9 +11,9 @@ class VerifyInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return OtpTextField(
       numberOfFields: AppSize.s4.toInt(),
-      borderColor: ColorManager.blueColor,
+      borderColor: ColorManager.primaryColor,
       showFieldAsBox: true,
-      disabledBorderColor: ColorManager.blueColor,
+      disabledBorderColor: ColorManager.primaryColor,
       fieldWidth: AppSize.s70.h,
       fieldHeight: AppSize.s70.h,
     );

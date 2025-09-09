@@ -42,7 +42,7 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
                     ? Strings.accountVerifiedTitle
                     : Strings.passwordChangedTitle,
                 style: getBoldTextStyle(
-                  color: ColorManager.blueColor,
+                  color: ColorManager.primaryColor,
                   fontSize: FontSizeManager.s28.sp,
                 ),
               ),

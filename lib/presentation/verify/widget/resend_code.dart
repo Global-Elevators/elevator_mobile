@@ -21,14 +21,14 @@ class ResendCode extends StatelessWidget {
         style: getMediumTextStyle(
           color: seconds > 0
               ? ColorManager.greyColor
-              : ColorManager.blueColor,
+              : ColorManager.primaryColor,
           fontSize: FontSizeManager.s18,
         ),
         children: [
           TextSpan(
             text: seconds.toString().padLeft(2, '0'),
             style: getMediumTextStyle(
-              color: ColorManager.blueColor,
+              color: ColorManager.primaryColor,
               fontSize: FontSizeManager.s18,
             ),
           ),

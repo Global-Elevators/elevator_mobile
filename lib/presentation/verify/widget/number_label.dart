@@ -24,7 +24,7 @@ class NumberLabel extends StatelessWidget {
           TextSpan(
             text: firstThree + stars,
             style: getMediumTextStyle(
-              color: ColorManager.blueColor,
+              color: ColorManager.primaryColor,
               fontSize: FontSizeManager.s18,
             ),
           ),

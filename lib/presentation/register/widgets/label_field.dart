@@ -12,7 +12,7 @@ class LabelField extends StatelessWidget {
     return Text(
       text,
       style: getMediumTextStyle(
-        color: ColorManager.blueColor,
+        color: ColorManager.primaryColor,
         fontSize: FontSizeManager.s18,
       ),
     );

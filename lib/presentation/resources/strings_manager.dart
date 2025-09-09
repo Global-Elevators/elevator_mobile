@@ -63,7 +63,7 @@ class Strings {
   static const String passwordChangedMessage = 'You can sign in with the new password.';
 
   // Welcome screen strings
-  static const String welcomeBack = 'Welcome back';
+  static const String welcomeBack = 'Welcome back`';
   static const String userName = 'Mahmoud A Elakim';
 
   // SOS section strings
@@ -111,4 +111,9 @@ class Strings {
   static const String catalogue = 'Catalog';
   static const String library = 'Library';
   static const String profile = 'Profile';
+  static const String nextAppointment = "Next appointment";
+  static const String elevatorMaintenance = "Elevator maintenance";
+  static const String appointmentDate = "9 June, 2025";
+  static const String daysLeft = "25 days left";
+  static const String requestVisitRescheduling = "Request Visit Rescheduling";
 }

@@ -14,7 +14,7 @@ class ButtonWidget extends StatelessWidget {
     super.key,
     required this.radius,
     this.width = double.infinity,
-    this.color = ColorManager.blueColor,
+    this.color = ColorManager.primaryColor,
     required this.text,
     required this.onTap,
   });

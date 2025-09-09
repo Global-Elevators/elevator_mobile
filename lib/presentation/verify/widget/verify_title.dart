@@ -12,7 +12,7 @@ class VerifyTitle extends StatelessWidget {
     return Text(
       Strings.verifyPhoneTitle,
       style: getBoldTextStyle(
-        color: ColorManager.blueColor,
+        color: ColorManager.primaryColor,
         fontSize: FontSizeManager.s28,
       ),
     );

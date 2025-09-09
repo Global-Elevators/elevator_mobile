@@ -100,7 +100,7 @@ class _RegisterViewState extends State<RegisterView> {
       Text(
         Strings.createAccountTitle,
         style: getBoldTextStyle(
-          color: ColorManager.blueColor,
+          color: ColorManager.primaryColor,
           fontSize: FontSizeManager.s28,
         ),
       ),
@@ -126,7 +126,7 @@ class _RegisterViewState extends State<RegisterView> {
         prefixIcon: Icon(
           Icons.account_circle_outlined,
           size: AppSize.s30,
-          color: ColorManager.blueColor,
+          color: ColorManager.primaryColor,
         ),
       ),
       Gap(AppSize.s8.h),

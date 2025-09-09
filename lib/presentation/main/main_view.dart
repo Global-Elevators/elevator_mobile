@@ -33,7 +33,7 @@ class _MainViewState extends State<MainView> {
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         elevation: .20,
-        selectedItemColor: ColorManager.blueColor,
+        selectedItemColor: ColorManager.primaryColor,
         unselectedItemColor: ColorManager.greyColor,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,

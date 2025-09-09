@@ -42,7 +42,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
             Text(
               Strings.forgetPasswordTitle,
               style: getBoldTextStyle(
-                color: ColorManager.blueColor,
+                color: ColorManager.primaryColor,
                 fontSize: AppSize.s24,
               ),
             ),

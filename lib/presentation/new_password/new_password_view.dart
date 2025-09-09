@@ -44,7 +44,7 @@ class _NewPasswordViewState extends State<NewPasswordView> {
             Text(
               Strings.enterNewPasswordTitle,
               style: getBoldTextStyle(
-                color: ColorManager.blueColor,
+                color: ColorManager.primaryColor,
                 fontSize: FontSizeManager.s28.sp,
               ),
             ),

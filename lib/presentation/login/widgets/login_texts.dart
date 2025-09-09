@@ -12,7 +12,7 @@ class WelcomeTitle extends StatelessWidget {
     return Text(
       Strings.welcomeTitle,
       style: getBoldTextStyle(
-        color: ColorManager.blueColor,
+        color: ColorManager.primaryColor,
         fontSize: 28.sp,
       ),
     );
@@ -44,7 +44,7 @@ class InputLabel extends StatelessWidget {
     return Text(
       title,
       style: getMediumTextStyle(
-        color: ColorManager.blueColor,
+        color: ColorManager.primaryColor,
         fontSize: 18.sp,
       ),
     );

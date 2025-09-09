@@ -26,7 +26,7 @@ class LoginLanguageButton extends StatelessWidget {
             child: Text(
               Strings.arabicText,
               style: getRegularTextStyle(
-                color: ColorManager.blueColor,
+                color: ColorManager.primaryColor,
                 fontSize: AppSize.s18.sp,
               ),
             ),

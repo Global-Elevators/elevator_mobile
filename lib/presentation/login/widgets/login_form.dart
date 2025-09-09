@@ -67,7 +67,7 @@ class LoginForm extends StatelessWidget {
                   Text(Strings.noAccountMessage),
                   TextButtonWidget(
                     Strings.signUpButton,
-                    ColorManager.blueColor,
+                    ColorManager.primaryColor,
                     AppSize.s18.sp,
                     () {
                       context.push(RegisterView.registerRoute);
@@ -79,7 +79,7 @@ class LoginForm extends StatelessWidget {
                 alignment: Alignment.center,
                 child: TextButtonWidget(
                   Strings.forgetPassword,
-                  ColorManager.blueColor,
+                  ColorManager.primaryColor,
                   AppSize.s18,
                   () => context.push(ForgetPasswordView.forgetPasswordRoute),
                 ),

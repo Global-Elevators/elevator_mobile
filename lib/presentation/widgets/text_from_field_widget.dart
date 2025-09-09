@@ -42,10 +42,10 @@ class TextFromFieldWidget extends StatelessWidget {
       obscureText: obscureText,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
-      style: const TextStyle(color: ColorManager.blueColor),
+      style: const TextStyle(color: ColorManager.primaryColor),
       enabled: enabled,
       onFieldSubmitted: onFieldSubmitted,
-      cursorColor: ColorManager.blueColor,
+      cursorColor: ColorManager.primaryColor,
       onTap: onTap,
       decoration: InputDecoration(
         hintText: hintText,
@@ -58,7 +58,7 @@ class TextFromFieldWidget extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSize.s20.r),
-          borderSide: const BorderSide(color: ColorManager.blueColor, width: 1.5),
+          borderSide: const BorderSide(color: ColorManager.primaryColor, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSize.s20.r),

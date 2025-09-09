@@ -32,7 +32,7 @@ class BackToButton extends StatelessWidget {
             Text(
               Strings.backSignIn,
               style: getMediumTextStyle(
-                color: ColorManager.blueColor,
+                color: ColorManager.primaryColor,
                 fontSize: FontSizeManager.s18,
               ),
             ),
