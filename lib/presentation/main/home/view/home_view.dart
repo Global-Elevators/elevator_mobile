@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isPremium = false;
+  bool isPremium = true;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             HomeBar(),
             Gap(AppSize.s24.h),
-            if(isPremium)
-              ...[
-                RegistrationBox(),
-                Gap(AppSize.s24.h),
-              ],
+            if (isPremium) ...[RegistrationBox(), Gap(AppSize.s24.h)],
             PremiumContainer(isPremium),
             Gap(AppSize.s24.h),
             Text(
@@ -48,20 +44,46 @@ class _HomePageState extends State<HomePage> {
                 color: ColorManager.primaryColor,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FreeButton(
-                  imageAsset: ImageAssets.worker,
-                  title: Strings.requestSiteSurvey,
-                  onTap: () {},
-                ),
-                FreeButton(
-                  imageAsset: ImageAssets.note,
-                  title: Strings.requestTechnicalOffer,
-                  onTap: () {},
-                ),
-              ],
+            SizedBox(
+              height: AppSize.s130.h,
+              child: Row(
+                children: [
+                  FreeButton(
+                    title: Strings.requestSiteSurvey,
+                    imageAsset: ImageAssets.worker,
+                    onTap: () {
+                      showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        useRootNavigator: true,
+                        context: context,
+                        builder: (BuildContext context) => Container(
+                          width: AppSize.s402.w,
+                          decoration: BoxDecoration(
+                            color: ColorManager.whiteColor,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(AppSize.s50.r),
+                              topRight: Radius.circular(AppSize.s50.r),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.only(
+                              top: AppSize.s30.h,
+                              end: AppSize.s16.w,
+                              start: AppSize.s16.w,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  Gap(AppSize.s8.w),
+                  FreeButton(
+                    title: Strings.requestTechnicalOffer,
+                    imageAsset: ImageAssets.note,
+                    onTap: () {},
+                  ),
+                ],
+              ),
             ),
           ],
         ),

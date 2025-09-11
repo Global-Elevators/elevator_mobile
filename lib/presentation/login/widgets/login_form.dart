@@ -26,66 +26,56 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: ColorManager.whiteColor.withOpacity(0.9),
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(AppSize.s24.r),
-        ),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s16.w,
+        vertical: AppSize.s22.h,
       ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppSize.s16.w,
-          vertical: AppSize.s22.h,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const WelcomeTitle(),
-              const WelcomeMessage(),
-              Gap(AppSize.s34.h),
-              const InputLabel(title: Strings.phoneNumberTitle),
-              Gap(AppSize.s8.h),
-              PhoneField(controller: phoneController),
-              Gap(AppSize.s16.h),
-              const InputLabel(title: Strings.passwordTitle),
-              Gap(AppSize.s8.h),
-              PasswordField(controller: passwordController, hintText: Strings.passwordTitle),
-              Gap(AppSize.s28.h),
-              ButtonWidget(
-                radius: AppSize.s14,
-                text: Strings.signInButton,
-                onTap: () => context.push(MainView.mainRoute),
-              ),
-
-              Gap(AppSize.s25.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(Strings.noAccountMessage),
-                  TextButtonWidget(
-                    Strings.signUpButton,
-                    ColorManager.primaryColor,
-                    AppSize.s18.sp,
-                    () {
-                      context.push(RegisterView.registerRoute);
-                    },
-                  ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: TextButtonWidget(
-                  Strings.forgetPassword,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const WelcomeTitle(),
+            const WelcomeMessage(),
+            Gap(AppSize.s34.h),
+            const InputLabel(title: Strings.phoneNumberTitle),
+            Gap(AppSize.s8.h),
+            PhoneField(controller: phoneController),
+            Gap(AppSize.s16.h),
+            const InputLabel(title: Strings.passwordTitle),
+            Gap(AppSize.s8.h),
+            PasswordField(controller: passwordController, hintText: Strings.passwordTitle),
+            Gap(AppSize.s28.h),
+            ButtonWidget(
+              radius: AppSize.s14,
+              text: Strings.signInButton,
+              onTap: () => context.push(MainView.mainRoute),
+            ),
+            Gap(AppSize.s25.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(Strings.noAccountMessage),
+                TextButtonWidget(
+                  Strings.signUpButton,
                   ColorManager.primaryColor,
-                  AppSize.s18,
-                  () => context.push(ForgetPasswordView.forgetPasswordRoute),
+                  AppSize.s18.sp,
+                  () {
+                    context.push(RegisterView.registerRoute);
+                  },
                 ),
+              ],
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: TextButtonWidget(
+                Strings.forgetPassword,
+                ColorManager.primaryColor,
+                AppSize.s18,
+                () => context.push(ForgetPasswordView.forgetPasswordRoute),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

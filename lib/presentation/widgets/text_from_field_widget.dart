@@ -1,4 +1,5 @@
 import 'package:elevator/presentation/resources/color_manager.dart';
+import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,38 +36,60 @@ class TextFromFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      focusNode: focusNode,
-      validator: validator,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      style: const TextStyle(color: ColorManager.primaryColor),
-      enabled: enabled,
-      onFieldSubmitted: onFieldSubmitted,
-      cursorColor: ColorManager.primaryColor,
-      onTap: onTap,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: TextStyle(color: ColorManager.greyColor, fontSize: 14.sp),
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSize.s20.r),
-          borderSide: const BorderSide(color: ColorManager.greyColor),
+    return SizedBox(
+      height: AppSize.s55.h,
+      child: TextFormField(
+        controller: controller,
+        focusNode: focusNode,
+        validator: validator,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        textInputAction: textInputAction,
+        /// TODO: Change the style of the text
+        style: getMediumTextStyle(
+          color: ColorManager.primaryColor,
+          fontSize: AppSize.s20.sp,
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSize.s20.r),
-          borderSide: const BorderSide(color: ColorManager.primaryColor, width: 1.5),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSize.s20.r),
-          borderSide: BorderSide(color: ColorManager.errorColor),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSize.s20.r),
-          borderSide: const BorderSide(color: ColorManager.errorColor, width: 1.5),
+        enabled: enabled,
+        onFieldSubmitted: onFieldSubmitted,
+        /// TODO: Change the cursor color
+        cursorColor: ColorManager.primaryColor,
+        onTap: onTap,
+        decoration: InputDecoration(
+          hintText: hintText,
+          filled: true,
+          fillColor: ColorManager.whiteColor,
+          hintStyle: getRegularTextStyle(
+            color: Color(0xff777777),
+            fontSize: AppSize.s16.sp,
+          ),
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSize.s14.r),
+            borderSide: BorderSide(
+              color: ColorManager.formFieldsBorderColor,
+              width: AppSize.s1.w,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSize.s14.r),
+            borderSide: BorderSide(
+              color: ColorManager.primaryColor,
+              width: AppSize.s1.w,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSize.s14.r),
+            borderSide: BorderSide(color: ColorManager.errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSize.s20.r),
+            borderSide: BorderSide(
+              color: ColorManager.errorColor,
+              width: AppSize.s1.w,
+            ),
+          ),
         ),
       ),
     );

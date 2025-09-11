@@ -108,7 +108,7 @@ class Strings {
 
   // Home screen strings
   static const String home = 'Home';
-  static const String catalogue = 'Catalog';
+  static const String catalogue = 'Catalogue';
   static const String library = 'Library';
   static const String profile = 'Profile';
   static const String nextAppointment = "Next appointment";

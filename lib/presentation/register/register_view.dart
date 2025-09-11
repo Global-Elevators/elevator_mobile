@@ -1,3 +1,4 @@
+import 'package:elevator/presentation/register/widgets/address_drop_down.dart';
 import 'package:elevator/presentation/widgets/back_to_button.dart';
 import 'package:elevator/presentation/register/widgets/date_of_birth_row.dart';
 import 'package:elevator/presentation/register/widgets/interest_item.dart';
@@ -15,9 +16,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-
 import '../verify/verify_view.dart';
 
+enum DateOfBirthType { Day, Month, Year }
 class RegisterView extends StatefulWidget {
   static const String registerRoute = '/register';
 
@@ -36,7 +37,6 @@ class _RegisterViewState extends State<RegisterView> {
   final _yearController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _addressController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
@@ -62,6 +62,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -84,6 +85,7 @@ class _RegisterViewState extends State<RegisterView> {
                 _buildInterestsSection(),
                 Gap(AppSize.s25.h),
                 _buildSignUpButton(),
+                Gap(AppSize.s10.h),
               ],
             ),
           ),
@@ -104,7 +106,6 @@ class _RegisterViewState extends State<RegisterView> {
           fontSize: FontSizeManager.s28,
         ),
       ),
-      Gap(AppSize.s8.h),
       Text(
         Strings.createAccountMessage,
         style: getMediumTextStyle(
@@ -155,6 +156,14 @@ class _RegisterViewState extends State<RegisterView> {
     children: [
       const LabelField(Strings.dateOfBirth),
       Gap(AppSize.s14.h),
+      Row(
+        children: DateOfBirthType.values.map((type) {
+          return Expanded(
+            child: Text(type.name),
+          );
+        }).toList(),
+      ),
+      Gap(AppSize.s14.h),
       DateOfBirthRow(
         dayController: _dayController,
         monthController: _monthController,
@@ -186,10 +195,7 @@ class _RegisterViewState extends State<RegisterView> {
       Gap(AppSize.s25.h),
       const LabelField(Strings.addressLabel),
       Gap(AppSize.s8.h),
-      TextFromFieldWidget(
-        hintText: Strings.addressLabel,
-        controller: _addressController,
-      ),
+      AddressDropDown()
     ],
   );
 
@@ -198,9 +204,15 @@ class _RegisterViewState extends State<RegisterView> {
     children: [
       const LabelField(Strings.passwordTitle),
       Gap(AppSize.s8.h),
-      PasswordField(controller: _passwordController, hintText: Strings.passwordTitle,),
+      PasswordField(
+        controller: _passwordController,
+        hintText: Strings.passwordTitle,
+      ),
       Gap(AppSize.s8.h),
-      PasswordField(controller: _confirmPasswordController, hintText: Strings.confirmPassword),
+      PasswordField(
+        controller: _confirmPasswordController,
+        hintText: Strings.confirmPassword,
+      ),
     ],
   );
 
@@ -226,9 +238,9 @@ class _RegisterViewState extends State<RegisterView> {
   Widget _buildSignUpButton() => ButtonWidget(
     radius: AppSize.s14,
     text: Strings.signUpButton,
-    onTap: () => context.go(VerifyView.verifyRoute, extra: [
-      _phoneController.text,
-      "register"
-    ]),
+    onTap: () => context.go(
+      VerifyView.verifyRoute,
+      extra: [_phoneController.text, "register"],
+    ),
   );
 }

@@ -1,4 +1,3 @@
-import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +10,7 @@ class PasswordField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFromFieldWidget(
-      hintText: Strings.passwordTitle,
+      hintText: hintText,
       controller: controller,
       obscureText: true,
       keyboardType: TextInputType.visiblePassword,

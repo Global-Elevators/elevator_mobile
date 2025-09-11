@@ -18,25 +18,31 @@ class BackToButton extends StatelessWidget {
     return InkWell(
       onTap: () => context.pop(),
       child: Container(
-        height: AppSize.s40,
-        width: AppSize.s150,
+        width: AppSize.s150.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s99.r),
-          color: ColorManager.whiteColor,
+          color: Color(0xffFAFAFA),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(Icons.arrow_back_ios_new, size: AppSize.s20),
-            Gap(AppSize.s5.w),
-            Text(
-              Strings.backSignIn,
-              style: getMediumTextStyle(
-                color: ColorManager.primaryColor,
-                fontSize: FontSizeManager.s18,
+        child: Padding(
+          padding: EdgeInsetsDirectional.symmetric(
+            horizontal: AppSize.s12.w,
+            vertical: AppSize.s14.h,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.arrow_back_ios_new, size: AppSize.s16),
+              Gap(AppSize.s10.w),
+              Text(
+                textAlign: TextAlign.center,
+                Strings.backSignIn,
+                style: getMediumTextStyle(
+                  color: ColorManager.primaryColor,
+                  fontSize: FontSizeManager.s18,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

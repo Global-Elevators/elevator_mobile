@@ -43,7 +43,7 @@ class _SplashViewState extends State<SplashView> {
     child: Stack(
       children: [
         Center(child: Image.asset(ImageAssets.logo)),
-        Image.asset(ImageAssets.background),
+        Image.asset(ImageAssets.splashBackground),
       ],
     ),
   );

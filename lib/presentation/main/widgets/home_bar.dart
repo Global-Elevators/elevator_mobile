@@ -27,9 +27,9 @@ class HomeBar extends StatelessWidget {
             ),
             Text(
               Strings.userName,
-              style: getMediumTextStyle(
+              style: getBoldTextStyle(
                 color: ColorManager.primaryColor,
-                fontSize: FontSizeManager.s18.sp,
+                fontSize: FontSizeManager.s22.sp,
               ),
             ),
           ],
@@ -44,7 +44,7 @@ class HomeBar extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppSize.s14.r),
                 border: Border.all(
-                  color: ColorManager.greyColor,
+                  color: ColorManager.buttonsBorderColor,
                   width: AppSize.s1.w,
                 ),
               ),
@@ -54,6 +54,10 @@ class HomeBar extends StatelessWidget {
               width: AppSize.s20.w,
               height: AppSize.s20.h,
               fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                ColorManager.primaryColor,
+                BlendMode.srcIn,
+              ),
             ),
           ],
         ),

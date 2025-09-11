@@ -15,33 +15,43 @@ class PremiumContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(AppSize.s22.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2), // Shadow color and opacity
+            spreadRadius: 0, // How far the shadow spreads
+            blurRadius: 15, // How blurry the shadow is
+            offset: Offset(0, 0), // Changes position of shadow
+          ),
+        ],
       ),
       child: Padding(
-        padding: EdgeInsets.all(AppSize.s16.r),
+        padding: EdgeInsets.all(AppSize.s8.r),
         child: Column(
           children: [
             SosButton(isPremium),
             Gap(AppSize.s16.h),
-            Row(
-              children: [
-                PremiumButton(
-                  title: Strings.reportBreakDown,
-                  imageAsset: ImageAssets.maintenance,
-                  isPremium: isPremium,
-                  onTap: () {},
-                ),
-                const Spacer(),
-                PremiumButton(
-                  title: Strings.requestVisitRescheduling,
-                  imageAsset: ImageAssets.calendar,
-                  isPremium: isPremium,
-                  onTap: () {},
-                ),
-              ],
+            SizedBox(
+              height: AppSize.s120.h,
+              child: Row(
+                children: [
+                  PremiumButton(
+                    title: Strings.reportBreakDown,
+                    imageAsset: ImageAssets.maintenance,
+                    isPremium: isPremium,
+                    onTap: () {},
+                  ),
+                  Gap( AppSize.s8.w),
+                  PremiumButton(
+                    title: Strings.requestVisitRescheduling,
+                    imageAsset: ImageAssets.calendar,
+                    isPremium: isPremium,
+                    onTap: () {},
+                  ),
+                ],
+              ),
             ),
           ],
         ),

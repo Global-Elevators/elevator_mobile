@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class ColorManager {
-  static const Color orangeColor = Color(0xFFff9408);
+  static const Color orangeColor = Color(0xFFBB6927);
   static const Color greenColor = Color(0xFF34c759);
   static const Color errorColor = Color(0xFFED1B24);
   static const Color primaryColor = Color(0xFF1C274C);
@@ -13,4 +13,8 @@ class ColorManager {
   static const Color whiteColor = Color(0xFFFDFDFD);
   static const Color borderColor = Color(0xFFDEE0E6);
   static const Color sosColor = Color(0xFFF9FAFB);
+  static const Color blackColor = Color(0xFF181818);
+  static const Color notSelectedIconColor = Color(0xFF8E93A6);
+  static const Color buttonsBorderColor = Color(0xFFEDEEF1);
+  static const Color formFieldsBorderColor = Color(0xFFE5E5E5);
 }

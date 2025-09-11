@@ -26,11 +26,12 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Image.asset(
                 ImageAssets.verification,
@@ -66,8 +67,8 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
                       ? MainView.mainRoute
                       : LoginView.loginRoute,
                 ),
-
               ),
+              Gap(AppSize.s22.h),
             ],
           ),
         ),

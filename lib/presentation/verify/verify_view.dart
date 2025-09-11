@@ -12,7 +12,6 @@ import 'package:gap/gap.dart';
 
 class VerifyView extends StatefulWidget {
   static const String verifyRoute = '/verify';
-  // final String phone;
   final List<String> codes;
   const VerifyView({required this.codes, super.key});
 
@@ -51,11 +50,12 @@ class _VerifyViewState extends State<VerifyView> {
     final String firstThree = widget.codes[0].substring(0, 3);
     final String stars = 'X' * (widget.codes[0].length - 3);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s16.r),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               VerifyImage(),
               VerifyTitle(),
@@ -67,6 +67,7 @@ class _VerifyViewState extends State<VerifyView> {
               VerifyButton(widget.codes[1]),
               Gap(AppSize.s25.h),
               ResendCode(seconds: _seconds),
+              Gap(AppSize.s22.h),
             ],
           ),
         ),

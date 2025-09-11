@@ -16,7 +16,6 @@ class SosButton extends StatelessWidget {
       onTap: () => isPremium ? () {} : null,
       child: Container(
         height: AppSize.s50.h,
-        width: double.infinity,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: isPremium
@@ -29,7 +28,7 @@ class SosButton extends StatelessWidget {
           style: TextStyle(
             fontFamily: "PlayfairDisplay",
             fontWeight: FontWeight.bold,
-            fontSize: FontSizeManager.s18.sp,
+            fontSize: FontSizeManager.s24.sp,
             color: ColorManager.whiteColor,
           ),
         ),

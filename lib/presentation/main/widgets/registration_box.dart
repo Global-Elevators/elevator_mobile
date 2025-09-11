@@ -6,6 +6,7 @@ import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 
 class RegistrationBox extends StatelessWidget {
   const RegistrationBox({super.key});
@@ -44,7 +45,7 @@ class RegistrationBox extends StatelessWidget {
                     fontSize: FontSizeManager.s16.sp,
                   ),
                 ),
-                const Spacer(),
+                Gap(AppSize.s22.h),
                 Text(
                   Strings.appointmentDate,
                   style: getMediumTextStyle(

@@ -28,14 +28,16 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title: BackToButton(text: Strings.signInButton),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Image.asset(ImageAssets.password),
             Gap(AppSize.s25.h),
@@ -46,7 +48,6 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                 fontSize: AppSize.s24,
               ),
             ),
-            Gap(AppSize.s8.h),
             Text(
               Strings.forgetPasswordMessage,
               style: getMediumTextStyle(
@@ -68,6 +69,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                 ],
               ),
             ),
+            Gap(AppSize.s22.h),
           ],
         ),
       ),

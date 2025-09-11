@@ -30,17 +30,19 @@ class _NewPasswordViewState extends State<NewPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-          automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
         title: const BackToButton(text: Strings.backSignIn),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppSize.s16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Image.asset(ImageAssets.newPassword),
-            Gap(AppSize.s25.h),
             Text(
               Strings.enterNewPasswordTitle,
               style: getBoldTextStyle(
@@ -48,7 +50,6 @@ class _NewPasswordViewState extends State<NewPasswordView> {
                 fontSize: FontSizeManager.s28.sp,
               ),
             ),
-            Gap(AppSize.s25.h),
             Text(
               Strings.passwordRequirement,
               style: getRegularTextStyle(
@@ -61,7 +62,7 @@ class _NewPasswordViewState extends State<NewPasswordView> {
               controller: _passwordController,
               hintText: Strings.passwordTitle,
             ),
-            Gap(AppSize.s8.h),
+            Gap(AppSize.s25.h),
             PasswordField(
               controller: _confirmPasswordController,
               hintText: Strings.confirmPassword,
@@ -70,8 +71,12 @@ class _NewPasswordViewState extends State<NewPasswordView> {
             ButtonWidget(
               radius: AppSize.s14,
               text: Strings.continueButton,
-              onTap: () => context.go(AccountVerifiedView.accountVerifiedRoute,extra: "newPassword"),
+              onTap: () => context.go(
+                AccountVerifiedView.accountVerifiedRoute,
+                extra: "newPassword",
+              ),
             ),
+            Gap(AppSize.s22.h),
           ],
         ),
       ),

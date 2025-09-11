@@ -22,12 +22,12 @@ class InterestItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: AppSize.s50,
+        height: AppSize.s50.h,
         decoration: BoxDecoration(
-          border: Border.all(color: ColorManager.greyColor),
+          border: Border.all(color: ColorManager.lightGreyColor),
           borderRadius: BorderRadius.circular(AppSize.s99.r),
           color: isSelected
-              ? ColorManager.lightGreyColor
+              ? ColorManager.buttonsBorderColor
               : ColorManager.whiteColor,
         ),
         alignment: Alignment.centerLeft,

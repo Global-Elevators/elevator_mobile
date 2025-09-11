@@ -15,37 +15,38 @@ class FreeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: AppSize.s130.h,
-        width: AppSize.s181.w,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(AppSize.s22.r),
-          border: Border.all(
-            color: ColorManager.borderColor,
-            width: AppSize.s1.w,
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(AppSize.s22.r),
+            border: Border.all(
+              color: ColorManager.borderColor,
+              width: AppSize.s1.w,
+            ),
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsetsDirectional.only(
-            start: AppSize.s16.w,
-            end: AppSize.s16.w,
-            top: AppSize.s16.h,
-          ),
-          child: Column(
-            children: [
-              Image.asset(imageAsset, fit: BoxFit.cover),
-              Gap(AppSize.s16.h),
-              Text(
-                title,
-                style: getMediumTextStyle(
-                  color: ColorManager.primaryColor,
-                  fontSize: FontSizeManager.s14.sp,
+          child: Padding(
+            padding: EdgeInsetsDirectional.only(
+              start: AppSize.s16.w,
+              end: AppSize.s16.w,
+              top: AppSize.s16.h,
+            ),
+            child: Column(
+              children: [
+                Image.asset(imageAsset, fit: BoxFit.cover),
+                Gap(AppSize.s16.h),
+                Text(
+                  title,
+                  style: getMediumTextStyle(
+                    color: ColorManager.blackColor,
+                    fontSize: FontSizeManager.s14.sp,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

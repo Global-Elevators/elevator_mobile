@@ -1,3 +1,4 @@
+import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
@@ -5,6 +6,7 @@ import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 
 class PhoneField extends StatelessWidget {
   final TextEditingController controller;
@@ -16,21 +18,38 @@ class PhoneField extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: AppSize.s60.w,
-          height: AppSize.s40.h,
+          height: AppSize.s55.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppSize.s8.r),
+            color: ColorManager.whiteColor,
+            borderRadius: BorderRadius.circular(AppSize.s14.r),
             border: Border.all(
-              color: ColorManager.greyColor,
-              width: AppSize.s1_5.w,
+              color: ColorManager.formFieldsBorderColor,
+              width: AppSize.s1.w,
             ),
           ),
           alignment: Alignment.center,
-          child: Text(
-            "+964",
-            style: getRegularTextStyle(
-              color: ColorManager.primaryColor,
-              fontSize: AppSize.s18.sp,
+          child: Padding(
+            padding: EdgeInsetsDirectional.symmetric(
+              horizontal: AppSize.s12.w,
+              vertical: AppSize.s19.h,
+            ),
+            child: Row(
+              children: [
+                Image.asset(
+                  ImageAssets.iraqFlag,
+                  height: AppSize.s20.h,
+                  width: AppSize.s20.w,
+                ),
+                Gap(AppSize.s4.w),
+                Text(
+                  "+964",
+                  style: getRegularTextStyle(
+                    color: ColorManager.primaryColor,
+                    fontSize: AppSize.s18.sp,
+                  ),
+                  overflow: TextOverflow.visible,
+                ),
+              ],
             ),
           ),
         ),

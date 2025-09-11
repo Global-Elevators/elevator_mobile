@@ -10,28 +10,42 @@ class LoginLanguageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            width: AppSize.s80.w,
-            height: AppSize.s40.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppSize.s8.r),
-              color: ColorManager.whiteColor,
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              Strings.arabicText,
-              style: getRegularTextStyle(
-                color: ColorManager.primaryColor,
-                fontSize: AppSize.s18.sp,
-              ),
-            ),
+    return Padding(
+      padding: EdgeInsetsDirectional.only(end: AppSize.s16.w ),
+      child: InkWell(
+        onTap: () {},
+        child: Container(
+          height: AppSize.s45.h,
+          width: AppSize.s74.w,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppSize.s14.r),
+            color: Colors.white,
+            border: Border.all(color: ColorManager.buttonsBorderColor, width: AppSize.s1.w),
           ),
-        ],
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: AppSize.s10.w,
+                  vertical: AppSize.s13_5.h,
+                ),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  Strings.arabicText,
+                  style: getRegularTextStyle(
+                    color: ColorManager.primaryColor,
+                    fontSize: AppSize.s16.sp,
+                  ),
+                ),
+              ),
+              Icon(
+                Icons.language,
+                color: ColorManager.primaryColor,
+                size: AppSize.s18.sp,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

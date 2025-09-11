@@ -40,16 +40,17 @@ class GoRouterConfig {
         pageBuilder: (BuildContext context, GoRouterState state) =>
             getCustomTransitionPage(
               state: state,
-              child: VerifyView(
-                codes: state.extra as List<String>,
-              ),
+              child: VerifyView(codes: state.extra as List<String>),
             ),
         routes: <RouteBase>[],
       ),
       GoRoute(
         path: AccountVerifiedView.accountVerifiedRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: AccountVerifiedView(state.extra as String)),
+            getCustomTransitionPage(
+              state: state,
+              child: AccountVerifiedView(state.extra as String),
+            ),
         routes: <RouteBase>[],
       ),
       GoRoute(
@@ -73,7 +74,10 @@ class GoRouterConfig {
       GoRoute(
         path: HomePage.homeRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: HomePage()),
+            getCustomTransitionPage(
+              state: state,
+              child: HomePage(),
+            ),
         routes: <RouteBase>[],
       ),
       GoRoute(
