@@ -15,7 +15,7 @@ class LoginLanguageButton extends StatelessWidget {
       child: InkWell(
         onTap: () {},
         child: Container(
-          height: AppSize.s45.h,
+          height: AppSize.s50.h,
           width: AppSize.s74.w,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s14.r),

@@ -25,7 +25,7 @@ class InterestItem extends StatelessWidget {
         height: AppSize.s50.h,
         decoration: BoxDecoration(
           border: Border.all(color: ColorManager.lightGreyColor),
-          borderRadius: BorderRadius.circular(AppSize.s99.r),
+          borderRadius: BorderRadius.circular(AppSize.s12.r),
           color: isSelected
               ? ColorManager.buttonsBorderColor
               : ColorManager.whiteColor,

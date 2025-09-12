@@ -18,7 +18,7 @@ class BackToButton extends StatelessWidget {
     return InkWell(
       onTap: () => context.pop(),
       child: Container(
-        width: AppSize.s150.w,
+        width: AppSize.s160.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s99.r),
           color: Color(0xffFAFAFA),

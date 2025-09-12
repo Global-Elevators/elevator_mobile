@@ -23,18 +23,19 @@ class Strings {
   static const String day = 'Day';
   static const String month = 'Months';
   static const String year = 'Year';
-  static const String emailLabel = 'Email (optional)';
+  static const String emailLabel = 'Email';
   static const String email = 'Email';
   static const String addressLabel = 'Address';
   static const String selectAddress = 'Select your address';
   static const String confirmPassword = 'Confirm password';
-  static const String interestsLabel = 'Interests (optional)';
+  static const String interestsLabel = 'Interests';
   static const String newProduct = 'New Product';
   static const String preventiveMaintenance = 'Preventive Maintenance';
   static const String repair = 'Repair';
   static const String consultancy = 'Consultancy';
   static const String jointVenture = 'joint venture';
   static const String setBirthday = 'Set your Birthday';
+  static const String optional = ' (optional)';
 
   // Phone verification screen strings
   static const String verifyPhoneTitle = 'Verify Your Phone Number';

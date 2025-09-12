@@ -30,4 +30,6 @@ class ImageAssets {
   static const String homeStroke = "$iconsPath/home_stroke.svg";
   static const String splashBackground = "$imagesPath/splash_background.png";
   static const String iraqFlag = "$iconsPath/iraq_flag.png";
+  static const String passwordIconField = "$iconsPath/password.png";
+  static const String email = "$iconsPath/email.png";
 }
