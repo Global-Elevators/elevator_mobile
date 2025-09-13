@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isPremium = true;
+  bool isPremium = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,30 +51,7 @@ class _HomePageState extends State<HomePage> {
                   FreeButton(
                     title: Strings.requestSiteSurvey,
                     imageAsset: ImageAssets.worker,
-                    onTap: () {
-                      showModalBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        useRootNavigator: true,
-                        context: context,
-                        builder: (BuildContext context) => Container(
-                          width: AppSize.s402.w,
-                          decoration: BoxDecoration(
-                            color: ColorManager.whiteColor,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(AppSize.s50.r),
-                              topRight: Radius.circular(AppSize.s50.r),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.only(
-                              top: AppSize.s30.h,
-                              end: AppSize.s16.w,
-                              start: AppSize.s16.w,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+                    onTap: () {},
                   ),
                   Gap(AppSize.s8.w),
                   FreeButton(

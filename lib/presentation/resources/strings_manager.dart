@@ -85,7 +85,6 @@ class Strings {
   static const String profileTab = 'Profile';
 
   // Service detail screen strings
-  static const String serviceAvailabilityMessage = 'This service is only available on valid annual maintenance Contracts. Please contact the sales department for more information.';
   static const String contactSalesDept = 'Contact sales dept., Toll-free-0800(087)';
   static const String requestForQuotation = 'Request for quotation';
 
@@ -117,4 +116,15 @@ class Strings {
   static const String appointmentDate = "9 June, 2025";
   static const String daysLeft = "25 days left";
   static const String requestVisitRescheduling = "Request Visit Rescheduling";
+  static const String chooseVisitDate = "Choose a new visit date";
+  static const String request = "Request";
+  static const String cancel = "Cancel";
+  static const String done = "Done";
+  static const String requestVisitReschedulingMessage = "Thank you, the request has been sent.";
+  static const String emergencyAlert = "Emergency Alert";
+  static const String areYouSureYouWantToSendThisAlert = "Are you sure you want to send this alert?";
+  static const String yesSendAlert  = "Yes, Send Alert";
+  static const String premiumSubscriptionRequiredPart1  = "This service is only available on valid annual maintenance ";
+  static const String contracts  = "Contracts. ";
+  static const String  premiumSubscriptionRequiredPart2 = "Please contact the sales department for more information.";
 }

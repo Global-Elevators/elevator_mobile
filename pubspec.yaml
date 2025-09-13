@@ -32,7 +32,7 @@ dependencies:
   bottom_picker: ^4.1.1
   flutter_otp_text_field: ^1.5.1+1
   dotted_border: ^3.1.0
-
+  table_calendar: ^3.2.0
 
 dev_dependencies:
   flutter_test:

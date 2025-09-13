@@ -9,6 +9,7 @@ class ButtonWidget extends StatelessWidget {
   final String text;
   final void Function()? onTap;
   final Color color;
+  final Color textColor;
 
   const ButtonWidget({
     super.key,
@@ -17,6 +18,7 @@ class ButtonWidget extends StatelessWidget {
     this.color = ColorManager.primaryColor,
     required this.text,
     required this.onTap,
+    this.textColor = ColorManager.whiteColor,
   });
 
   @override
@@ -34,7 +36,7 @@ class ButtonWidget extends StatelessWidget {
           child: Text(
             text,
             style: getMediumTextStyle(
-              color: ColorManager.whiteColor,
+              color: textColor,
               fontSize: AppSize.s18.sp,
             ),
           ),
