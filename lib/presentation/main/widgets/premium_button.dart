@@ -2,6 +2,7 @@ import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/presentation/widgets/show_model_sheet_not_subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -18,7 +19,7 @@ class PremiumButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
-        onTap: () => isPremium ? onTap() : null,
+        onTap: () => isPremium ? onTap() : showModelOfSosNotSubscription(context),
         child: Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(

@@ -7,6 +7,7 @@ import 'package:elevator/presentation/main/library/library_view.dart';
 import 'package:elevator/presentation/main/main_view.dart';
 import 'package:elevator/presentation/main/profile/profile_view.dart';
 import 'package:elevator/presentation/new_password/new_password_view.dart';
+import 'package:elevator/presentation/notification/notification_view.dart';
 import 'package:elevator/presentation/register/register_view.dart';
 import 'package:elevator/presentation/splash/splash_view.dart';
 import 'package:elevator/presentation/verify/verify_view.dart';
@@ -96,6 +97,12 @@ class GoRouterConfig {
         path: ProfileView.profileRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             getCustomTransitionPage(state: state, child: ProfileView()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: NotificationView.notificationRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: NotificationView()),
         routes: <RouteBase>[],
       ),
     ],

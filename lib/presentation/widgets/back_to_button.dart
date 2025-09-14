@@ -8,10 +8,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-class BackToButton extends StatelessWidget {
+class BackToSignInButton extends StatelessWidget {
   final String text;
 
-  const BackToButton({super.key, required this.text});
+  const BackToSignInButton({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

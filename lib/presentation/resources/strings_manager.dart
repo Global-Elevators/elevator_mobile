@@ -127,4 +127,9 @@ class Strings {
   static const String premiumSubscriptionRequiredPart1  = "This service is only available on valid annual maintenance ";
   static const String contracts  = "Contracts. ";
   static const String  premiumSubscriptionRequiredPart2 = "Please contact the sales department for more information.";
+  // Notification screen strings
+  static const String  notifications = "Notifications";
+  static const String  markAllAsRead = "Mark all as read";
+  static const String  notificationTitle = "Reminder of the next maintenance appointment";
+  static const String  notificationSubTitle = "The deadline is June 9th. 5 days left.";
 }

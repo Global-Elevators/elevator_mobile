@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isPremium = false;
+  bool isPremium = true;
 
   @override
   Widget build(BuildContext context) {

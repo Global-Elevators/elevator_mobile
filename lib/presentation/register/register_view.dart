@@ -96,7 +96,7 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  Widget _buildBackButton() => BackToButton(text: Strings.backSignIn);
+  Widget _buildBackButton() => BackToSignInButton(text: Strings.backSignIn);
 
   Widget _buildHeader() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,

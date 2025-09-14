@@ -32,7 +32,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: BackToButton(text: Strings.signInButton),
+        title: BackToSignInButton(text: Strings.signInButton),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s16),
