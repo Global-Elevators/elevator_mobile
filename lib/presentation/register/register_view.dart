@@ -1,4 +1,4 @@
-import 'package:elevator/presentation/register/widgets/address_drop_down.dart';
+import 'package:elevator/presentation/widgets/items_drop_down.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/widgets/back_to_button.dart';
 import 'package:elevator/presentation/register/widgets/date_of_birth_row.dart';
@@ -11,6 +11,7 @@ import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/build_name_section.dart';
 import 'package:elevator/presentation/widgets/button_widget.dart';
+import 'package:elevator/presentation/widgets/optional_text.dart';
 import 'package:elevator/presentation/widgets/password_field.dart';
 import 'package:elevator/presentation/widgets/phone_field.dart';
 import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
@@ -42,9 +43,7 @@ class _RegisterViewState extends State<RegisterView> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-
   int _selectedInterest = 0;
-
   final _interests = [
     Strings.newProduct,
     Strings.preventiveMaintenance,
@@ -52,6 +51,10 @@ class _RegisterViewState extends State<RegisterView> {
     Strings.consultancy,
     Strings.jointVenture,
   ];
+
+  String? selectedAddress;
+  final List<String> addresses = ["Cairo", "Alexandria", "Giza", "Mansoura"];
+  final String hintText = "Select your address";
 
   @override
   void initState() {
@@ -163,7 +166,7 @@ class _RegisterViewState extends State<RegisterView> {
       Gap(AppSize.s8.h),
       PhoneField(controller: _phoneController),
       Gap(AppSize.s25.h),
-      optionalText(Strings.emailLabel),
+      OptionalText(Strings.emailLabel),
       Gap(AppSize.s8.h),
       TextFromFieldWidget(
         hintText: Strings.email,
@@ -178,31 +181,18 @@ class _RegisterViewState extends State<RegisterView> {
       Gap(AppSize.s25.h),
       const LabelField(Strings.addressLabel),
       Gap(AppSize.s8.h),
-      AddressDropDown(),
+      ItemsDropDown(
+        items: addresses,
+        hintText: hintText,
+        selectedItem: selectedAddress,
+        onChanged: (value) {
+          setState(() {
+            selectedAddress = value;
+          });
+        },
+      ),
     ],
   );
-
-  RichText optionalText(String name) {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-        text: name,
-        style: getMediumTextStyle(
-          color: ColorManager.primaryColor,
-          fontSize: FontSizeManager.s18,
-        ),
-        children: [
-          TextSpan(
-            text: Strings.optional,
-            style: getMediumTextStyle(
-              color: ColorManager.greyColor,
-              fontSize: FontSizeManager.s18,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildPasswordSection() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,7 +214,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget _buildInterestsSection() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      optionalText(Strings.interestsLabel),
+      OptionalText(Strings.interestsLabel),
       Gap(AppSize.s8.h),
       ListView.separated(
         shrinkWrap: true,

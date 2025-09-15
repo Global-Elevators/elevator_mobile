@@ -1,4 +1,5 @@
 import 'package:dropdown_overlay/dropdown_overlay.dart';
+import 'package:elevator/presentation/main/widgets/scope_of_work.dart';
 import 'package:elevator/presentation/main/widgets/yes_or_no_button.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -31,16 +32,23 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
       TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
 
-  final DropdownController<String> _singleSelectionController =
-      DropdownController<String>.single(
-        items: [
-          DropdownItem(value: Strings.newProduct),
-          DropdownItem(value: Strings.annualPreventiveMaintenance),
-          DropdownItem(value: Strings.repair),
-        ],
-      );
-
   String? selectedValue;
+
+  List<DropdownItem<String>> items = [
+    DropdownItem(value: Strings.newProduct),
+    DropdownItem(value: Strings.annualPreventiveMaintenance),
+    DropdownItem(value: Strings.repair),
+  ];
+
+  late final DropdownController<String> _singleSelectionController;
+
+  @override
+  void initState() {
+    super.initState();
+    _singleSelectionController = DropdownController<String>.single(
+      items: items,
+    );
+  }
 
   @override
   void dispose() {
@@ -125,30 +133,15 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
                 },
               ),
               Gap(AppSize.s18.h),
-              if (selectedValue == Strings.newProduct)
-                Text(
-                  Strings.newProduct,
-                  style: getMediumTextStyle(
-                    color: ColorManager.primaryColor,
-                    fontSize: FontSizeManager.s16.sp,
-                  ),
-                ),
-              if (selectedValue == Strings.annualPreventiveMaintenance)
-                Text(
-                  Strings.annualPreventiveMaintenance,
-                  style: getMediumTextStyle(
-                    color: ColorManager.primaryColor,
-                    fontSize: FontSizeManager.s16.sp,
-                  ),
-                ),
-              if (selectedValue == Strings.repair)
-                Text(
-                  Strings.repair,
-                  style: getMediumTextStyle(
-                    color: ColorManager.primaryColor,
-                    fontSize: FontSizeManager.s16.sp,
-                  ),
-                ),
+              Builder(
+                builder: (context) {
+                  DropdownItem<String> selectedItem = items.firstWhere(
+                    (item) => item.value == selectedValue,
+                    orElse: () => DropdownItem(value: ""),
+                  );
+                  return ScopeOfWork(selectedItem.value);
+                },
+              ),
             ],
           ),
         ),

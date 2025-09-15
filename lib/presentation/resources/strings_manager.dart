@@ -141,4 +141,26 @@ class Strings {
   static const String scopeOfWork = "Scope of Work";
   static const String fillInTheDataForTheNewCustomer = "Fill in the data for the new customer !";
   static const String annualPreventiveMaintenance = "Annual Preventive Maintenance";
+  static const String projectAddress = "Project Address";
+  static const String manualOrSelect = "Manual or Select";
+  static const String projectType = "Project Type";
+  static const String selectOne = "Select one";
+  static const String shaftTypeOptional = "Shaft Type ";
+  static const String selectOneOptional = "Select one ";
+  static const String shaftLocation = "Shaft Location ";
+  static const String shaftDimensions = "Shaft Dimensions ";
+  static const String widthCm = "Width, cm";
+  static const String depthCm = "Depth, cm";
+  static const String pitDepth = "Pit Depth ";
+  static const String lastFloorHeight = "Last Floor Height";
+  static const String doesTheShaftHaveAMachineRoom = "Does the shaft have a machine-room? ";
+  static const String machineRoomHeight = "Machine room height";
+  static const String cm = "cm";
+  static const String howManyStops = "How many stops? ";
+  static const String gPlus = "G +";
+  static const String x = "x";
+  static const String stops = "stops";
+  static const String selectSuitableTimeToConductTheSiteSurvey = "Select suitable time to conduct the site survey";
+  static const String height = "height";
+  static const String notes = "Notes";
 }

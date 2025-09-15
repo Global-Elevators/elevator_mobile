@@ -29,6 +29,7 @@ class ActionOrCancelButton extends StatelessWidget {
           width: AppSize.s185.w,
           color: actionColor,
         ),
+        Spacer(),
         ButtonWidget(
           radius: AppSize.s14.r,
           text: Strings.cancel,

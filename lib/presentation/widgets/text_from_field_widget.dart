@@ -16,7 +16,9 @@ class TextFromFieldWidget extends StatelessWidget {
   final TextInputAction textInputAction;
   final FocusNode? focusNode;
   final bool enabled;
+  final bool centerText;
   final void Function()? onTap;
+  final bool isNotes;
 
   const TextFromFieldWidget({
     super.key,
@@ -32,19 +34,23 @@ class TextFromFieldWidget extends StatelessWidget {
     this.focusNode,
     this.enabled = true,
     this.onTap,
+    this.centerText = true,
+    this.isNotes = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppSize.s55.h,
+      height: isNotes ? AppSize.s150.h : AppSize.s55.h,
       child: TextFormField(
+        textAlign: centerText ? TextAlign.start : TextAlign.center,
         controller: controller,
         focusNode: focusNode,
         validator: validator,
         obscureText: obscureText,
         keyboardType: keyboardType,
         textInputAction: textInputAction,
+
         /// TODO: Change the style of the text
         style: getMediumTextStyle(
           color: ColorManager.primaryColor,
@@ -52,10 +58,12 @@ class TextFromFieldWidget extends StatelessWidget {
         ),
         enabled: enabled,
         onFieldSubmitted: onFieldSubmitted,
+
         /// TODO: Change the cursor color
         cursorColor: ColorManager.primaryColor,
         onTap: onTap,
         decoration: InputDecoration(
+          contentPadding: isNotes ? EdgeInsets.symmetric(vertical: AppPadding.p40.h) : null,
           hintText: hintText,
           filled: true,
           fillColor: ColorManager.whiteColor,

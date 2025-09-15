@@ -22,7 +22,6 @@ class DropdownScope extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String singleSelection = selectedValue ?? "";
-
     return SimpleDropdown<String>.list(
       controller: controller,
       builder: (_) => Container(
@@ -59,7 +58,7 @@ class DropdownScope extends StatelessWidget {
       itemBuilder: (_, item) {
         return GestureDetector(
           onTap: () {
-            controller.select(item.value, dismiss: false);
+            controller.select(item.value, dismiss: true);
             onChangedItem(item.value);
             controller.dismiss();
           },

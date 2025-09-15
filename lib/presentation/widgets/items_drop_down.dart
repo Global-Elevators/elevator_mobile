@@ -4,16 +4,25 @@ import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AddressDropDown extends StatefulWidget {
-  const AddressDropDown({super.key});
+class ItemsDropDown extends StatefulWidget {
+  final List<String> items;
+  final String? selectedItem;
+  final String hintText;
+  final void Function(String?) onChanged;
+
+  const ItemsDropDown({
+    super.key,
+    required this.items,
+    this.selectedItem,
+    required this.onChanged,
+    required this.hintText,
+  });
 
   @override
-  State<AddressDropDown> createState() => _AddressDropDownState();
+  State<ItemsDropDown> createState() => _ItemsDropDownState();
 }
 
-class _AddressDropDownState extends State<AddressDropDown> {
-  final List<String> addresses = ["Cairo", "Alexandria", "Giza", "Mansoura"];
-  String? selectedAddress;
+class _ItemsDropDownState extends State<ItemsDropDown> {
 
   @override
   Widget build(BuildContext context) {
@@ -30,22 +39,17 @@ class _AddressDropDownState extends State<AddressDropDown> {
       ),
       child: DropdownButton(
         underline: SizedBox.shrink(),
-        hint: Text("Select your address"),
+        hint: Text(widget.hintText),
         isExpanded: true,
         style: getMediumTextStyle(
           color: ColorManager.primaryColor,
           fontSize: AppSize.s18.sp,
         ),
-        value: selectedAddress,
+        value: widget.selectedItem,
         icon: Icon(Icons.keyboard_arrow_down_outlined),
-        items: addresses
-            .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-            .toList(),
-        onChanged: (value) {
-          setState(() {
-            selectedAddress = value;
-          });
-        },
+        items: widget.items
+            .map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+        onChanged: widget.onChanged,
       ),
     );
   }

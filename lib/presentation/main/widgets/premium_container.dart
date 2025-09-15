@@ -8,6 +8,7 @@ import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/action_or_cancel_button.dart';
 import 'package:elevator/presentation/widgets/button_widget.dart';
+import 'package:elevator/presentation/widgets/table_calendar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,12 +26,11 @@ class PremiumContainer extends StatefulWidget {
 }
 
 class _PremiumContainerState extends State<PremiumContainer> {
-  DateTime focusedDay = DateTime.now();
-  final List<DateTime> disabledDays = [
-    DateTime.utc(2025, 9, 15),
-    DateTime.utc(2025, 9, 18),
-    DateTime.utc(2025, 9, 20),
-  ];
+   List<DateTime> disabledDays = [
+     DateTime.utc(2025, 9, 15),
+     DateTime.utc(2025, 9, 18),
+     DateTime.utc(2025, 9, 20),
+   ];
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +116,10 @@ class _PremiumContainerState extends State<PremiumContainer> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              tableCalendarWidget(),
+            TableCalendarWidget(
+              disabledDays: disabledDays,
+              focusedDay: DateTime.now(),
+            ),
               Gap(AppSize.s16.h),
               ActionOrCancelButton(Strings.request, () {
                 context.pop();
@@ -129,55 +132,55 @@ class _PremiumContainerState extends State<PremiumContainer> {
     );
   }
 
-  StatefulBuilder tableCalendarWidget() {
-    return StatefulBuilder(
-      builder:
-          (BuildContext context, void Function(void Function()) setState) =>
-              TableCalendar(
-                focusedDay: focusedDay,
-                enabledDayPredicate: (day) {
-                  for (DateTime disabled in disabledDays) {
-                    if (isSameDay(disabled, day)) {
-                      return false;
-                    }
-                  }
-                  return true;
-                },
-                rowHeight: AppSize.s40.h,
-                calendarStyle: CalendarStyle(
-                  todayDecoration: BoxDecoration(
-                    color: ColorManager.greyColor,
-                    shape: BoxShape.rectangle,
-                    border: Border.all(color: ColorManager.greyColor),
-                    borderRadius: BorderRadius.circular(AppSize.s8.r),
-                  ),
-                  selectedDecoration: BoxDecoration(
-                    color: ColorManager.primaryColor,
-                    shape: BoxShape.rectangle,
-                    border: Border.all(color: ColorManager.greyColor),
-                    // borderRadius: BorderRadius.circular(AppSize.s8.r),
-                  ),
-                ),
-                firstDay: DateTime.utc(2010, 12, 31),
-                lastDay: DateTime.utc(2025, 12, 31),
-                onDaySelected: (selectedDay, focusedDay) {
-                  setState(() {
-                    this.focusedDay = focusedDay;
-                  });
-                },
-                selectedDayPredicate: (day) => isSameDay(focusedDay, day),
-                availableGestures: AvailableGestures.all,
-                headerStyle: HeaderStyle(
-                  formatButtonVisible: false,
-                  titleCentered: true,
-                  titleTextStyle: getMediumTextStyle(
-                    color: ColorManager.primaryColor,
-                    fontSize: FontSizeManager.s22.sp,
-                  ),
-                ),
-              ),
-    );
-  }
+  // StatefulBuilder tableCalendarWidget() {
+  //   return StatefulBuilder(
+  //     builder:
+  //         (BuildContext context, void Function(void Function()) setState) =>
+  //             TableCalendar(
+  //               focusedDay: focusedDay,
+  //               enabledDayPredicate: (day) {
+  //                 for (DateTime disabled in disabledDays) {
+  //                   if (isSameDay(disabled, day)) {
+  //                     return false;
+  //                   }
+  //                 }
+  //                 return true;
+  //               },
+  //               rowHeight: AppSize.s40.h,
+  //               calendarStyle: CalendarStyle(
+  //                 todayDecoration: BoxDecoration(
+  //                   color: ColorManager.greyColor,
+  //                   shape: BoxShape.rectangle,
+  //                   border: Border.all(color: ColorManager.greyColor),
+  //                   borderRadius: BorderRadius.circular(AppSize.s8.r),
+  //                 ),
+  //                 selectedDecoration: BoxDecoration(
+  //                   color: ColorManager.primaryColor,
+  //                   shape: BoxShape.rectangle,
+  //                   border: Border.all(color: ColorManager.greyColor),
+  //                   // borderRadius: BorderRadius.circular(AppSize.s8.r),
+  //                 ),
+  //               ),
+  //               firstDay: DateTime.utc(2010, 12, 31),
+  //               lastDay: DateTime.utc(2025, 12, 31),
+  //               onDaySelected: (selectedDay, focusedDay) {
+  //                 setState(() {
+  //                   this.focusedDay = focusedDay;
+  //                 });
+  //               },
+  //               selectedDayPredicate: (day) => isSameDay(focusedDay, day),
+  //               availableGestures: AvailableGestures.all,
+  //               headerStyle: HeaderStyle(
+  //                 formatButtonVisible: false,
+  //                 titleCentered: true,
+  //                 titleTextStyle: getMediumTextStyle(
+  //                   color: ColorManager.primaryColor,
+  //                   fontSize: FontSizeManager.s22.sp,
+  //                 ),
+  //               ),
+  //             ),
+  //   );
+  // }
 
   Future<dynamic> showModelOfSendRequest(BuildContext context) {
     return showModalBottomSheet(
@@ -223,6 +226,4 @@ class _PremiumContainerState extends State<PremiumContainer> {
       ),
     );
   }
-
-
 }
