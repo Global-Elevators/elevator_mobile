@@ -1,3 +1,4 @@
+import 'package:elevator/presentation/main/home/request_site_survey.dart';
 import 'package:elevator/presentation/main/widgets/free_button.dart';
 import 'package:elevator/presentation/main/widgets/home_bar.dart';
 import 'package:elevator/presentation/main/widgets/premium_container.dart';
@@ -11,6 +12,7 @@ import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   static const String homeRoute = '/home';
@@ -51,7 +53,8 @@ class _HomePageState extends State<HomePage> {
                   FreeButton(
                     title: Strings.requestSiteSurvey,
                     imageAsset: ImageAssets.worker,
-                    onTap: () {},
+                    onTap: () =>
+                        context.push(RequestSiteSurvey.requestSiteSurveyRoute),
                   ),
                   Gap(AppSize.s8.w),
                   FreeButton(

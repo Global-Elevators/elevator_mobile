@@ -1,5 +1,5 @@
 import 'package:elevator/presentation/main/catalogue/catalogue_view.dart';
-import 'package:elevator/presentation/main/home/view/home_view.dart';
+import 'package:elevator/presentation/main/home/home_view.dart';
 import 'package:elevator/presentation/main/library/library_view.dart';
 import 'package:elevator/presentation/main/profile/profile_view.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';

@@ -31,6 +31,10 @@ class ButtonWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(radius.r),
+          border: Border.all(
+            color: ColorManager.formFieldsBorderColor,
+            width: AppSize.s1.w,
+          ),
         ),
         child: Center(
           child: Text(

@@ -2,12 +2,13 @@ import 'package:elevator/presentation/account_verified/account_verified_view.dar
 import 'package:elevator/presentation/forget_password/forget_password_view.dart';
 import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/main/catalogue/catalogue_view.dart';
-import 'package:elevator/presentation/main/home/view/home_view.dart';
+import 'package:elevator/presentation/main/home/home_view.dart';
+import 'package:elevator/presentation/main/home/request_site_survey.dart';
 import 'package:elevator/presentation/main/library/library_view.dart';
 import 'package:elevator/presentation/main/main_view.dart';
 import 'package:elevator/presentation/main/profile/profile_view.dart';
 import 'package:elevator/presentation/new_password/new_password_view.dart';
-import 'package:elevator/presentation/notification/notification_view.dart';
+import 'package:elevator/presentation/main/home/notification_view.dart';
 import 'package:elevator/presentation/register/register_view.dart';
 import 'package:elevator/presentation/splash/splash_view.dart';
 import 'package:elevator/presentation/verify/verify_view.dart';
@@ -103,6 +104,11 @@ class GoRouterConfig {
         path: NotificationView.notificationRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             getCustomTransitionPage(state: state, child: NotificationView()),
+        routes: <RouteBase>[],
+      ),GoRoute(
+        path: RequestSiteSurvey.requestSiteSurveyRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: RequestSiteSurvey()),
         routes: <RouteBase>[],
       ),
     ],

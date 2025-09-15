@@ -3,12 +3,13 @@ import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/widgets/back_to_button.dart';
 import 'package:elevator/presentation/register/widgets/date_of_birth_row.dart';
 import 'package:elevator/presentation/register/widgets/interest_item.dart';
-import 'package:elevator/presentation/register/widgets/label_field.dart';
+import 'package:elevator/presentation/widgets/label_field.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/presentation/widgets/build_name_section.dart';
 import 'package:elevator/presentation/widgets/button_widget.dart';
 import 'package:elevator/presentation/widgets/password_field.dart';
 import 'package:elevator/presentation/widgets/phone_field.dart';
@@ -76,7 +77,11 @@ class _RegisterViewState extends State<RegisterView> {
                 Gap(AppSize.s12.h),
                 _buildHeader(),
                 Gap(AppSize.s22.h),
-                _buildNameSection(),
+                BuildNameSection(
+                  firstNameController: _firstNameController,
+                  fatherNameController: _fatherNameController,
+                  grandFatherNameController: _grandFatherNameController,
+                ),
                 Gap(AppSize.s25.h),
                 _buildDateOfBirthSection(),
                 Gap(AppSize.s25.h),
@@ -114,41 +119,6 @@ class _RegisterViewState extends State<RegisterView> {
           color: ColorManager.greyColor,
           fontSize: FontSizeManager.s18,
         ),
-      ),
-    ],
-  );
-
-  Widget _buildNameSection() => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const LabelField(Strings.nameLabel),
-      Gap(AppSize.s8.h),
-      TextFromFieldWidget(
-        hintText: Strings.firstName,
-        controller: _firstNameController,
-        prefixIcon: Icon(
-          Icons.account_circle_outlined,
-          size: AppSize.s30,
-          color: ColorManager.primaryColor,
-        ),
-      ),
-      Gap(AppSize.s8.h),
-      Row(
-        children: [
-          Expanded(
-            child: TextFromFieldWidget(
-              hintText: Strings.fatherName,
-              controller: _fatherNameController,
-            ),
-          ),
-          Gap(AppSize.s8.w),
-          Expanded(
-            child: TextFromFieldWidget(
-              hintText: Strings.grandfatherName,
-              controller: _grandFatherNameController,
-            ),
-          ),
-        ],
       ),
     ],
   );

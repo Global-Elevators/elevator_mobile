@@ -132,4 +132,13 @@ class Strings {
   static const String  markAllAsRead = "Mark all as read";
   static const String  notificationTitle = "Reminder of the next maintenance appointment";
   static const String  notificationSubTitle = "The deadline is June 9th. 5 days left.";
+
+  // Request site survey screen strings
+  static const String doesProjectBelongToSameAccount = "Does this Project belong to the same account user?";
+  static const String yes = "Yes";
+  static const String no = "NO";
+  static const String phoneNumberWhatsapp = "Phone Number, Whatsapp";
+  static const String scopeOfWork = "Scope of Work";
+  static const String fillInTheDataForTheNewCustomer = "Fill in the data for the new customer !";
+  static const String annualPreventiveMaintenance = "Annual Preventive Maintenance";
 }
