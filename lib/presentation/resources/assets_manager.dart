@@ -32,6 +32,7 @@ class ImageAssets {
   static const String iraqFlag = "$iconsPath/iraq_flag.png";
   static const String passwordIconField = "$iconsPath/password.png";
   static const String email = "$iconsPath/email.png";
+  static const String file = "$iconsPath/file.svg";
   static const String sos = "$imagesPath/sos.svg";
   static const String premium = "$imagesPath/premium.svg";
 }

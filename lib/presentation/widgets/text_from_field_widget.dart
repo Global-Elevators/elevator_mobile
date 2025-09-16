@@ -1,4 +1,5 @@
 import 'package:elevator/presentation/resources/color_manager.dart';
+import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class TextFromFieldWidget extends StatelessWidget {
     this.focusNode,
     this.enabled = true,
     this.onTap,
-    this.centerText = true,
+    this.centerText = false,
     this.isNotes = false,
   });
 
@@ -43,32 +44,30 @@ class TextFromFieldWidget extends StatelessWidget {
     return SizedBox(
       height: isNotes ? AppSize.s150.h : AppSize.s55.h,
       child: TextFormField(
-        textAlign: centerText ? TextAlign.start : TextAlign.center,
+        textAlign: centerText ? TextAlign.center : TextAlign.start,
         controller: controller,
         focusNode: focusNode,
         validator: validator,
         obscureText: obscureText,
         keyboardType: keyboardType,
         textInputAction: textInputAction,
-
-        /// TODO: Change the style of the text
         style: getMediumTextStyle(
           color: ColorManager.primaryColor,
-          fontSize: AppSize.s20.sp,
+          fontSize: FontSizeManager.s16.sp,
         ),
         enabled: enabled,
         onFieldSubmitted: onFieldSubmitted,
-
-        /// TODO: Change the cursor color
         cursorColor: ColorManager.primaryColor,
         onTap: onTap,
         decoration: InputDecoration(
-          contentPadding: isNotes ? EdgeInsets.symmetric(vertical: AppPadding.p40.h) : null,
+          contentPadding: isNotes
+              ? EdgeInsets.symmetric(vertical: AppPadding.p90.h)
+              : null,
           hintText: hintText,
           filled: true,
           fillColor: ColorManager.whiteColor,
           hintStyle: getRegularTextStyle(
-            color: Color(0xff777777),
+            color: ColorManager.greyColor,
             fontSize: AppSize.s16.sp,
           ),
           prefixIcon: prefixIcon,

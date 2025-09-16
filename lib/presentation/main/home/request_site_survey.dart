@@ -133,15 +133,18 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
                 },
               ),
               Gap(AppSize.s18.h),
-              Builder(
-                builder: (context) {
-                  DropdownItem<String> selectedItem = items.firstWhere(
-                    (item) => item.value == selectedValue,
-                    orElse: () => DropdownItem(value: ""),
-                  );
-                  return ScopeOfWork(selectedItem.value);
-                },
-              ),
+              Visibility(
+                visible: selectedValue != null,
+                child: Builder(
+                  builder: (context) {
+                    DropdownItem<String> selectedItem = items.firstWhere(
+                          (item) => item.value == selectedValue,
+                      orElse: () => DropdownItem(value: ""),
+                    );
+                    return ScopeOfWork(selectedItem.value);
+                  },
+                ),
+              )
             ],
           ),
         ),

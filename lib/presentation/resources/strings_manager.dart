@@ -145,8 +145,7 @@ class Strings {
   static const String manualOrSelect = "Manual or Select";
   static const String projectType = "Project Type";
   static const String selectOne = "Select one";
-  static const String shaftTypeOptional = "Shaft Type ";
-  static const String selectOneOptional = "Select one ";
+  static const String shaftType = "Shaft Type ";
   static const String shaftLocation = "Shaft Location ";
   static const String shaftDimensions = "Shaft Dimensions ";
   static const String widthCm = "Width, cm";
@@ -163,4 +162,9 @@ class Strings {
   static const String selectSuitableTimeToConductTheSiteSurvey = "Select suitable time to conduct the site survey";
   static const String height = "height";
   static const String notes = "Notes";
+  static const String submit = "Submit";
+  static const String isTheElevatorUnderWarranty = "Is the elevator under warranty or under valid preventive maintenance contract by another company?";
+  static const String elevatorBrand = "Elevator Brand ";
+  static const String descriptionOfBreakDown = "Description of break down ";
+  static const String filePhotoOrVideo = "File photo or video";
 }
