@@ -3,7 +3,8 @@ import 'package:elevator/presentation/forget_password/forget_password_view.dart'
 import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/main/catalogue/catalogue_view.dart';
 import 'package:elevator/presentation/main/home/home_view.dart';
-import 'package:elevator/presentation/main/home/request_site_survey.dart';
+import 'package:elevator/presentation/main/home/request_for_technical_view.dart';
+import 'package:elevator/presentation/main/home/request_site_survey_view.dart';
 import 'package:elevator/presentation/main/library/library_view.dart';
 import 'package:elevator/presentation/main/main_view.dart';
 import 'package:elevator/presentation/main/profile/profile_view.dart';
@@ -109,6 +110,12 @@ class GoRouterConfig {
         path: RequestSiteSurvey.requestSiteSurveyRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             getCustomTransitionPage(state: state, child: RequestSiteSurvey()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: RequestForTechnicalView.requestForTechnicalRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: RequestForTechnicalView()),
         routes: <RouteBase>[],
       ),
     ],

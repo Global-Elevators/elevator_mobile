@@ -1,6 +1,6 @@
 import 'package:dropdown_overlay/dropdown_overlay.dart';
-import 'package:elevator/presentation/main/widgets/scope_of_work.dart';
-import 'package:elevator/presentation/main/widgets/yes_or_no_button.dart';
+import 'package:elevator/presentation/main/home/widgets/label_yes_or_no_widget.dart';
+import 'package:elevator/presentation/main/home/widgets/scope_of_work.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -82,15 +82,8 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                Strings.doesProjectBelongToSameAccount,
-                style: getMediumTextStyle(
-                  color: ColorManager.primaryColor,
-                  fontSize: FontSizeManager.s18.sp,
-                ),
-              ),
-              Gap(AppSize.s10.h),
-              YesOrNoButton(
+              LabelYesOrNoWidget(
+                title: Strings.doesProjectBelongToSameAccount,
                 condition: isProjectBelongsToSameAccount,
                 onYesTap: () => setState(() {
                   isProjectBelongsToSameAccount = false;
@@ -98,21 +91,6 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
                 onNoTap: () => setState(() {
                   isProjectBelongsToSameAccount = true;
                 }),
-              ),
-              Visibility(
-                visible: isProjectBelongsToSameAccount,
-                child: Column(
-                  children: [
-                    Gap(AppSize.s8.h),
-                    Text(
-                      Strings.fillInTheDataForTheNewCustomer,
-                      style: getMediumTextStyle(
-                        color: ColorManager.greyColor,
-                        fontSize: FontSizeManager.s16.sp,
-                      ),
-                    ),
-                  ],
-                ),
               ),
               Gap(AppSize.s25.h),
               BuildNameSection(

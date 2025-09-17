@@ -64,7 +64,7 @@ class DropdownScope extends StatelessWidget {
           },
           child: Container(
             width: double.infinity,
-            height: AppSize.s55.h,
+            height: AppSize.s60.h,
             decoration: BoxDecoration(
               color: item.selected
                   ? ColorManager.primaryColor

@@ -167,4 +167,7 @@ class Strings {
   static const String elevatorBrand = "Elevator Brand ";
   static const String descriptionOfBreakDown = "Description of break down ";
   static const String filePhotoOrVideo = "File photo or video";
+  static const String photos = "Photos";
+  static const String requiredDoorWidth = "Required Door Width";
+  static const String shaftPhoto2BuildingFrontPhoto1 = "Shaft Photo 2, Building front Photo 1";
 }

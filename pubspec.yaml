@@ -35,6 +35,8 @@ dependencies:
   table_calendar: ^3.2.0
   dropdown_overlay: ^0.1.0
   image_picker: ^1.2.0
+  google_maps_flutter: ^2.13.1
+  geolocator: ^14.0.2
 
 dev_dependencies:
   flutter_test:
