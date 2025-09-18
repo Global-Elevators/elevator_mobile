@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
@@ -12,29 +11,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:image_picker/image_picker.dart';
 
-class PickImageWidget extends StatelessWidget {
-  final Function() pickImageFromGallery;
-  final File? imageFile;
+class CustomImagePicker extends StatelessWidget {
+  final File? singleImage;
+  final List<XFile>? multipleImages;
+  final bool isMultiple;
+  final VoidCallback onTap;
+  final String placeholderText;
 
-  const PickImageWidget({
+  const CustomImagePicker({
     super.key,
-    required this.pickImageFromGallery,
-    this.imageFile,
+    this.singleImage,
+    this.multipleImages,
+    this.isMultiple = false,
+    required this.onTap,
+    required this.placeholderText,
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => pickImageFromGallery(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          LabelField(Strings.photos, isOptional: true),
-          Gap(AppSize.s8.h),
-          Container(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        LabelField(Strings.photos, isOptional: isMultiple),
+        Gap(AppSize.s8.h),
+        InkWell(
+          onTap: onTap,
+          child: Container(
             height: AppSize.s100.h,
-            width: double.infinity.w,
+            width: double.infinity,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: ColorManager.whiteColor,
@@ -46,28 +52,67 @@ class PickImageWidget extends StatelessWidget {
                 color: ColorManager.formFieldsBorderColor,
                 strokeWidth: AppSize.s2,
               ),
-              child: Center(
-                child: imageFile == null
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(ImageAssets.file),
-                          Gap(AppSize.s5.w),
-                          Text(
-                            Strings.shaftPhoto2BuildingFrontPhoto1,
-                            style: getRegularTextStyle(
-                              color: ColorManager.greyColor,
-                              fontSize: FontSizeManager.s16.sp,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Image.file(imageFile!),
-              ),
+              child: Center(child: _buildContent()),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildContent() {
+    if (isMultiple) {
+      if (multipleImages == null || multipleImages!.isEmpty) {
+        return _emptyPlaceholder();
+      }
+      return Expanded(
+        child: Padding(
+          padding: EdgeInsetsDirectional.symmetric(
+            horizontal: AppSize.s16.w,
+          ),
+          child: GridView.builder(
+            itemCount: multipleImages!.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              return Row(
+                children: [
+                  Expanded(
+                    child: Image.file(
+                      File(multipleImages![index].path),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Gap(AppSize.s8.w),
+                ],
+              );
+            },
+          ),
+        ),
+      );
+    } else {
+      if (singleImage == null) {
+        return _emptyPlaceholder();
+      }
+      return Image.file(singleImage!, fit: BoxFit.cover);
+    }
+  }
+
+  Widget _emptyPlaceholder() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset(ImageAssets.file),
+        Gap(AppSize.s5.w),
+        Text(
+          placeholderText,
+          style: getRegularTextStyle(
+            color: ColorManager.greyColor,
+            fontSize: FontSizeManager.s16.sp,
+          ),
+        ),
+      ],
     );
   }
 }

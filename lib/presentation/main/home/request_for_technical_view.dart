@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:elevator/presentation/main/home/widgets/label_drop_down_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/label_text_form_field_widget.dart';
@@ -20,7 +19,6 @@ import 'package:elevator/presentation/widgets/build_name_section.dart';
 import 'package:elevator/presentation/widgets/button_widget.dart';
 import 'package:elevator/presentation/widgets/label_field.dart';
 import 'package:elevator/presentation/widgets/phone_field.dart';
-import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -68,7 +66,9 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   final Set<Marker> _markers = {};
   bool isMapVisible = false;
   LatLng? _currentLatLng;
-  File? _imageFile;
+
+  // File? _imageFile;
+  List<XFile>? imageFileList = [];
 
   @override
   void initState() {
@@ -265,9 +265,11 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
                   isCenterText: true,
                 ),
                 Gap(AppSize.s25.h),
-                PickImageWidget(
-                  pickImageFromGallery: () => _pickImageFromGallery(),
-                  imageFile: _imageFile,
+                CustomImagePicker(
+                  multipleImages: imageFileList,
+                  isMultiple: true,
+                  onTap: _pickImagesFromGallery,
+                  placeholderText: Strings.shaftPhoto2BuildingFrontPhoto1,
                 ),
                 Gap(AppSize.s25.h),
                 SelectSuitableTimeWidget(
@@ -284,7 +286,11 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
                   isCenterText: true,
                 ),
                 Gap(AppSize.s25.h),
-                ButtonWidget(radius: AppSize.s14.r, text: Strings.submit, onTap: () {}),
+                ButtonWidget(
+                  radius: AppSize.s14.r,
+                  text: Strings.submit,
+                  onTap: () {},
+                ),
                 Gap(AppSize.s14.h),
               ],
             ),
@@ -390,18 +396,11 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
     );
   }
 
-  Future<void> _pickImageFromGallery() async {
+  Future<void> _pickImagesFromGallery() async {
     final picker = ImagePicker();
-    final XFile? pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-    );
-
-    if (pickedFile != null) {
-      setState(() {
-        _imageFile = File(pickedFile.path);
-      });
-    } else {
-      print('No image selected.');
-    }
+    final List<XFile> pickedFile = await picker.pickMultiImage(limit: 3);
+    setState(() {
+      imageFileList = pickedFile;
+    });
   }
 }

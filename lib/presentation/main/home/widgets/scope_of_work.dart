@@ -167,18 +167,21 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
                 setState(() => doesTheShaftHaveAMachineRoom = false),
             onNoTap: () => setState(() => doesTheShaftHaveAMachineRoom = true),
           ),
-        ],
-        if (widget.name == Strings.newProduct)
           LabelTextFormFieldWidget(
             title: Strings.height,
             hintText: Strings.cm,
             controller: _cmController,
             isCenterText: true,
           ),
+          Gap(AppSize.s25.h),
+        ],
+        if (widget.name == Strings.annualPreventiveMaintenance ||
+            widget.name == Strings.repair) Gap(AppSize.s25.h),
         StopsInputRow(
           controller: _stopsController,
           displayedNumber: _displayedNumber,
         ),
+        Gap(AppSize.s25.h),
         if (widget.name == Strings.repair) ...[
           LabelTextFormFieldWidget(
             title: Strings.descriptionOfBreakDown,
@@ -189,10 +192,12 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
             isCenterText: true,
           ),
           Gap(AppSize.s25.h),
-          PickImageWidget(
-            pickImageFromGallery: () => _pickImageFromGallery(),
-            imageFile: _imageFile,
+          CustomImagePicker(
+            singleImage: _imageFile,
+            onTap: () => _pickImageFromGallery(),
+            placeholderText: Strings.filePhotoOrVideo,
           ),
+          Gap(AppSize.s25.h),
         ],
         SelectSuitableTimeWidget(
           disabledDays: disabledDays,

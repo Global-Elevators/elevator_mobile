@@ -170,4 +170,8 @@ class Strings {
   static const String photos = "Photos";
   static const String requiredDoorWidth = "Required Door Width";
   static const String shaftPhoto2BuildingFrontPhoto1 = "Shaft Photo 2, Building front Photo 1";
+
+  // Catalogue screen strings
+  static const String call = "Call";
+  static const String download = "Download";
 }
