@@ -1,3 +1,4 @@
+import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/account_verified/account_verified_view.dart';
 import 'package:elevator/presentation/forget_password/forget_password_view.dart';
 import 'package:elevator/presentation/login/login_view.dart';
@@ -28,8 +29,10 @@ class GoRouterConfig {
       ),
       GoRoute(
         path: LoginView.loginRoute,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: LoginView()),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          initLoginModule();
+          return getCustomTransitionPage(state: state, child: LoginView());
+        },
         routes: <RouteBase>[],
       ),
       GoRoute(
@@ -77,10 +80,7 @@ class GoRouterConfig {
       GoRoute(
         path: HomePage.homeRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(
-              state: state,
-              child: HomePage(),
-            ),
+            getCustomTransitionPage(state: state, child: HomePage()),
         routes: <RouteBase>[],
       ),
       GoRoute(
@@ -106,7 +106,8 @@ class GoRouterConfig {
         pageBuilder: (BuildContext context, GoRouterState state) =>
             getCustomTransitionPage(state: state, child: NotificationView()),
         routes: <RouteBase>[],
-      ),GoRoute(
+      ),
+      GoRoute(
         path: RequestSiteSurvey.requestSiteSurveyRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             getCustomTransitionPage(state: state, child: RequestSiteSurvey()),
@@ -115,7 +116,10 @@ class GoRouterConfig {
       GoRoute(
         path: RequestForTechnicalView.requestForTechnicalRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: RequestForTechnicalView()),
+            getCustomTransitionPage(
+              state: state,
+              child: RequestForTechnicalView(),
+            ),
         routes: <RouteBase>[],
       ),
     ],

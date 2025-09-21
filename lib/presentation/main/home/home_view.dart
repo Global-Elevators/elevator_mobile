@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   FreeButton(
                     title: Strings.requestSiteSurvey,
-                    imageAsset: ImageAssets.worker,
+                    imageAsset: IconAssets.worker,
                     onTap: () =>
                         context.push(RequestSiteSurvey.requestSiteSurveyRoute),
                   ),

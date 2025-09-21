@@ -2,54 +2,36 @@ import 'package:json_annotation/json_annotation.dart';
 part 'responses.g.dart';
 @JsonSerializable()
 class BaseResponse {
-  @JsonKey(name: "status")
-  int? status;
+  @JsonKey(name: "success")
+  bool? success;
   @JsonKey(name: "message")
   String? message;
 }
 
 @JsonSerializable()
 class CustomerDataResponse {
-  @JsonKey(name: "id")
-  String? id;
-  @JsonKey(name: "name")
-  String? name;
-  @JsonKey(name: "profilePicture")
-  String? profilePicture;
-  @JsonKey(name: "token")
-  String? token;
+  @JsonKey(name: "phone")
+  String? phone;
+  @JsonKey(name: "otp_sent")
+  bool? otpSent;
+  @JsonKey(name: "code")
+  String? code;
+  @JsonKey(name: "expires_in")
+  int? expiresIn;
 
-  CustomerDataResponse(this.id, this.name, this.profilePicture, this.token);
+  CustomerDataResponse(this.phone, this.otpSent, this.code, this.expiresIn);
 
-  factory CustomerDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$CustomerDataResponseFromJson(json);
+  factory CustomerDataResponse.fromJson(Map<String, dynamic> json) => _$CustomerDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$CustomerDataResponseToJson(this);
 }
 
 @JsonSerializable()
-class ContactsDataResponse {
-  @JsonKey(name: "phone")
-  String? phone;
-  @JsonKey(name: "email")
-  String? email;
-
-  ContactsDataResponse(this.phone, this.email);
-
-  factory ContactsDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$ContactsDataResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ContactsDataResponseToJson(this);
-}
-
-@JsonSerializable()
 class AuthenticationResponse extends BaseResponse {
-  @JsonKey(name: "customer")
+  @JsonKey(name: "data")
   CustomerDataResponse? customerDataResponse;
-  @JsonKey(name: "contacts")
-  ContactsDataResponse? contactsDataResponse;
 
-  AuthenticationResponse(this.customerDataResponse, this.contactsDataResponse);
+  AuthenticationResponse(this.customerDataResponse);
 
   factory AuthenticationResponse.fromJson(Map<String, dynamic> json) =>
       _$AuthenticationResponseFromJson(json);

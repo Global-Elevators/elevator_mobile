@@ -10,6 +10,14 @@ class Strings {
   static const String forgetPassword = 'Forget password?';
   static const String arabicText = 'عربي';
   static const String englishText = 'English';
+  static const String invalidPhoneNumber  = 'Invalid Phone Number';
+  static const String invalidPassword = 'Invalid Password';
+  static const String loading = 'Loading...';
+  static const String error = 'Error';
+  static const String empty = 'Empty';
+  static const String ok = 'OK';
+  static const String retryAgain = 'Retry Again';
+
 
   // Sign-up screen strings
   static const String backSignIn = 'Back Sign in';

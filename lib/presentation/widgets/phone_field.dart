@@ -1,3 +1,5 @@
+import 'package:elevator/presentation/base/baseviewmodel.dart';
+import 'package:elevator/presentation/login/login_viewmodel.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -10,8 +12,13 @@ import 'package:gap/gap.dart';
 
 class PhoneField extends StatelessWidget {
   final TextEditingController controller;
+  final Stream<bool>? phoneValidationStream;
 
-  const PhoneField({super.key, required this.controller});
+  const PhoneField({
+    super.key,
+    required this.controller,
+    required this.phoneValidationStream,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +43,7 @@ class PhoneField extends StatelessWidget {
             child: Row(
               children: [
                 Image.asset(
-                  ImageAssets.iraqFlag,
+                  IconAssets.iraqFlag,
                   height: AppSize.s20.h,
                   width: AppSize.s20.w,
                 ),
@@ -55,10 +62,15 @@ class PhoneField extends StatelessWidget {
         ),
         SizedBox(width: AppSize.s8.w),
         Expanded(
-          child: TextFromFieldWidget(
-            hintText: Strings.phoneNumberTitle,
-            controller: controller,
-            keyboardType: TextInputType.phone,
+          child: StreamBuilder<bool>(
+            stream: phoneValidationStream,
+            builder: (context, snapshot) => TextFromFieldWidget(
+              hintText: Strings.phoneNumberTitle,
+              controller: controller,
+              keyboardType: TextInputType.phone,
+              textInputAction: TextInputAction.done,
+              errorText: (snapshot.data ?? true) ? null : Strings.invalidPhoneNumber,
+            ),
           ),
         ),
       ],

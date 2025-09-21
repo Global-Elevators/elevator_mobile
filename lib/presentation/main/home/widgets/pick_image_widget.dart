@@ -103,7 +103,7 @@ class CustomImagePicker extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SvgPicture.asset(ImageAssets.file),
+        SvgPicture.asset(IconAssets.file),
         Gap(AppSize.s5.w),
         Text(
           placeholderText,

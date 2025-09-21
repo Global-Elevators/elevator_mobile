@@ -163,7 +163,7 @@ class _RegisterViewState extends State<RegisterView> {
     children: [
       const LabelField(Strings.phoneNumberTitle),
       Gap(AppSize.s8.h),
-      PhoneField(controller: _phoneController),
+      PhoneField(controller: _phoneController, phoneValidationStream: null),
       Gap(AppSize.s25.h),
       LabelField(Strings.emailLabel, isOptional: true),
       Gap(AppSize.s8.h),
@@ -171,7 +171,7 @@ class _RegisterViewState extends State<RegisterView> {
         hintText: Strings.email,
         controller: _emailController,
         prefixIcon: Image.asset(
-          ImageAssets.email,
+          IconAssets.email,
           width: AppSize.s20,
           height: AppSize.s20,
           color: ColorManager.primaryColor,
@@ -201,11 +201,13 @@ class _RegisterViewState extends State<RegisterView> {
       PasswordField(
         controller: _passwordController,
         hintText: Strings.passwordTitle,
+        passwordValidationStream: null,
       ),
       Gap(AppSize.s8.h),
       PasswordField(
         controller: _confirmPasswordController,
         hintText: Strings.confirmPassword,
+        passwordValidationStream: null,
       ),
     ],
   );

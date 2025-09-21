@@ -20,6 +20,7 @@ class TextFromFieldWidget extends StatelessWidget {
   final bool centerText;
   final void Function()? onTap;
   final bool isNotes;
+  final String? errorText;
 
   const TextFromFieldWidget({
     super.key,
@@ -37,12 +38,13 @@ class TextFromFieldWidget extends StatelessWidget {
     this.onTap,
     this.centerText = false,
     this.isNotes = false,
+    this.errorText,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: isNotes ? AppSize.s150.h : AppSize.s55.h,
+      // height: isNotes ? AppSize.s150.h : AppSize.s55.h,
       child: TextFormField(
         textAlign: centerText ? TextAlign.center : TextAlign.start,
         controller: controller,
@@ -60,9 +62,12 @@ class TextFromFieldWidget extends StatelessWidget {
         cursorColor: ColorManager.primaryColor,
         onTap: onTap,
         decoration: InputDecoration(
+          errorText: errorText,
           contentPadding: isNotes
               ? EdgeInsets.symmetric(vertical: AppPadding.p90.h)
-              : null,
+              : EdgeInsetsDirectional.symmetric(
+            vertical: AppPadding.p8.h,
+          ),
           hintText: hintText,
           filled: true,
           fillColor: ColorManager.whiteColor,
@@ -91,7 +96,7 @@ class TextFromFieldWidget extends StatelessWidget {
             borderSide: BorderSide(color: ColorManager.errorColor),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSize.s20.r),
+            borderRadius: BorderRadius.circular(AppSize.s14.r),
             borderSide: BorderSide(
               color: ColorManager.errorColor,
               width: AppSize.s1.w,

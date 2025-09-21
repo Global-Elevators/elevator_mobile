@@ -18,7 +18,7 @@ dependencies:
   country_code_picker: ^3.3.0
   retrofit: ^4.7.1
   analyzer: any
-  dio: ^5.9.0
+  dio: ^5.7.0
   json_serializable: any
   json_annotation: ^4.9.0
   retrofit_generator: ^9.1.5
@@ -39,6 +39,8 @@ dependencies:
   geolocator: ^14.0.2
   syncfusion_flutter_pdfviewer: ^31.1.20
   url_launcher: ^6.3.2
+  get_it: ^8.2.0
+  lottie: ^3.3.2
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +58,8 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - assets/pdfs/
+    - assets/json/
+
   fonts:
       - family: Tajawal
         fonts:

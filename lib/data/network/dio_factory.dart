@@ -17,14 +17,16 @@ class DioFactory {
 
   Future<Dio> getDio() async {
     Dio dio = Dio();
-    String language = await _appPreferences.getAppLanguage();
+    // String language = await _appPreferences.getAppLanguage();
 
     Map<String, String> header = {
-      CONTENT_TYPE: APPLICATON_JSON,
+      // CONTENT_TYPE: APPLICATON_JSON,
       ACCEPT: APPLICATON_JSON,
-      AUTHORIZATION: Constants.token,
-      LANGUAGE: language,
+      // AUTHORIZATION: Constants.token,
+      // LANGUAGE: language,
     };
+    // Write method add 2 numbers
+
     dio.options = BaseOptions(
       headers: header,
       receiveDataWhenStatusError: false,

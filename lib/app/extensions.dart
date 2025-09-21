@@ -11,3 +11,7 @@ extension NotNullInt on int? {
 extension NotNullDouble on double? {
   double orZero() => this ?? Constants.decimalZero;
 }
+
+extension NotNullBool on bool? {
+  bool orFalse() => this ?? Constants.falseValue;
+}

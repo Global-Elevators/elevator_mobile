@@ -56,17 +56,17 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
               ),
             ),
             Gap(AppSize.s40.h),
-            PhoneField(controller: _phoneController),
+            PhoneField(
+              controller: _phoneController,
+              phoneValidationStream: null,
+            ),
             Gap(AppSize.s25.h),
             ButtonWidget(
               radius: AppSize.s14,
               text: Strings.getCodeButton,
               onTap: () => context.go(
                 VerifyView.verifyRoute,
-                extra: [
-                  _phoneController.text,
-                  "forget-password"
-                ],
+                extra: [_phoneController.text, "forget-password"],
               ),
             ),
             Gap(AppSize.s22.h),

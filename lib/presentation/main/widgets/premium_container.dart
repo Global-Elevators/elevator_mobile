@@ -66,7 +66,7 @@ class _PremiumContainerState extends State<PremiumContainer> {
                   Gap(AppSize.s8.w),
                   PremiumButton(
                     title: Strings.requestVisitRescheduling,
-                    imageAsset: ImageAssets.calendar,
+                    imageAsset: IconAssets.calendar,
                     isPremium: widget.isPremium,
                     onTap: () => showModelOfRequestVisitRescheduling(context),
                   ),

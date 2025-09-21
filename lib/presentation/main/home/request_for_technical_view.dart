@@ -176,7 +176,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
                 ),
                 Gap(AppSize.s25.h),
                 LabelField(Strings.phoneNumberWhatsapp),
-                PhoneField(controller: _phoneNumberController),
+                PhoneField(controller: _phoneNumberController, phoneValidationStream: null,),
                 Gap(AppSize.s25.h),
                 LabelTextFormFieldWidget(
                   title: Strings.projectAddress,

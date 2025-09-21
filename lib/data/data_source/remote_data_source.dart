@@ -3,7 +3,7 @@ import 'package:elevator/data/network/requests.dart';
 import 'package:elevator/data/response/responses.dart';
 
 abstract class RemoteDataSource {
-  Future<AuthenticationResponse> register(RegisterRequests registerRequest);
+  Future<AuthenticationResponse> login(LoginRequests loginRequests);
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -12,15 +12,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
   RemoteDataSourceImp(this._appServicesClient);
 
   @override
-  Future<AuthenticationResponse> register(
-    RegisterRequests registerRequest,
-  ) async {
-    return await _appServicesClient.register(
-      registerRequest.name,
-      registerRequest.phone,
-      registerRequest.email,
-      registerRequest.password,
-      registerRequest.profilePicture,
+  Future<AuthenticationResponse> login(LoginRequests loginRequests) async{
+    return await _appServicesClient.login(
+      loginRequests.phone,
+      loginRequests.password,
     );
   }
 }

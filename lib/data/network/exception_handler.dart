@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:elevator/data/network/failure.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:dio/dio.dart';
@@ -5,16 +6,16 @@ import 'package:dio/dio.dart';
 class ExceptionHandler implements Exception {
   late Failure failure;
 
-  ExceptionHandler.handel(dynamic exception) {
+  ExceptionHandler.handle(dynamic exception) {
     if (exception is DioException) {
-      failure = _handelException(exception);
+      failure = _handleException(exception);
     } else {
       failure = DataSource.DEFAULT.getFailure();
     }
   }
 }
 
-Failure _handelException(DioException exception) {
+Failure _handleException(DioException exception) {
   switch (exception.type) {
     case DioExceptionType.connectionTimeout:
       return DataSource.CONNECT_TIMEOUT.getFailure();
@@ -25,9 +26,9 @@ Failure _handelException(DioException exception) {
     case DioExceptionType.badCertificate:
       return DataSource.BAD_REQUEST.getFailure();
     case DioExceptionType.badResponse:
-      if (exception.response!.statusCode != null &&
-          exception.response!.statusMessage != null &&
-          exception.response != null) {
+      if (exception.response != null &&
+          exception.response?.statusCode != null &&
+          exception.response?.statusMessage != null) {
         return Failure(
           exception.response!.statusCode!,
           exception.response!.statusMessage!,
@@ -38,8 +39,12 @@ Failure _handelException(DioException exception) {
     case DioExceptionType.cancel:
       return DataSource.CANCEL.getFailure();
     case DioExceptionType.connectionError:
-      return DataSource.CONNECT_TIMEOUT.getFailure();
+      return DataSource.NO_INTERNET_CONNECTION.getFailure();
     case DioExceptionType.unknown:
+      print("Unknown DioException: ${exception.error}");
+      if (exception.error is SocketException) {
+        return DataSource.NO_INTERNET_CONNECTION.getFailure();
+      }
       return DataSource.DEFAULT.getFailure();
   }
 }

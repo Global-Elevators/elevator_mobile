@@ -93,9 +93,9 @@ class BottomNavBar extends StatelessWidget {
           items: [
             BottomNavigationBarItem(
               icon: currentIndex == 0
-                  ? SvgPicture.asset(ImageAssets.homeFill)
+                  ? SvgPicture.asset(IconAssets.homeFill)
                   : SvgPicture.asset(
-                      ImageAssets.homeStroke,
+                      IconAssets.homeStroke,
                       colorFilter: ColorFilter.mode(
                         ColorManager.notSelectedIconColor,
                         BlendMode.srcIn,
@@ -105,9 +105,9 @@ class BottomNavBar extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: currentIndex == 1
-                  ? SvgPicture.asset(ImageAssets.catalogueFill)
+                  ? SvgPicture.asset(IconAssets.catalogueFill)
                   : SvgPicture.asset(
-                      ImageAssets.catalogueStroke,
+                      IconAssets.catalogueStroke,
                       colorFilter: ColorFilter.mode(
                         ColorManager.notSelectedIconColor,
                         BlendMode.srcIn,
@@ -117,9 +117,9 @@ class BottomNavBar extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: currentIndex == 2
-                  ? SvgPicture.asset(ImageAssets.libraryFill)
+                  ? SvgPicture.asset(IconAssets.libraryFill)
                   : SvgPicture.asset(
-                      ImageAssets.libraryStroke,
+                      IconAssets.libraryStroke,
                       colorFilter: ColorFilter.mode(
                         ColorManager.notSelectedIconColor,
                         BlendMode.srcIn,

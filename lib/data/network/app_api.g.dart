@@ -10,7 +10,8 @@ part of 'app_api.dart';
 
 class _AppServicesClient implements AppServicesClient {
   _AppServicesClient(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://e0kv9.wiremockapi.cloud/';
+    baseUrl ??=
+        'https://elevatormaintenance-app-pgdai7-e43646-92-242-187-173.traefik.me/api/v1';
   }
 
   final Dio _dio;
@@ -20,28 +21,16 @@ class _AppServicesClient implements AppServicesClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<AuthenticationResponse> register(
-    String name,
-    String phone,
-    String email,
-    String password,
-    String profilePicture,
-  ) async {
+  Future<AuthenticationResponse> login(String phone, String password) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = {
-      'name': name,
-      'phone': phone,
-      'email': email,
-      'password': password,
-      'profile_picture': profilePicture,
-    };
+    final _data = {'phone': phone, 'password': password};
     final _options = _setStreamType<AuthenticationResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/register',
+            '/auth/login',
             queryParameters: queryParameters,
             data: _data,
           )

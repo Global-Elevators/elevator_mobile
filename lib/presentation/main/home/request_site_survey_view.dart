@@ -100,7 +100,10 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
               ),
               Gap(AppSize.s25.h),
               LabelField(Strings.phoneNumberWhatsapp),
-              PhoneField(controller: _phoneNumberController),
+              PhoneField(
+                controller: _phoneNumberController,
+                phoneValidationStream: null,
+              ),
               Gap(AppSize.s25.h),
               LabelField(Strings.scopeOfWork),
               DropdownScope(
@@ -116,13 +119,13 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
                 child: Builder(
                   builder: (context) {
                     DropdownItem<String> selectedItem = items.firstWhere(
-                          (item) => item.value == selectedValue,
+                      (item) => item.value == selectedValue,
                       orElse: () => DropdownItem(value: ""),
                     );
                     return ScopeOfWork(selectedItem.value);
                   },
                 ),
-              )
+              ),
             ],
           ),
         ),

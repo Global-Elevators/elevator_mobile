@@ -5,7 +5,7 @@ import 'package:elevator/data/network/failure.dart';
 import 'package:elevator/data/network/network_info.dart';
 import 'package:elevator/data/network/requests.dart';
 import 'package:elevator/data/response/responses.dart';
-import 'package:elevator/domain/models/register_model.dart';
+import 'package:elevator/domain/models/login_model.dart';
 import 'package:elevator/domain/repository/repository.dart';
 import 'package:dartz/dartz.dart';
 
@@ -16,56 +16,42 @@ class RepositoryImpl extends Repository {
   RepositoryImpl(this._remoteDataSource, this._networkInfo);
 
   @override
-  Future<Either<Failure, Authentication>> register(
-    RegisterRequests registerRequest,
-  ) async {
-    if (await isConnected()) {
-      return await _handleRegisterRequest(registerRequest);
+  Future<Either<Failure, Authentication>> login(LoginRequests loginRequest) async {
+    if (await hasNetworkConnection()) {
+      return _performLogin(loginRequest);
     } else {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
 
-  Future<bool> isConnected() async => await _networkInfo.isConnected;
+  Future<bool> hasNetworkConnection() async => await _networkInfo.isConnected;
 
-  Future<Either<Failure, Authentication>> _handleRegisterRequest(
-    RegisterRequests registerRequests,
-  ) async {
+  Future<Either<Failure, Authentication>> _performLogin(
+      LoginRequests loginRequest,
+      ) async {
     try {
-      final AuthenticationResponse response = await _remoteDataSource.register(
-        registerRequests,
-      );
-      return _processRegisterResponse(response);
+      final response = await _remoteDataSource.login(loginRequest);
+      return _mapLoginResponseToResult(response);
     } catch (error) {
-      return Left(ExceptionHandler.handel(error).failure);
+      return Left(ExceptionHandler.handle(error).failure);
     }
   }
 
-  Either<Failure, Authentication> _processRegisterResponse(
-    AuthenticationResponse response,
-  ) {
-    if (isSuccessfulAuthentication(response)) {
-      return Right(response.toDomain());
-    } else {
-      return Left(_createFailureFromAuthenticationResponse(response));
-    }
+  Either<Failure, Authentication> _mapLoginResponseToResult(
+      AuthenticationResponse response,
+      ) {
+    return _isSuccessfulResponse(response)
+        ? Right(response.toDomain())
+        : Left(_mapFailureFromResponse(response));
   }
 
-  bool isSuccessfulAuthentication(AuthenticationResponse response) =>
-      response.status == ApiInternalStatus.success;
+  bool _isSuccessfulResponse(AuthenticationResponse response) =>
+      response.success == true;
 
-  Failure _createFailureFromAuthenticationResponse(
-    AuthenticationResponse response,
-  ) {
+  Failure _mapFailureFromResponse(AuthenticationResponse response) {
     return Failure(
       ApiInternalStatus.failure,
       response.message ?? ResponseMessage.defaultError,
     );
-  }
-
-  @override
-  Future<Either<Failure, Authentication>> login(LoginRequests loginRequest) {
-    // TODO: implement login
-    throw UnimplementedError();
   }
 }

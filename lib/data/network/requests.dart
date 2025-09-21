@@ -1,8 +1,8 @@
 class LoginRequests {
-  String email;
+  String phone;
   String password;
 
-  LoginRequests(this.email, this.password);
+  LoginRequests(this.phone, this.password);
 }
 
 class RegisterRequests {

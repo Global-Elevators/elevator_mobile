@@ -126,7 +126,7 @@ Container contactButton() {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SvgPicture.asset(
-          ImageAssets.speaker,
+          IconAssets.speaker,
           height: AppSize.s18.h,
           width: AppSize.s18.w,
           colorFilter: ColorFilter.mode(

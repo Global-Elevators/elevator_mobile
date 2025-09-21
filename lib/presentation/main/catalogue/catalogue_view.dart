@@ -65,8 +65,6 @@ class _CatalogueViewState extends State<CatalogueView> {
   }
 }
 
-/// ---------------- Small Widgets ----------------
-
 class _CatalogueAppBar extends StatelessWidget implements PreferredSizeWidget {
   final PdfViewerController pdfViewerController;
   final VoidCallback onJumpTo;
@@ -203,7 +201,7 @@ class _CallButton extends StatelessWidget {
         child: Row(
           children: [
             SvgPicture.asset(
-              ImageAssets.call,
+              IconAssets.call,
               colorFilter: ColorFilter.mode(ColorManager.primaryColor, BlendMode.srcIn),
             ),
             Gap(AppSize.s5.w),

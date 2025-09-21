@@ -37,12 +37,12 @@ ThemeData getApplicationTheme() {
         borderRadius: BorderRadius.circular(AppSize.s8),
       ),
       errorBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.red, width: AppSize.s1_5),
+        borderSide: BorderSide(color: Colors.black87, width: AppSize.s1_5),
         borderRadius: BorderRadius.circular(AppSize.s8),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: ColorManager.primaryColor,
+          color: ColorManager.blackColor,
           width: AppSize.s1_5,
         ),
         borderRadius: BorderRadius.circular(AppSize.s8),

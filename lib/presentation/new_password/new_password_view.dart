@@ -61,11 +61,13 @@ class _NewPasswordViewState extends State<NewPasswordView> {
             PasswordField(
               controller: _passwordController,
               hintText: Strings.passwordTitle,
+              passwordValidationStream: null,
             ),
             Gap(AppSize.s25.h),
             PasswordField(
               controller: _confirmPasswordController,
               hintText: Strings.confirmPassword,
+              passwordValidationStream: null,
             ),
             Gap(AppSize.s25.h),
             ButtonWidget(
