@@ -3,7 +3,6 @@ import 'package:elevator/presentation/common/state_renderer/state_renderer.dart'
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:flutter/material.dart';
 
-
 abstract class FlowState {
   StateRendererType getStateRendererType();
 
@@ -11,24 +10,24 @@ abstract class FlowState {
 }
 
 class LoadingState extends FlowState {
-  StateRendererType stateRendererType;
-  String? message;
+  final StateRendererType stateRendererType;
+  final String message;
 
   LoadingState({
     required this.stateRendererType,
-    String message = Strings.loading,
+    this.message = Strings.loading,
   });
 
   @override
   StateRendererType getStateRendererType() => stateRendererType;
 
   @override
-  String getMessage() => message ?? Strings.loading;
+  String getMessage() => message;
 }
 
 class ErrorState extends FlowState {
-  StateRendererType stateRendererType;
-  String message;
+  final StateRendererType stateRendererType;
+  final String message;
 
   ErrorState(this.stateRendererType, this.message);
 
@@ -48,7 +47,7 @@ class ContentState extends FlowState {
 }
 
 class EmptyState extends FlowState {
-  String message;
+  final String message;
 
   EmptyState(this.message);
 
@@ -61,7 +60,7 @@ class EmptyState extends FlowState {
 }
 
 class SuccessState extends FlowState {
-  String message;
+  final String message;
 
   SuccessState(this.message);
 
@@ -74,92 +73,96 @@ class SuccessState extends FlowState {
 }
 
 extension FlowStateExtension on FlowState {
-  // This method returns a widget based on the current state of the application.
   Widget getStateWidget(
     BuildContext context,
     Widget contentScreen,
     Function retryActionFunction,
   ) {
-    switch (this) // runtimeType returns the type of the object at runtime
-    {
+    switch (this) {
       case LoadingState _:
-        if (getStateRendererType() == StateRendererType.popUpLoadingState) {
-          showPopup(context, getStateRendererType(), getMessage());
-          return contentScreen;
-        } else {
-          return StateRenderer(
-            stateRendererType: getStateRendererType(),
-            message: getMessage(),
-            retryActionFunction: retryActionFunction,
-          );
-        }
+        return _handlePopupOrFull(context, contentScreen, retryActionFunction);
+
       case ErrorState _:
-        if (getStateRendererType() == StateRendererType.popUpErrorState) {
-          showPopup(context, getStateRendererType(), getMessage());
-          Navigator.pop(context);
-          return contentScreen;
-        } else {
-          return StateRenderer(
-            stateRendererType: getStateRendererType(),
-            message: getMessage(),
-            retryActionFunction: retryActionFunction,
-          );
-        }
+        return _handlePopupOrFull(context, contentScreen, retryActionFunction);
+
       case ContentState _:
-        dismissDialog(context);
+        _dismissDialog(context);
         return contentScreen;
+
       case EmptyState _:
+        _dismissDialog(context);
         return StateRenderer(
           stateRendererType: getStateRendererType(),
-          retryActionFunction: () {},
+          retryActionFunction: retryActionFunction,
           message: getMessage(),
         );
+
       case SuccessState _:
-        showPopup(
+        _dismissDialog(context);
+        _showPopup(
           context,
           getStateRendererType(),
           getMessage(),
           title: Strings.success,
         );
-        Navigator.pop(context);
         return contentScreen;
       default:
-        dismissDialog(context);
+        _dismissDialog(context);
         return contentScreen;
     }
   }
 
-  bool _isCurrentDialogShowing(BuildContext context) =>
-      ModalRoute.of(context)?.isCurrent != true;
-
-  // The function checks if there is a dialog (or modal route) currently active and visible in the navigation stack.
-  // If there is a dialog, it returns true; otherwise, it returns false.
-
-  void dismissDialog(BuildContext context) {
-    // This function dismisses the dialog if it is currently showing.
-    if (_isCurrentDialogShowing(context)) {
-      Navigator.of(context, rootNavigator: true).pop(true);
+  // Handle loading/error in popup or fullscreen
+  Widget _handlePopupOrFull(
+    BuildContext context,
+    Widget contentScreen,
+    Function retryActionFunction,
+  ) {
+    if (getStateRendererType().isPopup) {
+      _dismissDialog(context);
+      _showPopup(context, getStateRendererType(), getMessage());
+      return contentScreen;
+    } else {
+      return StateRenderer(
+        stateRendererType: getStateRendererType(),
+        message: getMessage(),
+        retryActionFunction: retryActionFunction,
+      );
     }
   }
 
-  // rootNavigator: true is used to dismiss the dialog from the root of the widget tree, ensuring that it closes even if there are nested navigators.
-  showPopup(
+  void _dismissDialog(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (Navigator.of(context, rootNavigator: true).canPop()) {
+        Navigator.of(context, rootNavigator: true).pop();
+      }
+    });
+  }
+
+  void _showPopup(
     BuildContext context,
     StateRendererType stateRendererType,
     String message, {
     String title = Constants.empty,
   }) {
-    WidgetsBinding.instance.addPostFrameCallback(
-      // for executing code after the UI has been fully rendered
-      (_) => showDialog(
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showDialog(
         context: context,
-        builder: (BuildContext context) => StateRenderer(
+        barrierDismissible: false,
+        builder: (_) => StateRenderer(
           stateRendererType: stateRendererType,
           message: message,
           title: title,
           retryActionFunction: () {},
         ),
-      ),
-    );
+      );
+    });
   }
+}
+
+extension on StateRendererType {
+  bool get isPopup =>
+      this == StateRendererType.popUpLoadingState ||
+      this == StateRendererType.popUpErrorState ||
+      this == StateRendererType.popUpSuccessState;
 }

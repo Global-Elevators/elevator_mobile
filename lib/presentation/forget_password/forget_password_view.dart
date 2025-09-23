@@ -1,3 +1,4 @@
+import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -32,7 +33,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: BackToSignInButton(text: Strings.signInButton),
+        title: BackToSignInButton(text: Strings.signInButton, route: LoginView.loginRoute,),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s16),

@@ -1,6 +1,5 @@
 import 'package:elevator/presentation/forget_password/forget_password_view.dart';
 import 'package:elevator/presentation/login/widgets/login_texts.dart';
-import 'package:elevator/presentation/main/main_view.dart';
 import 'package:elevator/presentation/register/register_view.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -21,6 +20,8 @@ class LoginForm extends StatelessWidget {
   final Stream<bool>? passwordValidationStream;
   final void Function()? onTap;
   final Stream<bool>? isButtonEnabledStream;
+  // final void Function()? navigateToRegister;
+  // final void Function()? navigateToForgetPassword;
 
   const LoginForm({
     super.key,
@@ -30,6 +31,8 @@ class LoginForm extends StatelessWidget {
     required this.passwordValidationStream,
     this.onTap,
     this.isButtonEnabledStream,
+    // this.navigateToRegister,
+    // this.navigateToForgetPassword,
   });
 
   @override
@@ -76,9 +79,7 @@ class LoginForm extends StatelessWidget {
                   Strings.signUpButton,
                   ColorManager.primaryColor,
                   AppSize.s18.sp,
-                  () {
-                    context.push(RegisterView.registerRoute);
-                  },
+                  () => context.go(RegisterView.registerRoute),
                 ),
               ],
             ),
@@ -88,7 +89,7 @@ class LoginForm extends StatelessWidget {
                 Strings.forgetPassword,
                 ColorManager.primaryColor,
                 AppSize.s18,
-                () => context.push(ForgetPasswordView.forgetPasswordRoute),
+                () => context.go(ForgetPasswordView.forgetPasswordRoute),
               ),
             ),
           ],

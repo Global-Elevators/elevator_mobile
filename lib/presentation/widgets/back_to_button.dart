@@ -10,13 +10,14 @@ import 'package:go_router/go_router.dart';
 
 class BackToSignInButton extends StatelessWidget {
   final String text;
+  final String route;
 
-  const BackToSignInButton({super.key, required this.text});
+  const BackToSignInButton({super.key, required this.text, required this.route});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.pop(),
+      onTap: () => GoRouter.of(context).push(route),
       child: Container(
         width: AppSize.s160.w,
         decoration: BoxDecoration(

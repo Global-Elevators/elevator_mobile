@@ -17,10 +17,10 @@ class VerifyButton extends StatelessWidget {
     return ButtonWidget(
       radius: AppSize.s14.r,
       text: Strings.verifyButton,
-      onTap: () => title == "register"
+      onTap: () => title == "login"
           ? context.push(
               AccountVerifiedView.accountVerifiedRoute,
-              extra: "register",
+              extra: "login",
             )
           : context.push(NewPasswordView.newPasswordRoute),
     );

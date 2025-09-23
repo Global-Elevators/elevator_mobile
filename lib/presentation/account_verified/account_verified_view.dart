@@ -39,7 +39,7 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
               Gap(AppSize.s25.h),
               Text(
                 textAlign: TextAlign.center,
-                widget.title == "register"
+                widget.title == "login"
                     ? Strings.accountVerifiedTitle
                     : Strings.passwordChangedTitle,
                 style: getBoldTextStyle(
@@ -48,7 +48,7 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
                 ),
               ),
               Text(
-                widget.title == "register"
+                widget.title == "login"
                     ? Strings.accountVerifiedMessage
                     : Strings.passwordChangedMessage,
                 style: getMediumTextStyle(
@@ -59,11 +59,11 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
               Gap(AppSize.s40.h),
               ButtonWidget(
                 radius: AppSize.s14,
-                text: widget.title == "register"
+                text: widget.title == "login"
                     ? Strings.doneButton
                     : Strings.signInButton,
                 onTap: () => context.go(
-                  widget.title == "register"
+                  widget.title == "login"
                       ? MainView.mainRoute
                       : LoginView.loginRoute,
                 ),

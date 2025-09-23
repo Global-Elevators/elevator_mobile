@@ -11,7 +11,7 @@ class LoginLanguageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.only(end: AppSize.s16.w ),
+      padding: EdgeInsetsDirectional.only(end: AppSize.s16.w),
       child: InkWell(
         onTap: () {},
         child: Container(
@@ -20,7 +20,10 @@ class LoginLanguageButton extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s14.r),
             color: Colors.white,
-            border: Border.all(color: ColorManager.buttonsBorderColor, width: AppSize.s1.w),
+            border: Border.all(
+              color: ColorManager.buttonsBorderColor,
+              width: AppSize.s1.w,
+            ),
           ),
           child: Row(
             children: [

@@ -35,7 +35,8 @@ class _NewPasswordViewState extends State<NewPasswordView> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: const BackToSignInButton(text: Strings.backSignIn),
+        // title: const BackToSignInButton(text: Strings.backSignIn),
+        // title: const Text(Strings.backSignIn),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppSize.s16),

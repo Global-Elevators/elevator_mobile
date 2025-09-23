@@ -118,14 +118,24 @@ class StateRenderer extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ColorManager.primaryColor,
+            ),
             onPressed: () {
               if (stateRendererType == StateRendererType.fullScreenErrorState) {
                 retryActionFunction.call();
-              } else {
+              }
+              else {
                 Navigator.of(context).pop();
               }
             },
-            child: Text(buttonTitle),
+            child: Text(
+              buttonTitle,
+              style: getRegularTextStyle(
+                color: ColorManager.whiteColor,
+                fontSize: FontSizeManager.s18,
+              ),
+            ),
           ),
         ),
       ),

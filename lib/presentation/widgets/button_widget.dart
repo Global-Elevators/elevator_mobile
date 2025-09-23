@@ -29,7 +29,6 @@ class ButtonWidget extends StatelessWidget {
       stream: isButtonEnabledStream,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         final bool isEnabled = (snapshot.data ?? false) && onTap != null;
-
         return InkWell(
           onTap: isEnabled ? onTap : null,
           borderRadius: BorderRadius.circular(radius.r),

@@ -1,3 +1,4 @@
+import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/widgets/items_drop_down.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/widgets/back_to_button.dart';
@@ -103,7 +104,8 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  Widget _buildBackButton() => BackToSignInButton(text: Strings.backSignIn);
+  Widget _buildBackButton() =>
+      BackToSignInButton(text: Strings.backSignIn, route: LoginView.loginRoute);
 
   Widget _buildHeader() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,9 +236,8 @@ class _RegisterViewState extends State<RegisterView> {
   Widget _buildSignUpButton() => ButtonWidget(
     radius: AppSize.s14,
     text: Strings.signUpButton,
-    onTap: () => context.go(
-      VerifyView.verifyRoute,
-      extra: [_phoneController.text, "register"],
+    onTap: () => context.push(
+      LoginView.loginRoute,
     ),
   );
 }

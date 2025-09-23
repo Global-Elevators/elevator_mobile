@@ -2,15 +2,19 @@ import 'dart:async';
 import 'package:elevator/domain/usecase/login_usecase.dart';
 import 'package:elevator/presentation/base/baseviewmodel.dart';
 import 'package:elevator/presentation/common/freezed_data_classes.dart';
+import 'package:elevator/presentation/common/state_renderer/state_renderer.dart';
+import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:flutter/material.dart';
 
-class LoginViewModel extends BaseViewModel implements LoginViewmodelInputs, LoginViewmodelOutputs {
+class LoginViewModel extends BaseViewModel
+    implements LoginViewmodelInputs, LoginViewmodelOutputs {
   final StreamController<String> _userPhoneController =
           StreamController<String>.broadcast(),
       _userPasswordController = StreamController<String>.broadcast();
   final StreamController<void> _areAllInputsValidController =
       StreamController<void>.broadcast();
-
-  // final StreamController<bool> isUserLoggedInSuccessfullyStreamController = StreamController<bool>();
+  final StreamController<bool> isUserLoggedInSuccessfullyController =
+      StreamController<bool>.broadcast();
 
   var loginObject = LoginObject("", "");
   final LoginUseCase _loginUseCase;
@@ -19,15 +23,15 @@ class LoginViewModel extends BaseViewModel implements LoginViewmodelInputs, Logi
 
   @override
   void dispose() {
-    // super.dispose();
+    super.dispose();
     _userPhoneController.close();
     _userPasswordController.close();
     _areAllInputsValidController.close();
-    // isUserLoggedInSuccessfullyStreamController.close();
+    isUserLoggedInSuccessfullyController.close();
   }
 
   @override
-  void start() {}
+  void start() => inputState.add(ContentState());
 
   @override
   setUserPhone(String phone) {
@@ -51,7 +55,7 @@ class LoginViewModel extends BaseViewModel implements LoginViewmodelInputs, Logi
 
   @override
   Stream<bool> get outIsPhoneValid =>
-      _userPhoneController.stream.map((password) => _isPhoneValid(password));
+      _userPhoneController.stream.map((phone) => _isPhoneValid(phone));
 
   @override
   Stream<bool> get outIsPasswordValid => _userPasswordController.stream.map(
@@ -59,23 +63,41 @@ class LoginViewModel extends BaseViewModel implements LoginViewmodelInputs, Logi
   );
 
   bool _isPhoneValid(String phone) {
-    // final iraqPhoneRegex = RegExp(r'^(?:\+964|0)(7[3-9]\d{8})$');
-    // return iraqPhoneRegex.hasMatch(phone);
     return phone.isNotEmpty;
   }
 
   bool _isPasswordValid(String password) => password.isNotEmpty;
 
   @override
-  login() async {
-    (await _loginUseCase.execute(
-      LoginUseCaseInput(loginObject.phone, loginObject.password),
-    )).fold((failure) {
-      print(failure.message);
-      print(failure.code);
-    }, (data) {
-      print(data.customer!.phone);
-    });
+  Future<void> login() async {
+    try {
+      inputState.add(
+        LoadingState(stateRendererType: StateRendererType.popUpLoadingState),
+      );
+
+      final result = await _loginUseCase.execute(
+        LoginUseCaseInput(loginObject.phone, loginObject.password),
+      );
+      result.fold(
+        (failure) {
+          inputState.add(
+            ErrorState(StateRendererType.popUpErrorState, failure.message),
+          );
+        },
+        (data) {
+          inputState.add(SuccessState("Welcome back"));
+          isUserLoggedInSuccessfullyController.add(true);
+        },
+      );
+    } catch (e, stack) {
+      inputState.add(
+        ErrorState(
+          StateRendererType.popUpErrorState,
+          "Unexpected error occurred. Please try again.",
+        ),
+      );
+      debugPrint("🔥 Exception in login(): $e\n$stack");
+    }
   }
 
   @override
@@ -105,7 +127,6 @@ abstract class LoginViewmodelInputs {
 }
 
 abstract class LoginViewmodelOutputs {
-  // We return bool to indicate if the user write his email and password then the button will be valid to click
   Stream<bool> get outIsPhoneValid;
 
   Stream<bool> get outIsPasswordValid;
