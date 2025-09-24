@@ -7,7 +7,9 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class VerifyInputField extends StatelessWidget {
-  const VerifyInputField({super.key});
+  final void Function(String)? onSubmit;
+
+  const VerifyInputField(this.onSubmit, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +31,7 @@ class VerifyInputField extends StatelessWidget {
       cursorColor: ColorManager.greyColor,
       autoFocus: true,
       borderWidth: AppSize.s1.w,
-      onSubmit: (value){
-        print(value); // Make Action after insert last number
-      },
+      onSubmit: onSubmit,
     );
   }
 }

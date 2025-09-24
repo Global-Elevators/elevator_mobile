@@ -11,7 +11,7 @@ import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/build_name_section.dart';
-import 'package:elevator/presentation/widgets/button_widget.dart';
+import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:elevator/presentation/widgets/password_field.dart';
 import 'package:elevator/presentation/widgets/phone_field.dart';
 import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
@@ -233,7 +233,7 @@ class _RegisterViewState extends State<RegisterView> {
     ],
   );
 
-  Widget _buildSignUpButton() => ButtonWidget(
+  Widget _buildSignUpButton() => InputButtonWidget(
     radius: AppSize.s14,
     text: Strings.signUpButton,
     onTap: () => context.push(

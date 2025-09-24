@@ -4,7 +4,7 @@ import 'package:elevator/presentation/register/register_view.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
-import 'package:elevator/presentation/widgets/button_widget.dart';
+import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:elevator/presentation/widgets/password_field.dart';
 import 'package:elevator/presentation/widgets/phone_field.dart';
 import 'package:elevator/presentation/widgets/text_button_widget.dart';
@@ -64,7 +64,7 @@ class LoginForm extends StatelessWidget {
               passwordValidationStream: passwordValidationStream,
             ),
             Gap(AppSize.s28.h),
-            ButtonWidget(
+            InputButtonWidget(
               radius: AppSize.s14,
               text: Strings.signInButton,
               onTap: onTap,

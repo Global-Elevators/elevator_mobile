@@ -27,6 +27,20 @@ class CustomerDataResponse {
 }
 
 @JsonSerializable()
+class VerifyDataResponse {
+  @JsonKey(name: "access_token")
+  String? accessToken;
+  @JsonKey(name: "token_type")
+  String? tokenType;
+
+  VerifyDataResponse(this.accessToken, this.tokenType);
+
+  factory VerifyDataResponse.fromJson(Map<String, dynamic> json) => _$VerifyDataResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VerifyDataResponseToJson(this);
+}
+
+@JsonSerializable()
 class AuthenticationResponse extends BaseResponse {
   @JsonKey(name: "data")
   CustomerDataResponse? customerDataResponse;
@@ -37,4 +51,16 @@ class AuthenticationResponse extends BaseResponse {
       _$AuthenticationResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$AuthenticationResponseToJson(this);
+}
+
+@JsonSerializable()
+class VerifyResponse extends BaseResponse {
+  @JsonKey(name: "data")
+  VerifyDataResponse? verifyDataResponse;
+
+  VerifyResponse(this.verifyDataResponse);
+
+  factory VerifyResponse.fromJson(Map<String, dynamic> json) => _$VerifyResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VerifyResponseToJson(this);
 }

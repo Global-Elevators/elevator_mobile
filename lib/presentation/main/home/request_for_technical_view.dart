@@ -16,7 +16,7 @@ import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/back_button.dart';
 import 'package:elevator/presentation/widgets/build_name_section.dart';
-import 'package:elevator/presentation/widgets/button_widget.dart';
+import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:elevator/presentation/widgets/label_field.dart';
 import 'package:elevator/presentation/widgets/phone_field.dart';
 import 'package:flutter/material.dart';
@@ -286,7 +286,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
                   isCenterText: true,
                 ),
                 Gap(AppSize.s25.h),
-                ButtonWidget(
+                InputButtonWidget(
                   radius: AppSize.s14.r,
                   text: Strings.submit,
                   onTap: () {},

@@ -11,7 +11,13 @@ abstract class AppServicesClient {
 
   @POST("/auth/login")
   Future<AuthenticationResponse> login(
+      @Field("phone") String phone,
+      @Field("password") String password,
+      );
+
+  @POST("/auth/verify-otp")
+  Future<VerifyResponse> verifyOtp(
     @Field("phone") String phone,
-    @Field("password") String password,
+    @Field("code") String code,
   );
 }

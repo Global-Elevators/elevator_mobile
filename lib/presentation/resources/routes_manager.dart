@@ -43,11 +43,13 @@ class GoRouterConfig {
       ),
       GoRoute(
         path: VerifyView.verifyRoute,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(
-              state: state,
-              child: VerifyView(codes: state.extra as List<String>),
-            ),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          initVerifyModule();
+          return getCustomTransitionPage(
+            state: state,
+            child: VerifyView(codes: state.extra as List<String>),
+          );
+        },
         routes: <RouteBase>[],
       ),
       GoRoute(

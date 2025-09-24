@@ -162,3 +162,150 @@ abstract class _LoginObject implements LoginObject {
   _$$LoginObjectImplCopyWith<_$LoginObjectImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$VerifyObject {
+  String get phone => throw _privateConstructorUsedError;
+  String get code => throw _privateConstructorUsedError;
+
+  /// Create a copy of VerifyObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $VerifyObjectCopyWith<VerifyObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $VerifyObjectCopyWith<$Res> {
+  factory $VerifyObjectCopyWith(
+    VerifyObject value,
+    $Res Function(VerifyObject) then,
+  ) = _$VerifyObjectCopyWithImpl<$Res, VerifyObject>;
+  @useResult
+  $Res call({String phone, String code});
+}
+
+/// @nodoc
+class _$VerifyObjectCopyWithImpl<$Res, $Val extends VerifyObject>
+    implements $VerifyObjectCopyWith<$Res> {
+  _$VerifyObjectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of VerifyObject
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? phone = null, Object? code = null}) {
+    return _then(
+      _value.copyWith(
+            phone: null == phone
+                ? _value.phone
+                : phone // ignore: cast_nullable_to_non_nullable
+                      as String,
+            code: null == code
+                ? _value.code
+                : code // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$VerifyObjectImplCopyWith<$Res>
+    implements $VerifyObjectCopyWith<$Res> {
+  factory _$$VerifyObjectImplCopyWith(
+    _$VerifyObjectImpl value,
+    $Res Function(_$VerifyObjectImpl) then,
+  ) = __$$VerifyObjectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String phone, String code});
+}
+
+/// @nodoc
+class __$$VerifyObjectImplCopyWithImpl<$Res>
+    extends _$VerifyObjectCopyWithImpl<$Res, _$VerifyObjectImpl>
+    implements _$$VerifyObjectImplCopyWith<$Res> {
+  __$$VerifyObjectImplCopyWithImpl(
+    _$VerifyObjectImpl _value,
+    $Res Function(_$VerifyObjectImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of VerifyObject
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? phone = null, Object? code = null}) {
+    return _then(
+      _$VerifyObjectImpl(
+        null == phone
+            ? _value.phone
+            : phone // ignore: cast_nullable_to_non_nullable
+                  as String,
+        null == code
+            ? _value.code
+            : code // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$VerifyObjectImpl implements _VerifyObject {
+  _$VerifyObjectImpl(this.phone, this.code);
+
+  @override
+  final String phone;
+  @override
+  final String code;
+
+  @override
+  String toString() {
+    return 'VerifyObject(phone: $phone, code: $code)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$VerifyObjectImpl &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.code, code) || other.code == code));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, phone, code);
+
+  /// Create a copy of VerifyObject
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$VerifyObjectImplCopyWith<_$VerifyObjectImpl> get copyWith =>
+      __$$VerifyObjectImplCopyWithImpl<_$VerifyObjectImpl>(this, _$identity);
+}
+
+abstract class _VerifyObject implements VerifyObject {
+  factory _VerifyObject(final String phone, final String code) =
+      _$VerifyObjectImpl;
+
+  @override
+  String get phone;
+  @override
+  String get code;
+
+  /// Create a copy of VerifyObject
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$VerifyObjectImplCopyWith<_$VerifyObjectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

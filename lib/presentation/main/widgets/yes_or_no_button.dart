@@ -1,7 +1,7 @@
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
-import 'package:elevator/presentation/widgets/button_widget.dart';
+import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -34,7 +34,7 @@ class YesOrNoButton extends StatelessWidget {
 
   Expanded noButton() {
     return Expanded(
-          child: ButtonWidget(
+          child: InputButtonWidget(
             radius: AppSize.s14.r,
             text: Strings.no,
             onTap: onNoTap,
@@ -50,7 +50,7 @@ class YesOrNoButton extends StatelessWidget {
 
   Expanded yesButton() {
     return Expanded(
-          child: ButtonWidget(
+          child: InputButtonWidget(
             radius: AppSize.s14.r,
             text: Strings.yes,
             onTap: onYesTap,

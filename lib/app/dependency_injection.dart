@@ -7,7 +7,9 @@ import 'package:elevator/data/network/network_info.dart';
 import 'package:elevator/data/repository/repository.dart';
 import 'package:elevator/domain/repository/repository.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
+import 'package:elevator/domain/usecase/verify_usecase.dart';
 import 'package:elevator/presentation/login/login_viewmodel.dart';
+import 'package:elevator/presentation/verify/verify_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,17 +50,25 @@ Future<void> initAppModule() async {
 
 // This function has all the dependencies that are used in the login module.
 initLoginModule() {
-  if (!GetIt.I
-      .isRegistered<
-        LoginUseCase
-      >())
-  {
+  if (!GetIt.I.isRegistered<LoginUseCase>()) {
     instance.registerFactory<LoginUseCase>(
       () => LoginUseCase(instance<Repository>()),
     );
 
     instance.registerFactory<LoginViewModel>(
       () => LoginViewModel(instance<LoginUseCase>()),
+    );
+  }
+}
+
+initVerifyModule() {
+  if (!GetIt.I.isRegistered<VerifyUseCase>()) {
+    instance.registerFactory<VerifyUseCase>(
+      () => VerifyUseCase(instance<Repository>()),
+    );
+
+    instance.registerFactory<VerifyViewModel>(
+      () => VerifyViewModel(instance<VerifyUseCase>()),
     );
   }
 }

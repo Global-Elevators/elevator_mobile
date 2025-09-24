@@ -6,7 +6,7 @@ import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/verify/verify_view.dart';
 import 'package:elevator/presentation/widgets/back_to_button.dart';
-import 'package:elevator/presentation/widgets/button_widget.dart';
+import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -62,7 +62,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
               phoneValidationStream: null,
             ),
             Gap(AppSize.s25.h),
-            ButtonWidget(
+            InputButtonWidget(
               radius: AppSize.s14,
               text: Strings.getCodeButton,
               onTap: () => context.go(

@@ -15,7 +15,7 @@ import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
-import 'package:elevator/presentation/widgets/button_widget.dart';
+import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:elevator/presentation/widgets/items_drop_down.dart';
 import 'package:elevator/presentation/widgets/label_field.dart';
 import 'package:elevator/presentation/widgets/table_calendar_widget.dart';
@@ -212,7 +212,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           isCenterText: true,
         ),
         Gap(AppSize.s25.h),
-        ButtonWidget(radius: AppSize.s14.r, text: Strings.submit, onTap: () {}),
+        InputButtonWidget(radius: AppSize.s14.r, text: Strings.submit, onTap: () {}),
         Gap(AppSize.s14.h),
       ],
     );

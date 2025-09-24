@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:elevator/data/network/failure.dart';
-import 'package:elevator/data/network/requests.dart';
+import 'package:elevator/data/network/requests/login_request.dart';
 import 'package:elevator/domain/models/login_model.dart';
 import 'package:elevator/domain/repository/repository.dart';
 import 'package:elevator/domain/usecase/base_usecase.dart';
@@ -11,7 +11,7 @@ class LoginUseCase implements BaseUseCase<LoginUseCaseInput, Authentication> {
 
   @override
   Future<Either<Failure, Authentication>> execute(LoginUseCaseInput input) async{
-    return await _repository.login(LoginRequests(input.phone, input.password));
+    return await _repository.login(LoginRequest(input.phone, input.password));
   }
 }
 

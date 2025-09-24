@@ -25,42 +25,32 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      stream: isButtonEnabledStream,
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        final bool isEnabled = (snapshot.data ?? false) && onTap != null;
-        return InkWell(
-          onTap: isEnabled ? onTap : null,
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(radius.r),
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      child: Container(
+        height: AppSize.s55.h,
+        width: width.w,
+        decoration: BoxDecoration(
+          color: color,
           borderRadius: BorderRadius.circular(radius.r),
-          splashColor: isEnabled ? null : Colors.transparent,
-          highlightColor: isEnabled ? null : Colors.transparent,
-          child: Container(
-            height: AppSize.s55.h,
-            width: width.w,
-            decoration: BoxDecoration(
-              color: isEnabled ? color : ColorManager.greyColor,
-              borderRadius: BorderRadius.circular(radius.r),
-              border: Border.all(
-                color: ColorManager.formFieldsBorderColor,
-                width: AppSize.s1.w,
-              ),
-            ),
-            child: Center(
-              child: Text(
-                text,
-                style: getMediumTextStyle(
-                  color: isEnabled
-                      ? textColor
-                      : ColorManager.whiteColor.withValues(
-                          alpha: 0.7,
-                        ),
-                  fontSize: AppSize.s18.sp,
-                ),
-              ),
+          border: Border.all(
+            color: ColorManager.formFieldsBorderColor,
+            width: AppSize.s1.w,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: getMediumTextStyle(
+              color: textColor,
+              fontSize: AppSize.s18.sp,
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
