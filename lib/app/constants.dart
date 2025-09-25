@@ -1,5 +1,5 @@
 class Constants {
-  static const String baseUrl = "https://elevatormaintenance-app-pgdai7-e43646-92-242-187-173.traefik.me/api/v1";
+  static const String baseUrl = "https://ge-elevators.com/api/v1";
   static const String empty = "";
   static const int zero = 0;
   static const double decimalZero = 0.0;

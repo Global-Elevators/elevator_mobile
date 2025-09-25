@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:elevator/app/functions.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
 import 'package:elevator/presentation/base/baseviewmodel.dart';
 import 'package:elevator/presentation/common/freezed_data_classes.dart';
@@ -6,8 +7,7 @@ import 'package:elevator/presentation/common/state_renderer/state_renderer.dart'
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:flutter/material.dart';
 
-class LoginViewModel extends BaseViewModel
-    implements LoginViewmodelInputs, LoginViewmodelOutputs {
+class LoginViewModel extends BaseViewModel implements LoginViewmodelInputs, LoginViewmodelOutputs {
   final StreamController<String> _userPhoneController =
           StreamController<String>.broadcast(),
       _userPasswordController = StreamController<String>.broadcast();
@@ -55,18 +55,13 @@ class LoginViewModel extends BaseViewModel
 
   @override
   Stream<bool> get outIsPhoneValid =>
-      _userPhoneController.stream.map((phone) => _isPhoneValid(phone));
+      _userPhoneController.stream.map((phone) => isPhoneValid(phone));
 
   @override
   Stream<bool> get outIsPasswordValid => _userPasswordController.stream.map(
-    (password) => _isPasswordValid(password),
+    (password) => isPasswordValid(password),
   );
 
-  bool _isPhoneValid(String phone) {
-    return phone.isNotEmpty;
-  }
-
-  bool _isPasswordValid(String password) => password.isNotEmpty;
 
   @override
   Future<void> login() async {
@@ -108,8 +103,7 @@ class LoginViewModel extends BaseViewModel
       _areAllInputsValidController.stream.map((_) => _areAllInputsValid());
 
   bool _areAllInputsValid() =>
-      _isPhoneValid(loginObject.phone) &&
-      _isPasswordValid(loginObject.password);
+      isPhoneValid(loginObject.phone) && isPasswordValid(loginObject.password);
 }
 
 abstract class LoginViewmodelInputs {

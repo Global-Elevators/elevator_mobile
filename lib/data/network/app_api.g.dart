@@ -10,8 +10,7 @@ part of 'app_api.dart';
 
 class _AppServicesClient implements AppServicesClient {
   _AppServicesClient(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??=
-        'https://elevatormaintenance-app-pgdai7-e43646-92-242-187-173.traefik.me/api/v1';
+    baseUrl ??= 'https://ge-elevators.com/api/v1';
   }
 
   final Dio _dio;
@@ -72,6 +71,90 @@ class _AppServicesClient implements AppServicesClient {
       rethrow;
     }
     return _value;
+  }
+
+  @override
+  Future<AuthenticationResponse> forgotPassword(String phone) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'phone': phone};
+    final _options = _setStreamType<AuthenticationResponse>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/auth/forgot-password',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AuthenticationResponse _value;
+    try {
+      _value = AuthenticationResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<VerifyForgotPasswordResponse> verifyForgotPassword(
+    String phone,
+    String code,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'phone': phone, 'code': code};
+    final _options = _setStreamType<VerifyForgotPasswordResponse>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/auth/verify-forgot-password',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late VerifyForgotPasswordResponse _value;
+    try {
+      _value = VerifyForgotPasswordResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<void> resetPassword(
+    String token,
+    String password,
+    String passwordConfirmation,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {
+      'token': token,
+      'password': password,
+      'password_confirmation': passwordConfirmation,
+    };
+    final _options = _setStreamType<void>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/auth/reset-password',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

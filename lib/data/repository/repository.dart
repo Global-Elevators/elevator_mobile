@@ -1,13 +1,16 @@
 import 'package:elevator/data/data_source/remote_data_source.dart';
 import 'package:elevator/data/mappers/authentication_mapper.dart';
+import 'package:elevator/data/mappers/verify_forgot_password_mapper.dart';
 import 'package:elevator/data/mappers/verify_mapper.dart';
 import 'package:elevator/data/network/exception_handler.dart';
 import 'package:elevator/data/network/failure.dart';
 import 'package:elevator/data/network/network_info.dart';
 import 'package:elevator/data/network/requests/login_request.dart';
+import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
 import 'package:elevator/domain/models/login_model.dart';
+import 'package:elevator/domain/models/verify_forgot_password_model.dart';
 import 'package:elevator/domain/models/verify_model.dart';
 import 'package:elevator/domain/repository/repository.dart';
 import 'package:dartz/dartz.dart';
@@ -88,4 +91,91 @@ class RepositoryImpl extends Repository {
         ? Right(response.toDomain())
         : Left(_mapFailureFromResponse(response));
   }
+
+  @override
+  Future<Either<Failure, Authentication>> forgotPassword(String phone) async {
+    if (await hasNetworkConnection()) {
+      return _performForgotPassword(phone);
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  Future<Either<Failure, Authentication>> _performForgotPassword(
+    String phone,
+  ) async {
+    try {
+      final response = await _remoteDataSource.forgotPassword(phone);
+      return _mapForgotPasswordResponseToResult(response);
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
+
+  Either<Failure, Authentication> _mapForgotPasswordResponseToResult(
+    AuthenticationResponse response,
+  ) {
+    return _isSuccessfulResponse(response)
+        ? Right(response.toDomain())
+        : Left(_mapFailureFromResponse(response));
+  }
+
+  @override
+  Future<Either<Failure, VerifyForgotPasswordModel>> verifyForgotPassword(
+    VerifyRequest verifyForgotPasswordRequest,
+  ) async {
+    if (await hasNetworkConnection()) {
+      return _performVerifyForgotPassword(verifyForgotPasswordRequest);
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  Future<Either<Failure, VerifyForgotPasswordModel>>
+  _performVerifyForgotPassword(
+    VerifyRequest verifyForgotPasswordRequest,
+  ) async {
+    try {
+      final response = await _remoteDataSource.verifyForgotPassword(
+        verifyForgotPasswordRequest,
+      );
+      return _mapVerifyForgotPasswordResponseToResult(response);
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
+
+  Either<Failure, VerifyForgotPasswordModel>
+  _mapVerifyForgotPasswordResponseToResult(
+    VerifyForgotPasswordResponse response,
+  ) {
+    return _isSuccessfulResponse(response)
+        ? Right(response.toDomain())
+        : Left(_mapFailureFromResponse(response));
+  }
+
+  @override
+  Future<Either<Failure, void>> resetPassword(ResetPasswordRequest resetPasswordRequest) async{
+    if (await hasNetworkConnection()) {
+      return _performResetPassword(resetPasswordRequest);
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+  Future<Either<Failure, void>> _performResetPassword(ResetPasswordRequest resetPasswordRequest) async {
+    try {
+      await _remoteDataSource.resetPassword(resetPasswordRequest);
+      return Right(null);
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
+
+  // Either<Failure, void> _mapResetPasswordResponseToResult(
+  //   BaseResponse response,
+  // ) {
+  //   return _isSuccessfulResponse(response)
+  //       ? Right(null)
+  //       : Left(_mapFailureFromResponse(response));
+  // }
 }

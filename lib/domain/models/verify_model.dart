@@ -1,4 +1,6 @@
-class VerifyDataModel {
+import 'package:elevator/domain/models/base__model.dart';
+
+class VerifyDataModel extends BaseModel{
   final String accessToken;
   final String tokenType;
 

@@ -45,6 +45,7 @@ class GoRouterConfig {
         path: VerifyView.verifyRoute,
         pageBuilder: (BuildContext context, GoRouterState state) {
           initVerifyModule();
+          initVerifyForgotPasswordModule();
           return getCustomTransitionPage(
             state: state,
             child: VerifyView(codes: state.extra as List<String>),
@@ -69,14 +70,24 @@ class GoRouterConfig {
       ),
       GoRoute(
         path: ForgetPasswordView.forgetPasswordRoute,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: ForgetPasswordView()),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          initForgotPasswordModule();
+          return getCustomTransitionPage(
+            state: state,
+            child: ForgetPasswordView(),
+          );
+        },
         routes: <RouteBase>[],
       ),
       GoRoute(
         path: NewPasswordView.newPasswordRoute,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: NewPasswordView()),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          initResetPasswordModule();
+          return getCustomTransitionPage(
+            state: state,
+            child: NewPasswordView(state.extra as String),
+          );
+        },
         routes: <RouteBase>[],
       ),
       GoRoute(

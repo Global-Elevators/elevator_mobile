@@ -1,4 +1,6 @@
-class Customer {
+import 'package:elevator/domain/models/base__model.dart';
+
+class Customer extends BaseModel {
   String phone;
   bool otpSent;
   String code;

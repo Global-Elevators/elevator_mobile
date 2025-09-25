@@ -1,11 +1,16 @@
 import 'package:elevator/data/network/app_api.dart';
 import 'package:elevator/data/network/requests/login_request.dart';
+import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
 
 abstract class RemoteDataSource {
   Future<AuthenticationResponse> login(LoginRequest loginRequests);
   Future<VerifyResponse> verify(VerifyRequest verifyRequests);
+  Future<AuthenticationResponse> forgotPassword(String phone);
+  Future<VerifyForgotPasswordResponse> verifyForgotPassword(VerifyRequest verifyForgotPasswordRequest);
+  Future<void> resetPassword(ResetPasswordRequest resetPasswordRequest);
+
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -26,6 +31,28 @@ class RemoteDataSourceImp extends RemoteDataSource {
     return await _appServicesClient.verifyOtp(
       verifyRequests.phone,
       verifyRequests.code,
+    );
+  }
+
+  @override
+  Future<AuthenticationResponse> forgotPassword(String phone) {
+    return _appServicesClient.forgotPassword(phone);
+  }
+
+  @override
+  Future<VerifyForgotPasswordResponse> verifyForgotPassword(VerifyRequest verifyForgotPasswordRequest) {
+    return _appServicesClient.verifyForgotPassword(
+      verifyForgotPasswordRequest.phone,
+      verifyForgotPasswordRequest.code,
+    );
+  }
+
+  @override
+  Future<void> resetPassword(ResetPasswordRequest resetPasswordRequest) {
+    return _appServicesClient.resetPassword(
+      resetPasswordRequest.token,
+      resetPasswordRequest.password,
+      resetPasswordRequest.passwordConfirmation,
     );
   }
 }

@@ -42,15 +42,22 @@ class _VerifyViewState extends State<VerifyView> {
   }
 
   void isVerifyCorrect() {
-    _viewModel.isUserLoggedInSuccessfullyController.stream.listen((
+    _viewModel.isUserEnterVerifyCodeSuccessfullyController.stream.listen((
       isVerifyCorrect,
     ) {
       if (isVerifyCorrect) {
         SchedulerBinding.instance.addPostFrameCallback((_) {
-          context.go(
-            AccountVerifiedView.accountVerifiedRoute,
-            extra: widget.codes[1],
-          );
+          if (widget.codes[1] == "login") {
+            context.go(
+              AccountVerifiedView.accountVerifiedRoute,
+              extra: widget.codes[1],
+            );
+          }else{
+            context.go(
+              NewPasswordView.newPasswordRoute,
+              extra: _viewModel.token,
+            );
+          }
         });
       }
     });
@@ -115,7 +122,7 @@ class _VerifyViewState extends State<VerifyView> {
               if (widget.codes[1] == "login") {
                 _viewModel.verify();
               } else {
-                context.push(NewPasswordView.newPasswordRoute);
+                _viewModel.verifyForgotPassword();
               }
             }),
             Gap(AppSize.s25.h),
@@ -124,9 +131,7 @@ class _VerifyViewState extends State<VerifyView> {
               builder: (context, seconds, _) {
                 return ResendCode(
                   seconds: seconds,
-                  onTap: () => seconds > 0 ?
-                  null
-                  : debugPrint("Moamen"),
+                  onTap: () => seconds > 0 ? null : debugPrint("Moamen"),
                 );
               },
             ),

@@ -1,18 +1,13 @@
-import 'package:elevator/presentation/login/login_view.dart';
-import 'package:elevator/presentation/resources/assets_manager.dart';
-import 'package:elevator/presentation/resources/color_manager.dart';
-import 'package:elevator/presentation/resources/strings_manager.dart';
-import 'package:elevator/presentation/resources/styles_manager.dart';
-import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:elevator/presentation/forget_password/forget_password_viewmodel.dart';
+import 'package:elevator/presentation/forget_password/widgets/forget_password_appbar.dart';
+import 'package:elevator/presentation/forget_password/widgets/forget_password_body.dart';
 import 'package:elevator/presentation/verify/verify_view.dart';
-import 'package:elevator/presentation/widgets/back_to_button.dart';
-import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 
-import '../widgets/phone_field.dart';
 
 class ForgetPasswordView extends StatefulWidget {
   static const String forgetPasswordRoute = '/forget-password';
@@ -26,53 +21,63 @@ class ForgetPasswordView extends StatefulWidget {
 class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   final TextEditingController _phoneController = TextEditingController();
 
+  final _forgetPasswordViewmodel = instance<ForgetPasswordViewmodel>();
+
+  @override
+  void initState() {
+    super.initState();
+    _forgetPasswordViewmodel.start();
+    _phoneController.addListener(() {
+      _forgetPasswordViewmodel.setUserPhone(_phoneController.text);
+    });
+    isUserEnterCorrectNumber();
+  }
+
+  void isUserEnterCorrectNumber() {
+    _forgetPasswordViewmodel.didTheUserEnterTheCorrectPhoneNumber.stream.listen((didUserEnterTheCorrectPhoneNumber) {
+      if (didUserEnterTheCorrectPhoneNumber) {
+        SchedulerBinding.instance.addPostFrameCallback((_){
+          context.go(
+            VerifyView.verifyRoute,
+            extra: [_phoneController.text, "forget-password"],
+          );
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _phoneController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        title: BackToSignInButton(text: Strings.signInButton, route: LoginView.loginRoute,),
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppSize.s16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Image.asset(ImageAssets.password),
-            Gap(AppSize.s25.h),
-            Text(
-              Strings.forgetPasswordTitle,
-              style: getBoldTextStyle(
-                color: ColorManager.primaryColor,
-                fontSize: AppSize.s24,
+      appBar: ForgetPasswordAppBar(),
+      body: StreamBuilder<FlowState>(
+        stream: _forgetPasswordViewmodel.outputStateStream,
+        builder: (BuildContext context, snapshot) =>
+            snapshot.data?.getStateWidget(
+              context,
+              ForgetPasswordBody(
+                phoneController: _phoneController,
+                onGetCode: () {
+                  _forgetPasswordViewmodel.sendVerificationCode();
+                },
+                isButtonEnabledStream: _forgetPasswordViewmodel.outIsPhoneValid,
               ),
+              () {},
+            ) ??
+            ForgetPasswordBody(
+              phoneController: _phoneController,
+              onGetCode: () {
+                _forgetPasswordViewmodel.sendVerificationCode();
+              },
+              isButtonEnabledStream: _forgetPasswordViewmodel.outIsPhoneValid,
             ),
-            Text(
-              Strings.forgetPasswordMessage,
-              style: getMediumTextStyle(
-                color: ColorManager.greyColor,
-                fontSize: AppSize.s16,
-              ),
-            ),
-            Gap(AppSize.s40.h),
-            PhoneField(
-              controller: _phoneController,
-              phoneValidationStream: null,
-            ),
-            Gap(AppSize.s25.h),
-            InputButtonWidget(
-              radius: AppSize.s14,
-              text: Strings.getCodeButton,
-              onTap: () => context.go(
-                VerifyView.verifyRoute,
-                extra: [_phoneController.text, "forget-password"],
-              ),
-            ),
-            Gap(AppSize.s22.h),
-          ],
-        ),
       ),
     );
   }

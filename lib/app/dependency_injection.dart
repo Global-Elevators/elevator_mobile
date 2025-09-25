@@ -6,9 +6,14 @@ import 'package:elevator/data/network/dio_factory.dart';
 import 'package:elevator/data/network/network_info.dart';
 import 'package:elevator/data/repository/repository.dart';
 import 'package:elevator/domain/repository/repository.dart';
+import 'package:elevator/domain/usecase/forget_password_usecase.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
+import 'package:elevator/domain/usecase/reset_password_usecase.dart';
+import 'package:elevator/domain/usecase/verify_forgot_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_usecase.dart';
+import 'package:elevator/presentation/forget_password/forget_password_viewmodel.dart';
 import 'package:elevator/presentation/login/login_viewmodel.dart';
+import 'package:elevator/presentation/new_password/new_password_viewmodel.dart';
 import 'package:elevator/presentation/verify/verify_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -68,7 +73,42 @@ initVerifyModule() {
     );
 
     instance.registerFactory<VerifyViewModel>(
-      () => VerifyViewModel(instance<VerifyUseCase>()),
+      () => VerifyViewModel(
+        instance<VerifyUseCase>(),
+        instance<VerifyForgotPasswordUseCase>(),
+      ),
+    );
+  }
+}
+
+initForgotPasswordModule() {
+  if (!GetIt.I.isRegistered<ForgotPasswordUseCase>()) {
+    instance.registerFactory<ForgotPasswordUseCase>(
+      () => ForgotPasswordUseCase(instance<Repository>()),
+    );
+
+    instance.registerFactory<ForgetPasswordViewmodel>(
+      () => ForgetPasswordViewmodel(instance<ForgotPasswordUseCase>()),
+    );
+  }
+}
+
+initVerifyForgotPasswordModule() {
+  if (!GetIt.I.isRegistered<VerifyForgotPasswordUseCase>()) {
+    instance.registerFactory<VerifyForgotPasswordUseCase>(
+      () => VerifyForgotPasswordUseCase(instance<Repository>()),
+    );
+  }
+}
+
+initResetPasswordModule() {
+  if (!GetIt.I.isRegistered<ResetPasswordUsecase>()) {
+    instance.registerFactory<ResetPasswordUsecase>(
+          () => ResetPasswordUsecase(instance<Repository>()),
+    );
+
+    instance.registerFactory<NewPasswordViewModel>(
+      () => NewPasswordViewModel(instance<ResetPasswordUsecase>()),
     );
   }
 }

@@ -1,8 +1,7 @@
 import 'dart:async';
-
+import 'package:elevator/domain/usecase/verify_forgot_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_usecase.dart';
 import 'package:elevator/presentation/base/baseviewmodel.dart';
-import 'package:elevator/presentation/common/freezed_data_classes.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:flutter/material.dart';
@@ -10,17 +9,17 @@ import 'package:flutter/material.dart';
 class VerifyViewModel extends BaseViewModel
     implements VerifyViewmodelInputState, VerifyViewmodelOutputState {
   final VerifyUseCase _verifyUseCase;
+  final VerifyForgotPasswordUseCase _verifyForgotPasswordUseCase;
 
-  VerifyViewModel(this._verifyUseCase);
+  VerifyViewModel(this._verifyUseCase, this._verifyForgotPasswordUseCase);
 
   final StreamController<bool> _areAllInputsValidController =
       StreamController<bool>.broadcast();
 
-  final StreamController<bool> isUserLoggedInSuccessfullyController =
+  final StreamController<bool> isUserEnterVerifyCodeSuccessfullyController =
       StreamController<bool>.broadcast();
 
-  // String _phone = '', _code = '';
-  VerifyObject verifyObject = VerifyObject('', '');
+  String _phone = '', _code = '', token = '';
 
   @override
   void start() => inputState.add(ContentState());
@@ -29,7 +28,7 @@ class VerifyViewModel extends BaseViewModel
   void dispose() {
     super.dispose();
     _areAllInputsValidController.close();
-    isUserLoggedInSuccessfullyController.close();
+    isUserEnterVerifyCodeSuccessfullyController.close();
   }
 
   @override
@@ -44,14 +43,10 @@ class VerifyViewModel extends BaseViewModel
   resend() {}
 
   @override
-  setCode(String code) {
-    verifyObject = verifyObject.copyWith(code: code);
-  }
+  setCode(String code) => _code = code;
 
   @override
-  setPhone(String phone) {
-    verifyObject = verifyObject.copyWith(phone: phone);
-  }
+  setPhone(String phone) => _phone = phone;
 
   @override
   Future<void> verify() async {
@@ -61,7 +56,7 @@ class VerifyViewModel extends BaseViewModel
       );
 
       final result = await _verifyUseCase.execute(
-        VerifyUseCaseInput(verifyObject.phone, verifyObject.code),
+        VerifyUseCaseInput(_phone, _code),
       );
       result.fold(
         (failure) {
@@ -71,7 +66,40 @@ class VerifyViewModel extends BaseViewModel
         },
         (data) {
           inputState.add(SuccessState("Welcome back"));
-          isUserLoggedInSuccessfullyController.add(true);
+          isUserEnterVerifyCodeSuccessfullyController.add(true);
+        },
+      );
+    } catch (e, stack) {
+      inputState.add(
+        ErrorState(
+          StateRendererType.popUpErrorState,
+          "Unexpected error occurred. Please try again.",
+        ),
+      );
+      debugPrint("🔥 Exception in login(): $e\n$stack");
+    }
+  }
+
+  @override
+  Future<void> verifyForgotPassword() async {
+    try {
+      inputState.add(
+        LoadingState(stateRendererType: StateRendererType.popUpLoadingState),
+      );
+
+      final result = await _verifyForgotPasswordUseCase.execute(
+        VerifyForgotPasswordUseCaseInput(_phone, _code),
+      );
+      result.fold(
+        (failure) {
+          inputState.add(
+            ErrorState(StateRendererType.popUpErrorState, failure.message),
+          );
+        },
+        (data) {
+          inputState.add(SuccessState("Welcome back"));
+          isUserEnterVerifyCodeSuccessfullyController.add(true);
+          token = data.verifyForgotPasswordDataModel!.token;
         },
       );
     } catch (e, stack) {
@@ -92,6 +120,8 @@ abstract class VerifyViewmodelInputState {
   setCode(String code);
 
   verify();
+
+  verifyForgotPassword();
 
   resend();
 
