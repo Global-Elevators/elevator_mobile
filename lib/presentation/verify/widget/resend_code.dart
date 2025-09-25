@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 
 class ResendCode extends StatelessWidget {
   final int seconds;
+  final Function() onTap;
 
-  const ResendCode({super.key, required this.seconds});
+  const ResendCode({super.key, required this.seconds, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class ResendCode extends StatelessWidget {
       textAlign: TextAlign.center,
       text: TextSpan(
         recognizer: TapGestureRecognizer()
-          ..onTap = () => seconds > 0 ? null : debugPrint("Moamen"),
+          ..onTap = onTap,
         text: Strings.resendCode,
         style: getMediumTextStyle(
           color: seconds > 0

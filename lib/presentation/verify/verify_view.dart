@@ -28,9 +28,9 @@ class VerifyView extends StatefulWidget {
 }
 
 class _VerifyViewState extends State<VerifyView> {
-  int _seconds = 30;
   late final Timer _timer;
   final _viewModel = instance<VerifyViewModel>();
+  final ValueNotifier<int> _secondsNotifier = ValueNotifier<int>(30);
 
   @override
   void initState() {
@@ -58,15 +58,16 @@ class _VerifyViewState extends State<VerifyView> {
 
   @override
   void dispose() {
-    super.dispose();
     _timer.cancel();
+    _secondsNotifier.dispose();
     _viewModel.dispose();
+    super.dispose();
   }
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_seconds > 0) {
-        setState(() => _seconds--);
+      if (_secondsNotifier.value > 0) {
+        _secondsNotifier.value = _secondsNotifier.value - 1;
       } else {
         _timer.cancel();
       }
@@ -106,7 +107,6 @@ class _VerifyViewState extends State<VerifyView> {
             NumberLabel(firstThree: firstThree, stars: stars),
             Gap(AppSize.s28.h),
             VerifyInputField((value) {
-              // setState(() {});
               _viewModel.setCode(value);
               _viewModel.inputAreAllInputsValid.add(true);
             }),
@@ -119,7 +119,17 @@ class _VerifyViewState extends State<VerifyView> {
               }
             }),
             Gap(AppSize.s25.h),
-            ResendCode(seconds: _seconds),
+            ValueListenableBuilder<int>(
+              valueListenable: _secondsNotifier,
+              builder: (context, seconds, _) {
+                return ResendCode(
+                  seconds: seconds,
+                  onTap: () => seconds > 0 ?
+                  null
+                  : debugPrint("Moamen"),
+                );
+              },
+            ),
             Gap(AppSize.s22.h),
           ],
         ),
