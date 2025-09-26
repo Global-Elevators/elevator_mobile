@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/account_verified/account_verified_view.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
@@ -31,7 +32,7 @@ class _VerifyViewState extends State<VerifyView> {
   late final Timer _timer;
   final _viewModel = instance<VerifyViewModel>();
   final ValueNotifier<int> _secondsNotifier = ValueNotifier<int>(30);
-
+  final _appPref = instance<AppPreferences>();
   @override
   void initState() {
     super.initState();
@@ -46,7 +47,7 @@ class _VerifyViewState extends State<VerifyView> {
       isVerifyCorrect,
     ) {
       if (isVerifyCorrect) {
-        SchedulerBinding.instance.addPostFrameCallback((_) {
+        SchedulerBinding.instance.addPostFrameCallback((_) async{
           if (widget.codes[1] == "login") {
             context.go(
               AccountVerifiedView.accountVerifiedRoute,
@@ -55,7 +56,7 @@ class _VerifyViewState extends State<VerifyView> {
           }else{
             context.go(
               NewPasswordView.newPasswordRoute,
-              extra: _viewModel.token,
+              extra: await _appPref.getUserToken(),
             );
           }
         });

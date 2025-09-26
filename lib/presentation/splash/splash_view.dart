@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:elevator/app/app_pref.dart';
+import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/login/login_view.dart';
+import 'package:elevator/presentation/main/main_view.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -16,12 +19,22 @@ class SplashView extends StatefulWidget {
 class _SplashViewState extends State<SplashView> {
   Timer? _timer;
 
-  void _goNext() async => goToLoginScreen(context);
-
   void goToLoginScreen(BuildContext context) =>
       context.go(LoginView.loginRoute);
 
+  void goToMainScreen(BuildContext context) => context.go(MainView.mainRoute);
+
   _startDelay() => _timer = Timer(const Duration(seconds: 2), _goNext);
+  final _appPreferences = instance<AppPreferences>();
+
+  void _goNext() async {
+    final isLoggedIn = await _appPreferences.isUserLoggedIn();
+    if (isLoggedIn) {
+      goToMainScreen(context);
+    } else {
+      goToLoginScreen(context);
+    }
+  }
 
   @override
   void initState() {

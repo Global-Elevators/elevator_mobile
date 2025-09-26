@@ -15,6 +15,7 @@ import 'package:elevator/presentation/forget_password/forget_password_viewmodel.
 import 'package:elevator/presentation/login/login_viewmodel.dart';
 import 'package:elevator/presentation/new_password/new_password_viewmodel.dart';
 import 'package:elevator/presentation/verify/verify_viewmodel.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +29,8 @@ Future<void> initAppModule() async {
   ); // This line registers the SharedPreferences instance as a lazy singleton in the GetIt instance.
 
   instance.registerLazySingleton<AppPreferences>(
-    () => AppPreferences(instance<SharedPreferences>()),
+    // () => AppPreferences(instance<FlutterSecureStorage>()),
+    () => AppPreferences(),
   );
 
   instance.registerLazySingleton<NetworkInfo>(

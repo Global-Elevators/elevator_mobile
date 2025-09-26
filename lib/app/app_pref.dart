@@ -1,18 +1,23 @@
-import 'package:elevator/presentation/resources/language_manager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../presentation/resources/language_manager.dart';
 
 const String pressKeyLanguage = "PRESS_KEY_LANGUAGE";
-const String pressKeyOnBoardingScreenView = "PRESS_KEY_ON_BOARDING_SCREEN";
-const String pressKeyIsUserLoggedIn = "PRESS_KEY_IS_USER_LOGGED_IN";
+const String pressKeyToken = "PRESS_KEY_TOKEN";
 
 class AppPreferences {
-  final SharedPreferences _sharedPreferences;
+  final FlutterSecureStorage _secureStorage;
 
-  AppPreferences(this._sharedPreferences);
+  AppPreferences() : _secureStorage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ),
+    iOptions: IOSOptions(
+      accessibility: KeychainAccessibility.first_unlock,
+    ),
+  );
 
   Future<String> getAppLanguage() async {
-    String? language = _sharedPreferences.getString(pressKeyLanguage);
-
+    final language = await _secureStorage.read(key: pressKeyLanguage);
     if (language != null && language.isNotEmpty) {
       return language;
     }
@@ -20,47 +25,35 @@ class AppPreferences {
   }
 
   Future<void> changeAppLanguage() async {
-    String currentLanguage = await getAppLanguage();
+    final currentLanguage = await getAppLanguage();
 
     if (currentLanguage == LanguageType.arabic.getValue()) {
-      _sharedPreferences.setString(
-        pressKeyLanguage,
-        LanguageType.english.getValue(),
+      await _secureStorage.write(
+        key: pressKeyLanguage,
+        value: LanguageType.english.getValue(),
       );
     } else {
-      _sharedPreferences.setString(
-        pressKeyLanguage,
-        LanguageType.arabic.getValue(),
+      await _secureStorage.write(
+        key: pressKeyLanguage,
+        value: LanguageType.arabic.getValue(),
       );
     }
   }
 
-  // Future<Locale> getLocal() async {
-  //   String currentLanguage = await getAppLanguage();
-  //   if (currentLanguage == LanguageType.arabic.getValue()) {
-  //     return arabicLocal;
-  //   } else {
-  //     return englishLocal;
-  //   }
-  // }
-
-  Future<void> setOnBoardingScreenView() async {
-    _sharedPreferences.setBool(pressKeyOnBoardingScreenView, true);
+  Future<void> setUserToken(String token) async {
+    await _secureStorage.write(key: pressKeyToken, value: token);
   }
 
-  Future<bool> isOnBoardingScreenView() async {
-    return _sharedPreferences.getBool(pressKeyOnBoardingScreenView) ?? false;
-  }
-
-  Future<void> setUserLoggedIn() async {
-    _sharedPreferences.setBool(pressKeyIsUserLoggedIn, true);
+  Future<String?> getUserToken() async {
+    return await _secureStorage.read(key: pressKeyToken);
   }
 
   Future<bool> isUserLoggedIn() async {
-    return _sharedPreferences.getBool(pressKeyIsUserLoggedIn) ?? false;
+    final token = await _secureStorage.read(key: pressKeyToken);
+    return token != null && token.isNotEmpty;
   }
 
   Future<void> logOut() async {
-    _sharedPreferences.remove(pressKeyIsUserLoggedIn);
+    await _secureStorage.delete(key: pressKeyToken);
   }
 }

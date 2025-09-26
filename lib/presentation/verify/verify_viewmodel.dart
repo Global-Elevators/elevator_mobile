@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:elevator/app/app_pref.dart';
+import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/domain/usecase/verify_forgot_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_usecase.dart';
 import 'package:elevator/presentation/base/baseviewmodel.dart';
@@ -10,6 +12,7 @@ class VerifyViewModel extends BaseViewModel
     implements VerifyViewmodelInputState, VerifyViewmodelOutputState {
   final VerifyUseCase _verifyUseCase;
   final VerifyForgotPasswordUseCase _verifyForgotPasswordUseCase;
+  final _appPref = instance<AppPreferences>();
 
   VerifyViewModel(this._verifyUseCase, this._verifyForgotPasswordUseCase);
 
@@ -19,7 +22,7 @@ class VerifyViewModel extends BaseViewModel
   final StreamController<bool> isUserEnterVerifyCodeSuccessfullyController =
       StreamController<bool>.broadcast();
 
-  String _phone = '', _code = '', token = '';
+  String _phone = '', _code = '';
 
   @override
   void start() => inputState.add(ContentState());
@@ -99,7 +102,7 @@ class VerifyViewModel extends BaseViewModel
         (data) {
           inputState.add(SuccessState("Welcome back"));
           isUserEnterVerifyCodeSuccessfullyController.add(true);
-          token = data.verifyForgotPasswordDataModel!.token;
+          _appPref.setUserToken(data.verifyForgotPasswordDataModel!.token);
         },
       );
     } catch (e, stack) {
