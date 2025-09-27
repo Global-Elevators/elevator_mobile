@@ -46,6 +46,7 @@ class GoRouterConfig {
         pageBuilder: (BuildContext context, GoRouterState state) {
           initVerifyModule();
           initVerifyForgotPasswordModule();
+          initResendOtpModule();
           return getCustomTransitionPage(
             state: state,
             child: VerifyView(codes: state.extra as List<String>),

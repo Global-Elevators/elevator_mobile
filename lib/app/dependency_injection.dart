@@ -8,6 +8,7 @@ import 'package:elevator/data/repository/repository.dart';
 import 'package:elevator/domain/repository/repository.dart';
 import 'package:elevator/domain/usecase/forget_password_usecase.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
+import 'package:elevator/domain/usecase/resend_otp_usecase.dart';
 import 'package:elevator/domain/usecase/reset_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_forgot_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_usecase.dart';
@@ -78,6 +79,7 @@ initVerifyModule() {
       () => VerifyViewModel(
         instance<VerifyUseCase>(),
         instance<VerifyForgotPasswordUseCase>(),
+        instance<ResendOtpUseCase>(),
       ),
     );
   }
@@ -111,6 +113,14 @@ initResetPasswordModule() {
 
     instance.registerFactory<NewPasswordViewModel>(
       () => NewPasswordViewModel(instance<ResetPasswordUsecase>()),
+    );
+  }
+}
+
+initResendOtpModule() {
+  if (!GetIt.I.isRegistered<ResendOtpUseCase>()) {
+    instance.registerFactory<ResendOtpUseCase>(
+          () => ResendOtpUseCase(instance<Repository>()),
     );
   }
 }

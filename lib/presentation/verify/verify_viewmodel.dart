@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/domain/usecase/resend_otp_usecase.dart';
 import 'package:elevator/domain/usecase/verify_forgot_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_usecase.dart';
 import 'package:elevator/presentation/base/baseviewmodel.dart';
@@ -12,9 +13,14 @@ class VerifyViewModel extends BaseViewModel
     implements VerifyViewmodelInputState, VerifyViewmodelOutputState {
   final VerifyUseCase _verifyUseCase;
   final VerifyForgotPasswordUseCase _verifyForgotPasswordUseCase;
+  final ResendOtpUseCase _resendOtpUseCase;
   final _appPref = instance<AppPreferences>();
 
-  VerifyViewModel(this._verifyUseCase, this._verifyForgotPasswordUseCase);
+  VerifyViewModel(
+    this._verifyUseCase,
+    this._verifyForgotPasswordUseCase,
+    this._resendOtpUseCase,
+  );
 
   final StreamController<bool> _areAllInputsValidController =
       StreamController<bool>.broadcast();
@@ -43,7 +49,33 @@ class VerifyViewModel extends BaseViewModel
   );
 
   @override
-  resend() {}
+  Future<void> resend() async {
+    try {
+      inputState.add(
+        LoadingState(stateRendererType: StateRendererType.popUpLoadingState),
+      );
+
+      final result = await _resendOtpUseCase.execute(_phone);
+      result.fold(
+        (failure) {
+          inputState.add(
+            ErrorState(StateRendererType.popUpErrorState, failure.message),
+          );
+        },
+        (data) {
+          inputState.add(SuccessState("Otp resend successfully"));
+        },
+      );
+    } catch (e, stack) {
+      inputState.add(
+        ErrorState(
+          StateRendererType.popUpErrorState,
+          "Unexpected error occurred. Please try again.",
+        ),
+      );
+      debugPrint("🔥 Exception in login(): $e\n$stack");
+    }
+  }
 
   @override
   setCode(String code) => _code = code;
@@ -68,7 +100,8 @@ class VerifyViewModel extends BaseViewModel
           );
         },
         (data) {
-          inputState.add(SuccessState("Welcome back"));
+          inputState.add(SuccessState("Otp verified successfully"));
+          _appPref.setUserToken("login", data.verifyDataModel!.accessToken);
           isUserEnterVerifyCodeSuccessfullyController.add(true);
         },
       );
@@ -102,7 +135,10 @@ class VerifyViewModel extends BaseViewModel
         (data) {
           inputState.add(SuccessState("Welcome back"));
           isUserEnterVerifyCodeSuccessfullyController.add(true);
-          _appPref.setUserToken(data.verifyForgotPasswordDataModel!.token);
+          _appPref.setUserToken(
+            "forget_password",
+            data.verifyForgotPasswordDataModel!.token,
+          );
         },
       );
     } catch (e, stack) {

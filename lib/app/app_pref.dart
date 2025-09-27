@@ -2,7 +2,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../presentation/resources/language_manager.dart';
 
 const String pressKeyLanguage = "PRESS_KEY_LANGUAGE";
-const String pressKeyToken = "PRESS_KEY_TOKEN";
 
 class AppPreferences {
   final FlutterSecureStorage _secureStorage;
@@ -40,20 +39,20 @@ class AppPreferences {
     }
   }
 
-  Future<void> setUserToken(String token) async {
-    await _secureStorage.write(key: pressKeyToken, value: token);
+  Future<void> setUserToken(String key,String token) async {
+    await _secureStorage.write(key: key, value: token);
   }
 
-  Future<String?> getUserToken() async {
-    return await _secureStorage.read(key: pressKeyToken);
+  Future<String?> getUserToken(String key) async {
+    return await _secureStorage.read(key: key);
   }
 
-  Future<bool> isUserLoggedIn() async {
-    final token = await _secureStorage.read(key: pressKeyToken);
+  Future<bool> isUserLoggedIn(String key) async {
+    final token = await _secureStorage.read(key: key);
     return token != null && token.isNotEmpty;
   }
 
-  Future<void> logOut() async {
-    await _secureStorage.delete(key: pressKeyToken);
+  Future<void> logOut(String key) async {
+    await _secureStorage.delete(key: key);
   }
 }

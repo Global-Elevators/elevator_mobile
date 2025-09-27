@@ -5,6 +5,5 @@ class Constants {
   static const double decimalZero = 0.0;
   static const bool falseValue = false;
   static const int timeout = 60 * 1000; // 60 seconds
-  static const String token = "Send token here";
   static const url = 'https://www.linkedin.com/in/moamen-mohamed-32b03a22a/';
 }

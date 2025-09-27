@@ -155,14 +155,19 @@ class RepositoryImpl extends Repository {
   }
 
   @override
-  Future<Either<Failure, void>> resetPassword(ResetPasswordRequest resetPasswordRequest) async{
+  Future<Either<Failure, void>> resetPassword(
+    ResetPasswordRequest resetPasswordRequest,
+  ) async {
     if (await hasNetworkConnection()) {
       return _performResetPassword(resetPasswordRequest);
     } else {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
-  Future<Either<Failure, void>> _performResetPassword(ResetPasswordRequest resetPasswordRequest) async {
+
+  Future<Either<Failure, void>> _performResetPassword(
+    ResetPasswordRequest resetPasswordRequest,
+  ) async {
     try {
       await _remoteDataSource.resetPassword(resetPasswordRequest);
       return Right(null);
@@ -171,11 +176,21 @@ class RepositoryImpl extends Repository {
     }
   }
 
-  // Either<Failure, void> _mapResetPasswordResponseToResult(
-  //   BaseResponse response,
-  // ) {
-  //   return _isSuccessfulResponse(response)
-  //       ? Right(null)
-  //       : Left(_mapFailureFromResponse(response));
-  // }
+  @override
+  Future<Either<Failure, void>> resendOtp(String phone) async {
+    if (await hasNetworkConnection()) {
+      return _performResendOtp(phone);
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  Future<Either<Failure, void>> _performResendOtp(String phone) async {
+    try {
+      await _remoteDataSource.resendOtp(phone);
+      return Right(null);
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
 }

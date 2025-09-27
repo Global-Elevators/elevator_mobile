@@ -10,7 +10,7 @@ abstract class RemoteDataSource {
   Future<AuthenticationResponse> forgotPassword(String phone);
   Future<VerifyForgotPasswordResponse> verifyForgotPassword(VerifyRequest verifyForgotPasswordRequest);
   Future<void> resetPassword(ResetPasswordRequest resetPasswordRequest);
-
+  Future<void> resendOtp(String phone);
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -54,5 +54,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
       resetPasswordRequest.password,
       resetPasswordRequest.passwordConfirmation,
     );
+  }
+
+  @override
+  Future<void> resendOtp(String phone) async{
+    return await _appServicesClient.resendOtp(phone);
   }
 }

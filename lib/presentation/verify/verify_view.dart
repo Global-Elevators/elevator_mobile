@@ -29,7 +29,7 @@ class VerifyView extends StatefulWidget {
 }
 
 class _VerifyViewState extends State<VerifyView> {
-  late final Timer _timer;
+  Timer? _timer;
   final _viewModel = instance<VerifyViewModel>();
   final ValueNotifier<int> _secondsNotifier = ValueNotifier<int>(30);
   final _appPref = instance<AppPreferences>();
@@ -56,7 +56,7 @@ class _VerifyViewState extends State<VerifyView> {
           }else{
             context.go(
               NewPasswordView.newPasswordRoute,
-              extra: await _appPref.getUserToken(),
+              extra: await _appPref.getUserToken("forget_password"),
             );
           }
         });
@@ -66,18 +66,20 @@ class _VerifyViewState extends State<VerifyView> {
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     _secondsNotifier.dispose();
     _viewModel.dispose();
     super.dispose();
   }
 
   void _startTimer() {
+    _secondsNotifier.value = 30;
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_secondsNotifier.value > 0) {
         _secondsNotifier.value = _secondsNotifier.value - 1;
       } else {
-        _timer.cancel();
+        _timer?.cancel();
       }
     });
   }
@@ -132,7 +134,14 @@ class _VerifyViewState extends State<VerifyView> {
               builder: (context, seconds, _) {
                 return ResendCode(
                   seconds: seconds,
-                  onTap: () => seconds > 0 ? null : debugPrint("Moamen"),
+                  onTap: () {
+                    if (seconds > 0) {
+                      return null;
+                    }else {
+                      _viewModel.resend();
+                      _startTimer();
+                    }
+                  },
                 );
               },
             ),

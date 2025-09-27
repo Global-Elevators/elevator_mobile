@@ -36,4 +36,7 @@ abstract class AppServicesClient {
     @Field("password") String password,
     @Field("password_confirmation") String passwordConfirmation,
   );
+
+  @POST("/auth/resend-otp")
+  Future<void> resendOtp(@Field("phone") String phone);
 }

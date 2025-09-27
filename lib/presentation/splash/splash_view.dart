@@ -28,7 +28,7 @@ class _SplashViewState extends State<SplashView> {
   final _appPreferences = instance<AppPreferences>();
 
   void _goNext() async {
-    final isLoggedIn = await _appPreferences.isUserLoggedIn();
+    final isLoggedIn = await _appPreferences.isUserLoggedIn("login");
     if (isLoggedIn) {
       goToMainScreen(context);
     } else {
