@@ -32,44 +32,63 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            HomeBar(),
-            Gap(AppSize.s24.h),
-            if (isPremium) ...[RegistrationBox(), Gap(AppSize.s24.h)],
-            PremiumContainer(isPremium),
-            Gap(AppSize.s24.h),
-            Text(
-              Strings.servicesTitle,
-              style: getBoldTextStyle(
-                fontSize: FontSizeManager.s23.sp,
-                color: ColorManager.primaryColor,
-              ),
-            ),
-            SizedBox(
-              height: AppSize.s130.h,
-              child: Row(
-                children: [
-                  FreeButton(
-                    title: Strings.requestSiteSurvey,
-                    imageAsset: IconAssets.worker,
-                    onTap: () =>
-                        context.push(RequestSiteSurvey.requestSiteSurveyRoute),
-                  ),
-                  Gap(AppSize.s8.w),
-                  FreeButton(
-                    title: Strings.requestTechnicalOffer,
-                    imageAsset: ImageAssets.note,
-                    onTap: () => context.push(
-                      RequestForTechnicalView.requestForTechnicalRoute,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+        child: _HomePageBody(isPremium: isPremium),
+      ),
+    );
+  }
+}
+
+class _HomePageBody extends StatelessWidget {
+  final bool isPremium;
+
+  const _HomePageBody({required this.isPremium});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const HomeBar(),
+        Gap(AppSize.s24.h),
+        if (isPremium) ...[const RegistrationBox(), Gap(AppSize.s24.h)],
+        PremiumContainer(isPremium),
+        Gap(AppSize.s24.h),
+        Text(
+          Strings.servicesTitle,
+          style: getBoldTextStyle(
+            fontSize: FontSizeManager.s23.sp,
+            color: ColorManager.primaryColor,
+          ),
         ),
+        Gap(AppSize.s12.h),
+        _ServicesRow(),
+      ],
+    );
+  }
+}
+
+class _ServicesRow extends StatelessWidget {
+  const _ServicesRow();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: AppSize.s130.h,
+      child: Row(
+        children: [
+          FreeButton(
+            title: Strings.requestSiteSurvey,
+            imageAsset: IconAssets.worker,
+            onTap: () => context.push(RequestSiteSurvey.requestSiteSurveyRoute),
+          ),
+          Gap(AppSize.s8.w),
+          FreeButton(
+            title: Strings.requestTechnicalOffer,
+            imageAsset: ImageAssets.note,
+            onTap: () =>
+                context.push(RequestForTechnicalView.requestForTechnicalRoute),
+          ),
+        ],
       ),
     );
   }

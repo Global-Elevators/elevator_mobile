@@ -10,7 +10,7 @@ class Strings {
   static const String forgetPassword = 'Forget password?';
   static const String arabicText = 'عربي';
   static const String englishText = 'English';
-  static const String invalidPhoneNumber  = 'Invalid Phone Number';
+  static const String invalidPhoneNumber = 'Invalid Phone Number';
   static const String invalidPassword = 'Invalid Password';
   static const String loading = 'Loading...';
   static const String error = 'Error';
@@ -18,11 +18,11 @@ class Strings {
   static const String ok = 'OK';
   static const String retryAgain = 'Retry Again';
 
-
   // Sign-up screen strings
   static const String backSignIn = 'Back Sign in';
   static const String createAccountTitle = 'Create an account';
-  static const String createAccountMessage = 'Please enter your details to sign up';
+  static const String createAccountMessage =
+      'Please enter your details to sign up';
   static const String nameLabel = 'Name';
   static const String firstName = 'First name';
   static const String fatherName = 'Father name';
@@ -47,13 +47,15 @@ class Strings {
 
   // Phone verification screen strings
   static const String verifyPhoneTitle = 'Verify Your Phone Number';
-  static const String verifyPhoneMessage = 'Please enter the code that was sent to your phone number ';
+  static const String verifyPhoneMessage =
+      'Please enter the code that was sent to your phone number ';
   static const String verifyButton = 'Verify';
   static const String resendCode = 'Resend Code ';
 
   // Verification success strings
   static const String accountVerifiedTitle = 'Account Verified';
-  static const String accountVerifiedMessage = 'Your account has been verified.';
+  static const String accountVerifiedMessage =
+      'Your account has been verified.';
   static const String doneButton = 'Done';
 
   // Forget password screen strings
@@ -63,13 +65,15 @@ class Strings {
 
   // Enter new password screen strings
   static const String enterNewPasswordTitle = 'Enter new password';
-  static const String passwordRequirement = 'your password must be at least 8 characters';
+  static const String passwordRequirement =
+      'your password must be at least 8 characters';
   static const String confirmPasswordLabel = 'Confirm password';
   static const String continueButton = 'Continue';
 
   // Password changed success screen strings
   static const String passwordChangedTitle = 'The password has been changed.';
-  static const String passwordChangedMessage = 'You can sign in with the new password.';
+  static const String passwordChangedMessage =
+      'You can sign in with the new password.';
 
   // Welcome screen strings
   static const String welcomeBack = 'Welcome back`';
@@ -83,7 +87,8 @@ class Strings {
   // Services section strings
   static const String servicesTitle = 'Services';
   static const String requestSiteSurvey = 'Request site survey';
-  static const String requestTechnicalOffer = 'Request for Technical & Commercial Offer';
+  static const String requestTechnicalOffer =
+      'Request for Technical & Commercial Offer';
   static const String reportContracts = 'Report Contracts';
 
   // Bottom navigation strings
@@ -93,7 +98,8 @@ class Strings {
   static const String profileTab = 'Profile';
 
   // Service detail screen strings
-  static const String contactSalesDept = 'Contact sales dept., Toll-free-0800(087)';
+  static const String contactSalesDept =
+      'Contact sales dept., Toll-free-0800(087)';
   static const String requestForQuotation = 'Request for quotation';
 
   // Error messages
@@ -128,27 +134,37 @@ class Strings {
   static const String request = "Request";
   static const String cancel = "Cancel";
   static const String done = "Done";
-  static const String requestVisitReschedulingMessage = "Thank you, the request has been sent.";
+  static const String requestVisitReschedulingMessage =
+      "Thank you, the request has been sent.";
   static const String emergencyAlert = "Emergency Alert";
-  static const String areYouSureYouWantToSendThisAlert = "Are you sure you want to send this alert?";
-  static const String yesSendAlert  = "Yes, Send Alert";
-  static const String premiumSubscriptionRequiredPart1  = "This service is only available on valid annual maintenance ";
-  static const String contracts  = "Contracts. ";
-  static const String  premiumSubscriptionRequiredPart2 = "Please contact the sales department for more information.";
+  static const String areYouSureYouWantToSendThisAlert =
+      "Are you sure you want to send this alert?";
+  static const String yesSendAlert = "Yes, Send Alert";
+  static const String premiumSubscriptionRequiredPart1 =
+      "This service is only available on valid annual maintenance ";
+  static const String contracts = "Contracts. ";
+  static const String premiumSubscriptionRequiredPart2 =
+      "Please contact the sales department for more information.";
+
   // Notification screen strings
-  static const String  notifications = "Notifications";
-  static const String  markAllAsRead = "Mark all as read";
-  static const String  notificationTitle = "Reminder of the next maintenance appointment";
-  static const String  notificationSubTitle = "The deadline is June 9th. 5 days left.";
+  static const String notifications = "Notifications";
+  static const String markAllAsRead = "Mark all as read";
+  static const String notificationTitle =
+      "Reminder of the next maintenance appointment";
+  static const String notificationSubTitle =
+      "The deadline is June 9th. 5 days left.";
 
   // Request site survey screen strings
-  static const String doesProjectBelongToSameAccount = "Does this Project belong to the same account user?";
+  static const String doesProjectBelongToSameAccount =
+      "Does this Project belong to the same account user?";
   static const String yes = "Yes";
   static const String no = "NO";
   static const String phoneNumberWhatsapp = "Phone Number, Whatsapp";
   static const String scopeOfWork = "Scope of Work";
-  static const String fillInTheDataForTheNewCustomer = "Fill in the data for the new customer !";
-  static const String annualPreventiveMaintenance = "Annual Preventive Maintenance";
+  static const String fillInTheDataForTheNewCustomer =
+      "Fill in the data for the new customer !";
+  static const String annualPreventiveMaintenance =
+      "Annual Preventive Maintenance";
   static const String projectAddress = "Project Address";
   static const String manualOrSelect = "Manual or Select";
   static const String projectType = "Project Type";
@@ -160,26 +176,36 @@ class Strings {
   static const String depthCm = "Depth, cm";
   static const String pitDepth = "Pit Depth ";
   static const String lastFloorHeight = "Last Floor Height";
-  static const String doesTheShaftHaveAMachineRoom = "Does the shaft have a machine-room? ";
+  static const String doesTheShaftHaveAMachineRoom =
+      "Does the shaft have a machine-room? ";
   static const String machineRoomHeight = "Machine room height";
   static const String cm = "cm";
   static const String howManyStops = "How many stops? ";
   static const String gPlus = "G +";
   static const String x = "x";
   static const String stops = "stops";
-  static const String selectSuitableTimeToConductTheSiteSurvey = "Select suitable time to conduct the site survey";
+  static const String selectSuitableTimeToConductTheSiteSurvey =
+      "Select suitable time to conduct the site survey";
   static const String height = "height";
   static const String notes = "Notes";
   static const String submit = "Submit";
-  static const String isTheElevatorUnderWarranty = "Is the elevator under warranty or under valid preventive maintenance contract by another company?";
+  static const String isTheElevatorUnderWarranty =
+      "Is the elevator under warranty or under valid preventive maintenance contract by another company?";
   static const String elevatorBrand = "Elevator Brand ";
   static const String descriptionOfBreakDown = "Description of break down ";
   static const String filePhotoOrVideo = "File photo or video";
   static const String photos = "Photos";
   static const String requiredDoorWidth = "Required Door Width";
-  static const String shaftPhoto2BuildingFrontPhoto1 = "Shaft Photo 2, Building front Photo 1";
+  static const String shaftPhoto2BuildingFrontPhoto1 =
+      "Shaft Photo 2, Building front Photo 1";
 
   // Catalogue screen strings
   static const String call = "Call";
   static const String download = "Download";
+
+  static const String anyBodyInjuredOrTrappedInsideTheElevator =
+      "Any body injured or trapped inside the elevator?";
+  static const String report = "Report";
+  static const String yourRequestHadBeenRecorded = "Your request had been recorded, the specialized  team will attend ASAP).";
+  static const String documents = "Documents";
 }

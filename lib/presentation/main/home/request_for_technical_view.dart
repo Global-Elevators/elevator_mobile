@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
 import 'package:elevator/presentation/main/home/widgets/label_drop_down_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/label_text_form_field_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/label_yes_or_no_widget.dart';
@@ -38,52 +39,63 @@ class RequestForTechnicalView extends StatefulWidget {
 }
 
 class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _fatherNameController = TextEditingController();
-  final TextEditingController _grandFatherNameController =
-      TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _projectAddressController =
-      TextEditingController();
-  final TextEditingController _widthController = TextEditingController();
-  final TextEditingController _depthController = TextEditingController();
-  final TextEditingController _pitDepthController = TextEditingController();
-  final TextEditingController _heightController = TextEditingController();
-  final TextEditingController _stopsController = TextEditingController();
-  final TextEditingController _lastFloorHeightController =
-      TextEditingController();
-  final TextEditingController _requiredDoorWidthController =
-      TextEditingController();
-  final TextEditingController _notesController = TextEditingController();
+  // 📌 Controllers
+  final _firstNameController = TextEditingController();
+  final _fatherNameController = TextEditingController();
+  final _grandFatherNameController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+  final _projectAddressController = TextEditingController();
+  final _widthController = TextEditingController();
+  final _depthController = TextEditingController();
+  final _pitDepthController = TextEditingController();
+  final _heightController = TextEditingController();
+  final _stopsController = TextEditingController();
+  final _lastFloorHeightController = TextEditingController();
+  final _requiredDoorWidthController = TextEditingController();
+  final _notesController = TextEditingController();
 
+  // 📌 State variables
   int _displayedNumber = 0;
   bool isProjectBelongsToSameAccount = false;
   bool doesTheShaftHaveAMachineRoom = false;
+  bool isMapVisible = false;
 
+  // 📌 Location
   final Completer<GoogleMapController> _controller = Completer();
   GoogleMapController? _googleMapController;
-
   final Set<Marker> _markers = {};
-  bool isMapVisible = false;
   LatLng? _currentLatLng;
 
-  // File? _imageFile;
+  // 📌 Images
   List<XFile>? imageFileList = [];
+
+  // 📌 Dropdowns
+  final List<String> projectTypeItems = ["Cairo", "Alex", "Mansoura", "Giza"];
+  final List<String> shaftTypeItems = ["Cairo", "Alex", "Mansoura", "Giza"];
+  final List<String> shaftLocationItems = ["Cairo", "Alex", "Mansoura", "Giza"];
+  String? selectedShaftLocation;
+  String? selectedShaftType;
+  String? selectedProjectType;
+
+  // 📌 Calendar
+  final List<DateTime> disabledDays = [
+    DateTime.utc(2025, 9, 15),
+    DateTime.utc(2025, 9, 18),
+    DateTime.utc(2025, 9, 20),
+  ];
 
   @override
   void initState() {
     super.initState();
-    _loadCurrentLocation();
     _stopsController.addListener(_updateDisplayedNumber);
+    _loadCurrentLocation();
   }
 
   void _updateDisplayedNumber() {
+    if (_stopsController.text.isEmpty) return;
     setState(() {
-      int number = int.parse(_stopsController.text);
-      if (_stopsController.text.isNotEmpty) {
-        ++number;
-        _displayedNumber = number;
-      }
+      int number = int.tryParse(_stopsController.text) ?? 0;
+      _displayedNumber = number + 1;
     });
   }
 
@@ -98,51 +110,30 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           infoWindow: const InfoWindow(title: 'My Current Location'),
         ),
       );
-      // move camera if controller already ready
-      if (_googleMapController != null) {
-        _googleMapController!.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(target: _currentLatLng!, zoom: 15),
-          ),
-        );
-      }
-      setState(() {
-        isMapVisible = true;
-      });
+      _googleMapController?.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: _currentLatLng!, zoom: 15),
+        ),
+      );
+      setState(() => isMapVisible = true);
     } catch (e) {
       debugPrint("Error getting location: $e");
     }
   }
 
   Future<Position> _getUserCurrentLocation() async {
-    LocationPermission permission;
-    permission = await Geolocator.checkPermission();
+    LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         throw Exception("Location permission denied");
       }
     }
-
     if (permission == LocationPermission.deniedForever) {
-      throw Exception("Location permissions are permanently denied.");
+      throw Exception("Location permissions permanently denied");
     }
-    return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
-
-  final List<String> projectTypeItems = ["Cairo", "Alex", "Mansoura", "Giza"];
-  final List<String> shaftTypeItems = ["Cairo", "Alex", "Mansoura", "Giza"];
-  final List<String> shaftLocationItems = ["Cairo", "Alex", "Mansoura", "Giza"];
-  String? selectedShaftLocation;
-  String? selectedShaftType;
-  String? selectedProjectType;
-  final List<DateTime> disabledDays = [
-    DateTime.utc(2025, 9, 15),
-    DateTime.utc(2025, 9, 18),
-    DateTime.utc(2025, 9, 20),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -150,257 +141,271 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsetsDirectional.symmetric(
-              horizontal: AppPadding.p16,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                requestForTechnicalAppBar(),
-                LabelYesOrNoWidget(
-                  title: Strings.doesProjectBelongToSameAccount,
-                  condition: isProjectBelongsToSameAccount,
-                  onYesTap: () => setState(() {
-                    isProjectBelongsToSameAccount = false;
-                  }),
-                  onNoTap: () => setState(() {
-                    isProjectBelongsToSameAccount = true;
-                  }),
-                ),
-                Gap(AppSize.s25.h),
-                BuildNameSection(
-                  firstNameController: _firstNameController,
-                  fatherNameController: _fatherNameController,
-                  grandFatherNameController: _grandFatherNameController,
-                ),
-                Gap(AppSize.s25.h),
-                LabelField(Strings.phoneNumberWhatsapp),
-                PhoneField(controller: _phoneNumberController, phoneValidationStream: null,),
-                Gap(AppSize.s25.h),
-                LabelTextFormFieldWidget(
-                  title: Strings.projectAddress,
-                  hintText: Strings.projectAddress,
-                  controller: _projectAddressController,
-                ),
-                Gap(AppSize.s25.h),
-                googleMapWidget(),
-                Gap(AppSize.s25.h),
-                LabelDropDownWidget(
-                  title: Strings.projectType,
-                  dropDownItems: projectTypeItems,
-                  selectedValue: selectedProjectType,
-                  onChanged: (value) =>
-                      setState(() => selectedProjectType = value),
-                ),
-                Gap(AppSize.s25.h),
-                LabelDropDownWidget(
-                  title: Strings.shaftType,
-                  dropDownItems: shaftTypeItems,
-                  selectedValue: selectedShaftType,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedShaftType = value;
-                    });
-                  },
-                  isOptional: true,
-                ),
-                Gap(AppSize.s25.h),
-                LabelDropDownWidget(
-                  title: Strings.shaftLocation,
-                  dropDownItems: shaftLocationItems,
-                  selectedValue: selectedShaftLocation,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedShaftLocation = value;
-                    });
-                  },
-                ),
-                ShaftDimensionsWidget(
-                  widthController: _widthController,
-                  depthController: _depthController,
-                ),
-                Gap(AppSize.s25.h),
-                LabelTextFormFieldWidget(
-                  title: Strings.pitDepth,
-                  hintText: Strings.cm,
-                  controller: _pitDepthController,
-                  isCenterText: true,
-                  isOptional: true,
-                ),
-                Gap(AppSize.s25.h),
-                LabelYesOrNoWidget(
-                  isOptional: true,
-                  title: Strings.doesTheShaftHaveAMachineRoom,
-                  condition: doesTheShaftHaveAMachineRoom,
-                  onYesTap: () =>
-                      setState(() => doesTheShaftHaveAMachineRoom = false),
-                  onNoTap: () =>
-                      setState(() => doesTheShaftHaveAMachineRoom = true),
-                ),
-                Gap(AppSize.s25.h),
-                LabelTextFormFieldWidget(
-                  title: Strings.height,
-                  hintText: Strings.cm,
-                  controller: _heightController,
-                  isCenterText: true,
-                  isOptional: true,
-                ),
-                Gap(AppSize.s25.h),
-                howManyStopsWidget(),
-                Gap(AppSize.s25.h),
-                LabelTextFormFieldWidget(
-                  title: Strings.lastFloorHeight,
-                  isOptional: true,
-                  hintText: Strings.cm,
-                  controller: _lastFloorHeightController,
-                  isCenterText: true,
-                ),
-                Gap(AppSize.s25.h),
-                LabelTextFormFieldWidget(
-                  title: Strings.requiredDoorWidth,
-                  isOptional: true,
-                  hintText: Strings.cm,
-                  controller: _requiredDoorWidthController,
-                  isCenterText: true,
-                ),
-                Gap(AppSize.s25.h),
-                CustomImagePicker(
-                  multipleImages: imageFileList,
-                  isMultiple: true,
-                  onTap: _pickImagesFromGallery,
-                  placeholderText: Strings.shaftPhoto2BuildingFrontPhoto1,
-                ),
-                Gap(AppSize.s25.h),
-                SelectSuitableTimeWidget(
-                  disabledDays: disabledDays,
-                  focusedDay: DateTime.now(),
-                ),
-                Gap(AppSize.s25.h),
-                LabelTextFormFieldWidget(
-                  title: Strings.notes,
-                  hintText: 'notes.',
-                  controller: _notesController,
-                  isOptional: true,
-                  isNotes: true,
-                  isCenterText: true,
-                ),
-                Gap(AppSize.s25.h),
-                InputButtonWidget(
-                  radius: AppSize.s14.r,
-                  text: Strings.submit,
-                  onTap: () {},
-                ),
-                Gap(AppSize.s14.h),
-              ],
-            ),
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.p16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(),
+              Gap(AppSize.s25.h),
+              _buildProjectOwnershipSection(),
+              Gap(AppSize.s25.h),
+              _buildPersonalInfoSection(),
+              Gap(AppSize.s25.h),
+              _buildContactSection(),
+              Gap(AppSize.s25.h),
+              _buildProjectDetailsSection(),
+              Gap(AppSize.s25.h),
+              _buildMapSection(),
+              Gap(AppSize.s25.h),
+              _buildShaftInfoSection(),
+              Gap(AppSize.s25.h),
+              _buildStopsSection(),
+              Gap(AppSize.s25.h),
+              _buildAttachmentsSection(),
+              Gap(AppSize.s25.h),
+              _buildScheduleSection(),
+              Gap(AppSize.s25.h),
+              _buildNotesSection(),
+              Gap(AppSize.s25.h),
+              _buildSubmitButton(),
+              Gap(AppSize.s14.h),
+            ],
           ),
         ),
       ),
     );
   }
 
-  AnimatedOpacity googleMapWidget() {
-    return animatedOpacity();
-  }
-
-  AnimatedOpacity animatedOpacity() {
-    return AnimatedOpacity(
-      curve: Curves.fastOutSlowIn,
-      opacity: isMapVisible ? 1.0 : 0,
-      duration: const Duration(milliseconds: 600),
-      child: mapSize(),
-    );
-  }
-
-  SizedBox mapSize() {
-    return SizedBox(
-      height: AppSize.s300.h,
-      width: double.infinity,
-      child: googleMapView(),
-    );
-  }
-
-  GoogleMap googleMapView() {
-    return GoogleMap(
-      mapType: MapType.normal,
-      myLocationEnabled: true,
-      compassEnabled: true,
-      markers: _markers,
-      initialCameraPosition: CameraPosition(
-        target:
-            _currentLatLng ??
-            const LatLng(30.119036404288565, 31.340033013494114),
-        zoom: AppSize.s15,
-      ),
-      onMapCreated: (controller) async {
-        _googleMapController = controller;
-        _controller.complete(controller);
-        if (_currentLatLng != null) {
-          _googleMapController!.animateCamera(
-            CameraUpdate.newLatLngZoom(_currentLatLng!, AppSize.s15),
-          );
-        }
-        Future.delayed(
-          const Duration(milliseconds: 550),
-          () => setState(() {
-            isMapVisible = true;
-          }),
-        );
-      },
-    );
-  }
-
-  SizedBox requestForTechnicalAppBar() {
-    return SizedBox(
-      height: AppSize.s80.h,
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              Strings.requestTechnicalOffer,
-              style: getBoldTextStyle(
-                color: ColorManager.primaryColor,
-                fontSize: FontSizeManager.s28,
-              ),
+  // 🧩 Header
+  Widget _buildHeader() {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            Strings.requestTechnicalOffer,
+            style: getBoldTextStyle(
+              color: ColorManager.primaryColor,
+              fontSize: FontSizeManager.s28,
             ),
           ),
-          Gap(AppSize.s16.w),
-          BackButtonWidget(popOrGo: true),
-        ],
-      ),
+        ),
+        BackButtonWidget(popOrGo: true),
+      ],
     );
   }
 
-  Column howManyStopsWidget() {
+  // 🧩 Project Ownership
+  Widget _buildProjectOwnershipSection() {
+    return LabelYesOrNoWidget(
+      title: Strings.doesProjectBelongToSameAccount,
+      condition: isProjectBelongsToSameAccount,
+      onYesTap: () => setState(() => isProjectBelongsToSameAccount = true),
+      onNoTap: () => setState(() => isProjectBelongsToSameAccount = false),
+    );
+  }
+
+  // 🧩 Personal Info
+  Widget _buildPersonalInfoSection() {
+    return BuildNameSection(
+      firstNameController: _firstNameController,
+      fatherNameController: _fatherNameController,
+      grandFatherNameController: _grandFatherNameController,
+    );
+  }
+
+  // 🧩 Contact Info
+  Widget _buildContactSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Gap(AppSize.s25.h),
-        Row(
-          children: [
-            LabelField(Strings.howManyStops, isOptional: true),
-            Spacer(),
-            Icon(
-              Icons.report_gmailerrorred_outlined,
-              color: ColorManager.greyColor,
-            ),
-          ],
+        LabelField(Strings.phoneNumberWhatsapp),
+        PhoneField(controller: _phoneNumberController, phoneValidationStream: null),
+      ],
+    );
+  }
+
+  // 🧩 Project Details
+  Widget _buildProjectDetailsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        LabelTextFormFieldWidget(
+          title: Strings.projectAddress,
+          hintText: Strings.projectAddress,
+          controller: _projectAddressController,
         ),
-        Gap(AppSize.s8.h),
-        StopsInputRow(
-          controller: _stopsController,
-          displayedNumber: _displayedNumber,
+        Gap(AppSize.s25.h),
+        LabelDropDownWidget(
+          title: Strings.projectType,
+          dropDownItems: projectTypeItems,
+          selectedValue: selectedProjectType,
+          onChanged: (value) => setState(() => selectedProjectType = value),
         ),
       ],
     );
   }
 
+  // 🧩 Map Section
+  Widget _buildMapSection() {
+    return AnimatedOpacity(
+      opacity: isMapVisible ? 1 : 0,
+      duration: const Duration(milliseconds: 600),
+      curve: Curves.fastOutSlowIn,
+      child: SizedBox(
+        height: AppSize.s300.h,
+        width: double.infinity,
+        child: GoogleMap(
+          mapType: MapType.normal,
+          myLocationEnabled: true,
+          compassEnabled: true,
+          markers: _markers,
+          initialCameraPosition: CameraPosition(
+            target: _currentLatLng ?? const LatLng(30.119036404288565, 31.340033013494114),
+            zoom: AppSize.s15,
+          ),
+          onMapCreated: (controller) {
+            _googleMapController = controller;
+            _controller.complete(controller);
+            if (_currentLatLng != null) {
+              _googleMapController!.animateCamera(
+                CameraUpdate.newLatLngZoom(_currentLatLng!, AppSize.s15),
+              );
+            }
+            Future.delayed(const Duration(milliseconds: 550),
+                    () => setState(() => isMapVisible = true));
+          },
+        ),
+      ),
+    );
+  }
+
+  // 🧩 Shaft Info
+  Widget _buildShaftInfoSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        LabelDropDownWidget(
+          title: Strings.shaftType,
+          dropDownItems: shaftTypeItems,
+          selectedValue: selectedShaftType,
+          onChanged: (value) => setState(() => selectedShaftType = value),
+          isOptional: true,
+        ),
+        Gap(AppSize.s25.h),
+        LabelDropDownWidget(
+          title: Strings.shaftLocation,
+          dropDownItems: shaftLocationItems,
+          selectedValue: selectedShaftLocation,
+          onChanged: (value) => setState(() => selectedShaftLocation = value),
+        ),
+        ShaftDimensionsWidget(
+          widthController: _widthController,
+          depthController: _depthController,
+        ),
+        Gap(AppSize.s25.h),
+        LabelTextFormFieldWidget(
+          title: Strings.pitDepth,
+          hintText: Strings.cm,
+          controller: _pitDepthController,
+          isCenterText: true,
+          isOptional: true,
+        ),
+        Gap(AppSize.s25.h),
+        LabelYesOrNoWidget(
+          title: Strings.doesTheShaftHaveAMachineRoom,
+          isOptional: true,
+          condition: doesTheShaftHaveAMachineRoom,
+          onYesTap: () => setState(() => doesTheShaftHaveAMachineRoom = true),
+          onNoTap: () => setState(() => doesTheShaftHaveAMachineRoom = false),
+        ),
+        Gap(AppSize.s25.h),
+        LabelTextFormFieldWidget(
+          title: Strings.height,
+          hintText: Strings.cm,
+          controller: _heightController,
+          isCenterText: true,
+          isOptional: true,
+        ),
+      ],
+    );
+  }
+
+  // 🧩 Stops Section
+  Widget _buildStopsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            LabelField(Strings.howManyStops, isOptional: true),
+            const Spacer(),
+            Icon(Icons.report_gmailerrorred_outlined, color: ColorManager.greyColor),
+          ],
+        ),
+        Gap(AppSize.s8.h),
+        StopsInputRow(controller: _stopsController, displayedNumber: _displayedNumber),
+        Gap(AppSize.s25.h),
+        LabelTextFormFieldWidget(
+          title: Strings.lastFloorHeight,
+          hintText: Strings.cm,
+          controller: _lastFloorHeightController,
+          isCenterText: true,
+          isOptional: true,
+        ),
+        Gap(AppSize.s25.h),
+        LabelTextFormFieldWidget(
+          title: Strings.requiredDoorWidth,
+          hintText: Strings.cm,
+          controller: _requiredDoorWidthController,
+          isCenterText: true,
+          isOptional: true,
+        ),
+      ],
+    );
+  }
+
+  // 🧩 Attachments
+  Widget _buildAttachmentsSection() {
+    return CustomImagePicker(
+      multipleImages: imageFileList,
+      isMultiple: true,
+      onTap: _pickImagesFromGallery,
+      placeholderText: Strings.shaftPhoto2BuildingFrontPhoto1,
+    );
+  }
+
+  // 🧩 Schedule
+  Widget _buildScheduleSection() {
+    return SelectSuitableTimeWidget(
+      disabledDays: disabledDays,
+      focusedDay: DateTime.now(),
+    );
+  }
+
+  // 🧩 Notes
+  Widget _buildNotesSection() {
+    return LabelTextFormFieldWidget(
+      title: Strings.notes,
+      hintText: 'notes.',
+      controller: _notesController,
+      isNotes: true,
+      isOptional: true,
+      isCenterText: true,
+    );
+  }
+
+  // 🧩 Submit Button
+  Widget _buildSubmitButton() {
+    return InputButtonWidget(
+      radius: AppSize.s14.r,
+      text: Strings.submit,
+      onTap: () {},
+    );
+  }
+
   Future<void> _pickImagesFromGallery() async {
     final picker = ImagePicker();
-    final List<XFile> pickedFile = await picker.pickMultiImage(limit: 3);
-    setState(() {
-      imageFileList = pickedFile;
-    });
+    final List<XFile> pickedFiles = await picker.pickMultiImage(limit: 3);
+    setState(() => imageFileList = pickedFiles);
   }
 }

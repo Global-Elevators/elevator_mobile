@@ -1,3 +1,4 @@
+import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -22,17 +23,10 @@ class _NotificationViewState extends State<NotificationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        title: Text(
-          Strings.notifications,
-          style: getBoldTextStyle(
-            color: ColorManager.primaryColor,
-            fontSize: FontSizeManager.s28,
-          ),
-        ),
-        actions: [BackButtonWidget(popOrGo: true), Gap(AppSize.s16.w)],
+      appBar: CustomAppBar(
+        title: Strings.notifications,
+        showBackButton: true,
+        popOrGo: true,
       ),
       body: Padding(
         padding: EdgeInsetsDirectional.symmetric(horizontal: AppSize.s16.h),
@@ -61,7 +55,7 @@ class _NotificationViewState extends State<NotificationView> {
     ),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(AppSize.s22.r),
-      color: Color(0xffF8F8F9),//0xffF8F8F9
+      color: Color(0xffF8F8F9), //0xffF8F8F9
     ),
     child: Row(
       children: [

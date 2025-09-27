@@ -1,6 +1,7 @@
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/presentation/widgets/button_widget.dart';
 import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +23,7 @@ class ActionOrCancelButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        InputButtonWidget(
+        ButtonWidget(
           radius: AppSize.s14.r,
           text: actionText,
           onTap: actionOnTap,
@@ -30,7 +31,7 @@ class ActionOrCancelButton extends StatelessWidget {
           color: actionColor,
         ),
         Spacer(),
-        InputButtonWidget(
+        ButtonWidget(
           radius: AppSize.s14.r,
           text: Strings.cancel,
           onTap: () => context.pop(),

@@ -4,6 +4,7 @@ import 'package:elevator/presentation/forget_password/forget_password_view.dart'
 import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/main/catalogue/catalogue_view.dart';
 import 'package:elevator/presentation/main/home/home_view.dart';
+import 'package:elevator/presentation/main/home/report_break_down_view.dart';
 import 'package:elevator/presentation/main/home/request_for_technical_view.dart';
 import 'package:elevator/presentation/main/home/request_site_survey_view.dart';
 import 'package:elevator/presentation/main/library/library_view.dart';
@@ -119,6 +120,12 @@ class GoRouterConfig {
         path: NotificationView.notificationRoute,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             getCustomTransitionPage(state: state, child: NotificationView()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: ReportBreakDownView.reportBreakDownRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: ReportBreakDownView()),
         routes: <RouteBase>[],
       ),
       GoRoute(

@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:dotted_border/dotted_border.dart';
 import 'package:elevator/presentation/main/home/widgets/label_drop_down_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/label_text_form_field_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/label_yes_or_no_widget.dart';
@@ -9,20 +7,13 @@ import 'package:elevator/presentation/main/home/widgets/select_suitable_time_wid
 import 'package:elevator/presentation/main/home/widgets/shaft_dimensions_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/stops_input_row.dart';
 import 'package:elevator/presentation/main/widgets/yes_or_no_button.dart';
-import 'package:elevator/presentation/resources/assets_manager.dart';
-import 'package:elevator/presentation/resources/color_manager.dart';
-import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
-import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/input_button_widget.dart';
-import 'package:elevator/presentation/widgets/items_drop_down.dart';
 import 'package:elevator/presentation/widgets/label_field.dart';
-import 'package:elevator/presentation/widgets/table_calendar_widget.dart';
 import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 
