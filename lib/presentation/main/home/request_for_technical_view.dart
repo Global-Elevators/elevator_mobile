@@ -132,7 +132,9 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
     if (permission == LocationPermission.deniedForever) {
       throw Exception("Location permissions permanently denied");
     }
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
   }
 
   @override
@@ -210,6 +212,9 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       firstNameController: _firstNameController,
       fatherNameController: _fatherNameController,
       grandFatherNameController: _grandFatherNameController,
+      nameStream: null,
+      fatherNameStream: null,
+      grandFatherNameStream: null,
     );
   }
 
@@ -219,7 +224,10 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         LabelField(Strings.phoneNumberWhatsapp),
-        PhoneField(controller: _phoneNumberController, phoneValidationStream: null),
+        PhoneField(
+          controller: _phoneNumberController,
+          phoneValidationStream: null,
+        ),
       ],
     );
   }
@@ -260,7 +268,9 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           compassEnabled: true,
           markers: _markers,
           initialCameraPosition: CameraPosition(
-            target: _currentLatLng ?? const LatLng(30.119036404288565, 31.340033013494114),
+            target:
+                _currentLatLng ??
+                const LatLng(30.119036404288565, 31.340033013494114),
             zoom: AppSize.s15,
           ),
           onMapCreated: (controller) {
@@ -271,8 +281,10 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
                 CameraUpdate.newLatLngZoom(_currentLatLng!, AppSize.s15),
               );
             }
-            Future.delayed(const Duration(milliseconds: 550),
-                    () => setState(() => isMapVisible = true));
+            Future.delayed(
+              const Duration(milliseconds: 550),
+              () => setState(() => isMapVisible = true),
+            );
           },
         ),
       ),
@@ -339,11 +351,17 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           children: [
             LabelField(Strings.howManyStops, isOptional: true),
             const Spacer(),
-            Icon(Icons.report_gmailerrorred_outlined, color: ColorManager.greyColor),
+            Icon(
+              Icons.report_gmailerrorred_outlined,
+              color: ColorManager.greyColor,
+            ),
           ],
         ),
         Gap(AppSize.s8.h),
-        StopsInputRow(controller: _stopsController, displayedNumber: _displayedNumber),
+        StopsInputRow(
+          controller: _stopsController,
+          displayedNumber: _displayedNumber,
+        ),
         Gap(AppSize.s25.h),
         LabelTextFormFieldWidget(
           title: Strings.lastFloorHeight,

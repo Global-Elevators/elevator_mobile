@@ -91,7 +91,9 @@ class VerifyForgotPasswordDataResponse {
 class VerifyForgotPasswordResponse extends BaseResponse {
   @JsonKey(name: "data")
   VerifyForgotPasswordDataResponse? verifyForgotPasswordDataResponse;
+
   VerifyForgotPasswordResponse(this.verifyForgotPasswordDataResponse);
+
   factory VerifyForgotPasswordResponse.fromJson(Map<String, dynamic> json) =>
       _$VerifyForgotPasswordResponseFromJson(json);
 

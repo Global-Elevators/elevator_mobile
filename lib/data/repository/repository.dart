@@ -6,6 +6,7 @@ import 'package:elevator/data/network/exception_handler.dart';
 import 'package:elevator/data/network/failure.dart';
 import 'package:elevator/data/network/network_info.dart';
 import 'package:elevator/data/network/requests/login_request.dart';
+import 'package:elevator/data/network/requests/register_request.dart';
 import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
@@ -188,6 +189,28 @@ class RepositoryImpl extends Repository {
   Future<Either<Failure, void>> _performResendOtp(String phone) async {
     try {
       await _remoteDataSource.resendOtp(phone);
+      return Right(null);
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> register(
+    UserData userData,
+  ) async {
+    if (await hasNetworkConnection()) {
+      return _performRegister(userData);
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  Future<Either<Failure, void>> _performRegister(
+    UserData userData,
+  ) async {
+    try {
+      await _remoteDataSource.register(userData);
       return Right(null);
     } catch (error) {
       return Left(ExceptionHandler.handle(error).failure);

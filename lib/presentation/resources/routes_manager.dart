@@ -38,8 +38,10 @@ class GoRouterConfig {
       ),
       GoRoute(
         path: RegisterView.registerRoute,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: RegisterView()),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          initRegisterModule();
+          return getCustomTransitionPage(state: state, child: RegisterView());
+        },
         routes: <RouteBase>[],
       ),
       GoRoute(

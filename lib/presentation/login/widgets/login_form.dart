@@ -20,8 +20,6 @@ class LoginForm extends StatelessWidget {
   final Stream<bool>? passwordValidationStream;
   final void Function()? onTap;
   final Stream<bool>? isButtonEnabledStream;
-  // final void Function()? navigateToRegister;
-  // final void Function()? navigateToForgetPassword;
 
   const LoginForm({
     super.key,
@@ -31,8 +29,6 @@ class LoginForm extends StatelessWidget {
     required this.passwordValidationStream,
     this.onTap,
     this.isButtonEnabledStream,
-    // this.navigateToRegister,
-    // this.navigateToForgetPassword,
   });
 
   @override

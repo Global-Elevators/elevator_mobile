@@ -8,6 +8,7 @@ import 'package:elevator/data/repository/repository.dart';
 import 'package:elevator/domain/repository/repository.dart';
 import 'package:elevator/domain/usecase/forget_password_usecase.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
+import 'package:elevator/domain/usecase/register_usecase.dart';
 import 'package:elevator/domain/usecase/resend_otp_usecase.dart';
 import 'package:elevator/domain/usecase/reset_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_forgot_password_usecase.dart';
@@ -15,6 +16,7 @@ import 'package:elevator/domain/usecase/verify_usecase.dart';
 import 'package:elevator/presentation/forget_password/forget_password_viewmodel.dart';
 import 'package:elevator/presentation/login/login_viewmodel.dart';
 import 'package:elevator/presentation/new_password/new_password_viewmodel.dart';
+import 'package:elevator/presentation/register/register_viewmodel.dart';
 import 'package:elevator/presentation/verify/verify_viewmodel.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -121,6 +123,17 @@ initResendOtpModule() {
   if (!GetIt.I.isRegistered<ResendOtpUseCase>()) {
     instance.registerFactory<ResendOtpUseCase>(
           () => ResendOtpUseCase(instance<Repository>()),
+    );
+  }
+}
+
+initRegisterModule() {
+  if (!GetIt.I.isRegistered<RegisterUseCase>()) {
+    instance.registerFactory<RegisterUseCase>(
+      () => RegisterUseCase(instance<Repository>()),
+    );
+    instance.registerFactory<RegisterViewModel>(
+      () => RegisterViewModel(instance<RegisterUseCase>()),
     );
   }
 }

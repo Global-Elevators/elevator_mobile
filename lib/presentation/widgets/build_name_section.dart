@@ -7,17 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
-
 class BuildNameSection extends StatelessWidget {
   final TextEditingController firstNameController;
   final TextEditingController fatherNameController;
   final TextEditingController grandFatherNameController;
+  final Stream<bool>? nameStream;
+  final Stream<bool>? fatherNameStream;
+  final Stream<bool>? grandFatherNameStream;
 
   const BuildNameSection({
     super.key,
     required this.firstNameController,
     required this.fatherNameController,
     required this.grandFatherNameController,
+    required this.nameStream,
+    required this.fatherNameStream,
+    required this.grandFatherNameStream,
   });
 
   @override
@@ -27,30 +32,51 @@ class BuildNameSection extends StatelessWidget {
       children: [
         const LabelField(Strings.nameLabel),
         Gap(AppSize.s8.h),
-        TextFromFieldWidget(
-          hintText: Strings.firstName,
-          controller: firstNameController,
-          prefixIcon: Icon(
-            Icons.account_circle_outlined,
-            size: AppSize.s30,
-            color: ColorManager.primaryColor,
-          ),
+        StreamBuilder<bool>(
+          stream: nameStream,
+          builder: (context, snapshot) =>
+              TextFromFieldWidget(
+                hintText: Strings.firstName,
+                controller: firstNameController,
+                prefixIcon: Icon(
+                  Icons.account_circle_outlined,
+                  size: AppSize.s30,
+                  color: ColorManager.primaryColor,
+                ),
+                errorText: (snapshot.data ?? true) ? null : Strings.invalidName,
+              ),
         ),
         Gap(AppSize.s8.h),
         Row(
           children: [
-            Expanded(
-              child: TextFromFieldWidget(
-                hintText: Strings.fatherName,
-                controller: fatherNameController,
-              ),
+            StreamBuilder<bool>(
+              stream: fatherNameStream,
+              builder:
+                  (BuildContext context, AsyncSnapshot<dynamic> snapshot) =>
+                      Expanded(
+                        child: TextFromFieldWidget(
+                          hintText: Strings.fatherName,
+                          controller: fatherNameController,
+                          errorText: (snapshot.data ?? true)
+                              ? null
+                              : Strings.invalidName,
+                        ),
+                      ),
             ),
             Gap(AppSize.s8.w),
-            Expanded(
-              child: TextFromFieldWidget(
-                hintText: Strings.grandfatherName,
-                controller: grandFatherNameController,
-              ),
+            StreamBuilder<bool>(
+              stream: grandFatherNameStream,
+              builder:
+                  (BuildContext context, AsyncSnapshot<dynamic> snapshot) =>
+                      Expanded(
+                        child: TextFromFieldWidget(
+                          hintText: Strings.grandfatherName,
+                          controller: grandFatherNameController,
+                          errorText: (snapshot.data ?? true)
+                              ? null
+                              : Strings.invalidName,
+                        ),
+                      ),
             ),
           ],
         ),

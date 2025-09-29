@@ -11,6 +11,7 @@ class Strings {
   static const String arabicText = 'عربي';
   static const String englishText = 'English';
   static const String invalidPhoneNumber = 'Invalid Phone Number';
+  static const String invalidName = 'Invalid Name';
   static const String invalidPassword = 'Invalid Password';
   static const String loading = 'Loading...';
   static const String error = 'Error';

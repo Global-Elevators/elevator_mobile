@@ -1,25 +1,28 @@
+import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/login/login_view.dart';
-import 'package:elevator/presentation/widgets/items_drop_down.dart';
-import 'package:elevator/presentation/resources/assets_manager.dart';
-import 'package:elevator/presentation/widgets/back_to_button.dart';
+import 'package:elevator/presentation/register/register_viewmodel.dart';
 import 'package:elevator/presentation/register/widgets/date_of_birth_row.dart';
 import 'package:elevator/presentation/register/widgets/interest_item.dart';
-import 'package:elevator/presentation/widgets/label_field.dart';
+import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/presentation/widgets/back_to_button.dart';
 import 'package:elevator/presentation/widgets/build_name_section.dart';
 import 'package:elevator/presentation/widgets/input_button_widget.dart';
+import 'package:elevator/presentation/widgets/items_drop_down.dart';
+import 'package:elevator/presentation/widgets/label_field.dart';
 import 'package:elevator/presentation/widgets/password_field.dart';
 import 'package:elevator/presentation/widgets/phone_field.dart';
 import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
-import '../verify/verify_view.dart';
 
 enum DateOfBirthType { Day, Month, Year }
 
@@ -56,48 +59,138 @@ class _RegisterViewState extends State<RegisterView> {
   final List<String> addresses = ["Cairo", "Alexandria", "Giza", "Mansoura"];
   final String hintText = "Select your address";
 
+  final _registerViewModel = instance<RegisterViewModel>();
+
   @override
   void initState() {
     super.initState();
+    _bind();
+  }
+
+  _bind() {
+    _registerViewModel.start();
     final now = DateTime.now();
     _dayController.text = now.day.toString();
     _monthController.text = now.month.toString();
     _yearController.text = now.year.toString();
+    updatingPhoneAndPasswordValues();
+    isRegisterSuccessfully();
+  }
+
+  void updatingPhoneAndPasswordValues() {
+    _phoneController.addListener(
+      () => _registerViewModel.setPhoneNumber(_phoneController.text),
+    );
+
+    _firstNameController.addListener(
+      () => _registerViewModel.setName(_firstNameController.text),
+    );
+
+    _grandFatherNameController.addListener(
+      () => _registerViewModel.setGrandFatherName(
+        _grandFatherNameController.text,
+      ),
+    );
+
+    _fatherNameController.addListener(
+      () => _registerViewModel.setFatherName(_fatherNameController.text),
+    );
+
+    _passwordController.addListener(
+      () => _registerViewModel.setPassword(_passwordController.text),
+    );
+
+    _phoneController.addListener(
+      () => _registerViewModel.setPhoneNumber(_phoneController.text),
+    );
+    _confirmPasswordController.addListener(
+      () => _registerViewModel.setConfirmPassword(
+        _confirmPasswordController.text,
+      ),
+    );
+
+    _emailController.addListener(
+      () => _registerViewModel.setEmail(_emailController.text),
+    );
+  }
+
+  void isRegisterSuccessfully() {
+    _registerViewModel.isUserRegisteredSuccessfullyController.stream.listen((
+      isUserRegisteredSuccessfully,
+    ) {
+      if (isUserRegisteredSuccessfully) {
+        SchedulerBinding.instance.addPostFrameCallback(
+          (_) => context.go(LoginView.loginRoute),
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _registerViewModel.dispose();
+    _phoneController.dispose();
+    _firstNameController.dispose();
+    _fatherNameController.dispose();
+    _grandFatherNameController.dispose();
+    _dayController.dispose();
+    _monthController.dispose();
+    _yearController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildBackButton(),
-                Gap(AppSize.s12.h),
-                _buildHeader(),
-                Gap(AppSize.s22.h),
-                BuildNameSection(
-                  firstNameController: _firstNameController,
-                  fatherNameController: _fatherNameController,
-                  grandFatherNameController: _grandFatherNameController,
-                ),
-                Gap(AppSize.s25.h),
-                _buildDateOfBirthSection(),
-                Gap(AppSize.s25.h),
-                _buildContactSection(),
-                Gap(AppSize.s25.h),
-                _buildPasswordSection(),
-                Gap(AppSize.s25.h),
-                _buildInterestsSection(),
-                Gap(AppSize.s25.h),
-                _buildSignUpButton(),
-                Gap(AppSize.s10.h),
-              ],
-            ),
+      body: StreamBuilder<FlowState>(
+        stream: _registerViewModel.outputStateStream,
+        builder: (context, snapshot) =>
+            snapshot.data?.getStateWidget(
+              context,
+              _getContentWidget(),
+              () {},
+            ) ??
+            _getContentWidget(),
+      ),
+    );
+  }
+
+  SingleChildScrollView _getContentWidget() {
+    return SingleChildScrollView(
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildBackButton(),
+              Gap(AppSize.s12.h),
+              _buildHeader(),
+              Gap(AppSize.s22.h),
+              BuildNameSection(
+                firstNameController: _firstNameController,
+                fatherNameController: _fatherNameController,
+                grandFatherNameController: _grandFatherNameController,
+                fatherNameStream: _registerViewModel.outIsFatherNameValid,
+                grandFatherNameStream:
+                    _registerViewModel.outIsGrandFatherNameValid,
+                nameStream: _registerViewModel.outIsNameValid,
+              ),
+              Gap(AppSize.s25.h),
+              _buildDateOfBirthSection(),
+              Gap(AppSize.s25.h),
+              _buildContactSection(),
+              Gap(AppSize.s25.h),
+              _buildPasswordSection(),
+              Gap(AppSize.s25.h),
+              _buildInterestsSection(),
+              Gap(AppSize.s25.h),
+              _buildSignUpButton(),
+              Gap(AppSize.s10.h),
+            ],
           ),
         ),
       ),
@@ -150,6 +243,8 @@ class _RegisterViewState extends State<RegisterView> {
         monthController: _monthController,
         yearController: _yearController,
         onDateSelected: (date) {
+          String parsedDate = "${date.year}-${date.month}-${date.day}";
+          _registerViewModel.setBirthDate(parsedDate);
           setState(() {
             _dayController.text = date.day.toString();
             _monthController.text = date.month.toString();
@@ -165,19 +260,29 @@ class _RegisterViewState extends State<RegisterView> {
     children: [
       const LabelField(Strings.phoneNumberTitle),
       Gap(AppSize.s8.h),
-      PhoneField(controller: _phoneController, phoneValidationStream: null),
+      PhoneField(
+        controller: _phoneController,
+        phoneValidationStream: _registerViewModel.outIsPhoneNumberValid,
+      ),
       Gap(AppSize.s25.h),
       LabelField(Strings.emailLabel, isOptional: true),
       Gap(AppSize.s8.h),
-      TextFromFieldWidget(
-        hintText: Strings.email,
-        controller: _emailController,
-        prefixIcon: Image.asset(
-          IconAssets.email,
-          width: AppSize.s20,
-          height: AppSize.s20,
-          color: ColorManager.primaryColor,
-        ),
+      StreamBuilder<bool>(
+        stream: _registerViewModel.outIsEmailValid,
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) =>
+            TextFromFieldWidget(
+              hintText: Strings.email,
+              controller: _emailController,
+              prefixIcon: Image.asset(
+                IconAssets.email,
+                width: AppSize.s20,
+                height: AppSize.s20,
+                color: ColorManager.primaryColor,
+              ),
+              // errorText: (snapshot.data ?? true)
+              //     ? null
+              //     : Strings.invalidPassword,
+            ),
       ),
       Gap(AppSize.s25.h),
       const LabelField(Strings.addressLabel),
@@ -190,6 +295,7 @@ class _RegisterViewState extends State<RegisterView> {
           setState(() {
             selectedAddress = value;
           });
+          _registerViewModel.setAddress(selectedAddress!);
         },
       ),
     ],
@@ -203,13 +309,13 @@ class _RegisterViewState extends State<RegisterView> {
       PasswordField(
         controller: _passwordController,
         hintText: Strings.passwordTitle,
-        passwordValidationStream: null,
+        passwordValidationStream: _registerViewModel.outIsPasswordValid,
       ),
       Gap(AppSize.s8.h),
       PasswordField(
         controller: _confirmPasswordController,
         hintText: Strings.confirmPassword,
-        passwordValidationStream: null,
+        passwordValidationStream: _registerViewModel.outIsConfirmPasswordValid,
       ),
     ],
   );
@@ -236,8 +342,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget _buildSignUpButton() => InputButtonWidget(
     radius: AppSize.s14,
     text: Strings.signUpButton,
-    onTap: () => context.push(
-      LoginView.loginRoute,
-    ),
+    onTap: () => _registerViewModel.register(),
+    isButtonEnabledStream: _registerViewModel.areAllInputsValidStream,
   );
 }
