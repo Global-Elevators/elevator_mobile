@@ -15,7 +15,8 @@ class NewPasswordViewModel extends BaseViewModel
       _userPasswordController = StreamController<String>.broadcast();
   final StreamController<void> _areAllInputsValidController =
       StreamController<void>.broadcast();
-  final StreamController<bool> didUserEnterPasswordAndConfirmPasswordController =
+  final StreamController<bool>
+  didUserEnterPasswordAndConfirmPasswordController =
       StreamController<bool>.broadcast();
 
   // var loginObject = LoginObject("", "");

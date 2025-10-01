@@ -5,6 +5,7 @@ import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PasswordField extends StatelessWidget {
   final TextEditingController controller;
@@ -22,20 +23,25 @@ class PasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<bool>(
       stream: passwordValidationStream,
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) => TextFromFieldWidget(
-        hintText: hintText,
-        controller: controller,
-        obscureText: true,
-        keyboardType: TextInputType.visiblePassword,
-        textInputAction: TextInputAction.done,
-        prefixIcon: Image.asset(
-          IconAssets.passwordIconField,
-          color: ColorManager.primaryColor,
-          width: AppSize.s5.w,
-          height: AppSize.s5.h,
-        ),
-        errorText: (snapshot.data ?? true) ? null : Strings.invalidPassword,
-      ),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) =>
+          TextFromFieldWidget(
+            hintText: hintText,
+            controller: controller,
+            obscureText: true,
+            keyboardType: TextInputType.visiblePassword,
+            textInputAction: TextInputAction.done,
+            prefixIcon: SvgPicture.asset(
+              IconAssets.passwordIconField,
+              fit: BoxFit.scaleDown,
+              colorFilter: ColorFilter.mode(
+                ColorManager.primaryColor,
+                BlendMode.srcIn,
+              ),
+              width: 21,
+              height: 21,
+            ),
+            errorText: (snapshot.data ?? true) ? null : Strings.invalidPassword,
+          ),
     );
   }
 }

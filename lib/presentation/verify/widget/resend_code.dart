@@ -16,8 +16,7 @@ class ResendCode extends StatelessWidget {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-        recognizer: TapGestureRecognizer()
-          ..onTap = onTap,
+        recognizer: TapGestureRecognizer()..onTap = onTap,
         text: Strings.resendCode,
         style: getMediumTextStyle(
           color: seconds > 0

@@ -47,13 +47,13 @@ class _VerifyViewState extends State<VerifyView> {
       isVerifyCorrect,
     ) {
       if (isVerifyCorrect) {
-        SchedulerBinding.instance.addPostFrameCallback((_) async{
+        SchedulerBinding.instance.addPostFrameCallback((_) async {
           if (widget.codes[1] == "login") {
             context.go(
               AccountVerifiedView.accountVerifiedRoute,
               extra: widget.codes[1],
             );
-          }else{
+          } else {
             context.go(
               NewPasswordView.newPasswordRoute,
               extra: await _appPref.getUserToken("forget_password"),
@@ -137,7 +137,7 @@ class _VerifyViewState extends State<VerifyView> {
                   onTap: () {
                     if (seconds > 0) {
                       return null;
-                    }else {
+                    } else {
                       _viewModel.resend();
                       _startTimer();
                     }

@@ -4,6 +4,7 @@ import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/presentation/widgets/app_bar_label.dart';
 import 'package:elevator/presentation/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -79,23 +80,25 @@ class _CatalogueAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Colors.white,
-      title: Text(
-        Strings.catalogue,
-        style: getBoldTextStyle(
-          color: ColorManager.primaryColor,
-          fontSize: FontSizeManager.s28.sp,
-        ),
-      ),
+      title: AppBarLabel(Strings.catalogue),
       actions: [
         InkWell(
           onTap: () => pdfViewerController.previousPage(),
-          child: Icon(Icons.arrow_back_ios, color: ColorManager.primaryColor, size: 20),
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: ColorManager.primaryColor,
+            size: 20,
+          ),
         ),
         IconButton(
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
           onPressed: () => pdfViewerController.nextPage(),
-          icon: Icon(Icons.arrow_forward_ios, color: ColorManager.primaryColor, size: 20),
+          icon: Icon(
+            Icons.arrow_forward_ios,
+            color: ColorManager.primaryColor,
+            size: 20,
+          ),
         ),
         IconButton(
           padding: EdgeInsets.zero,
@@ -122,7 +125,9 @@ class _CatalogueBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsetsDirectional.symmetric(horizontal: AppPadding.p16),
+        padding: const EdgeInsetsDirectional.symmetric(
+          horizontal: AppPadding.p16,
+        ),
         child: Column(
           children: [
             SizedBox(
@@ -202,7 +207,10 @@ class _CallButton extends StatelessWidget {
           children: [
             SvgPicture.asset(
               IconAssets.call,
-              colorFilter: ColorFilter.mode(ColorManager.primaryColor, BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(
+                ColorManager.primaryColor,
+                BlendMode.srcIn,
+              ),
             ),
             Gap(AppSize.s5.w),
             Text(
@@ -223,10 +231,7 @@ class _JumpToPageDialog extends StatelessWidget {
   final TextEditingController controller;
   final Function(int) onConfirm;
 
-  const _JumpToPageDialog({
-    required this.controller,
-    required this.onConfirm,
-  });
+  const _JumpToPageDialog({required this.controller, required this.onConfirm});
 
   @override
   Widget build(BuildContext context) {

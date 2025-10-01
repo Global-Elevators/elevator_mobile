@@ -1,6 +1,6 @@
 import 'package:elevator/domain/models/base__model.dart';
 
-class VerifyForgotPasswordDataModel extends BaseModel{
+class VerifyForgotPasswordDataModel extends BaseModel {
   final String token;
   final int expiresIn;
 

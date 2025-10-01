@@ -34,7 +34,7 @@ class HomeBar extends StatelessWidget {
           ],
         ),
         const Spacer(),
-        BackButtonWidget(popOrGo: false)
+        BackButtonWidget(popOrGo: false),
       ],
     );
   }

@@ -27,11 +27,11 @@ class PremiumContainer extends StatefulWidget {
 }
 
 class _PremiumContainerState extends State<PremiumContainer> {
-   List<DateTime> disabledDays = [
-     DateTime.utc(2025, 9, 15),
-     DateTime.utc(2025, 9, 18),
-     DateTime.utc(2025, 9, 20),
-   ];
+  List<DateTime> disabledDays = [
+    DateTime.utc(2025, 9, 15),
+    DateTime.utc(2025, 9, 18),
+    DateTime.utc(2025, 9, 20),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,8 @@ class _PremiumContainerState extends State<PremiumContainer> {
                     title: Strings.reportBreakDown,
                     imageAsset: ImageAssets.maintenance,
                     isPremium: widget.isPremium,
-                    onTap: () => context.push(ReportBreakDownView.reportBreakDownRoute),
+                    onTap: () =>
+                        context.push(ReportBreakDownView.reportBreakDownRoute),
                   ),
                   Gap(AppSize.s8.w),
                   PremiumButton(
@@ -117,10 +118,10 @@ class _PremiumContainerState extends State<PremiumContainer> {
                 ),
                 textAlign: TextAlign.center,
               ),
-            TableCalendarWidget(
-              disabledDays: disabledDays,
-              focusedDay: DateTime.now(),
-            ),
+              TableCalendarWidget(
+                disabledDays: disabledDays,
+                focusedDay: DateTime.now(),
+              ),
               Gap(AppSize.s16.h),
               ActionOrCancelButton(Strings.request, () {
                 context.pop();

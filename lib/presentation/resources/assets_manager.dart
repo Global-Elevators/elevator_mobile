@@ -20,7 +20,6 @@ class ImageAssets {
   static const String premium = "$imagesPath/premium.svg";
 }
 
-
 class IconAssets {
   static const String calendar = "$iconsPath/calendar.png";
   static const String worker = "$iconsPath/worker.png";
@@ -38,9 +37,11 @@ class IconAssets {
   static const String call = "$iconsPath/call.svg";
   static const String homeStroke = "$iconsPath/home_stroke.svg";
   static const String iraqFlag = "$iconsPath/iraq_flag.png";
-  static const String passwordIconField = "$iconsPath/password.png";
+  static const String passwordIconField = "$iconsPath/password.svg";
   static const String email = "$iconsPath/email.png";
   static const String file = "$iconsPath/file.svg";
+  static const String contractsStatus = "$iconsPath/contracts_status.svg";
+  static const String language = "$iconsPath/language.svg";
 }
 
 class JsonAssets {

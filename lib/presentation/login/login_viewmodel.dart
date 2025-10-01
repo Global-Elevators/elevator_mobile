@@ -7,7 +7,8 @@ import 'package:elevator/presentation/common/state_renderer/state_renderer.dart'
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:flutter/material.dart';
 
-class LoginViewModel extends BaseViewModel implements LoginViewmodelInputs, LoginViewmodelOutputs {
+class LoginViewModel extends BaseViewModel
+    implements LoginViewmodelInputs, LoginViewmodelOutputs {
   final StreamController<String> _userPhoneController =
           StreamController<String>.broadcast(),
       _userPasswordController = StreamController<String>.broadcast();
@@ -61,7 +62,6 @@ class LoginViewModel extends BaseViewModel implements LoginViewmodelInputs, Logi
   Stream<bool> get outIsPasswordValid => _userPasswordController.stream.map(
     (password) => isPasswordValid(password),
   );
-
 
   @override
   Future<void> login() async {

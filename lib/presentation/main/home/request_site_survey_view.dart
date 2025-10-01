@@ -6,6 +6,7 @@ import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/presentation/widgets/app_bar_label.dart';
 import 'package:elevator/presentation/widgets/back_button.dart';
 import 'package:elevator/presentation/widgets/build_name_section.dart';
 import 'package:elevator/presentation/widgets/drop_down_scope.dart';
@@ -67,13 +68,7 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: Text(
-          Strings.requestSiteSurvey,
-          style: getBoldTextStyle(
-            color: ColorManager.primaryColor,
-            fontSize: FontSizeManager.s28,
-          ),
-        ),
+        title: AppBarLabel(Strings.requestSiteSurvey),
         actions: [BackButtonWidget(popOrGo: true), Gap(AppSize.s16.w)],
       ),
       body: SingleChildScrollView(

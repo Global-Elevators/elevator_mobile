@@ -94,5 +94,3 @@ class DropdownScope extends StatelessWidget {
     );
   }
 }
-
-

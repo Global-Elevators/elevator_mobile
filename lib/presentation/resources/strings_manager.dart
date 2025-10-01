@@ -207,6 +207,16 @@ class Strings {
   static const String anyBodyInjuredOrTrappedInsideTheElevator =
       "Any body injured or trapped inside the elevator?";
   static const String report = "Report";
-  static const String yourRequestHadBeenRecorded = "Your request had been recorded, the specialized  team will attend ASAP).";
+  static const String yourRequestHadBeenRecorded =
+      "Your request had been recorded, the specialized  team will attend ASAP).";
   static const String documents = "Documents";
+
+  // Profile screen strings
+  static const String editInformation = "Edit information";
+  static const String contractsStatus = "Contracts status";
+  static const String requestStatus = "Request status";
+  static const String changePassword = "Change password";
+  static const String language = "Language";
+  static const String help = "Help";
+  static const String signOut = "Sign out";
 }

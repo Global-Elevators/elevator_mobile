@@ -69,7 +69,9 @@ class PhoneField extends StatelessWidget {
               controller: controller,
               keyboardType: TextInputType.phone,
               textInputAction: TextInputAction.done,
-              errorText: (snapshot.data ?? true) ? null : Strings.invalidPhoneNumber,
+              errorText: (snapshot.data ?? true)
+                  ? null
+                  : Strings.invalidPhoneNumber,
             ),
           ),
         ),

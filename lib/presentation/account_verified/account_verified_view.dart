@@ -34,9 +34,7 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Image.asset(
-                ImageAssets.verification,
-              ),
+              Image.asset(ImageAssets.verification),
               Gap(AppSize.s25.h),
               Text(
                 textAlign: TextAlign.center,

@@ -9,7 +9,9 @@ abstract class RemoteDataSource {
   Future<AuthenticationResponse> login(LoginRequest loginRequests);
   Future<VerifyResponse> verify(VerifyRequest verifyRequests);
   Future<AuthenticationResponse> forgotPassword(String phone);
-  Future<VerifyForgotPasswordResponse> verifyForgotPassword(VerifyRequest verifyForgotPasswordRequest);
+  Future<VerifyForgotPasswordResponse> verifyForgotPassword(
+    VerifyRequest verifyForgotPasswordRequest,
+  );
   Future<void> resetPassword(ResetPasswordRequest resetPasswordRequest);
   Future<void> resendOtp(String phone);
   Future<void> register(UserData userData);
@@ -21,7 +23,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
   RemoteDataSourceImp(this._appServicesClient);
 
   @override
-  Future<AuthenticationResponse> login(LoginRequest loginRequests) async{
+  Future<AuthenticationResponse> login(LoginRequest loginRequests) async {
     return await _appServicesClient.login(
       loginRequests.phone,
       loginRequests.password,
@@ -29,7 +31,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
   }
 
   @override
-  Future<VerifyResponse> verify(VerifyRequest verifyRequests) async{
+  Future<VerifyResponse> verify(VerifyRequest verifyRequests) async {
     return await _appServicesClient.verifyOtp(
       verifyRequests.phone,
       verifyRequests.code,
@@ -42,7 +44,9 @@ class RemoteDataSourceImp extends RemoteDataSource {
   }
 
   @override
-  Future<VerifyForgotPasswordResponse> verifyForgotPassword(VerifyRequest verifyForgotPasswordRequest) {
+  Future<VerifyForgotPasswordResponse> verifyForgotPassword(
+    VerifyRequest verifyForgotPasswordRequest,
+  ) {
     return _appServicesClient.verifyForgotPassword(
       verifyForgotPasswordRequest.phone,
       verifyForgotPasswordRequest.code,
@@ -59,12 +63,12 @@ class RemoteDataSourceImp extends RemoteDataSource {
   }
 
   @override
-  Future<void> resendOtp(String phone) async{
+  Future<void> resendOtp(String phone) async {
     return await _appServicesClient.resendOtp(phone);
   }
 
   @override
-  Future<void> register(UserData userData) async{
+  Future<void> register(UserData userData) async {
     return await _appServicesClient.register(userData);
   }
 }

@@ -12,7 +12,11 @@ class BackToSignInButton extends StatelessWidget {
   final String text;
   final String route;
 
-  const BackToSignInButton({super.key, required this.text, required this.route});
+  const BackToSignInButton({
+    super.key,
+    required this.text,
+    required this.route,
+  });
 
   @override
   Widget build(BuildContext context) {

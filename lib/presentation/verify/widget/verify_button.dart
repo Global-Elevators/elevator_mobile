@@ -8,11 +8,7 @@ class VerifyButton extends StatelessWidget {
   final Stream<bool>? isButtonEnabledStream;
   final void Function()? onTap;
 
-  const VerifyButton(
-    this.isButtonEnabledStream,
-    this.onTap, {
-    super.key,
-  });
+  const VerifyButton(this.isButtonEnabledStream, this.onTap, {super.key});
 
   @override
   Widget build(BuildContext context) {

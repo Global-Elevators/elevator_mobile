@@ -3,7 +3,8 @@ import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/widgets/back_to_button.dart';
 import 'package:flutter/material.dart';
 
-class ForgetPasswordAppBar extends StatelessWidget implements PreferredSizeWidget {
+class ForgetPasswordAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
   const ForgetPasswordAppBar({super.key});
 
   @override

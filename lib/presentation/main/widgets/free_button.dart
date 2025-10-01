@@ -11,7 +11,12 @@ class FreeButton extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
 
-  const FreeButton({super.key, required this.imageAsset, required this.title, required this.onTap});
+  const FreeButton({
+    super.key,
+    required this.imageAsset,
+    required this.title,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

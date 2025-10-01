@@ -34,17 +34,16 @@ class BuildNameSection extends StatelessWidget {
         Gap(AppSize.s8.h),
         StreamBuilder<bool>(
           stream: nameStream,
-          builder: (context, snapshot) =>
-              TextFromFieldWidget(
-                hintText: Strings.firstName,
-                controller: firstNameController,
-                prefixIcon: Icon(
-                  Icons.account_circle_outlined,
-                  size: AppSize.s30,
-                  color: ColorManager.primaryColor,
-                ),
-                errorText: (snapshot.data ?? true) ? null : Strings.invalidName,
-              ),
+          builder: (context, snapshot) => TextFromFieldWidget(
+            hintText: Strings.firstName,
+            controller: firstNameController,
+            prefixIcon: Icon(
+              Icons.account_circle_outlined,
+              size: AppSize.s30,
+              color: ColorManager.primaryColor,
+            ),
+            errorText: (snapshot.data ?? true) ? null : Strings.invalidName,
+          ),
         ),
         Gap(AppSize.s8.h),
         Row(

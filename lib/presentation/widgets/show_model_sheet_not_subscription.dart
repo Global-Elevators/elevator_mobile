@@ -113,10 +113,7 @@ Container contactButton() {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(AppSize.s14.r),
       gradient: LinearGradient(
-        colors: [
-          Color(0xffFF930E),
-          Color(0xff995808),
-        ],
+        colors: [Color(0xffFF930E), Color(0xff995808)],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         stops: [0.0, 1.0],
@@ -153,10 +150,7 @@ Container requestForQuotationButton() => Container(
   decoration: BoxDecoration(
     borderRadius: BorderRadius.circular(AppSize.s14.r),
     gradient: LinearGradient(
-      colors: [
-        Color(0xff1C274C),
-        Color(0xff364166),
-      ],
+      colors: [Color(0xff1C274C), Color(0xff364166)],
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       stops: [0.0, 1.0],

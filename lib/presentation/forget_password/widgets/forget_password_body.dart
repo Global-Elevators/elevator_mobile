@@ -45,7 +45,10 @@ class ForgetPasswordBody extends StatelessWidget {
             ),
           ),
           Gap(AppSize.s40.h),
-          PhoneField(controller: phoneController, phoneValidationStream: isButtonEnabledStream),
+          PhoneField(
+            controller: phoneController,
+            phoneValidationStream: isButtonEnabledStream,
+          ),
           Gap(AppSize.s25.h),
           InputButtonWidget(
             radius: AppSize.s14,

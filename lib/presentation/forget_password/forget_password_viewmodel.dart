@@ -11,7 +11,8 @@ class ForgetPasswordViewmodel extends BaseViewModel
   final StreamController<String> _phoneStreamController =
       StreamController<String>.broadcast();
 
-  StreamController<bool> didTheUserEnterTheCorrectPhoneNumber = StreamController<bool>.broadcast();
+  StreamController<bool> didTheUserEnterTheCorrectPhoneNumber =
+      StreamController<bool>.broadcast();
   String _phone = "";
 
   final ForgotPasswordUseCase _forgotPasswordUseCase;

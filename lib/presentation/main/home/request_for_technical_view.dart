@@ -15,6 +15,7 @@ import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/presentation/widgets/app_bar_label.dart';
 import 'package:elevator/presentation/widgets/back_button.dart';
 import 'package:elevator/presentation/widgets/build_name_section.dart';
 import 'package:elevator/presentation/widgets/input_button_widget.dart';
@@ -182,15 +183,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   Widget _buildHeader() {
     return Row(
       children: [
-        Expanded(
-          child: Text(
-            Strings.requestTechnicalOffer,
-            style: getBoldTextStyle(
-              color: ColorManager.primaryColor,
-              fontSize: FontSizeManager.s28,
-            ),
-          ),
-        ),
+        Expanded(child: AppBarLabel(Strings.requestTechnicalOffer)),
         BackButtonWidget(popOrGo: true),
       ],
     );

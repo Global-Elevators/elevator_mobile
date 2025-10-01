@@ -110,7 +110,7 @@ initVerifyForgotPasswordModule() {
 initResetPasswordModule() {
   if (!GetIt.I.isRegistered<ResetPasswordUsecase>()) {
     instance.registerFactory<ResetPasswordUsecase>(
-          () => ResetPasswordUsecase(instance<Repository>()),
+      () => ResetPasswordUsecase(instance<Repository>()),
     );
 
     instance.registerFactory<NewPasswordViewModel>(
@@ -122,7 +122,7 @@ initResetPasswordModule() {
 initResendOtpModule() {
   if (!GetIt.I.isRegistered<ResendOtpUseCase>()) {
     instance.registerFactory<ResendOtpUseCase>(
-          () => ResendOtpUseCase(instance<Repository>()),
+      () => ResendOtpUseCase(instance<Repository>()),
     );
   }
 }

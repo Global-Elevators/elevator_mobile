@@ -196,9 +196,7 @@ class RepositoryImpl extends Repository {
   }
 
   @override
-  Future<Either<Failure, void>> register(
-    UserData userData,
-  ) async {
+  Future<Either<Failure, void>> register(UserData userData) async {
     if (await hasNetworkConnection()) {
       return _performRegister(userData);
     } else {
@@ -206,9 +204,7 @@ class RepositoryImpl extends Repository {
     }
   }
 
-  Future<Either<Failure, void>> _performRegister(
-    UserData userData,
-  ) async {
+  Future<Either<Failure, void>> _performRegister(UserData userData) async {
     try {
       await _remoteDataSource.register(userData);
       return Right(null);

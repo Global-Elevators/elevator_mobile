@@ -7,8 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
 class ShaftDimensionsWidget extends StatelessWidget {
-   TextEditingController widthController = TextEditingController();
-   TextEditingController depthController = TextEditingController();
+  TextEditingController widthController = TextEditingController();
+  TextEditingController depthController = TextEditingController();
 
   ShaftDimensionsWidget({
     super.key,

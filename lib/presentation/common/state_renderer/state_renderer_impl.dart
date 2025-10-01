@@ -72,7 +72,6 @@ class SuccessState extends FlowState {
   String getMessage() => message;
 }
 
-
 extension FlowStateExtension on FlowState {
   Widget getStateWidget(
     BuildContext context,

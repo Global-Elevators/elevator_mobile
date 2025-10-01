@@ -9,7 +9,16 @@ import 'package:elevator/presentation/main/home/request_for_technical_view.dart'
 import 'package:elevator/presentation/main/home/request_site_survey_view.dart';
 import 'package:elevator/presentation/main/library/library_view.dart';
 import 'package:elevator/presentation/main/main_view.dart';
+import 'package:elevator/presentation/main/profile/change_password/change_password_view.dart';
+import 'package:elevator/presentation/main/profile/change_password/change_password_view.dart';
+import 'package:elevator/presentation/main/profile/contracts_status/contracts_status_view.dart';
+import 'package:elevator/presentation/main/profile/contracts_status/contracts_status_view.dart';
+import 'package:elevator/presentation/main/profile/edit_information/edit_information_view.dart';
+import 'package:elevator/presentation/main/profile/edit_information/edit_information_view.dart';
+import 'package:elevator/presentation/main/profile/help/help_view.dart';
 import 'package:elevator/presentation/main/profile/profile_view.dart';
+import 'package:elevator/presentation/main/profile/request_status/request_status_view.dart';
+import 'package:elevator/presentation/main/profile/request_status/request_status_view.dart';
 import 'package:elevator/presentation/new_password/new_password_view.dart';
 import 'package:elevator/presentation/main/home/notification_view.dart';
 import 'package:elevator/presentation/register/register_view.dart';
@@ -143,6 +152,36 @@ class GoRouterConfig {
               state: state,
               child: RequestForTechnicalView(),
             ),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: EditInformationView.routeName,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: EditInformationView()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: ContractsStatusView.routeName,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: ContractsStatusView()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: RequestStatusView.routeName,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: RequestStatusView()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: ChangePasswordView.routeName,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: ChangePasswordView()),
+        routes: <RouteBase>[],
+      ),
+      GoRoute(
+        path: HelpView.routeName,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            getCustomTransitionPage(state: state, child: HelpView()),
         routes: <RouteBase>[],
       ),
     ],

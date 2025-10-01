@@ -52,9 +52,11 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void isCredentialsCorrect() {
-    _loginViewModel.isUserLoggedInSuccessfullyController.stream.listen((isUserLoggedInSuccessfully) {
+    _loginViewModel.isUserLoggedInSuccessfullyController.stream.listen((
+      isUserLoggedInSuccessfully,
+    ) {
       if (isUserLoggedInSuccessfully) {
-        SchedulerBinding.instance.addPostFrameCallback((_){
+        SchedulerBinding.instance.addPostFrameCallback((_) {
           context.go(
             VerifyView.verifyRoute,
             extra: [_phoneController.text, "login"],

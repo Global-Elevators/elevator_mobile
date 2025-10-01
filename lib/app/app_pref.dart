@@ -6,14 +6,11 @@ const String pressKeyLanguage = "PRESS_KEY_LANGUAGE";
 class AppPreferences {
   final FlutterSecureStorage _secureStorage;
 
-  AppPreferences() : _secureStorage = const FlutterSecureStorage(
-    aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ),
-    iOptions: IOSOptions(
-      accessibility: KeychainAccessibility.first_unlock,
-    ),
-  );
+  AppPreferences()
+    : _secureStorage = const FlutterSecureStorage(
+        aOptions: AndroidOptions(encryptedSharedPreferences: true),
+        iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
+      );
 
   Future<String> getAppLanguage() async {
     final language = await _secureStorage.read(key: pressKeyLanguage);
@@ -39,7 +36,7 @@ class AppPreferences {
     }
   }
 
-  Future<void> setUserToken(String key,String token) async {
+  Future<void> setUserToken(String key, String token) async {
     await _secureStorage.write(key: key, value: token);
   }
 

@@ -10,30 +10,32 @@ class LabelField extends StatelessWidget {
   const LabelField(this.text, {this.isOptional = false, super.key});
   @override
   Widget build(BuildContext context) {
-    return isOptional ? RichText(
-      textAlign: TextAlign.start,
-      text: TextSpan(
-        text: text,
-        style: getMediumTextStyle(
-          color: ColorManager.primaryColor,
-          fontSize: FontSizeManager.s18,
-        ),
-        children: [
-          TextSpan(
-            text: Strings.optional,
+    return isOptional
+        ? RichText(
+            textAlign: TextAlign.start,
+            text: TextSpan(
+              text: text,
+              style: getMediumTextStyle(
+                color: ColorManager.primaryColor,
+                fontSize: FontSizeManager.s18,
+              ),
+              children: [
+                TextSpan(
+                  text: Strings.optional,
+                  style: getMediumTextStyle(
+                    color: ColorManager.greyColor,
+                    fontSize: FontSizeManager.s18,
+                  ),
+                ),
+              ],
+            ),
+          )
+        : Text(
+            text,
             style: getMediumTextStyle(
-              color: ColorManager.greyColor,
+              color: ColorManager.primaryColor,
               fontSize: FontSizeManager.s18,
             ),
-          ),
-        ],
-      ),
-    ) : Text(
-      text,
-      style: getMediumTextStyle(
-        color: ColorManager.primaryColor,
-        fontSize: FontSizeManager.s18,
-      ),
-    );
+          );
   }
 }

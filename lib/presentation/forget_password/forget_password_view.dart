@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 
-
 class ForgetPasswordView extends StatefulWidget {
   static const String forgetPasswordRoute = '/forget-password';
 
@@ -34,16 +33,18 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   }
 
   void isUserEnterCorrectNumber() {
-    _forgetPasswordViewmodel.didTheUserEnterTheCorrectPhoneNumber.stream.listen((didUserEnterTheCorrectPhoneNumber) {
-      if (didUserEnterTheCorrectPhoneNumber) {
-        SchedulerBinding.instance.addPostFrameCallback((_){
-          context.go(
-            VerifyView.verifyRoute,
-            extra: [_phoneController.text, "forget-password"],
-          );
-        });
-      }
-    });
+    _forgetPasswordViewmodel.didTheUserEnterTheCorrectPhoneNumber.stream.listen(
+      (didUserEnterTheCorrectPhoneNumber) {
+        if (didUserEnterTheCorrectPhoneNumber) {
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            context.go(
+              VerifyView.verifyRoute,
+              extra: [_phoneController.text, "forget-password"],
+            );
+          });
+        }
+      },
+    );
   }
 
   @override

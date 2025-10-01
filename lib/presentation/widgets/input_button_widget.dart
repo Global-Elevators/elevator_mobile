@@ -20,7 +20,7 @@ class InputButtonWidget extends StatelessWidget {
     required this.text,
     this.onTap,
     this.textColor = ColorManager.whiteColor,
-    this.isButtonEnabledStream ,
+    this.isButtonEnabledStream,
   });
 
   @override
@@ -51,9 +51,7 @@ class InputButtonWidget extends StatelessWidget {
                 style: getMediumTextStyle(
                   color: isEnabled
                       ? textColor
-                      : ColorManager.whiteColor.withValues(
-                          alpha: 0.7,
-                        ),
+                      : ColorManager.whiteColor.withValues(alpha: 0.7),
                   fontSize: AppSize.s18.sp,
                 ),
               ),

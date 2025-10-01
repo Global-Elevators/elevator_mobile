@@ -65,9 +65,7 @@ class TextFromFieldWidget extends StatelessWidget {
           errorText: errorText,
           contentPadding: isNotes
               ? EdgeInsets.symmetric(vertical: AppPadding.p90.h)
-              : EdgeInsetsDirectional.symmetric(
-            vertical: AppPadding.p8.h,
-          ),
+              : EdgeInsetsDirectional.symmetric(vertical: AppPadding.p8.h),
           hintText: hintText,
           filled: true,
           fillColor: ColorManager.whiteColor,

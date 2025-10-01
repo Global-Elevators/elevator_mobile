@@ -21,9 +21,11 @@ class RegisterViewModel extends BaseViewModel
       _passwordController = StreamController<String>.broadcast(),
       _confirmPasswordController = StreamController<String>.broadcast(),
       _emailController = StreamController<String>.broadcast();
-  final StreamController<void> _areAllInputsValidController = StreamController<void>.broadcast();
+  final StreamController<void> _areAllInputsValidController =
+      StreamController<void>.broadcast();
 
-  final StreamController<bool> isUserRegisteredSuccessfullyController = StreamController<bool>.broadcast();
+  final StreamController<bool> isUserRegisteredSuccessfullyController =
+      StreamController<bool>.broadcast();
 
   String _name = '',
       _fatherName = '',

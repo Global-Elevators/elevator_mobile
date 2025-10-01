@@ -26,10 +26,7 @@ class WelcomeMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       Strings.welcomeMessage,
-      style: getMediumTextStyle(
-        color: ColorManager.greyColor,
-        fontSize: 18.sp,
-      ),
+      style: getMediumTextStyle(color: ColorManager.greyColor, fontSize: 18.sp),
     );
   }
 }

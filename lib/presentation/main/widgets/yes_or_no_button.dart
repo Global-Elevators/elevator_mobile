@@ -22,45 +22,33 @@ class YesOrNoButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: AppSize.s55.h,
-      child: Row(
-        children: [
-          yesButton(),
-          Gap(AppSize.s8.w),
-          noButton(),
-        ],
-      ),
+      child: Row(children: [yesButton(), Gap(AppSize.s8.w), noButton()]),
     );
   }
 
   Expanded noButton() {
     return Expanded(
-          child: ButtonWidget(
-            radius: AppSize.s14.r,
-            text: Strings.no,
-            onTap: onNoTap,
-            color: condition
-                ? ColorManager.primaryColor
-                : ColorManager.whiteColor,
-            textColor: condition
-                ? ColorManager.whiteColor
-                : ColorManager.greyColor,
-          ),
-        );
+      child: ButtonWidget(
+        radius: AppSize.s14.r,
+        text: Strings.no,
+        onTap: onNoTap,
+        color: condition ? ColorManager.primaryColor : ColorManager.whiteColor,
+        textColor: condition ? ColorManager.whiteColor : ColorManager.greyColor,
+      ),
+    );
   }
 
   Expanded yesButton() {
     return Expanded(
-          child: ButtonWidget(
-            radius: AppSize.s14.r,
-            text: Strings.yes,
-            onTap: onYesTap,
-            color: condition
-                ? ColorManager.whiteColor
-                : ColorManager.primaryColor,
-            textColor: condition
-                ? ColorManager.primaryColor
-                : ColorManager.whiteColor,
-          ),
-        );
+      child: ButtonWidget(
+        radius: AppSize.s14.r,
+        text: Strings.yes,
+        onTap: onYesTap,
+        color: condition ? ColorManager.whiteColor : ColorManager.primaryColor,
+        textColor: condition
+            ? ColorManager.primaryColor
+            : ColorManager.whiteColor,
+      ),
+    );
   }
 }

@@ -124,8 +124,7 @@ class StateRenderer extends StatelessWidget {
             onPressed: () {
               if (stateRendererType == StateRendererType.fullScreenErrorState) {
                 retryActionFunction.call();
-              }
-              else {
+              } else {
                 Navigator.of(context).pop();
               }
             },

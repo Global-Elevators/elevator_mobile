@@ -6,9 +6,6 @@ class LoginBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      ImageAssets.background,
-      fit: BoxFit.cover,
-    );
+    return Image.asset(ImageAssets.background, fit: BoxFit.cover);
   }
 }

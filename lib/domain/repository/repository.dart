@@ -16,9 +16,13 @@ abstract class Repository {
 
   Future<Either<Failure, Authentication>> forgotPassword(String phone);
 
-  Future<Either<Failure, VerifyForgotPasswordModel>> verifyForgotPassword(VerifyRequest verifyForgotPasswordRequest);
+  Future<Either<Failure, VerifyForgotPasswordModel>> verifyForgotPassword(
+    VerifyRequest verifyForgotPasswordRequest,
+  );
 
-  Future<Either<Failure, void>> resetPassword(ResetPasswordRequest resetPasswordRequest);
+  Future<Either<Failure, void>> resetPassword(
+    ResetPasswordRequest resetPasswordRequest,
+  );
 
   Future<Either<Failure, void>> resendOtp(String phone);
 

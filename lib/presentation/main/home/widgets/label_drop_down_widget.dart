@@ -35,10 +35,10 @@ class LabelDropDownWidget extends StatelessWidget {
   }
 
   ItemsDropDown buildItemsDropDown(
-      List<String> items,
-      String? selectedItem,
-      void Function(String?) onChanged,
-      ) {
+    List<String> items,
+    String? selectedItem,
+    void Function(String?) onChanged,
+  ) {
     return ItemsDropDown(
       items: items,
       hintText: Strings.selectOne,
@@ -46,5 +46,4 @@ class LabelDropDownWidget extends StatelessWidget {
       selectedItem: selectedItem,
     );
   }
-
 }

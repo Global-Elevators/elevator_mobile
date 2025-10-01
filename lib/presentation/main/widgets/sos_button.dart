@@ -19,7 +19,11 @@ class SosButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => isPremium ? showModelOfSosSubscription(context) : showModelOfSosNotSubscription(context),//showModelOfSosNotSubscription(context),
+      onTap: () => isPremium
+          ? showModelOfSosSubscription(context)
+          : showModelOfSosNotSubscription(
+              context,
+            ), //showModelOfSosNotSubscription(context),
       child: Container(
         height: AppSize.s50.h,
         alignment: Alignment.center,

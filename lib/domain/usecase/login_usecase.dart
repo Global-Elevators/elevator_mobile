@@ -10,7 +10,9 @@ class LoginUseCase implements BaseUseCase<LoginUseCaseInput, Authentication> {
   LoginUseCase(this._repository);
 
   @override
-  Future<Either<Failure, Authentication>> execute(LoginUseCaseInput input) async{
+  Future<Either<Failure, Authentication>> execute(
+    LoginUseCaseInput input,
+  ) async {
     return await _repository.login(LoginRequest(input.phone, input.password));
   }
 }

@@ -167,7 +167,8 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           Gap(AppSize.s25.h),
         ],
         if (widget.name == Strings.annualPreventiveMaintenance ||
-            widget.name == Strings.repair) Gap(AppSize.s25.h),
+            widget.name == Strings.repair)
+          Gap(AppSize.s25.h),
         StopsInputRow(
           controller: _stopsController,
           displayedNumber: _displayedNumber,
@@ -203,7 +204,11 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           isCenterText: true,
         ),
         Gap(AppSize.s25.h),
-        InputButtonWidget(radius: AppSize.s14.r, text: Strings.submit, onTap: () {}),
+        InputButtonWidget(
+          radius: AppSize.s14.r,
+          text: Strings.submit,
+          onTap: () {},
+        ),
         Gap(AppSize.s14.h),
       ],
     );

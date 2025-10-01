@@ -11,7 +11,8 @@ abstract class BaseViewModel
   void dispose() => _inputStateController.close();
 
   @override
-  Stream<FlowState> get outputStateStream => _inputStateController.stream.map((flowState) => flowState);
+  Stream<FlowState> get outputStateStream =>
+      _inputStateController.stream.map((flowState) => flowState);
 
   @override
   Sink get inputState => _inputStateController.sink;

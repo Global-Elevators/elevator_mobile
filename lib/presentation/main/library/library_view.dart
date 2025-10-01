@@ -1,8 +1,7 @@
 import 'package:elevator/presentation/resources/color_manager.dart';
-import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
-import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/presentation/widgets/app_bar_label.dart';
 import 'package:elevator/presentation/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,13 +27,7 @@ class _LibraryViewState extends State<LibraryView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              Strings.documents,
-              style: getBoldTextStyle(
-                color: ColorManager.primaryColor,
-                fontSize: FontSizeManager.s28.sp,
-              ),
-            ),
+            AppBarLabel(Strings.documents),
             Gap(AppSize.s24.h),
             _documentsRow(),
           ],

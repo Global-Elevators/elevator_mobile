@@ -23,7 +23,6 @@ class ItemsDropDown extends StatefulWidget {
 }
 
 class _ItemsDropDownState extends State<ItemsDropDown> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,7 +47,8 @@ class _ItemsDropDownState extends State<ItemsDropDown> {
         value: widget.selectedItem,
         icon: Icon(Icons.keyboard_arrow_down_outlined),
         items: widget.items
-            .map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+            .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+            .toList(),
         onChanged: widget.onChanged,
       ),
     );

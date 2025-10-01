@@ -67,9 +67,7 @@ class CustomImagePicker extends StatelessWidget {
       }
       return Expanded(
         child: Padding(
-          padding: EdgeInsetsDirectional.symmetric(
-            horizontal: AppSize.s16.w,
-          ),
+          padding: EdgeInsetsDirectional.symmetric(horizontal: AppSize.s16.w),
           child: GridView.builder(
             itemCount: multipleImages!.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
