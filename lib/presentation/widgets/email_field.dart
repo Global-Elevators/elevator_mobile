@@ -1,0 +1,48 @@
+import 'package:elevator/presentation/resources/assets_manager.dart';
+import 'package:elevator/presentation/resources/color_manager.dart';
+import 'package:elevator/presentation/resources/strings_manager.dart';
+import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/presentation/widgets/label_field.dart';
+import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
+
+class EmailField extends StatelessWidget {
+  final TextEditingController emailController;
+  final Stream<bool>? emailValidationStream;
+
+  const EmailField({
+    super.key,
+    required this.emailController,
+    required this.emailValidationStream,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        LabelField(Strings.emailLabel, isOptional: true),
+        Gap(AppSize.s8.h),
+        StreamBuilder<bool>(
+          stream: emailValidationStream,
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) =>
+              TextFromFieldWidget(
+                hintText: Strings.email,
+                controller: emailController,
+                prefixIcon: Image.asset(
+                  IconAssets.email,
+                  width: AppSize.s20,
+                  height: AppSize.s20,
+                  color: ColorManager.primaryColor,
+                ),
+                // errorText: (snapshot.data ?? true)
+                //     ? null
+                //     : Strings.invalidPassword,
+              ),
+        ),
+      ],
+    );
+  }
+}

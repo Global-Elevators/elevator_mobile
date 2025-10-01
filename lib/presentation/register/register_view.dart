@@ -2,29 +2,26 @@ import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/register/register_viewmodel.dart';
-import 'package:elevator/presentation/register/widgets/date_of_birth_row.dart';
 import 'package:elevator/presentation/register/widgets/interest_item.dart';
-import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/back_to_button.dart';
+import 'package:elevator/presentation/widgets/build_date_of_birth_section_widget.dart';
 import 'package:elevator/presentation/widgets/build_name_section.dart';
+import 'package:elevator/presentation/widgets/email_field.dart';
 import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:elevator/presentation/widgets/items_drop_down.dart';
 import 'package:elevator/presentation/widgets/label_field.dart';
 import 'package:elevator/presentation/widgets/password_field.dart';
 import 'package:elevator/presentation/widgets/phone_field.dart';
-import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
-
-enum DateOfBirthType { Day, Month, Year }
 
 class RegisterView extends StatefulWidget {
   static const String registerRoute = '/register';
@@ -180,7 +177,20 @@ class _RegisterViewState extends State<RegisterView> {
                 nameStream: _registerViewModel.outIsNameValid,
               ),
               Gap(AppSize.s25.h),
-              _buildDateOfBirthSection(),
+              BuildDateOfBirthSectionWidget(
+                dayController: _dayController,
+                monthController: _monthController,
+                yearController: _yearController,
+                onDateSelected: (date) {
+                  String parsedDate = "${date.year}-${date.month}-${date.day}";
+                  _registerViewModel.setBirthDate(parsedDate);
+                  setState(() {
+                    _dayController.text = date.day.toString();
+                    _monthController.text = date.month.toString();
+                    _yearController.text = date.year.toString();
+                  });
+                },
+              ),
               Gap(AppSize.s25.h),
               _buildContactSection(),
               Gap(AppSize.s25.h),
@@ -220,41 +230,6 @@ class _RegisterViewState extends State<RegisterView> {
     ],
   );
 
-  Widget _buildDateOfBirthSection() => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const LabelField(Strings.dateOfBirth),
-      Gap(AppSize.s14.h),
-      Row(
-        children: DateOfBirthType.values.map((type) {
-          return Expanded(
-            child: Text(
-              type.name,
-              style: getMediumTextStyle(
-                color: ColorManager.greyColor,
-                fontSize: FontSizeManager.s18.sp,
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-      DateOfBirthRow(
-        dayController: _dayController,
-        monthController: _monthController,
-        yearController: _yearController,
-        onDateSelected: (date) {
-          String parsedDate = "${date.year}-${date.month}-${date.day}";
-          _registerViewModel.setBirthDate(parsedDate);
-          setState(() {
-            _dayController.text = date.day.toString();
-            _monthController.text = date.month.toString();
-            _yearController.text = date.year.toString();
-          });
-        },
-      ),
-    ],
-  );
-
   Widget _buildContactSection() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -265,24 +240,9 @@ class _RegisterViewState extends State<RegisterView> {
         phoneValidationStream: _registerViewModel.outIsPhoneNumberValid,
       ),
       Gap(AppSize.s25.h),
-      LabelField(Strings.emailLabel, isOptional: true),
-      Gap(AppSize.s8.h),
-      StreamBuilder<bool>(
-        stream: _registerViewModel.outIsEmailValid,
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) =>
-            TextFromFieldWidget(
-              hintText: Strings.email,
-              controller: _emailController,
-              prefixIcon: Image.asset(
-                IconAssets.email,
-                width: AppSize.s20,
-                height: AppSize.s20,
-                color: ColorManager.primaryColor,
-              ),
-              // errorText: (snapshot.data ?? true)
-              //     ? null
-              //     : Strings.invalidPassword,
-            ),
+      EmailField(
+        emailController: _emailController,
+        emailValidationStream: _registerViewModel.outIsEmailValid,
       ),
       Gap(AppSize.s25.h),
       const LabelField(Strings.addressLabel),

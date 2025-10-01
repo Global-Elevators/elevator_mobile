@@ -218,5 +218,8 @@ class Strings {
   static const String changePassword = "Change password";
   static const String language = "Language";
   static const String help = "Help";
+  static const String apply = "Apply";
   static const String signOut = "Sign out";
+  static const String profileInformationRequestSent = "Thank you, your request to change the profile information has been sent for review and approval !";
+  static const String profileEditsAreBeingReviewed = "Your profile edits are being reviewed.";
 }
