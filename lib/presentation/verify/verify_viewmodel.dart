@@ -134,11 +134,11 @@ class VerifyViewModel extends BaseViewModel
         },
         (data) {
           inputState.add(SuccessState("Welcome back"));
-          isUserEnterVerifyCodeSuccessfullyController.add(true);
           _appPref.setUserToken(
             "forget_password",
             data.verifyForgotPasswordDataModel!.token,
           );
+          isUserEnterVerifyCodeSuccessfullyController.add(true);
         },
       );
     } catch (e, stack) {

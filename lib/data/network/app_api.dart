@@ -6,6 +6,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'app_api.g.dart';
 
+
 @RestApi(baseUrl: Constants.baseUrl)
 abstract class AppServicesClient {
   factory AppServicesClient(Dio dio, {String? baseUrl}) = _AppServicesClient;

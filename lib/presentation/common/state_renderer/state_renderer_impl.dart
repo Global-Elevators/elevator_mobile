@@ -119,7 +119,9 @@ extension FlowStateExtension on FlowState {
     Function retryActionFunction,
   ) {
     if (getStateRendererType().isPopup) {
-      _dismissDialog(context);
+      if(!(getStateRendererType() == StateRendererType.popUpLoadingState)) {
+        _dismissDialog(context);
+      }
       _showPopup(context, getStateRendererType(), getMessage());
       return contentScreen;
     } else {

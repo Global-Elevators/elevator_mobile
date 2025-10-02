@@ -6,8 +6,7 @@ import 'package:elevator/presentation/common/state_renderer/state_renderer.dart'
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:flutter/material.dart';
 
-class ForgetPasswordViewmodel extends BaseViewModel
-    implements ForgetPasswordViewModelInputs, ForgetPasswordViewModelOutputs {
+class ForgetPasswordViewmodel extends BaseViewModel implements ForgetPasswordViewModelInputs, ForgetPasswordViewModelOutputs {
   final StreamController<String> _phoneStreamController =
       StreamController<String>.broadcast();
 
@@ -21,6 +20,13 @@ class ForgetPasswordViewmodel extends BaseViewModel
 
   @override
   void start() => inputState.add(ContentState());
+
+  @override
+  void dispose() {
+    _phoneStreamController.close();
+    didTheUserEnterTheCorrectPhoneNumber.close();
+    super.dispose();
+  }
 
   @override
   Future<void> sendVerificationCode() async {

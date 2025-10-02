@@ -41,6 +41,13 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
               VerifyView.verifyRoute,
               extra: [_phoneController.text, "forget-password"],
             );
+            // Navigator.of(context, rootNavigator: true).push(
+            //   MaterialPageRoute(
+            //     builder: (context) => VerifyView(
+            //       codes: [_phoneController.text, "forget-password"],
+            //     ),
+            //   ),
+            // );
           });
         }
       },
@@ -51,6 +58,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   void dispose() {
     super.dispose();
     _phoneController.dispose();
+    _forgetPasswordViewmodel.dispose();
   }
 
   @override
