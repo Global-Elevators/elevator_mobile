@@ -38,10 +38,16 @@ class IconAssets {
   static const String homeStroke = "$iconsPath/home_stroke.svg";
   static const String iraqFlag = "$iconsPath/iraq_flag.png";
   static const String passwordIconField = "$iconsPath/password.svg";
-  static const String email = "$iconsPath/email.png";
+  static const String email = "$iconsPath/email.svg";
   static const String file = "$iconsPath/file.svg";
   static const String contractsStatus = "$iconsPath/contracts_status.svg";
   static const String language = "$iconsPath/language.svg";
+  static const String facebook = "$iconsPath/facebook.svg";
+  static const String instagram = "$iconsPath/instagram.svg";
+  static const String tiktok = "$iconsPath/tiktok.svg";
+  static const String web = "$iconsPath/web.png";
+  static const String coverLanguage = "$iconsPath/cover_language.svg";
+  static const String coverSignOut = "$iconsPath/cover_signout.svg";
 }
 
 class JsonAssets {

@@ -217,9 +217,16 @@ class Strings {
   static const String requestStatus = "Request status";
   static const String changePassword = "Change password";
   static const String language = "Language";
+  static const String languageEnglish = "English";
+  static const String changeLanguage = "Change Language";
   static const String help = "Help";
   static const String apply = "Apply";
   static const String signOut = "Sign out";
   static const String profileInformationRequestSent = "Thank you, your request to change the profile information has been sent for review and approval !";
   static const String profileEditsAreBeingReviewed = "Your profile edits are being reviewed.";
+  static const String oldPassword = "Old Password";
+  static const String newPassword = "New Password";
+  static const String saveChanges = "Save Changes";
+  static const String contactUs = "Contact us";
+  static const String signOutDescription = "Are you sure you want to sign out?";
 }
