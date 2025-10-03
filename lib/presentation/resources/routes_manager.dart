@@ -163,7 +163,9 @@ class GoRouterConfig {
       GoRoute(
         path: ContractsStatusView.routeName,
         pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: ContractsStatusView()),
+            getCustomTransitionPage(state: state, child: ContractsStatusView(
+
+            )),
         routes: <RouteBase>[],
       ),
       GoRoute(

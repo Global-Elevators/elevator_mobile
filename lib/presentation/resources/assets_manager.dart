@@ -24,6 +24,7 @@ class IconAssets {
   static const String calendar = "$iconsPath/calendar.png";
   static const String worker = "$iconsPath/worker.png";
   static const String pdf = "$iconsPath/pdf.png";
+  static const String progressNote = "$iconsPath/progress_note.png";
   static const String request = "$iconsPath/request.svg";
   static const String signOut = "$iconsPath/signout.svg";
   static const String speaker = "$iconsPath/speaker.svg";
@@ -48,6 +49,8 @@ class IconAssets {
   static const String web = "$iconsPath/web.png";
   static const String coverLanguage = "$iconsPath/cover_language.svg";
   static const String coverSignOut = "$iconsPath/cover_signout.svg";
+  static const String progressDone = "$iconsPath/progress_done.svg";
+  static const String progressNotDone = "$iconsPath/progress_not_done.svg";
 }
 
 class JsonAssets {

@@ -98,13 +98,11 @@ class VerifyViewModel extends BaseViewModel
           inputState.add(
             ErrorState(StateRendererType.popUpErrorState, failure.message),
           );
-          _appPref.setUserToken("login", "55555");
-          isUserEnterVerifyCodeSuccessfullyController.add(true);
         },
         (data) {
           inputState.add(SuccessState("Otp verified successfully"));
-          // _appPref.setUserToken("login", "55555");
-          // isUserEnterVerifyCodeSuccessfullyController.add(true);
+          _appPref.setUserToken("login", "55555");
+          isUserEnterVerifyCodeSuccessfullyController.add(true);
         },
       );
     } catch (e, stack) {

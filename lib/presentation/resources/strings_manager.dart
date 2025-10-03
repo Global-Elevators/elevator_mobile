@@ -229,4 +229,6 @@ class Strings {
   static const String saveChanges = "Save Changes";
   static const String contactUs = "Contact us";
   static const String signOutDescription = "Are you sure you want to sign out?";
+  static const String inProgress = "In Progress";
+  static const String newProductSupplyInstallation = "New Product Supply & Installation (NPC)";
 }
