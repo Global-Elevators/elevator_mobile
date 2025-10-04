@@ -14,5 +14,17 @@ void main() async {
   runApp(MyApp());
 }
 
-// 01012345678
+// 7507777777
+// 7507777778
 // 11111111
+
+// {
+// "success": false,
+// "message": "Validation error",
+// "data": null,
+// "errors": {
+//   "phone": [
+//     "The phone has already been taken."
+//   ]
+// }
+// }

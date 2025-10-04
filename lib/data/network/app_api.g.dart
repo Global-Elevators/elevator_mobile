@@ -20,12 +20,12 @@ class _AppServicesClient implements AppServicesClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<AuthenticationResponse> login(String phone, String password) async {
+  Future<LoginResponse> login(String phone, String password) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = {'phone': phone, 'password': password};
-    final _options = _setStreamType<AuthenticationResponse>(
+    final _options = _setStreamType<LoginResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -36,9 +36,9 @@ class _AppServicesClient implements AppServicesClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late AuthenticationResponse _value;
+    late LoginResponse _value;
     try {
-      _value = AuthenticationResponse.fromJson(_result.data!);
+      _value = LoginResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -74,12 +74,12 @@ class _AppServicesClient implements AppServicesClient {
   }
 
   @override
-  Future<AuthenticationResponse> forgotPassword(String phone) async {
+  Future<LoginResponse> forgotPassword(String phone) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = {'phone': phone};
-    final _options = _setStreamType<AuthenticationResponse>(
+    final _options = _setStreamType<LoginResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -90,9 +90,9 @@ class _AppServicesClient implements AppServicesClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late AuthenticationResponse _value;
+    late LoginResponse _value;
     try {
-      _value = AuthenticationResponse.fromJson(_result.data!);
+      _value = LoginResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -177,13 +177,13 @@ class _AppServicesClient implements AppServicesClient {
   }
 
   @override
-  Future<void> register(UserData userData) async {
+  Future<RegisterResponse> register(UserData userData) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(userData.toJson());
-    final _options = _setStreamType<void>(
+    final _options = _setStreamType<RegisterResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -193,7 +193,15 @@ class _AppServicesClient implements AppServicesClient {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    await _dio.fetch<void>(_options);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late RegisterResponse _value;
+    try {
+      _value = RegisterResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

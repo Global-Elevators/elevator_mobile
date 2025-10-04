@@ -6,15 +6,15 @@ import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
 
 abstract class RemoteDataSource {
-  Future<AuthenticationResponse> login(LoginRequest loginRequests);
+  Future<LoginResponse> login(LoginRequest loginRequests);
   Future<VerifyResponse> verify(VerifyRequest verifyRequests);
-  Future<AuthenticationResponse> forgotPassword(String phone);
+  Future<LoginResponse> forgotPassword(String phone);
   Future<VerifyForgotPasswordResponse> verifyForgotPassword(
     VerifyRequest verifyForgotPasswordRequest,
   );
   Future<void> resetPassword(ResetPasswordRequest resetPasswordRequest);
   Future<void> resendOtp(String phone);
-  Future<void> register(UserData userData);
+  Future<RegisterResponse> register(UserData userData);
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -23,7 +23,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
   RemoteDataSourceImp(this._appServicesClient);
 
   @override
-  Future<AuthenticationResponse> login(LoginRequest loginRequests) async {
+  Future<LoginResponse> login(LoginRequest loginRequests) async {
     return await _appServicesClient.login(
       loginRequests.phone,
       loginRequests.password,
@@ -39,7 +39,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
   }
 
   @override
-  Future<AuthenticationResponse> forgotPassword(String phone) {
+  Future<LoginResponse> forgotPassword(String phone) {
     return _appServicesClient.forgotPassword(phone);
   }
 
@@ -68,7 +68,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
   }
 
   @override
-  Future<void> register(UserData userData) async {
+  Future<RegisterResponse> register(UserData userData) async {
     return await _appServicesClient.register(userData);
   }
 }

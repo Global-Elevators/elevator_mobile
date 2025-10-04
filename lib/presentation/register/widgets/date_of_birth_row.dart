@@ -29,6 +29,8 @@ class DateOfBirthRow extends StatelessWidget {
       minDateTime: DateTime(1960),
       onSubmit: (date) => onDateSelected(date),
       bottomPickerTheme: BottomPickerTheme.plumPlate,
+      height: double.infinity,
+      buttonWidth: AppSize.s300.w,
     ).show(context);
   }
 

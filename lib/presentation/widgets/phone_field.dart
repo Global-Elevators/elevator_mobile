@@ -1,5 +1,3 @@
-import 'package:elevator/presentation/base/baseviewmodel.dart';
-import 'package:elevator/presentation/login/login_viewmodel.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -23,6 +21,8 @@ class PhoneField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      textBaseline: TextBaseline.ideographic,
       children: [
         Container(
           height: AppSize.s55.h,

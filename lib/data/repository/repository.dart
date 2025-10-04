@@ -1,5 +1,9 @@
+import 'dart:developer';
+
+import 'package:dartz/dartz.dart';
 import 'package:elevator/data/data_source/remote_data_source.dart';
 import 'package:elevator/data/mappers/authentication_mapper.dart';
+import 'package:elevator/data/mappers/register_mapper.dart';
 import 'package:elevator/data/mappers/verify_forgot_password_mapper.dart';
 import 'package:elevator/data/mappers/verify_mapper.dart';
 import 'package:elevator/data/network/exception_handler.dart';
@@ -14,7 +18,6 @@ import 'package:elevator/domain/models/login_model.dart';
 import 'package:elevator/domain/models/verify_forgot_password_model.dart';
 import 'package:elevator/domain/models/verify_model.dart';
 import 'package:elevator/domain/repository/repository.dart';
-import 'package:dartz/dartz.dart';
 
 class RepositoryImpl extends Repository {
   final RemoteDataSource _remoteDataSource;
@@ -47,7 +50,7 @@ class RepositoryImpl extends Repository {
   }
 
   Either<Failure, Authentication> _mapLoginResponseToResult(
-    AuthenticationResponse response,
+    LoginResponse response,
   ) {
     return _isSuccessfulResponse(response)
         ? Right(response.toDomain())
@@ -114,7 +117,7 @@ class RepositoryImpl extends Repository {
   }
 
   Either<Failure, Authentication> _mapForgotPasswordResponseToResult(
-    AuthenticationResponse response,
+    LoginResponse response,
   ) {
     return _isSuccessfulResponse(response)
         ? Right(response.toDomain())
@@ -196,20 +199,20 @@ class RepositoryImpl extends Repository {
   }
 
   @override
-  Future<Either<Failure, void>> register(UserData userData) async {
+  Future<Either<String, void>> register(UserData userData) async {
     if (await hasNetworkConnection()) {
       return _performRegister(userData);
     } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+      return Left("No internet connection");
     }
   }
 
-  Future<Either<Failure, void>> _performRegister(UserData userData) async {
+  Future<Either<String, void>> _performRegister(UserData userData) async {
     try {
       await _remoteDataSource.register(userData);
       return Right(null);
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return Left("The phone has already been taken.");
     }
   }
 }

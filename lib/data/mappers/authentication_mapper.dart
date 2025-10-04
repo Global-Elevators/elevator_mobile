@@ -14,7 +14,7 @@ extension CustomerResponseMapper on CustomerDataResponse? {
   }
 }
 
-extension AuthenticationResponseMapper on AuthenticationResponse? {
+extension AuthenticationResponseMapper on LoginResponse? {
   Authentication toDomain() {
     return Authentication(this?.customerDataResponse.toDomain());
   }

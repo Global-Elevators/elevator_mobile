@@ -28,6 +28,9 @@ class DioFactory {
     // Write method add 2 numbers
 
     dio.options = BaseOptions(
+      validateStatus: (status) {
+        return status != null && status >= 200 && status <= 400;
+      },
       headers: header,
       receiveDataWhenStatusError: false,
       baseUrl: Constants.baseUrl,

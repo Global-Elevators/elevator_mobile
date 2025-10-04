@@ -85,7 +85,7 @@ class LoginForm extends StatelessWidget {
                 Strings.forgetPassword,
                 ColorManager.primaryColor,
                 AppSize.s18,
-                () => context.push(ForgetPasswordView.forgetPasswordRoute),
+                () => context.go(ForgetPasswordView.forgetPasswordRoute),
               ),
             ),
           ],

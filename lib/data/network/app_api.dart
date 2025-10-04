@@ -12,7 +12,7 @@ abstract class AppServicesClient {
   factory AppServicesClient(Dio dio, {String? baseUrl}) = _AppServicesClient;
 
   @POST("/auth/login")
-  Future<AuthenticationResponse> login(
+  Future<LoginResponse> login(
     @Field("phone") String phone,
     @Field("password") String password,
   );
@@ -24,7 +24,7 @@ abstract class AppServicesClient {
   );
 
   @POST("/auth/forgot-password")
-  Future<AuthenticationResponse> forgotPassword(@Field("phone") String phone);
+  Future<LoginResponse> forgotPassword(@Field("phone") String phone);
 
   @POST("/auth/verify-forgot-password")
   Future<VerifyForgotPasswordResponse> verifyForgotPassword(
@@ -43,5 +43,5 @@ abstract class AppServicesClient {
   Future<void> resendOtp(@Field("phone") String phone);
 
   @POST("/auth/register")
-  Future<void> register(@Body() UserData userData);
+  Future<RegisterResponse> register(@Body() UserData userData);
 }

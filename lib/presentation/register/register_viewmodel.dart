@@ -116,7 +116,6 @@ class RegisterViewModel extends BaseViewModel
         address: _address,
         interests: {},
       );
-
       final userData = UserData(
         name: _name,
         phone: _phoneNumber,
@@ -129,7 +128,7 @@ class RegisterViewModel extends BaseViewModel
       result.fold(
         (failure) {
           inputState.add(
-            ErrorState(StateRendererType.popUpErrorState, failure.message),
+            ErrorState(StateRendererType.popUpErrorState, failure),
           );
         },
         (data) {

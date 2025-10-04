@@ -31,10 +31,8 @@ Map<String, dynamic> _$CustomerDataResponseToJson(
   'expires_in': instance.expiresIn,
 };
 
-AuthenticationResponse _$AuthenticationResponseFromJson(
-  Map<String, dynamic> json,
-) =>
-    AuthenticationResponse(
+LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) =>
+    LoginResponse(
         json['data'] == null
             ? null
             : CustomerDataResponse.fromJson(
@@ -44,13 +42,12 @@ AuthenticationResponse _$AuthenticationResponseFromJson(
       ..success = json['success'] as bool?
       ..message = json['message'] as String?;
 
-Map<String, dynamic> _$AuthenticationResponseToJson(
-  AuthenticationResponse instance,
-) => <String, dynamic>{
-  'success': instance.success,
-  'message': instance.message,
-  'data': instance.customerDataResponse,
-};
+Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'data': instance.customerDataResponse,
+    };
 
 VerifyDataResponse _$VerifyDataResponseFromJson(Map<String, dynamic> json) =>
     VerifyDataResponse(
@@ -114,3 +111,31 @@ Map<String, dynamic> _$VerifyForgotPasswordResponseToJson(
   'message': instance.message,
   'data': instance.verifyForgotPasswordDataResponse,
 };
+
+RegisterErrorResponse _$RegisterErrorResponseFromJson(
+  Map<String, dynamic> json,
+) => RegisterErrorResponse(
+  (json['phone'] as List<dynamic>?)?.map((e) => e as String).toList(),
+);
+
+Map<String, dynamic> _$RegisterErrorResponseToJson(
+  RegisterErrorResponse instance,
+) => <String, dynamic>{'phone': instance.phone};
+
+RegisterResponse _$RegisterResponseFromJson(Map<String, dynamic> json) =>
+    RegisterResponse(
+        json['errors'] == null
+            ? null
+            : RegisterErrorResponse.fromJson(
+                json['errors'] as Map<String, dynamic>,
+              ),
+      )
+      ..success = json['success'] as bool?
+      ..message = json['message'] as String?;
+
+Map<String, dynamic> _$RegisterResponseToJson(RegisterResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'errors': instance.registerErrorResponse,
+    };

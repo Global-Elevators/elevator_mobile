@@ -30,16 +30,16 @@ class CustomerDataResponse {
 }
 
 @JsonSerializable()
-class AuthenticationResponse extends BaseResponse {
+class LoginResponse extends BaseResponse {
   @JsonKey(name: "data")
   CustomerDataResponse? customerDataResponse;
 
-  AuthenticationResponse(this.customerDataResponse);
+  LoginResponse(this.customerDataResponse);
 
-  factory AuthenticationResponse.fromJson(Map<String, dynamic> json) =>
-      _$AuthenticationResponseFromJson(json);
+  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AuthenticationResponseToJson(this);
+  Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -98,4 +98,30 @@ class VerifyForgotPasswordResponse extends BaseResponse {
       _$VerifyForgotPasswordResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$VerifyForgotPasswordResponseToJson(this);
+}
+
+@JsonSerializable()
+class RegisterErrorResponse {
+  @JsonKey(name: "phone")
+  List<String>? phone;
+
+  RegisterErrorResponse(this.phone);
+
+  factory RegisterErrorResponse.fromJson(Map<String, dynamic> json) =>
+      _$RegisterErrorResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RegisterErrorResponseToJson(this);
+}
+
+@JsonSerializable()
+class RegisterResponse extends BaseResponse {
+  @JsonKey(name: "errors")
+  RegisterErrorResponse? registerErrorResponse;
+
+  RegisterResponse(this.registerErrorResponse);
+
+  factory RegisterResponse.fromJson(Map<String, dynamic> json) =>
+      _$RegisterResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RegisterResponseToJson(this);
 }

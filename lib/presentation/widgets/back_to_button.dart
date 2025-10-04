@@ -21,7 +21,7 @@ class BackToSignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => GoRouter.of(context).push(route),
+      onTap: () => context.go(route),
       child: Container(
         width: AppSize.s160.w,
         decoration: BoxDecoration(
