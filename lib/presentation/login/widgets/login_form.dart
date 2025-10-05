@@ -59,7 +59,7 @@ class LoginForm extends StatelessWidget {
               hintText: Strings.passwordTitle,
               passwordValidationStream: passwordValidationStream,
             ),
-            Gap(AppSize.s28.h),
+            // Gap(AppSize.s25.h),
             InputButtonWidget(
               radius: AppSize.s14,
               text: Strings.signInButton,

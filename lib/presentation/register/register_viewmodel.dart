@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:elevator/app/functions.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
 import 'package:elevator/domain/usecase/register_usecase.dart';
@@ -128,11 +129,13 @@ class RegisterViewModel extends BaseViewModel
       result.fold(
         (failure) {
           inputState.add(
-            ErrorState(StateRendererType.popUpErrorState, failure),
+            ErrorState(StateRendererType.popUpErrorState, failure.message),
           );
+          log(failure.message);
         },
         (data) {
           inputState.add(SuccessState("Welcome back"));
+          log("Welcome back");
           isUserRegisteredSuccessfullyController.add(true);
         },
       );

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:elevator/data/data_source/remote_data_source.dart';
 import 'package:elevator/data/mappers/authentication_mapper.dart';
@@ -199,20 +197,32 @@ class RepositoryImpl extends Repository {
   }
 
   @override
-  Future<Either<String, void>> register(UserData userData) async {
+  Future<Either<Failure, void>> register(UserData userData) async {
     if (await hasNetworkConnection()) {
       return _performRegister(userData);
     } else {
-      return Left("No internet connection");
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
 
-  Future<Either<String, void>> _performRegister(UserData userData) async {
+  Future<Either<Failure, void>> _performRegister(UserData userData) async {
     try {
-      await _remoteDataSource.register(userData);
-      return Right(null);
+      final response = await _remoteDataSource.register(userData);
+      return _mapRegisterResponseToResult(response);
     } catch (error) {
-      return Left("The phone has already been taken.");
+      return Left(ExceptionHandler.handle(error).failure);
     }
+  }
+
+  Either<Failure, void> _mapRegisterResponseToResult(RegisterResponse response) =>
+      _isSuccessfulResponse(response)
+      ? const Right(null)
+      : Left(_mapFailureFromRegisterResponse(response.toDomain()));
+
+  Failure _mapFailureFromRegisterResponse(String response) {
+    return Failure(
+      ApiInternalStatus.failure,
+      response,
+    );
   }
 }

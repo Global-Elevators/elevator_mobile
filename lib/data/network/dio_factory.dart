@@ -29,7 +29,7 @@ class DioFactory {
 
     dio.options = BaseOptions(
       validateStatus: (status) {
-        return status != null && status >= 200 && status <= 400;
+        return  status != null && status < 500;
       },
       headers: header,
       receiveDataWhenStatusError: false,

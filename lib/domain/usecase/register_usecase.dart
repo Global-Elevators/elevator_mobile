@@ -10,7 +10,7 @@ class RegisterUseCase implements BaseUseCase<UserData, void> {
   RegisterUseCase(this._repository);
 
   @override
-  Future<Either<String, void>> execute(UserData userData) async {
+  Future<Either<Failure, void>> execute(UserData userData) async {
     return await _repository.register(userData);
   }
 }

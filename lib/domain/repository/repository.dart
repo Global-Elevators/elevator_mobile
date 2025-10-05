@@ -26,5 +26,5 @@ abstract class Repository {
 
   Future<Either<Failure, void>> resendOtp(String phone);
 
-  Future<Either<String, void>> register(UserData userData);
+  Future<Either<Failure, void>> register(UserData userData);
 }
