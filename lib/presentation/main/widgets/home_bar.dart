@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -18,14 +19,14 @@ class HomeBar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              Strings.welcomeBack,
+              Strings.welcomeBack.tr(),
               style: getMediumTextStyle(
                 color: ColorManager.orangeColor,
                 fontSize: FontSizeManager.s18.sp,
               ),
             ),
             Text(
-              Strings.userName,
+              Strings.userName.tr(),
               style: getBoldTextStyle(
                 color: ColorManager.primaryColor,
                 fontSize: FontSizeManager.s22.sp,

@@ -1,3 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/app_pref.dart';
+import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/main/profile/change_password/change_password_view.dart';
 import 'package:elevator/presentation/main/profile/contracts_status/contracts_status_view.dart';
 import 'package:elevator/presentation/main/profile/edit_information/edit_information_view.dart';
@@ -9,9 +12,11 @@ import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/presentation/splash/splash_view.dart';
 import 'package:elevator/presentation/widgets/app_bar_label.dart';
 import 'package:elevator/presentation/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -30,31 +35,31 @@ class _ProfileViewState extends State<ProfileView> {
   late final List<ProfileItemWidget> _firstItems = [
     ProfileItemWidget(
       IconAssets.profile,
-      Strings.editInformation,
-          () => context.push(EditInformationView.routeName),
+      Strings.editInformation.tr(),
+      () => context.push(EditInformationView.routeName),
     ),
     ProfileItemWidget(
       IconAssets.contractsStatus,
-      Strings.contractsStatus,
-          () => context.push(ContractsStatusView.routeName),
+      Strings.contractsStatus.tr(),
+      () => context.push(ContractsStatusView.routeName),
     ),
     ProfileItemWidget(
       IconAssets.request,
-      Strings.requestStatus,
-          () => context.push(RequestStatusView.routeName),
+      Strings.requestStatus.tr(),
+      () => context.push(RequestStatusView.routeName),
     ),
     ProfileItemWidget(
       IconAssets.passwordIconField,
-      Strings.changePassword,
-          () => context.push(ChangePasswordView.routeName),
+      Strings.changePassword.tr(),
+      () => context.push(ChangePasswordView.routeName),
     ),
     ProfileItemWidget(
       IconAssets.language,
-      Strings.language,
-          () => _showDialogWidget(
+      Strings.language.tr(),
+      () => _showDialogWidget(
         context,
         image: IconAssets.coverLanguage,
-        title: Strings.changeLanguage,
+        title: Strings.changeLanguage.tr(),
       ),
     ),
   ];
@@ -62,20 +67,22 @@ class _ProfileViewState extends State<ProfileView> {
   late final List<ProfileItemWidget> _secondItems = [
     ProfileItemWidget(
       IconAssets.warning,
-      Strings.help,
-          () => context.push(HelpView.routeName),
+      Strings.help.tr(),
+      () => context.push(HelpView.routeName),
     ),
     ProfileItemWidget(
       IconAssets.signOut,
-      Strings.signOut,
-          () => _showDialogWidget(
+      Strings.signOut.tr(),
+      () => _showDialogWidget(
         context,
         image: IconAssets.coverSignOut,
-        title: Strings.signOut,
-        description: Strings.signOutDescription,
+        title: Strings.signOut.tr(),
+        description: Strings.signOutDescription.tr(),
       ),
     ),
   ];
+
+  final AppPreferences _appPreferences = instance<AppPreferences>();
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +91,7 @@ class _ProfileViewState extends State<ProfileView> {
         padding: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
         child: Column(
           children: [
-            AppBarLabel(Strings.profile),
+            AppBarLabel(Strings.profile.tr()),
             Gap(AppSize.s45.h),
             _buildProfileList(_firstItems),
             Gap(AppSize.s50.h),
@@ -95,14 +102,16 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  Widget _buildProfileList(List<ProfileItemWidget> items) => Column(children: items);
+  Widget _buildProfileList(List<ProfileItemWidget> items) =>
+      Column(children: items);
 
   void _showDialogWidget(
-      BuildContext context, {
-        required String image,
-        required String title,
-        String? description,
-      }) {
+    BuildContext context, {
+    required String image,
+    required String title,
+    String? description,
+  }) {
+    final currentLanguage = context.locale.languageCode;
     showDialog(
       context: context,
       builder: (_) => Dialog(
@@ -120,7 +129,11 @@ class _ProfileViewState extends State<ProfileView> {
           ),
           child: Column(
             children: [
-              SvgPicture.asset(image, height: AppSize.s100.h, width: AppSize.s100.w),
+              SvgPicture.asset(
+                image,
+                height: AppSize.s100.h,
+                width: AppSize.s100.w,
+              ),
               Gap(AppSize.s16.h),
               Text(
                 title,
@@ -140,41 +153,102 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ],
               const Spacer(),
-              Row(
-                children: [
-                  Expanded(
-                    child: ButtonWidget(
-                      radius: AppSize.s14,
-                      text: title == Strings.changeLanguage
-                          ? Strings.englishText
-                          : Strings.cancel,
-                      onTap: () => title == Strings.changeLanguage
-                          ? null // TODO: change language to English or back to arabic
-                          : Navigator.pop(context),
-                    ),
-                  ),
-                  Expanded(
-                    child: ButtonWidget(
-                      radius: AppSize.s14,
-                      text: title == Strings.changeLanguage
-                          ? Strings.arabicText
-                          : Strings.signOut,
-                      color: ColorManager.whiteColor,
-                      textColor: title == Strings.changeLanguage
-                          ? ColorManager.primaryColor
-                          : ColorManager.errorColor,
-                      onTap: () => title == Strings.changeLanguage
-                          ? null // TODO: change language to Arabic
-                          : null, // TODO: sign out logic
-                    ),
-                  ),
-                ],
-              ),
+              dialogButtons(title, context, currentLanguage),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Row dialogButtons(
+    String title,
+    BuildContext context,
+    String currentLanguage,
+  ) {
+    return Row(
+      children: [
+        dialogFirstButton(title, context, currentLanguage),
+        dialogSecondButton(title, context, currentLanguage),
+      ],
+    );
+  }
+
+  // Change to arabic or sign out
+  Expanded dialogSecondButton(
+    String title,
+    BuildContext context,
+    String currentLanguage,
+  ) {
+    return Expanded(
+      child: ButtonWidget(
+        radius: AppSize.s14,
+        text: title == Strings.changeLanguage.tr()
+            ? Strings.arabicText.tr()
+            : Strings.signOut.tr(),
+        color: title == Strings.signOut.tr()
+            ? ColorManager.whiteColor
+            : currentLanguage == 'ar'
+            ? ColorManager.primaryColor
+            : ColorManager.whiteColor,
+        textColor: title == Strings.signOut.tr()
+            ? ColorManager.errorColor
+            : currentLanguage == 'ar'
+            ? ColorManager.whiteColor
+            : ColorManager.primaryColor,
+        onTap: () async {
+          if (title == Strings.changeLanguage.tr()) {
+            if (currentLanguage == 'en') {
+              _changeLanguage(context);
+            } else {
+              Navigator.pop(context);
+            }
+          } else {
+            // _appPreferences.logout();
+            // context.go('/login');
+          }
+        },
+      ),
+    );
+  }
+
+  // Change to english or cancel
+  Expanded dialogFirstButton(
+    String title,
+    BuildContext context,
+    String currentLanguage,
+  ) {
+    return Expanded(
+      child: ButtonWidget(
+        color: currentLanguage == 'en'
+            ? ColorManager.primaryColor
+            : ColorManager.whiteColor,
+        textColor: currentLanguage == 'en'
+            ? ColorManager.whiteColor
+            : ColorManager.primaryColor,
+        radius: AppSize.s14,
+        text: title == Strings.changeLanguage.tr()
+            ? Strings.englishText.tr()
+            : Strings.cancel.tr(),
+        onTap: () async {
+          if (title == Strings.changeLanguage.tr()) {
+            if (currentLanguage == 'ar') {
+              _changeLanguage(context);
+            } else {
+              Navigator.pop(context);
+            }
+          } else {
+            Navigator.pop(context);
+          }
+        },
+      ),
+    );
+  }
+
+  void _changeLanguage(BuildContext context) async {
+    await _appPreferences.changeAppLanguage();
+    context.go(SplashView.splashRoute);
+    await Phoenix.rebirth(context);
   }
 }
 

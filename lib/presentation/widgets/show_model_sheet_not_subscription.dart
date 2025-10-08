@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -51,21 +52,21 @@ RichText premiumCardText() {
   return RichText(
     textAlign: TextAlign.center,
     text: TextSpan(
-      text: Strings.premiumSubscriptionRequiredPart1,
+      text: Strings.premiumSubscriptionRequiredPart1.tr(),
       style: getMediumTextStyle(
         color: ColorManager.primaryColor,
         fontSize: FontSizeManager.s17.sp,
       ),
       children: [
         TextSpan(
-          text: Strings.contracts,
+          text: Strings.contracts.tr(),
           style: getMediumTextStyle(
             color: Color(0xffF2982A),
             fontSize: FontSizeManager.s17.sp,
           ),
         ),
         TextSpan(
-          text: Strings.premiumSubscriptionRequiredPart2,
+          text: Strings.premiumSubscriptionRequiredPart2.tr(),
           style: getMediumTextStyle(
             color: ColorManager.primaryColor,
             fontSize: FontSizeManager.s17.sp,
@@ -133,7 +134,7 @@ Container contactButton() {
         ),
         Gap(AppSize.s16.w),
         Text(
-          Strings.contactSalesDept,
+          Strings.contactSalesDept.tr(),
           style: getMediumTextStyle(
             color: ColorManager.whiteColor,
             fontSize: FontSizeManager.s18.sp,
@@ -159,7 +160,7 @@ Container requestForQuotationButton() => Container(
   child: Center(
     child: Text(
       textAlign: TextAlign.center,
-      Strings.requestForQuotation,
+      Strings.requestForQuotation.tr(),
       style: getMediumTextStyle(
         color: ColorManager.whiteColor,
         fontSize: FontSizeManager.s18.sp,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/forget_password/forget_password_view.dart';
 import 'package:elevator/presentation/login/widgets/login_texts.dart';
 import 'package:elevator/presentation/register/register_view.dart';
@@ -45,24 +46,24 @@ class LoginForm extends StatelessWidget {
             const WelcomeTitle(),
             const WelcomeMessage(),
             Gap(AppSize.s34.h),
-            const InputLabel(title: Strings.phoneNumberTitle),
+            InputLabel(title: Strings.phoneNumberTitle.tr()),
             Gap(AppSize.s8.h),
             PhoneField(
               controller: phoneController,
               phoneValidationStream: phoneValidationStream,
             ),
             Gap(AppSize.s16.h),
-            const InputLabel(title: Strings.passwordTitle),
+            InputLabel(title: Strings.passwordTitle.tr()),
             Gap(AppSize.s8.h),
             PasswordField(
               controller: passwordController,
-              hintText: Strings.passwordTitle,
+              hintText: Strings.passwordTitle.tr(),
               passwordValidationStream: passwordValidationStream,
             ),
             // Gap(AppSize.s25.h),
             InputButtonWidget(
               radius: AppSize.s14,
-              text: Strings.signInButton,
+              text: Strings.signInButton.tr(),
               onTap: onTap,
               isButtonEnabledStream: isButtonEnabledStream,
             ),
@@ -70,9 +71,9 @@ class LoginForm extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(Strings.noAccountMessage),
+                Text(Strings.noAccountMessage.tr()),
                 TextButtonWidget(
-                  Strings.signUpButton,
+                  Strings.signUpButton.tr(),
                   ColorManager.primaryColor,
                   AppSize.s18.sp,
                   () => context.push(RegisterView.registerRoute),
@@ -82,7 +83,7 @@ class LoginForm extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: TextButtonWidget(
-                Strings.forgetPassword,
+                Strings.forgetPassword.tr(),
                 ColorManager.primaryColor,
                 AppSize.s18,
                 () => context.go(ForgetPasswordView.forgetPasswordRoute),

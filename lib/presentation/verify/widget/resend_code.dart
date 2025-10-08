@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -17,7 +18,7 @@ class ResendCode extends StatelessWidget {
       textAlign: TextAlign.center,
       text: TextSpan(
         recognizer: TapGestureRecognizer()..onTap = onTap,
-        text: Strings.resendCode,
+        text: Strings.resendCode.tr(),
         style: getMediumTextStyle(
           color: seconds > 0
               ? ColorManager.greyColor

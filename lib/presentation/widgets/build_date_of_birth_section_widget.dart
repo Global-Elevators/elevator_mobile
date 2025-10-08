@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/register/widgets/date_of_birth_row.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -30,7 +31,7 @@ class BuildDateOfBirthSectionWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const LabelField(Strings.dateOfBirth),
+        LabelField(Strings.dateOfBirth.tr()),
         Gap(AppSize.s14.h),
         Row(
           children: DateOfBirthType.values.map((type) {

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -51,7 +52,7 @@ class StateRenderer extends StatelessWidget {
         return _getPopUpDialog(context, [
           _getAnimatedImage(JsonAssets.errorState),
           _getMessage(message),
-          _getRetryButton(Strings.ok, context),
+          _getRetryButton(Strings.ok.tr(), context),
         ]);
       case StateRendererType.fullScreenLoadingState:
         return _getItemsColum([
@@ -62,7 +63,7 @@ class StateRenderer extends StatelessWidget {
         return _getItemsColum([
           _getAnimatedImage(JsonAssets.errorState),
           _getMessage(message),
-          _getRetryButton(Strings.retryAgain, context),
+          _getRetryButton(Strings.retryAgain.tr(), context),
         ]);
       case StateRendererType.fullScreenEmptyState:
         return _getItemsColum([
@@ -76,7 +77,7 @@ class StateRenderer extends StatelessWidget {
           _getAnimatedImage(JsonAssets.successState),
           _getMessage(title),
           _getMessage(message),
-          _getRetryButton(Strings.ok, context),
+          _getRetryButton(Strings.ok.tr(), context),
         ]);
     }
   }

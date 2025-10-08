@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -10,7 +11,7 @@ class VerifyTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      Strings.verifyPhoneTitle,
+      Strings.verifyPhoneTitle.tr(),
       style: getBoldTextStyle(
         color: ColorManager.primaryColor,
         fontSize: FontSizeManager.s28,

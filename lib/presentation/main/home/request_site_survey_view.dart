@@ -1,4 +1,5 @@
 import 'package:dropdown_overlay/dropdown_overlay.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/home/widgets/label_yes_or_no_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/scope_of_work.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
@@ -36,9 +37,9 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
   String? selectedValue;
 
   List<DropdownItem<String>> items = [
-    DropdownItem(value: Strings.newProduct),
-    DropdownItem(value: Strings.annualPreventiveMaintenance),
-    DropdownItem(value: Strings.repair),
+    DropdownItem(value: Strings.newProduct.tr()),
+    DropdownItem(value: Strings.annualPreventiveMaintenance.tr()),
+    DropdownItem(value: Strings.repair.tr()),
   ];
 
   late final DropdownController<String> _singleSelectionController;
@@ -68,7 +69,7 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: AppBarLabel(Strings.requestSiteSurvey),
+        title: AppBarLabel(Strings.requestSiteSurvey.tr()),
         actions: [BackButtonWidget(popOrGo: true), Gap(AppSize.s16.w)],
       ),
       body: SingleChildScrollView(
@@ -78,7 +79,7 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               LabelYesOrNoWidget(
-                title: Strings.doesProjectBelongToSameAccount,
+                title: Strings.doesProjectBelongToSameAccount.tr(),
                 condition: isProjectBelongsToSameAccount,
                 onYesTap: () => setState(() {
                   isProjectBelongsToSameAccount = false;
@@ -97,13 +98,13 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
                 grandFatherNameStream: null,
               ),
               Gap(AppSize.s25.h),
-              LabelField(Strings.phoneNumberWhatsapp),
+              LabelField(Strings.phoneNumberWhatsapp.tr()),
               PhoneField(
                 controller: _phoneNumberController,
                 phoneValidationStream: null,
               ),
               Gap(AppSize.s25.h),
-              LabelField(Strings.scopeOfWork),
+              LabelField(Strings.scopeOfWork.tr()),
               DropdownScope(
                 controller: _singleSelectionController,
                 selectedValue: selectedValue,

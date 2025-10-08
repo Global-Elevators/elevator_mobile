@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/widgets/label_field.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -30,19 +31,19 @@ class BuildNameSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const LabelField(Strings.nameLabel),
+        LabelField(Strings.nameLabel.tr()),
         Gap(AppSize.s8.h),
         StreamBuilder<bool>(
           stream: nameStream,
           builder: (context, snapshot) => TextFromFieldWidget(
-            hintText: Strings.firstName,
+            hintText: Strings.firstName.tr(),
             controller: firstNameController,
             prefixIcon: Icon(
               Icons.account_circle_outlined,
               size: AppSize.s30,
               color: ColorManager.primaryColor,
             ),
-            errorText: (snapshot.data ?? true) ? null : Strings.invalidName,
+            errorText: (snapshot.data ?? true) ? null : Strings.invalidName.tr(),
           ),
         ),
         Gap(AppSize.s8.h),
@@ -54,11 +55,11 @@ class BuildNameSection extends StatelessWidget {
                   (BuildContext context, AsyncSnapshot<dynamic> snapshot) =>
                       Expanded(
                         child: TextFromFieldWidget(
-                          hintText: Strings.fatherName,
+                          hintText: Strings.fatherName.tr(),
                           controller: fatherNameController,
                           errorText: (snapshot.data ?? true)
                               ? null
-                              : Strings.invalidName,
+                              : Strings.invalidName.tr(),
                         ),
                       ),
             ),
@@ -69,11 +70,11 @@ class BuildNameSection extends StatelessWidget {
                   (BuildContext context, AsyncSnapshot<dynamic> snapshot) =>
                       Expanded(
                         child: TextFromFieldWidget(
-                          hintText: Strings.grandfatherName,
+                          hintText: Strings.grandfatherName.tr(),
                           controller: grandFatherNameController,
                           errorText: (snapshot.data ?? true)
                               ? null
-                              : Strings.invalidName,
+                              : Strings.invalidName.tr(),
                         ),
                       ),
             ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -34,7 +35,7 @@ class CustomImagePicker extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LabelField(Strings.photos, isOptional: isMultiple),
+        LabelField(Strings.photos.tr(), isOptional: isMultiple),
         Gap(AppSize.s8.h),
         InkWell(
           onTap: onTap,

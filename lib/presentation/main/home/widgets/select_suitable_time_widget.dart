@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
@@ -22,7 +23,7 @@ class SelectSuitableTimeWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LabelField(Strings.selectSuitableTimeToConductTheSiteSurvey),
+        LabelField(Strings.selectSuitableTimeToConductTheSiteSurvey.tr()),
         Gap(AppSize.s8.h),
         Container(
           decoration: BoxDecoration(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/account_verified/account_verified_view.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
@@ -105,14 +106,14 @@ class _NewPasswordViewState extends State<NewPasswordView> {
         children: [
           Image.asset(ImageAssets.newPassword),
           Text(
-            Strings.enterNewPasswordTitle,
+            Strings.enterNewPasswordTitle.tr(),
             style: getBoldTextStyle(
               color: ColorManager.primaryColor,
               fontSize: FontSizeManager.s28.sp,
             ),
           ),
           Text(
-            Strings.passwordRequirement,
+            Strings.passwordRequirement.tr(),
             style: getRegularTextStyle(
               color: ColorManager.greyColor,
               fontSize: FontSizeManager.s16.sp,
@@ -121,19 +122,19 @@ class _NewPasswordViewState extends State<NewPasswordView> {
           Gap(AppSize.s25.h),
           PasswordField(
             controller: _passwordController,
-            hintText: Strings.passwordTitle,
+            hintText: Strings.passwordTitle.tr(),
             passwordValidationStream: _viewModel.outIsPasswordValid,
           ),
           Gap(AppSize.s25.h),
           PasswordField(
             controller: _confirmPasswordController,
-            hintText: Strings.confirmPassword,
+            hintText: Strings.confirmPassword.tr(),
             passwordValidationStream: _viewModel.outIsConfirmPasswordValid,
           ),
           Gap(AppSize.s25.h),
           InputButtonWidget(
             radius: AppSize.s14,
-            text: Strings.continueButton,
+            text: Strings.continueButton.tr(),
             onTap: () => _viewModel.resetPassword(),
             isButtonEnabledStream: _viewModel.outAreAllDataValid,
           ),

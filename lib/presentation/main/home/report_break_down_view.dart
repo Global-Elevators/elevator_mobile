@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
 import 'package:elevator/presentation/main/home/widgets/label_text_form_field_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/label_yes_or_no_widget.dart';
@@ -33,7 +34,7 @@ class _ReportBreakDownViewState extends State<ReportBreakDownView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
-        title: Strings.reportBreakDown,
+        title: Strings.reportBreakDown.tr(),
         showBackButton: true,
         popOrGo: true,
       ),
@@ -42,7 +43,7 @@ class _ReportBreakDownViewState extends State<ReportBreakDownView> {
         child: Column(
           children: [
             LabelYesOrNoWidget(
-              title: Strings.anyBodyInjuredOrTrappedInsideTheElevator,
+              title: Strings.anyBodyInjuredOrTrappedInsideTheElevator.tr(),
               condition: anyBodyInjuredOrTrappedInsideTheElevator,
               onYesTap: () => setState(
                 () => anyBodyInjuredOrTrappedInsideTheElevator = false,
@@ -55,11 +56,11 @@ class _ReportBreakDownViewState extends State<ReportBreakDownView> {
             CustomImagePicker(
               singleImage: _imageFile,
               onTap: () => _pickImageFromGallery(),
-              placeholderText: Strings.filePhotoOrVideo,
+              placeholderText: Strings.filePhotoOrVideo.tr(),
             ),
             Gap(AppSize.s25.h),
             LabelTextFormFieldWidget(
-              title: Strings.descriptionOfBreakDown,
+              title: Strings.descriptionOfBreakDown.tr(),
               hintText: 'Description here !',
               controller: _descriptionOfBreakDownController,
               isOptional: true,
@@ -69,12 +70,12 @@ class _ReportBreakDownViewState extends State<ReportBreakDownView> {
             Gap(AppSize.s25.h),
             ButtonWidget(
               radius: AppSize.s14.r,
-              text: Strings.report,
+              text: Strings.report.tr(),
               onTap: () => CustomBottomSheet.show(
                 context: context,
                 imagePath: ImageAssets.successfully,
-                message: Strings.yourRequestHadBeenRecorded,
-                buttonText: Strings.done,
+                message: Strings.yourRequestHadBeenRecorded.tr(),
+                buttonText: Strings.done.tr(),
               ),
             ),
           ],

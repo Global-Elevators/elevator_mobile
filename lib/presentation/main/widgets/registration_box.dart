@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -32,14 +33,14 @@ class RegistrationBox extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  Strings.nextAppointment,
+                  Strings.nextAppointment.tr(),
                   style: getMediumTextStyle(
                     color: ColorManager.whiteColor,
                     fontSize: FontSizeManager.s18.sp,
                   ),
                 ),
                 Text(
-                  Strings.elevatorMaintenance,
+                  Strings.elevatorMaintenance.tr(),
                   style: getMediumTextStyle(
                     color: ColorManager.lightBlueColor,
                     fontSize: FontSizeManager.s16.sp,
@@ -47,7 +48,7 @@ class RegistrationBox extends StatelessWidget {
                 ),
                 Gap(AppSize.s22.h),
                 Text(
-                  Strings.appointmentDate,
+                  Strings.appointmentDate.tr(),
                   style: getMediumTextStyle(
                     color: ColorManager.whiteColor,
                     fontSize: FontSizeManager.s18.sp,
@@ -67,7 +68,7 @@ class RegistrationBox extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(bottom: AppSize.s16.h),
             child: Text(
-              Strings.daysLeft,
+              Strings.daysLeft.tr(),
               style: getMediumTextStyle(
                 color: ColorManager.semiLightBlueColor,
                 fontSize: FontSizeManager.s16.sp,

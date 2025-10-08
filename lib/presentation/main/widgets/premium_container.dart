@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/home/report_break_down_view.dart';
 import 'package:elevator/presentation/main/widgets/premium_button.dart';
 import 'package:elevator/presentation/main/widgets/sos_button.dart';
@@ -59,7 +60,7 @@ class _PremiumContainerState extends State<PremiumContainer> {
               child: Row(
                 children: [
                   PremiumButton(
-                    title: Strings.reportBreakDown,
+                    title: Strings.reportBreakDown.tr(),
                     imageAsset: ImageAssets.maintenance,
                     isPremium: widget.isPremium,
                     onTap: () =>
@@ -67,7 +68,7 @@ class _PremiumContainerState extends State<PremiumContainer> {
                   ),
                   Gap(AppSize.s8.w),
                   PremiumButton(
-                    title: Strings.requestVisitRescheduling,
+                    title: Strings.requestVisitRescheduling.tr(),
                     imageAsset: IconAssets.calendar,
                     isPremium: widget.isPremium,
                     onTap: () => showModelOfRequestVisitRescheduling(context),
@@ -103,7 +104,7 @@ class _PremiumContainerState extends State<PremiumContainer> {
           child: Column(
             children: [
               Text(
-                Strings.requestVisitRescheduling,
+                Strings.requestVisitRescheduling.tr(),
                 style: getBoldTextStyle(
                   color: ColorManager.primaryColor,
                   fontSize: FontSizeManager.s22.sp,
@@ -111,7 +112,7 @@ class _PremiumContainerState extends State<PremiumContainer> {
                 textAlign: TextAlign.center,
               ),
               Text(
-                Strings.chooseVisitDate,
+                Strings.chooseVisitDate.tr(),
                 style: getMediumTextStyle(
                   color: ColorManager.greyColor,
                   fontSize: FontSizeManager.s18.sp,
@@ -123,13 +124,13 @@ class _PremiumContainerState extends State<PremiumContainer> {
                 focusedDay: DateTime.now(),
               ),
               Gap(AppSize.s16.h),
-              ActionOrCancelButton(Strings.request, () {
+              ActionOrCancelButton(Strings.request.tr(), () {
                 context.pop();
                 CustomBottomSheet.show(
                   context: context,
                   imagePath: ImageAssets.successfully,
-                  message: Strings.requestVisitReschedulingMessage,
-                  buttonText: Strings.done,
+                  message: Strings.requestVisitReschedulingMessage.tr(),
+                  buttonText: Strings.done.tr(),
                 );
               }, actionColor: ColorManager.primaryColor),
             ],

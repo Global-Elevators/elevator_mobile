@@ -1,5 +1,6 @@
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:bottom_picker/resources/arrays.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
@@ -40,7 +41,7 @@ class DateOfBirthRow extends StatelessWidget {
       children: [
         Expanded(
           child: TextFromFieldWidget(
-            hintText: Strings.day,
+            hintText: Strings.day.tr(),
             controller: dayController,
             onTap: () => _showDatePicker(context),
           ),
@@ -48,7 +49,7 @@ class DateOfBirthRow extends StatelessWidget {
         Gap(AppSize.s5.w),
         Expanded(
           child: TextFromFieldWidget(
-            hintText: Strings.month,
+            hintText: Strings.month.tr(),
             controller: monthController,
             onTap: () => _showDatePicker(context),
           ),
@@ -56,7 +57,7 @@ class DateOfBirthRow extends StatelessWidget {
         Gap(AppSize.s5.w),
         Expanded(
           child: TextFromFieldWidget(
-            hintText: Strings.year,
+            hintText: Strings.year.tr(),
             controller: yearController,
             onTap: () => _showDatePicker(context),
           ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -44,7 +45,7 @@ class _EditInformationViewState extends State<EditInformationView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
-        title: Strings.editInformation,
+        title: Strings.editInformation.tr(),
         showBackButton: true,
         popOrGo: true,
       ),
@@ -97,7 +98,7 @@ class _EditInformationViewState extends State<EditInformationView> {
             ),
           ),
           Gap(AppSize.s16.w),
-          Text(Strings.profileEditsAreBeingReviewed),
+          Text(Strings.profileEditsAreBeingReviewed.tr()),
         ],
       ),
     );
@@ -133,7 +134,7 @@ class _EditInformationViewState extends State<EditInformationView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LabelField(Strings.phoneNumberTitle),
+        LabelField(Strings.phoneNumberTitle.tr()),
         Gap(AppSize.s8.h),
         PhoneField(controller: _phoneController, phoneValidationStream: null),
       ],
@@ -151,7 +152,7 @@ class _EditInformationViewState extends State<EditInformationView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const LabelField(Strings.addressLabel),
+        LabelField(Strings.addressLabel.tr()),
         Gap(AppSize.s8.h),
         ItemsDropDown(
           items: _addresses,
@@ -166,12 +167,12 @@ class _EditInformationViewState extends State<EditInformationView> {
   Widget _buildApplyButton() {
     return ButtonWidget(
       radius: AppSize.s14.r,
-      text: Strings.apply,
+      text: Strings.apply.tr(),
       onTap: () {
         CustomBottomSheet.show(
           context: context,
-          message: Strings.profileInformationRequestSent,
-          buttonText: Strings.done,
+          message: Strings.profileInformationRequestSent.tr(),
+          buttonText: Strings.done.tr(),
           imagePath: ImageAssets.successfully,
         );
       },

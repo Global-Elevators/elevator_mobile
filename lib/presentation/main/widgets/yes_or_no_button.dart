@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
@@ -30,7 +31,7 @@ class YesOrNoButton extends StatelessWidget {
     return Expanded(
       child: ButtonWidget(
         radius: AppSize.s14.r,
-        text: Strings.no,
+        text: Strings.no.tr(),
         onTap: onNoTap,
         color: condition ? ColorManager.primaryColor : ColorManager.whiteColor,
         textColor: condition ? ColorManager.whiteColor : ColorManager.greyColor,
@@ -42,7 +43,7 @@ class YesOrNoButton extends StatelessWidget {
     return Expanded(
       child: ButtonWidget(
         radius: AppSize.s14.r,
-        text: Strings.yes,
+        text: Strings.yes.tr(),
         onTap: onYesTap,
         color: condition ? ColorManager.whiteColor : ColorManager.primaryColor,
         textColor: condition

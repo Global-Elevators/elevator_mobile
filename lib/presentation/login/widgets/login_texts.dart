@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
@@ -10,7 +11,7 @@ class WelcomeTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      Strings.welcomeTitle,
+      Strings.welcomeTitle.tr(),
       style: getBoldTextStyle(
         color: ColorManager.primaryColor,
         fontSize: 28.sp,
@@ -25,7 +26,7 @@ class WelcomeMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      Strings.welcomeMessage,
+      Strings.welcomeMessage.tr(),
       style: getMediumTextStyle(color: ColorManager.greyColor, fontSize: 18.sp),
     );
   }

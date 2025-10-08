@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/label_field.dart';
@@ -22,13 +23,13 @@ class ShaftDimensionsWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Gap(AppSize.s25.h),
-        LabelField(Strings.shaftDimensions, isOptional: true),
+        LabelField(Strings.shaftDimensions.tr(), isOptional: true),
         Gap(AppSize.s8.h),
         theTwoFormFields(
           widthController,
           depthController,
-          Strings.widthCm,
-          Strings.depthCm,
+          Strings.widthCm.tr(),
+          Strings.depthCm.tr(),
         ),
       ],
     );

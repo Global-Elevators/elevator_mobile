@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
@@ -33,7 +34,7 @@ class ActionOrCancelButton extends StatelessWidget {
         Spacer(),
         ButtonWidget(
           radius: AppSize.s14.r,
-          text: Strings.cancel,
+          text: Strings.cancel.tr(),
           onTap: () => context.pop(),
           width: AppSize.s185.w,
           color: ColorManager.whiteColor,

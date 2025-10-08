@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
@@ -24,7 +25,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: Strings.changePassword,
+        title: Strings.changePassword.tr(),
         showBackButton: true,
         popOrGo: true,
       ),
@@ -35,25 +36,25 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           children: [
             PasswordField(
               controller: oldPasswordController,
-              hintText: Strings.oldPassword,
+              hintText: Strings.oldPassword.tr(),
               passwordValidationStream: null,
             ),
             Gap(AppSize.s10.h),
             PasswordField(
               controller: newPasswordController,
-              hintText: Strings.newPassword,
+              hintText: Strings.newPassword.tr(),
               passwordValidationStream: null,
             ),
             Gap(AppSize.s10.h),
             PasswordField(
               controller: confirmPasswordController,
-              hintText: Strings.confirmPassword,
+              hintText: Strings.confirmPassword.tr(),
               passwordValidationStream: null,
             ),
             Gap(AppSize.s50.h),
             InputButtonWidget(
               radius: AppSize.s14.r,
-              text: Strings.saveChanges,
+              text: Strings.saveChanges.tr(),
               isButtonEnabledStream: null,
               onTap: () {},
             ),

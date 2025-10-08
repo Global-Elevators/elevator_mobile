@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
@@ -34,7 +35,7 @@ class LoginLanguageButton extends StatelessWidget {
                 ),
                 child: Text(
                   textAlign: TextAlign.center,
-                  Strings.arabicText,
+                  Strings.arabicText.tr(),
                   style: getRegularTextStyle(
                     color: ColorManager.primaryColor,
                     fontSize: AppSize.s16.sp,

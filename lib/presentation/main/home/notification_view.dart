@@ -1,10 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
-import 'package:elevator/presentation/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -24,7 +24,7 @@ class _NotificationViewState extends State<NotificationView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
-        title: Strings.notifications,
+        title: Strings.notifications.tr(),
         showBackButton: true,
         popOrGo: true,
       ),
@@ -34,7 +34,7 @@ class _NotificationViewState extends State<NotificationView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              Strings.markAllAsRead,
+              Strings.markAllAsRead.tr(),
               style: getMediumTextStyle(
                 color: ColorManager.orangeColor,
                 fontSize: FontSizeManager.s20,
@@ -78,7 +78,7 @@ class _NotificationViewState extends State<NotificationView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                Strings.notificationTitle,
+                Strings.notificationTitle.tr(),
                 style: getMediumTextStyle(
                   color: ColorManager.primaryColor,
                   fontSize: FontSizeManager.s18.sp,
@@ -86,7 +86,7 @@ class _NotificationViewState extends State<NotificationView> {
                 textAlign: TextAlign.left,
               ),
               Text(
-                Strings.notificationSubTitle,
+                Strings.notificationSubTitle.tr(),
                 style: getMediumTextStyle(
                   color: ColorManager.greyColor,
                   fontSize: FontSizeManager.s14.sp,

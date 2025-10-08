@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/input_button_widget.dart';
@@ -14,7 +15,7 @@ class VerifyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InputButtonWidget(
       radius: AppSize.s14.r,
-      text: Strings.verifyButton,
+      text: Strings.verifyButton.tr(),
       onTap: onTap,
       isButtonEnabledStream: isButtonEnabledStream,
     );

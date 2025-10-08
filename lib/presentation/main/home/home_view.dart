@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/home/request_for_technical_view.dart';
 import 'package:elevator/presentation/main/home/request_site_survey_view.dart';
 import 'package:elevator/presentation/main/widgets/free_button.dart';
@@ -54,7 +55,7 @@ class _HomePageBody extends StatelessWidget {
         PremiumContainer(isPremium),
         Gap(AppSize.s24.h),
         Text(
-          Strings.servicesTitle,
+          Strings.servicesTitle.tr(),
           style: getBoldTextStyle(
             fontSize: FontSizeManager.s23.sp,
             color: ColorManager.primaryColor,
@@ -77,13 +78,13 @@ class _ServicesRow extends StatelessWidget {
       child: Row(
         children: [
           FreeButton(
-            title: Strings.requestSiteSurvey,
+            title: Strings.requestSiteSurvey.tr(),
             imageAsset: IconAssets.worker,
             onTap: () => context.push(RequestSiteSurvey.requestSiteSurveyRoute),
           ),
           Gap(AppSize.s8.w),
           FreeButton(
-            title: Strings.requestTechnicalOffer,
+            title: Strings.requestTechnicalOffer.tr(),
             imageAsset: ImageAssets.note,
             onTap: () =>
                 context.push(RequestForTechnicalView.requestForTechnicalRoute),

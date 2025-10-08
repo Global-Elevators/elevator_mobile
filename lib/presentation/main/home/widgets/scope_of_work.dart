@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/home/widgets/label_drop_down_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/label_text_form_field_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/label_yes_or_no_widget.dart';
@@ -92,37 +93,37 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         LabelTextFormFieldWidget(
-          title: Strings.projectAddress,
-          hintText: Strings.projectAddress,
+          title: Strings.projectAddress.tr(),
+          hintText: Strings.projectAddress.tr(),
           controller: _projectAddressController,
         ),
         Gap(AppSize.s25.h),
         LabelDropDownWidget(
-          title: Strings.projectType,
+          title: Strings.projectType.tr(),
           dropDownItems: projectTypeItems,
           selectedValue: selectedProjectType,
           onChanged: (value) => setState(() => selectedProjectType = value),
         ),
-        if (widget.name == Strings.newProduct) Gap(AppSize.s25.h),
-        if (widget.name == Strings.annualPreventiveMaintenance ||
-            widget.name == Strings.repair) ...[
+        if (widget.name == Strings.newProduct.tr()) Gap(AppSize.s25.h),
+        if (widget.name == Strings.annualPreventiveMaintenance.tr() ||
+            widget.name == Strings.repair.tr()) ...[
           Gap(AppSize.s25.h),
           LabelYesOrNoWidget(
-            title: Strings.isTheElevatorUnderWarranty,
+            title: Strings.isTheElevatorUnderWarranty.tr(),
             condition: isTheElevatorUnderWarranty,
             onYesTap: () => setState(() => isTheElevatorUnderWarranty = false),
             onNoTap: () => setState(() => isTheElevatorUnderWarranty = true),
           ),
           Gap(AppSize.s25.h),
           LabelTextFormFieldWidget(
-            title: Strings.elevatorBrand,
-            hintText: Strings.elevatorBrand,
+            title: Strings.elevatorBrand.tr(),
+            hintText: Strings.elevatorBrand.tr(),
             controller: _elevatorBrandController,
           ),
         ],
-        if (widget.name == Strings.newProduct)
+        if (widget.name == Strings.newProduct.tr())
           LabelDropDownWidget(
-            title: Strings.shaftType,
+            title: Strings.shaftType.tr(),
             dropDownItems: shaftTypeItems,
             selectedValue: selectedShaftType,
             onChanged: (value) {
@@ -133,7 +134,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           ),
         Gap(AppSize.s25.h),
         LabelDropDownWidget(
-          title: Strings.shaftLocation,
+          title: Strings.shaftLocation.tr(),
           dropDownItems: shaftLocationItems,
           selectedValue: selectedShaftLocation,
           onChanged: (value) {
@@ -142,41 +143,41 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
             });
           },
         ),
-        if (widget.name == Strings.newProduct)
+        if (widget.name == Strings.newProduct.tr())
           ShaftDimensionsWidget(
             widthController: _widthController,
             depthController: _depthController,
           ),
-        if (widget.name == Strings.newProduct)
+        if (widget.name == Strings.newProduct.tr())
           pitDepthAndLastFloorHeightWidget(),
-        if (widget.name == Strings.newProduct) ...[
+        if (widget.name == Strings.newProduct.tr()) ...[
           Gap(AppSize.s25.h),
           LabelYesOrNoWidget(
-            title: Strings.doesTheShaftHaveAMachineRoom,
+            title: Strings.doesTheShaftHaveAMachineRoom.tr(),
             condition: doesTheShaftHaveAMachineRoom,
             onYesTap: () =>
                 setState(() => doesTheShaftHaveAMachineRoom = false),
             onNoTap: () => setState(() => doesTheShaftHaveAMachineRoom = true),
           ),
           LabelTextFormFieldWidget(
-            title: Strings.height,
-            hintText: Strings.cm,
+            title: Strings.height.tr(),
+            hintText: Strings.cm.tr(),
             controller: _cmController,
             isCenterText: true,
           ),
           Gap(AppSize.s25.h),
         ],
-        if (widget.name == Strings.annualPreventiveMaintenance ||
-            widget.name == Strings.repair)
+        if (widget.name == Strings.annualPreventiveMaintenance.tr() ||
+            widget.name == Strings.repair.tr())
           Gap(AppSize.s25.h),
         StopsInputRow(
           controller: _stopsController,
           displayedNumber: _displayedNumber,
         ),
         Gap(AppSize.s25.h),
-        if (widget.name == Strings.repair) ...[
+        if (widget.name == Strings.repair.tr()) ...[
           LabelTextFormFieldWidget(
-            title: Strings.descriptionOfBreakDown,
+            title: Strings.descriptionOfBreakDown.tr(),
             hintText: 'Description here !',
             controller: _descriptionOfBreakDownController,
             isOptional: true,
@@ -187,7 +188,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           CustomImagePicker(
             singleImage: _imageFile,
             onTap: () => _pickImageFromGallery(),
-            placeholderText: Strings.filePhotoOrVideo,
+            placeholderText: Strings.filePhotoOrVideo.tr(),
           ),
           Gap(AppSize.s25.h),
         ],
@@ -196,7 +197,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           focusedDay: DateTime.now(),
         ),
         LabelTextFormFieldWidget(
-          title: Strings.notes,
+          title: Strings.notes.tr(),
           hintText: 'notes.',
           controller: _notesController,
           isOptional: true,
@@ -206,7 +207,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
         Gap(AppSize.s25.h),
         InputButtonWidget(
           radius: AppSize.s14.r,
-          text: Strings.submit,
+          text: Strings.submit.tr(),
           onTap: () {},
         ),
         Gap(AppSize.s14.h),
@@ -219,7 +220,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Gap(AppSize.s25.h),
-        LabelField(Strings.doesTheShaftHaveAMachineRoom, isOptional: true),
+        LabelField(Strings.doesTheShaftHaveAMachineRoom.tr(), isOptional: true),
         Gap(AppSize.s8.h),
         YesOrNoButton(
           condition: doesTheShaftHaveAMachineRoom,
@@ -245,17 +246,17 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
         Gap(AppSize.s25.h),
         Row(
           children: [
-            LabelField(Strings.pitDepth, isOptional: true),
+            LabelField(Strings.pitDepth.tr(), isOptional: true),
             Spacer(),
-            LabelField(Strings.lastFloorHeight),
+            LabelField(Strings.lastFloorHeight.tr()),
           ],
         ),
         Gap(AppSize.s8.h),
         theTwoFormFields(
           _pitDepthCmController,
           _lastFloorHeightCmController,
-          Strings.cm,
-          Strings.cm,
+          Strings.cm.tr(),
+          Strings.cm.tr(),
         ),
       ],
     );
@@ -266,13 +267,13 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Gap(AppSize.s25.h),
-        LabelField(Strings.shaftDimensions, isOptional: true),
+        LabelField(Strings.shaftDimensions.tr(), isOptional: true),
         Gap(AppSize.s8.h),
         theTwoFormFields(
           _widthController,
           _depthController,
-          Strings.widthCm,
-          Strings.depthCm,
+          Strings.widthCm.tr(),
+          Strings.depthCm.tr(),
         ),
       ],
     );

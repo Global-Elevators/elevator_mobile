@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/main/main_view.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
@@ -7,7 +8,6 @@ import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/button_widget.dart';
-import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -39,8 +39,8 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
               Text(
                 textAlign: TextAlign.center,
                 widget.title == "login"
-                    ? Strings.accountVerifiedTitle
-                    : Strings.passwordChangedTitle,
+                    ? Strings.accountVerifiedTitle.tr()
+                    : Strings.passwordChangedTitle.tr(),
                 style: getBoldTextStyle(
                   color: ColorManager.primaryColor,
                   fontSize: FontSizeManager.s28.sp,
@@ -48,8 +48,8 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
               ),
               Text(
                 widget.title == "login"
-                    ? Strings.accountVerifiedMessage
-                    : Strings.passwordChangedMessage,
+                    ? Strings.accountVerifiedMessage.tr()
+                    : Strings.passwordChangedMessage.tr(),
                 style: getMediumTextStyle(
                   color: ColorManager.greyColor,
                   fontSize: FontSizeManager.s18.sp,
@@ -59,8 +59,8 @@ class _AccountVerifiedViewState extends State<AccountVerifiedView> {
               ButtonWidget(
                 radius: AppSize.s14,
                 text: widget.title == "login"
-                    ? Strings.doneButton
-                    : Strings.signInButton,
+                    ? Strings.doneButton.tr()
+                    : Strings.signInButton.tr(),
                 onTap: () => context.go(
                   widget.title == "login"
                       ? MainView.mainRoute

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -34,7 +35,7 @@ class SosButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppSize.s18.r),
         ),
         child: Text(
-          Strings.sosTitle,
+          Strings.sosTitle.tr(),
           style: TextStyle(
             fontFamily: "PlayfairDisplay",
             fontWeight: FontWeight.bold,
@@ -75,7 +76,7 @@ class SosButton extends StatelessWidget {
             sosSubTitle(),
             Gap(AppSize.s35.h),
             ActionOrCancelButton(
-              Strings.yesSendAlert,
+              Strings.yesSendAlert.tr(),
               () {},
               actionColor: ColorManager.errorColor,
             ),
@@ -88,7 +89,7 @@ class SosButton extends StatelessWidget {
 
   Text sosSubTitle() {
     return Text(
-      Strings.areYouSureYouWantToSendThisAlert,
+      Strings.areYouSureYouWantToSendThisAlert.tr(),
       style: getMediumTextStyle(
         color: ColorManager.greyColor,
         fontSize: FontSizeManager.s18.sp,
@@ -99,7 +100,7 @@ class SosButton extends StatelessWidget {
 
   Text sosTitle() {
     return Text(
-      Strings.sosTitle,
+      Strings.sosTitle.tr(),
       style: getBoldTextStyle(
         color: ColorManager.errorColor,
         fontSize: FontSizeManager.s22.sp,

@@ -63,6 +63,7 @@ flutter:
     - assets/fonts/
     - assets/pdfs/
     - assets/json/
+    - assets/translations/
 
   fonts:
       - family: Tajawal

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -80,7 +81,7 @@ class _CatalogueAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Colors.white,
-      title: AppBarLabel(Strings.catalogue),
+      title: AppBarLabel(Strings.catalogue.tr()),
       actions: [
         InkWell(
           onTap: () => pdfViewerController.previousPage(),
@@ -142,7 +143,7 @@ class _CatalogueBody extends StatelessWidget {
             Gap(AppSize.s22.h),
             ButtonWidget(
               radius: AppSize.s12.r,
-              text: Strings.download,
+              text: Strings.download.tr(),
               onTap: () {},
             ),
           ],
@@ -214,7 +215,7 @@ class _CallButton extends StatelessWidget {
             ),
             Gap(AppSize.s5.w),
             Text(
-              Strings.call,
+              Strings.call.tr(),
               style: getBoldTextStyle(
                 color: ColorManager.primaryColor,
                 fontSize: FontSizeManager.s16.sp,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
@@ -73,7 +74,7 @@ class _ContractsStatusViewState extends State<ContractsStatusView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(title: Strings.contractsStatus),
+      appBar: CustomAppBar(title: Strings.contractsStatus.tr()),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsetsDirectional.symmetric(horizontal: AppSize.s16.w),
@@ -106,7 +107,7 @@ class _ContractsStatusViewState extends State<ContractsStatusView> {
                             borderRadius: BorderRadius.circular(AppSize.s99.r),
                           ),
                           child: Text(
-                            Strings.inProgress,
+                            Strings.inProgress.tr(),
                             style: getMediumTextStyle(
                               color: Color(0xffFFFFFF),
                               fontSize: FontSizeManager.s16.sp,
@@ -117,7 +118,7 @@ class _ContractsStatusViewState extends State<ContractsStatusView> {
                     ),
                     Gap(AppSize.s12.h),
                     Text(
-                      Strings.newProductSupplyInstallation,
+                      Strings.newProductSupplyInstallation.tr(),
                       style: getMediumTextStyle(
                         color: ColorManager.whiteColor,
                         fontSize: FontSizeManager.s22.sp,

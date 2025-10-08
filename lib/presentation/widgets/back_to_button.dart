@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -40,7 +41,7 @@ class BackToSignInButton extends StatelessWidget {
               Gap(AppSize.s10.w),
               Text(
                 textAlign: TextAlign.center,
-                Strings.backSignIn,
+                Strings.backSignIn.tr(),
                 style: getMediumTextStyle(
                   color: ColorManager.primaryColor,
                   fontSize: FontSizeManager.s18,

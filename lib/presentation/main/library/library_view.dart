@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
@@ -27,7 +28,7 @@ class _LibraryViewState extends State<LibraryView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppBarLabel(Strings.documents),
+            AppBarLabel(Strings.documents.tr()),
             Gap(AppSize.s24.h),
             _documentsRow(),
           ],
@@ -50,7 +51,7 @@ class _LibraryViewState extends State<LibraryView> {
       child: Expanded(
         child: ButtonWidget(
           radius: AppSize.s99.r,
-          text: Strings.annualPreventiveMaintenance,
+          text: Strings.annualPreventiveMaintenance.tr(),
           onTap: () {
             setState(() => selectedIndex = 2);
           },
@@ -75,7 +76,7 @@ class _LibraryViewState extends State<LibraryView> {
             height: AppSize.s45.h,
             child: ButtonWidget(
               radius: AppSize.s99.r,
-              text: index == 0 ? Strings.repair : Strings.newProduct,
+              text: index == 0 ? Strings.repair.tr() : Strings.newProduct.tr(),
               onTap: () {
                 setState(() => selectedIndex = index);
               },

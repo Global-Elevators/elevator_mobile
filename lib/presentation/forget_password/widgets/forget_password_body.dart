@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -31,14 +32,14 @@ class ForgetPasswordBody extends StatelessWidget {
           Image.asset(ImageAssets.password),
           Gap(AppSize.s25.h),
           Text(
-            Strings.forgetPasswordTitle,
+            Strings.forgetPasswordTitle.tr(),
             style: getBoldTextStyle(
               color: ColorManager.primaryColor,
               fontSize: AppSize.s24,
             ),
           ),
           Text(
-            Strings.forgetPasswordMessage,
+            Strings.forgetPasswordMessage.tr(),
             style: getMediumTextStyle(
               color: ColorManager.greyColor,
               fontSize: AppSize.s16,
@@ -52,7 +53,7 @@ class ForgetPasswordBody extends StatelessWidget {
           Gap(AppSize.s25.h),
           InputButtonWidget(
             radius: AppSize.s14,
-            text: Strings.getCodeButton,
+            text: Strings.getCodeButton.tr(),
             onTap: onGetCode,
             isButtonEnabledStream: isButtonEnabledStream,
           ),

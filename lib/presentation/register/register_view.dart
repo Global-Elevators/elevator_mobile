@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/login/login_view.dart';
@@ -45,11 +46,11 @@ class _RegisterViewState extends State<RegisterView> {
   final _confirmPasswordController = TextEditingController();
   int _selectedInterest = 0;
   final _interests = [
-    Strings.newProduct,
-    Strings.preventiveMaintenance,
-    Strings.repair,
-    Strings.consultancy,
-    Strings.jointVenture,
+    Strings.newProduct.tr(),
+    Strings.preventiveMaintenance.tr(),
+    Strings.repair.tr(),
+    Strings.consultancy.tr(),
+    Strings.jointVenture.tr(),
   ];
 
   String? selectedAddress;
@@ -208,20 +209,20 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   Widget _buildBackButton() =>
-      BackToSignInButton(text: Strings.backSignIn, route: LoginView.loginRoute);
+      BackToSignInButton(text: Strings.backSignIn.tr(), route: LoginView.loginRoute);
 
   Widget _buildHeader() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
-        Strings.createAccountTitle,
+        Strings.createAccountTitle.tr(),
         style: getBoldTextStyle(
           color: ColorManager.primaryColor,
           fontSize: FontSizeManager.s28,
         ),
       ),
       Text(
-        Strings.createAccountMessage,
+        Strings.createAccountMessage.tr(),
         style: getMediumTextStyle(
           color: ColorManager.greyColor,
           fontSize: FontSizeManager.s18,
@@ -233,7 +234,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget _buildContactSection() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const LabelField(Strings.phoneNumberTitle),
+      LabelField(Strings.phoneNumberTitle.tr()),
       Gap(AppSize.s8.h),
       PhoneField(
         controller: _phoneController,
@@ -245,7 +246,7 @@ class _RegisterViewState extends State<RegisterView> {
         emailValidationStream: _registerViewModel.outIsEmailValid,
       ),
       Gap(AppSize.s25.h),
-      const LabelField(Strings.addressLabel),
+      LabelField(Strings.addressLabel.tr()),
       Gap(AppSize.s8.h),
       ItemsDropDown(
         items: addresses,
@@ -264,17 +265,17 @@ class _RegisterViewState extends State<RegisterView> {
   Widget _buildPasswordSection() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const LabelField(Strings.passwordTitle),
+      LabelField(Strings.passwordTitle.tr()),
       Gap(AppSize.s8.h),
       PasswordField(
         controller: _passwordController,
-        hintText: Strings.passwordTitle,
+        hintText: Strings.passwordTitle.tr(),
         passwordValidationStream: _registerViewModel.outIsPasswordValid,
       ),
       Gap(AppSize.s8.h),
       PasswordField(
         controller: _confirmPasswordController,
-        hintText: Strings.confirmPassword,
+        hintText: Strings.confirmPassword.tr(),
         passwordValidationStream: _registerViewModel.outIsConfirmPasswordValid,
       ),
     ],
@@ -283,7 +284,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget _buildInterestsSection() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const LabelField(Strings.interestsLabel, isOptional: true),
+      LabelField(Strings.interestsLabel.tr(), isOptional: true),
       Gap(AppSize.s8.h),
       ListView.separated(
         shrinkWrap: true,
@@ -301,7 +302,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   Widget _buildSignUpButton() => InputButtonWidget(
     radius: AppSize.s14,
-    text: Strings.signUpButton,
+    text: Strings.signUpButton.tr(),
     onTap: () => _registerViewModel.register(),
     isButtonEnabledStream: _registerViewModel.areAllInputsValidStream,
   );

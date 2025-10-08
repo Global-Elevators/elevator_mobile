@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/home/widgets/label_drop_down_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/label_text_form_field_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/label_yes_or_no_widget.dart';
@@ -9,11 +7,8 @@ import 'package:elevator/presentation/main/home/widgets/pick_image_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/select_suitable_time_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/shaft_dimensions_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/stops_input_row.dart';
-import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
-import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
-import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/app_bar_label.dart';
 import 'package:elevator/presentation/widgets/back_button.dart';
@@ -23,7 +18,6 @@ import 'package:elevator/presentation/widgets/label_field.dart';
 import 'package:elevator/presentation/widgets/phone_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -183,7 +177,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   Widget _buildHeader() {
     return Row(
       children: [
-        Expanded(child: AppBarLabel(Strings.requestTechnicalOffer)),
+        Expanded(child: AppBarLabel(Strings.requestTechnicalOffer.tr())),
         BackButtonWidget(popOrGo: true),
       ],
     );
@@ -192,7 +186,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   // 🧩 Project Ownership
   Widget _buildProjectOwnershipSection() {
     return LabelYesOrNoWidget(
-      title: Strings.doesProjectBelongToSameAccount,
+      title: Strings.doesProjectBelongToSameAccount.tr(),
       condition: isProjectBelongsToSameAccount,
       onYesTap: () => setState(() => isProjectBelongsToSameAccount = true),
       onNoTap: () => setState(() => isProjectBelongsToSameAccount = false),
@@ -216,7 +210,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LabelField(Strings.phoneNumberWhatsapp),
+        LabelField(Strings.phoneNumberWhatsapp.tr()),
         PhoneField(
           controller: _phoneNumberController,
           phoneValidationStream: null,
@@ -231,13 +225,13 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         LabelTextFormFieldWidget(
-          title: Strings.projectAddress,
-          hintText: Strings.projectAddress,
+          title: Strings.projectAddress.tr(),
+          hintText: Strings.projectAddress.tr(),
           controller: _projectAddressController,
         ),
         Gap(AppSize.s25.h),
         LabelDropDownWidget(
-          title: Strings.projectType,
+          title: Strings.projectType.tr(),
           dropDownItems: projectTypeItems,
           selectedValue: selectedProjectType,
           onChanged: (value) => setState(() => selectedProjectType = value),
@@ -290,7 +284,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         LabelDropDownWidget(
-          title: Strings.shaftType,
+          title: Strings.shaftType.tr(),
           dropDownItems: shaftTypeItems,
           selectedValue: selectedShaftType,
           onChanged: (value) => setState(() => selectedShaftType = value),
@@ -298,7 +292,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
         ),
         Gap(AppSize.s25.h),
         LabelDropDownWidget(
-          title: Strings.shaftLocation,
+          title: Strings.shaftLocation.tr(),
           dropDownItems: shaftLocationItems,
           selectedValue: selectedShaftLocation,
           onChanged: (value) => setState(() => selectedShaftLocation = value),
@@ -309,15 +303,15 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
         ),
         Gap(AppSize.s25.h),
         LabelTextFormFieldWidget(
-          title: Strings.pitDepth,
-          hintText: Strings.cm,
+          title: Strings.pitDepth.tr(),
+          hintText: Strings.cm.tr(),
           controller: _pitDepthController,
           isCenterText: true,
           isOptional: true,
         ),
         Gap(AppSize.s25.h),
         LabelYesOrNoWidget(
-          title: Strings.doesTheShaftHaveAMachineRoom,
+          title: Strings.doesTheShaftHaveAMachineRoom.tr(),
           isOptional: true,
           condition: doesTheShaftHaveAMachineRoom,
           onYesTap: () => setState(() => doesTheShaftHaveAMachineRoom = true),
@@ -325,8 +319,8 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
         ),
         Gap(AppSize.s25.h),
         LabelTextFormFieldWidget(
-          title: Strings.height,
-          hintText: Strings.cm,
+          title: Strings.height.tr(),
+          hintText: Strings.cm.tr(),
           controller: _heightController,
           isCenterText: true,
           isOptional: true,
@@ -342,7 +336,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       children: [
         Row(
           children: [
-            LabelField(Strings.howManyStops, isOptional: true),
+            LabelField(Strings.howManyStops.tr(), isOptional: true),
             const Spacer(),
             Icon(
               Icons.report_gmailerrorred_outlined,
@@ -357,16 +351,16 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
         ),
         Gap(AppSize.s25.h),
         LabelTextFormFieldWidget(
-          title: Strings.lastFloorHeight,
-          hintText: Strings.cm,
+          title: Strings.lastFloorHeight.tr(),
+          hintText: Strings.cm.tr(),
           controller: _lastFloorHeightController,
           isCenterText: true,
           isOptional: true,
         ),
         Gap(AppSize.s25.h),
         LabelTextFormFieldWidget(
-          title: Strings.requiredDoorWidth,
-          hintText: Strings.cm,
+          title: Strings.requiredDoorWidth.tr(),
+          hintText: Strings.cm.tr(),
           controller: _requiredDoorWidthController,
           isCenterText: true,
           isOptional: true,
@@ -381,7 +375,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       multipleImages: imageFileList,
       isMultiple: true,
       onTap: _pickImagesFromGallery,
-      placeholderText: Strings.shaftPhoto2BuildingFrontPhoto1,
+      placeholderText: Strings.shaftPhoto2BuildingFrontPhoto1.tr(),
     );
   }
 
@@ -396,7 +390,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   // 🧩 Notes
   Widget _buildNotesSection() {
     return LabelTextFormFieldWidget(
-      title: Strings.notes,
+      title: Strings.notes.tr(),
       hintText: 'notes.',
       controller: _notesController,
       isNotes: true,
@@ -409,7 +403,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   Widget _buildSubmitButton() {
     return InputButtonWidget(
       radius: AppSize.s14.r,
-      text: Strings.submit,
+      text: Strings.submit.tr(),
       onTap: () {},
     );
   }

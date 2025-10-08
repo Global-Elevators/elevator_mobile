@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/items_drop_down.dart';
@@ -41,7 +42,7 @@ class LabelDropDownWidget extends StatelessWidget {
   ) {
     return ItemsDropDown(
       items: items,
-      hintText: Strings.selectOne,
+      hintText: Strings.selectOne.tr(),
       onChanged: onChanged,
       selectedItem: selectedItem,
     );

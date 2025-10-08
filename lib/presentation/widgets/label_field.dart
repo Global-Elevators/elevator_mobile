@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -21,7 +22,7 @@ class LabelField extends StatelessWidget {
               ),
               children: [
                 TextSpan(
-                  text: Strings.optional,
+                  text: Strings.optional.tr(),
                   style: getMediumTextStyle(
                     color: ColorManager.greyColor,
                     fontSize: FontSizeManager.s18,

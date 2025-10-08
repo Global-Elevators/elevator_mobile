@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -65,13 +66,13 @@ class PhoneField extends StatelessWidget {
           child: StreamBuilder<bool>(
             stream: phoneValidationStream,
             builder: (context, snapshot) => TextFromFieldWidget(
-              hintText: Strings.phoneNumberTitle,
+              hintText: Strings.phoneNumberTitle.tr(),
               controller: controller,
               keyboardType: TextInputType.phone,
               textInputAction: TextInputAction.done,
               errorText: (snapshot.data ?? true)
                   ? null
-                  : Strings.invalidPhoneNumber,
+                  : Strings.invalidPhoneNumber.tr(),
             ),
           ),
         ),

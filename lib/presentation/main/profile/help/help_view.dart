@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
@@ -25,7 +26,7 @@ class _HelpViewState extends State<HelpView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: Strings.help,
+        title: Strings.help.tr(),
         showBackButton: true,
         popOrGo: true,
       ),
@@ -36,7 +37,7 @@ class _HelpViewState extends State<HelpView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              Strings.contactUs,
+              Strings.contactUs.tr(),
               style: getMediumTextStyle(
                 color: ColorManager.primaryColor,
                 fontSize: FontSizeManager.s28.sp,

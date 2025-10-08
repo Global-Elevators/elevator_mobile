@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/catalogue/catalogue_view.dart';
 import 'package:elevator/presentation/main/home/home_view.dart';
 import 'package:elevator/presentation/main/library/library_view.dart';
@@ -99,7 +100,7 @@ class BottomNavBar extends StatelessWidget {
                         BlendMode.srcIn,
                       ),
                     ),
-              label: Strings.home,
+              label: Strings.home.tr(),
             ),
             BottomNavigationBarItem(
               icon: currentIndex == 1
@@ -111,7 +112,7 @@ class BottomNavBar extends StatelessWidget {
                         BlendMode.srcIn,
                       ),
                     ),
-              label: Strings.catalogue,
+              label: Strings.catalogue.tr(),
             ),
             BottomNavigationBarItem(
               icon: currentIndex == 2
@@ -123,7 +124,7 @@ class BottomNavBar extends StatelessWidget {
                         BlendMode.srcIn,
                       ),
                     ),
-              label: Strings.library,
+              label: Strings.library.tr(),
             ),
             BottomNavigationBarItem(
               icon: currentIndex == 3
@@ -132,7 +133,7 @@ class BottomNavBar extends StatelessWidget {
                       Icons.account_circle_outlined,
                       color: ColorManager.notSelectedIconColor,
                     ),
-              label: Strings.profile,
+              label: Strings.profile.tr(),
             ),
           ],
         ),

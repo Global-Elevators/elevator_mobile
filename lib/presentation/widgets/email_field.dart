@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -24,13 +25,13 @@ class EmailField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LabelField(Strings.emailLabel, isOptional: true),
+        LabelField(Strings.emailLabel.tr(), isOptional: true),
         Gap(AppSize.s8.h),
         StreamBuilder<bool>(
           stream: emailValidationStream,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) =>
               TextFromFieldWidget(
-                hintText: Strings.email,
+                hintText: Strings.email.tr(),
                 controller: emailController,
                 prefixIcon: SvgPicture.asset(
                   IconAssets.email,
@@ -44,7 +45,7 @@ class EmailField extends StatelessWidget {
                 ),
                 // errorText: (snapshot.data ?? true)
                 //     ? null
-                //     : Strings.invalidPassword,
+                //     : Strings.invalidPassword.tr(),
               ),
         ),
       ],

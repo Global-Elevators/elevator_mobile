@@ -82,6 +82,7 @@ class LoginViewModel extends BaseViewModel
         (data) {
           inputState.add(SuccessState("Welcome back"));
           isUserLoggedInSuccessfullyController.add(true);
+
         },
       );
     } catch (e, stack) {

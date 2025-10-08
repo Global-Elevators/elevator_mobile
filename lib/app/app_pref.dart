@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../presentation/resources/language_manager.dart';
 
@@ -22,7 +24,6 @@ class AppPreferences {
 
   Future<void> changeAppLanguage() async {
     final currentLanguage = await getAppLanguage();
-
     if (currentLanguage == LanguageType.arabic.getValue()) {
       await _secureStorage.write(
         key: pressKeyLanguage,
@@ -33,6 +34,16 @@ class AppPreferences {
         key: pressKeyLanguage,
         value: LanguageType.arabic.getValue(),
       );
+    }
+  }
+
+
+  Future<Locale> getLocalLanguage() async {
+    final currentLanguage = await getAppLanguage();
+    if (currentLanguage == LanguageType.arabic.getValue()) {
+      return arabicLocale;
+    } else {
+      return englishLocale;
     }
   }
 
