@@ -24,6 +24,7 @@ class TableCalendarWidget extends StatefulWidget {
 
 class _TableCalendarWidgetState extends State<TableCalendarWidget> {
   late DateTime _focusedDay;
+  DateTime? _selectedDay;
 
   @override
   void initState() {
@@ -35,15 +36,20 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
   Widget build(BuildContext context) {
     return TableCalendar(
       focusedDay: _focusedDay,
-      enabledDayPredicate: (day) {
-        for (DateTime disabled in widget.disabledDays) {
-          if (isSameDay(disabled, day)) {
-            return false;
-          }
-        }
-        return true;
-      },
+      firstDay: DateTime.utc(2010, 12, 31),
+      lastDay: DateTime.utc(2025, 12, 31),
       rowHeight: AppSize.s40.h,
+      availableGestures: AvailableGestures.all,
+      enabledDayPredicate: (day) =>
+      !widget.disabledDays.any((disabled) => isSameDay(disabled, day)),
+      onDaySelected: (selectedDay, focusedDay) {
+        setState(() {
+          _selectedDay = selectedDay;
+          _focusedDay = focusedDay;
+        });
+        widget.onDaySelected?.call(selectedDay, focusedDay);
+      },
+      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
       calendarStyle: CalendarStyle(
         todayDecoration: BoxDecoration(
           color: ColorManager.greyColor,
@@ -57,16 +63,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
           border: Border.all(color: ColorManager.greyColor),
         ),
       ),
-      firstDay: DateTime.utc(2010, 12, 31),
-      lastDay: DateTime.utc(2025, 12, 31),
-      onDaySelected: (selectedDay, focusedDay) {
-        setState(() {
-          _focusedDay = focusedDay;
-        });
-        widget.onDaySelected?.call(selectedDay, focusedDay);
-      },
-      selectedDayPredicate: (day) => isSameDay(_focusedDay, day),
-      availableGestures: AvailableGestures.all,
       headerStyle: HeaderStyle(
         formatButtonVisible: false,
         titleCentered: true,
@@ -78,3 +74,4 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
     );
   }
 }
+

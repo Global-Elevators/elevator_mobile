@@ -51,8 +51,8 @@ class AppPreferences {
     await _secureStorage.write(key: key, value: token);
   }
 
-  Future<String?> getUserToken(String key) async {
-    return await _secureStorage.read(key: key);
+  Future<String> getUserToken(String key) async {
+    return await _secureStorage.read(key: key) ?? "";
   }
 
   Future<bool> isUserLoggedIn(String key) async {

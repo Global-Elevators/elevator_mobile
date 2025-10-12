@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:elevator/data/network/failure.dart';
 import 'package:elevator/data/network/requests/login_request.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
+import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
@@ -27,4 +28,6 @@ abstract class Repository {
   Future<Either<Failure, void>> resendOtp(String phone);
 
   Future<Either<Failure, void>> register(UserData userData);
+
+  Future<Either<Failure, void>> requestSiteSurvey(RequestSiteSurveyRequest request);
 }

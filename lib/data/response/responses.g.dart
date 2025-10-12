@@ -139,3 +139,34 @@ Map<String, dynamic> _$RegisterResponseToJson(RegisterResponse instance) =>
       'message': instance.message,
       'errors': instance.registerErrorResponse,
     };
+
+RequestSiteSurveyErrorResponse _$RequestSiteSurveyErrorResponseFromJson(
+  Map<String, dynamic> json,
+) => RequestSiteSurveyErrorResponse(
+  (json['project_type'] as List<dynamic>?)?.map((e) => e as String).toList(),
+);
+
+Map<String, dynamic> _$RequestSiteSurveyErrorResponseToJson(
+  RequestSiteSurveyErrorResponse instance,
+) => <String, dynamic>{'project_type': instance.projectType};
+
+RequestSiteSurveyResponse _$RequestSiteSurveyResponseFromJson(
+  Map<String, dynamic> json,
+) =>
+    RequestSiteSurveyResponse(
+        json['errors'] == null
+            ? null
+            : RequestSiteSurveyErrorResponse.fromJson(
+                json['errors'] as Map<String, dynamic>,
+              ),
+      )
+      ..success = json['success'] as bool?
+      ..message = json['message'] as String?;
+
+Map<String, dynamic> _$RequestSiteSurveyResponseToJson(
+  RequestSiteSurveyResponse instance,
+) => <String, dynamic>{
+  'success': instance.success,
+  'message': instance.message,
+  'errors': instance.requestSiteSurveyErrorResponse,
+};

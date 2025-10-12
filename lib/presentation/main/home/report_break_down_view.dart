@@ -66,6 +66,7 @@ class _ReportBreakDownViewState extends State<ReportBreakDownView> {
               isOptional: true,
               isNotes: true,
               isCenterText: true,
+              isButtonEnabledStream: null,
             ),
             Gap(AppSize.s25.h),
             ButtonWidget(

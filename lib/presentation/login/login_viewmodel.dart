@@ -56,7 +56,7 @@ class LoginViewModel extends BaseViewModel
 
   @override
   Stream<bool> get outIsPhoneValid =>
-      _userPhoneController.stream.map((phone) => isPhoneValid(phone));
+      _userPhoneController.stream.map((phone) => isTextNotEmpty(phone));
 
   @override
   Stream<bool> get outIsPasswordValid => _userPasswordController.stream.map(
@@ -104,7 +104,7 @@ class LoginViewModel extends BaseViewModel
       _areAllInputsValidController.stream.map((_) => _areAllInputsValid());
 
   bool _areAllInputsValid() =>
-      isPhoneValid(loginObject.phone) && isPasswordValid(loginObject.password);
+      isTextNotEmpty(loginObject.phone) && isPasswordValid(loginObject.password);
 }
 
 abstract class LoginViewmodelInputs {

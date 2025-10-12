@@ -10,7 +10,6 @@ class ButtonWidget extends StatelessWidget {
   final void Function()? onTap;
   final Color color;
   final Color textColor;
-  final Stream<bool>? isButtonEnabledStream;
 
   const ButtonWidget({
     super.key,
@@ -20,7 +19,6 @@ class ButtonWidget extends StatelessWidget {
     required this.text,
     this.onTap,
     this.textColor = ColorManager.whiteColor,
-    this.isButtonEnabledStream,
   });
 
   @override

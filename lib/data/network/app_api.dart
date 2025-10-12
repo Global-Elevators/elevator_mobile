@@ -1,5 +1,6 @@
 import 'package:elevator/app/constants.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
+import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/response/responses.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -44,4 +45,7 @@ abstract class AppServicesClient {
 
   @POST("/auth/register")
   Future<RegisterResponse> register(@Body() UserData userData);
+
+  @POST("/user/site-surveys")
+  Future<RequestSiteSurveyResponse> requestSiteSurvey(@Body() RequestSiteSurveyRequest request);
 }

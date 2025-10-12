@@ -1,7 +1,12 @@
-bool isPhoneValid(String phone) => phone.isNotEmpty;
+import 'package:elevator/app/extensions.dart';
+
+bool isTextNotEmpty(String text) => text.isNotEmpty;
 
 bool isPasswordValid(String password) => password.isNotEmpty;
 
+bool isPhoneValid(String phone) => phone.isNotEmpty;
+
+bool isNumberNotZero(int number) => number != 0;
 // bool isPhoneValid(String phone) {
 //   // Iraqi phone: starts with 07 + 9 digits (total 11 digits)
 //   final phoneRegex = RegExp(r'^07[0-9]{9}$');

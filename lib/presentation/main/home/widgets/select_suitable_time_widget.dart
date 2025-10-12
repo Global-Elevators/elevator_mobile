@@ -11,11 +11,13 @@ import 'package:gap/gap.dart';
 class SelectSuitableTimeWidget extends StatelessWidget {
   final List<DateTime> disabledDays;
   final DateTime focusedDay;
+  final Function(DateTime, DateTime)? onDaySelected;
 
   const SelectSuitableTimeWidget({
     super.key,
     required this.disabledDays,
     required this.focusedDay,
+    required this.onDaySelected,
   });
 
   @override
@@ -34,9 +36,11 @@ class SelectSuitableTimeWidget extends StatelessWidget {
           child: TableCalendarWidget(
             disabledDays: disabledDays,
             focusedDay: focusedDay,
+            onDaySelected: onDaySelected,
           ),
         ),
       ],
     );
   }
 }
+

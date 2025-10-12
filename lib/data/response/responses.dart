@@ -125,3 +125,27 @@ class RegisterResponse extends BaseResponse {
 
   Map<String, dynamic> toJson() => _$RegisterResponseToJson(this);
 }
+
+/// TODO Use same class of RegisterResponse
+@JsonSerializable()
+class RequestSiteSurveyErrorResponse {
+  @JsonKey(name: "project_type")
+  List<String>? projectType;
+
+  RequestSiteSurveyErrorResponse(this.projectType);
+
+  factory RequestSiteSurveyErrorResponse.fromJson(Map<String, dynamic> json) =>
+      _$RequestSiteSurveyErrorResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RequestSiteSurveyErrorResponseToJson(this);
+}
+
+@JsonSerializable()
+class RequestSiteSurveyResponse extends BaseResponse {
+  @JsonKey(name: "errors")
+  RequestSiteSurveyErrorResponse? requestSiteSurveyErrorResponse;
+  RequestSiteSurveyResponse(this.requestSiteSurveyErrorResponse);
+  factory RequestSiteSurveyResponse.fromJson(Map<String, dynamic> json) =>
+      _$RequestSiteSurveyResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$RequestSiteSurveyResponseToJson(this);
+}

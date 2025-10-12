@@ -10,12 +10,14 @@ import 'package:elevator/domain/repository/repository.dart';
 import 'package:elevator/domain/usecase/forget_password_usecase.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
 import 'package:elevator/domain/usecase/register_usecase.dart';
+import 'package:elevator/domain/usecase/request_site_survey_usecase.dart';
 import 'package:elevator/domain/usecase/resend_otp_usecase.dart';
 import 'package:elevator/domain/usecase/reset_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_forgot_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_usecase.dart';
 import 'package:elevator/presentation/forget_password/forget_password_viewmodel.dart';
 import 'package:elevator/presentation/login/login_viewmodel.dart';
+import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_viewmodel.dart';
 import 'package:elevator/presentation/new_password/new_password_viewmodel.dart';
 import 'package:elevator/presentation/register/register_viewmodel.dart';
 import 'package:elevator/presentation/verify/verify_viewmodel.dart';
@@ -135,6 +137,17 @@ initRegisterModule() {
     );
     instance.registerFactory<RegisterViewModel>(
       () => RegisterViewModel(instance<RegisterUseCase>()),
+    );
+  }
+}
+
+initRequestServiceSurveyModule() {
+  if (!GetIt.I.isRegistered<RequestSiteSurveyUsecase>()) {
+    instance.registerFactory<RequestSiteSurveyUsecase>(
+      () => RequestSiteSurveyUsecase(instance<Repository>()),
+    );
+    instance.registerFactory<RequestSiteSurveyViewmodel>(
+      () => RequestSiteSurveyViewmodel(instance<RequestSiteSurveyUsecase>()),
     );
   }
 }

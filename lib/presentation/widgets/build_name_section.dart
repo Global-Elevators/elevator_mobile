@@ -46,7 +46,6 @@ class BuildNameSection extends StatelessWidget {
             errorText: (snapshot.data ?? true) ? null : Strings.invalidName.tr(),
           ),
         ),
-        Gap(AppSize.s8.h),
         Row(
           children: [
             StreamBuilder<bool>(

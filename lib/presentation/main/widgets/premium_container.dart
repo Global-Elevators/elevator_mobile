@@ -122,6 +122,11 @@ class _PremiumContainerState extends State<PremiumContainer> {
               TableCalendarWidget(
                 disabledDays: disabledDays,
                 focusedDay: DateTime.now(),
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    // Update any state if necessary
+                  });
+                },
               ),
               Gap(AppSize.s16.h),
               ActionOrCancelButton(Strings.request.tr(), () {

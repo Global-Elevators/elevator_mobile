@@ -38,7 +38,7 @@ class NewPasswordViewModel extends BaseViewModel
   void start() => inputState.add(ContentState());
 
   bool _areAllInputsValid() =>
-      isPhoneValid(_password) && isPhoneValid(_confirmPassword);
+      isTextNotEmpty(_password) && isTextNotEmpty(_confirmPassword);
 
   @override
   Sink get inputAreAllInputsValid => _areAllInputsValidController.sink;

@@ -61,17 +61,17 @@ class RegisterViewModel extends BaseViewModel
   @override
   Stream<bool> get outIsConfirmPasswordValid => _confirmPasswordController
       .stream
-      .map((confirmPassword) => isPhoneValid(confirmPassword));
+      .map((confirmPassword) => isTextNotEmpty(confirmPassword));
 
   @override
   Stream<bool> get outIsFatherNameValid => _fatherNameController.stream.map(
-    (fatherName) => isPhoneValid(fatherName),
+    (fatherName) => isTextNotEmpty(fatherName),
   );
 
   @override
   Stream<bool> get outIsGrandFatherNameValid => _grandFatherNameController
       .stream
-      .map((grandFatherName) => isPhoneValid(grandFatherName));
+      .map((grandFatherName) => isTextNotEmpty(grandFatherName));
 
   @override
   Sink get inPutConfirmPassword => _confirmPasswordController.sink;
@@ -93,15 +93,15 @@ class RegisterViewModel extends BaseViewModel
 
   @override
   Stream<bool> get outIsNameValid =>
-      _nameController.stream.map((name) => isPhoneValid(name));
+      _nameController.stream.map((name) => isTextNotEmpty(name));
 
   @override
   Stream<bool> get outIsPasswordValid =>
-      _passwordController.stream.map((password) => isPhoneValid(password));
+      _passwordController.stream.map((password) => isTextNotEmpty(password));
 
   @override
   Stream<bool> get outIsPhoneNumberValid => _phoneNumberController.stream.map(
-    (phoneNumber) => isPhoneValid(phoneNumber),
+    (phoneNumber) => isTextNotEmpty(phoneNumber),
   );
 
   @override
@@ -210,22 +210,22 @@ class RegisterViewModel extends BaseViewModel
   Sink get areAllInputsValidController => _areAllInputsValidController.sink;
 
   bool _areAllInputsValid() =>
-      isPhoneValid(_name) &&
-      isPhoneValid(_fatherName) &&
-      isPhoneValid(_grandFatherName) &&
+      isTextNotEmpty(_name) &&
+      isTextNotEmpty(_fatherName) &&
+      isTextNotEmpty(_grandFatherName) &&
       // isPhoneValid(_email) &&
-      isPhoneValid(_phoneNumber) &&
-      isPhoneValid(_password) &&
-      isPhoneValid(_confirmPassword) &&
-      isPhoneValid(_birthDate) &&
-      isPhoneValid(_address);
+      isTextNotEmpty(_phoneNumber) &&
+      isTextNotEmpty(_password) &&
+      isTextNotEmpty(_confirmPassword) &&
+      isTextNotEmpty(_birthDate) &&
+      isTextNotEmpty(_address);
 
   @override
   Sink get inPutEmail => _emailController.sink;
 
   @override
   Stream<bool> get outIsEmailValid =>
-      _emailController.stream.map((email) => isPhoneValid(email));
+      _emailController.stream.map((email) => isTextNotEmpty(email));
 
   @override
   void setAddress(String address) {

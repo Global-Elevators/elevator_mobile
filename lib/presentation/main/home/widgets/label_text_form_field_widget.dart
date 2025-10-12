@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/label_field.dart';
 import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
@@ -12,6 +14,7 @@ class LabelTextFormFieldWidget extends StatelessWidget {
   final bool isOptional;
   final bool isCenterText;
   final bool isNotes;
+  final Stream<bool>? isButtonEnabledStream;
 
   const LabelTextFormFieldWidget({
     super.key,
@@ -21,6 +24,7 @@ class LabelTextFormFieldWidget extends StatelessWidget {
     this.isOptional = false,
     this.isCenterText = false,
     this.isNotes = false,
+    required this.isButtonEnabledStream,
   });
 
   @override
@@ -31,11 +35,17 @@ class LabelTextFormFieldWidget extends StatelessWidget {
         Gap(AppSize.s10.h),
         LabelField(title, isOptional: isOptional),
         Gap(AppSize.s8.h),
-        TextFromFieldWidget(
-          hintText: hintText,
-          controller: controller,
-          centerText: isCenterText,
-          isNotes: isNotes,
+        StreamBuilder<bool>(
+          stream: isButtonEnabledStream,
+          initialData: true,
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) =>
+              TextFromFieldWidget(
+                hintText: hintText,
+                controller: controller,
+                centerText: isCenterText,
+                isNotes: isNotes,
+                errorText: (snapshot.data ?? true) ? null : Strings.invalidName.tr(),
+              ),
         ),
       ],
     );

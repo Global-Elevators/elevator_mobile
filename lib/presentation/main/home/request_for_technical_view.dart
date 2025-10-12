@@ -228,6 +228,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           title: Strings.projectAddress.tr(),
           hintText: Strings.projectAddress.tr(),
           controller: _projectAddressController,
+          isButtonEnabledStream: null,
         ),
         Gap(AppSize.s25.h),
         LabelDropDownWidget(
@@ -308,6 +309,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           controller: _pitDepthController,
           isCenterText: true,
           isOptional: true,
+          isButtonEnabledStream: null,
         ),
         Gap(AppSize.s25.h),
         LabelYesOrNoWidget(
@@ -324,6 +326,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           controller: _heightController,
           isCenterText: true,
           isOptional: true,
+          isButtonEnabledStream: null,
         ),
       ],
     );
@@ -356,6 +359,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           controller: _lastFloorHeightController,
           isCenterText: true,
           isOptional: true,
+          isButtonEnabledStream: null,
         ),
         Gap(AppSize.s25.h),
         LabelTextFormFieldWidget(
@@ -364,6 +368,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           controller: _requiredDoorWidthController,
           isCenterText: true,
           isOptional: true,
+          isButtonEnabledStream: null,
         ),
       ],
     );
@@ -384,6 +389,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
     return SelectSuitableTimeWidget(
       disabledDays: disabledDays,
       focusedDay: DateTime.now(),
+      onDaySelected: (selectedDay, focusedDay) {},
     );
   }
 
@@ -396,6 +402,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       isNotes: true,
       isOptional: true,
       isCenterText: true,
+      isButtonEnabledStream: null,
     );
   }
 

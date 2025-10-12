@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-const String APPLICATON_JSON = "application/json";
+const String APPLICATION_JSON = "application/json";
 const String CONTENT_TYPE = "content-type";
 const String ACCEPT = "accept";
 const String AUTHORIZATION = "authorization";
@@ -16,33 +16,54 @@ class DioFactory {
   DioFactory(this._appPreferences);
 
   Future<Dio> getDio() async {
-    Dio dio = Dio();
-    // String language = await _appPreferences.getAppLanguage();
-
-    Map<String, String> header = {
-      // CONTENT_TYPE: APPLICATON_JSON,
-      ACCEPT: APPLICATON_JSON,
-      // AUTHORIZATION: Constants.token,
-      // LANGUAGE: language,
-    };
-    // Write method add 2 numbers
-
-    dio.options = BaseOptions(
-      validateStatus: (status) {
-        return  status != null && status < 500;
-      },
-      headers: header,
-      receiveDataWhenStatusError: false,
+    final options = BaseOptions(
       baseUrl: Constants.baseUrl,
+      headers: {
+        ACCEPT: APPLICATION_JSON,
+        // LANGUAGE: language,
+      },
+      receiveDataWhenStatusError: false,
       sendTimeout: const Duration(seconds: Constants.timeout),
       receiveTimeout: const Duration(seconds: Constants.timeout),
+      validateStatus: (status) => status != null && status < 500,
     );
+
+    final dio = Dio(options);
+
+    // Interceptor: attach Authorization header dynamically per request
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          try {
+            final token = await _appPreferences.getUserToken("login");
+            final tokenType = await _appPreferences.getUserToken("tokenType");
+            if (token.isNotEmpty) {
+              options.headers["Authorization"] = "$tokenType $token";
+            } else {
+              // ensure header is not left from previous request
+              options.headers.remove("Authorization");
+            }
+          } catch (e) {
+            // safe fallback: do not block the request, but log
+            debugPrint("Failed to read token in interceptor: $e");
+          }
+          return handler.next(options);
+        },
+        onError: (DioError err, handler) {
+          // Optional: handle 401 here globally (refresh token, logout, etc.)
+          return handler.next(err);
+        },
+      ),
+    );
+
+    // logging only in debug
     if (!kReleaseMode) {
       dio.interceptors.add(
         PrettyDioLogger(
           requestHeader: true,
           requestBody: true,
           responseHeader: true,
+          responseBody: true,
         ),
       );
     }
@@ -50,8 +71,8 @@ class DioFactory {
   }
 }
 
-/*
-sendTimeout: This sets the maximum time Dio will wait while sending data to the server. If the data isn't completely sent within this timeframe, a timeout error occurs.
 
-receiveTimeout: This sets the maximum time Dio will wait to receive a response from the server after a request is sent. If the response isn't fully received within this period, a timeout error occurs.
-* */
+/*
+sendTimeout:  Maximum time Dio waits while sending data to the server.
+receiveTimeout: Maximum time Dio waits to receive a response after sending a request.
+*/

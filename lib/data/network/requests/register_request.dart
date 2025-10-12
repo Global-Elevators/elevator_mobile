@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'register_request.g.dart';
 
+/// TODO TEST TO REMOVE THIS CONDITION TRUE
 @JsonSerializable(explicitToJson: true)
 class UserData {
   final String name;

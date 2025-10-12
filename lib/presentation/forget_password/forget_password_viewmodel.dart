@@ -63,7 +63,7 @@ class ForgetPasswordViewmodel extends BaseViewModel implements ForgetPasswordVie
 
   @override
   Stream<bool> get outIsPhoneValid =>
-      _phoneStreamController.stream.map((phone) => isPhoneValid(phone));
+      _phoneStreamController.stream.map((phone) => isTextNotEmpty(phone));
 
   @override
   setUserPhone(String phone) {

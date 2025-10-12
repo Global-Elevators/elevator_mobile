@@ -15,3 +15,5 @@ extension NotNullDouble on double? {
 extension NotNullBool on bool? {
   bool orFalse() => this ?? Constants.falseValue;
 }
+
+

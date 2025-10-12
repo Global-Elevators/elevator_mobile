@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:elevator/data/data_source/remote_data_source.dart';
 import 'package:elevator/data/mappers/authentication_mapper.dart';
 import 'package:elevator/data/mappers/register_mapper.dart';
+import 'package:elevator/data/mappers/request_site_survey_mapper.dart';
 import 'package:elevator/data/mappers/verify_forgot_password_mapper.dart';
 import 'package:elevator/data/mappers/verify_mapper.dart';
 import 'package:elevator/data/network/exception_handler.dart';
@@ -9,6 +10,7 @@ import 'package:elevator/data/network/failure.dart';
 import 'package:elevator/data/network/network_info.dart';
 import 'package:elevator/data/network/requests/login_request.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
+import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
@@ -214,15 +216,47 @@ class RepositoryImpl extends Repository {
     }
   }
 
-  Either<Failure, void> _mapRegisterResponseToResult(RegisterResponse response) =>
-      _isSuccessfulResponse(response)
+  Either<Failure, void> _mapRegisterResponseToResult(
+    RegisterResponse response,
+  ) => _isSuccessfulResponse(response)
       ? const Right(null)
       : Left(_mapFailureFromRegisterResponse(response.toDomain()));
 
   Failure _mapFailureFromRegisterResponse(String response) {
-    return Failure(
-      ApiInternalStatus.failure,
-      response,
-    );
+    return Failure(ApiInternalStatus.failure, response);
+  }
+
+  @override
+  Future<Either<Failure, void>> requestSiteSurvey(
+    RequestSiteSurveyRequest request,
+  ) async {
+    if (await hasNetworkConnection()) {
+      return _performRequestSiteSurvey(request);
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  Future<Either<Failure, void>> _performRequestSiteSurvey(
+    RequestSiteSurveyRequest request,
+  ) async {
+    try {
+      final response = await _remoteDataSource.requestSiteSurvey(request);
+      return _mapRequestSiteSurveyResponseToResult(response);
+    } catch (error) {
+      print("Problem is here");
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
+
+  Either<Failure, void> _mapRequestSiteSurveyResponseToResult(
+    RequestSiteSurveyResponse response,
+  ) => _isSuccessfulResponse(response)
+      ? const Right(null)
+      : Left(_mapFailureFromRequestSiteSurveyResponse(response.toDomain()));
+
+  Failure _mapFailureFromRequestSiteSurveyResponse(String response) {
+    print("Problem is not here");
+    return Failure(ApiInternalStatus.failure, response);
   }
 }
