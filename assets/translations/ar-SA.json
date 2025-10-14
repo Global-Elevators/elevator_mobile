@@ -143,6 +143,7 @@
   "submit": "إرسال",
   "isTheElevatorUnderWarranty": "هل المصعد تحت الضمان أو تحت عقد صيانة ساري مع شركة أخرى؟",
   "elevatorBrand": "ماركة المصعد",
+  "elevatorType": "نوع المصعد",
   "descriptionOfBreakDown": "وصف العطل",
   "filePhotoOrVideo": "ملف صورة أو فيديو",
   "photos": "الصور",

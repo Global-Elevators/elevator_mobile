@@ -13,6 +13,7 @@ import 'package:elevator/domain/usecase/register_usecase.dart';
 import 'package:elevator/domain/usecase/request_site_survey_usecase.dart';
 import 'package:elevator/domain/usecase/resend_otp_usecase.dart';
 import 'package:elevator/domain/usecase/reset_password_usecase.dart';
+import 'package:elevator/domain/usecase/upload_media_usecase.dart';
 import 'package:elevator/domain/usecase/verify_forgot_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_usecase.dart';
 import 'package:elevator/presentation/forget_password/forget_password_viewmodel.dart';
@@ -146,8 +147,14 @@ initRequestServiceSurveyModule() {
     instance.registerFactory<RequestSiteSurveyUsecase>(
       () => RequestSiteSurveyUsecase(instance<Repository>()),
     );
+    instance.registerFactory<UploadedMediaUseCase>(
+      () => UploadedMediaUseCase(instance<Repository>()),
+    );
     instance.registerFactory<RequestSiteSurveyViewmodel>(
-      () => RequestSiteSurveyViewmodel(instance<RequestSiteSurveyUsecase>()),
+      () => RequestSiteSurveyViewmodel(
+        instance<RequestSiteSurveyUsecase>(),
+        instance<UploadedMediaUseCase>(),
+      ),
     );
   }
 }

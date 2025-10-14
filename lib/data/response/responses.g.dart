@@ -170,3 +170,36 @@ Map<String, dynamic> _$RequestSiteSurveyResponseToJson(
   'message': instance.message,
   'errors': instance.requestSiteSurveyErrorResponse,
 };
+
+UploadMediaResponse _$UploadMediaResponseFromJson(Map<String, dynamic> json) =>
+    UploadMediaResponse(
+        json['data'] == null
+            ? null
+            : UploadedMediaData.fromJson(json['data'] as Map<String, dynamic>),
+      )
+      ..success = json['success'] as bool?
+      ..message = json['message'] as String?;
+
+Map<String, dynamic> _$UploadMediaResponseToJson(
+  UploadMediaResponse instance,
+) => <String, dynamic>{
+  'success': instance.success,
+  'message': instance.message,
+  'data': instance.data,
+};
+
+UploadedMediaData _$UploadedMediaDataFromJson(Map<String, dynamic> json) =>
+    UploadedMediaData(
+      (json['uploads'] as List<dynamic>?)
+          ?.map((e) => UploadedMedia.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$UploadedMediaDataToJson(UploadedMediaData instance) =>
+    <String, dynamic>{'uploads': instance.uploads};
+
+UploadedMedia _$UploadedMediaFromJson(Map<String, dynamic> json) =>
+    UploadedMedia(json['media_uuid'] as String?, json['url'] as String?);
+
+Map<String, dynamic> _$UploadedMediaToJson(UploadedMedia instance) =>
+    <String, dynamic>{'media_uuid': instance.id, 'url': instance.url};

@@ -82,6 +82,16 @@ class ExtraData {
   final int height;
   @JsonKey(name: 'stops')
   final int stops;
+  @JsonKey(name: 'under_warranty_or_contract')
+  final bool underWarrantyOrContract;
+  @JsonKey(name: 'elevator_brand')
+  final String elevatorBrand;
+  @JsonKey(name: 'elevator_type')
+  final String elevatorType;
+  @JsonKey(name: 'description_of_breakdown')
+  final String descriptionOfBreakdown;
+  @JsonKey(name: 'photos_or_videos')
+  final List<String> photosOrVideos;
 
   ExtraData({
     required this.shaftType,
@@ -92,6 +102,11 @@ class ExtraData {
     required this.machineRoom,
     required this.height,
     required this.stops,
+    required this.underWarrantyOrContract,
+    required this.elevatorBrand,
+    required this.elevatorType,
+    required this.descriptionOfBreakdown,
+    required this.photosOrVideos,
   });
 
   factory ExtraData.fromJson(Map<String, dynamic> json) =>

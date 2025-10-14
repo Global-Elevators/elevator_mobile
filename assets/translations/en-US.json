@@ -143,6 +143,7 @@
   "submit": "Submit",
   "isTheElevatorUnderWarranty": "Is the elevator under warranty or under valid preventive maintenance contract by another company?",
   "elevatorBrand": "Elevator Brand ",
+  "elevatorType": "Elevator Type ",
   "descriptionOfBreakDown": "Description of break down ",
   "filePhotoOrVideo": "File photo or video",
   "photos": "Photos",

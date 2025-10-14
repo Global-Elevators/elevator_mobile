@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:elevator/data/network/app_api.dart';
 import 'package:elevator/data/network/requests/login_request.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
@@ -26,6 +27,8 @@ abstract class RemoteDataSource {
   Future<RequestSiteSurveyResponse> requestSiteSurvey(
     RequestSiteSurveyRequest request,
   );
+
+  Future<UploadMediaResponse> uploadMedia(List<MultipartFile> files);
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -88,5 +91,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
     RequestSiteSurveyRequest request,
   ) async {
     return await _appServicesClient.requestSiteSurvey(request);
+  }
+
+  @override
+  Future<UploadMediaResponse> uploadMedia(List<MultipartFile> files) async {
+    return await _appServicesClient.uploadMedia(files);
   }
 }

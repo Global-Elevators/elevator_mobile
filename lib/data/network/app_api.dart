@@ -7,7 +7,6 @@ import 'package:retrofit/retrofit.dart';
 
 part 'app_api.g.dart';
 
-
 @RestApi(baseUrl: Constants.baseUrl)
 abstract class AppServicesClient {
   factory AppServicesClient(Dio dio, {String? baseUrl}) = _AppServicesClient;
@@ -47,5 +46,13 @@ abstract class AppServicesClient {
   Future<RegisterResponse> register(@Body() UserData userData);
 
   @POST("/user/site-surveys")
-  Future<RequestSiteSurveyResponse> requestSiteSurvey(@Body() RequestSiteSurveyRequest request);
+  Future<RequestSiteSurveyResponse> requestSiteSurvey(
+    @Body() RequestSiteSurveyRequest request,
+  );
+
+  @MultiPart()
+  @POST("/user/site-surveys/media")
+  Future<UploadMediaResponse> uploadMedia(
+    @Part(name: "files[]") List<MultipartFile> files,
+  );
 }

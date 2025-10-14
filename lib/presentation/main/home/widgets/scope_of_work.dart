@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_viewmodel.dart';
@@ -47,7 +46,10 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
 
   // State
   // final viewmodel = instance<RequestSiteSurveyViewmodel>();
-  String? selectedProjectType, selectedShaftLocation, selectedShaftType;
+  String? selectedProjectType,
+      selectedShaftLocation,
+      selectedShaftType,
+      selectedElevatorType;
   bool doesTheShaftHaveAMachineRoom = false;
   bool isTheElevatorUnderWarranty = false;
   int _displayedNumber = 0;
@@ -71,6 +73,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
 
   final shaftTypeItems = ["Cairo", "Alex", "Mansoura", "Giza"];
   final shaftLocationItems = ["Cairo", "Alex", "Mansoura", "Giza"];
+  final elevatorTypeItems = ["hydraulic", "Alex", "Mansoura", "Giza"];
   final disabledDays = [
     DateTime.utc(2025, 9, 15),
     DateTime.utc(2025, 9, 18),
@@ -110,11 +113,21 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
     _notesController.addListener(
       () => widget.viewmodel.setNotes(_notesController.text),
     );
+
+    _elevatorBrandController.addListener(
+      () => widget.viewmodel.setElevatorBrand(_elevatorBrandController.text),
+    );
+
+    _descriptionOfBreakDownController.addListener(
+      () => widget.viewmodel.setDescriptionOfBreakdown(
+        _descriptionOfBreakDownController.text,
+      ),
+    );
     _updateDisplayedNumber();
-    isCredentialsCorrect();
+    isRequestCorrect();
   }
 
-  void isCredentialsCorrect() {
+  void isRequestCorrect() {
     widget.viewmodel.isUserRequestSiteSurvey.stream.listen((
       isUserRequestSiteSurvey,
     ) {
@@ -156,6 +169,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
     final picker = ImagePicker();
     final picked = await picker.pickImage(source: ImageSource.gallery);
     if (picked != null) setState(() => _imageFile = File(picked.path));
+    widget.viewmodel.setImageFile(_imageFile);
   }
 
   bool get isNewProduct => widget.scopeOfWork == Strings.newProduct.tr();
@@ -233,16 +247,34 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
         LabelYesOrNoWidget(
           title: Strings.isTheElevatorUnderWarranty.tr(),
           condition: isTheElevatorUnderWarranty,
-          onYesTap: () => setState(() => isTheElevatorUnderWarranty = true),
-          onNoTap: () => setState(() => isTheElevatorUnderWarranty = false),
+          onYesTap: () => setState(() {
+            isTheElevatorUnderWarranty = true;
+            widget.viewmodel.setUnderWarrantyOrContract(true);
+          }),
+          onNoTap: () => setState(() {
+            isTheElevatorUnderWarranty = false;
+            widget.viewmodel.setUnderWarrantyOrContract(false);
+          }),
         ),
         Gap(AppSize.s25.h),
         LabelTextFormFieldWidget(
+          isOptional: true,
           title: Strings.elevatorBrand.tr(),
           hintText: Strings.elevatorBrand.tr(),
           controller: _elevatorBrandController,
           isButtonEnabledStream: null,
         ),
+        LabelDropDownWidget(
+          isOptional: true,
+          title: Strings.elevatorType.tr(),
+          dropDownItems: elevatorTypeItems,
+          selectedValue: selectedElevatorType,
+          onChanged: (value) => setState(() {
+            selectedElevatorType = value;
+            widget.viewmodel.setElevatorType(selectedElevatorType ?? "");
+          }),
+        ),
+        Gap(AppSize.s25.h),
       ],
     );
   }
@@ -270,8 +302,14 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
         LabelYesOrNoWidget(
           title: Strings.doesTheShaftHaveAMachineRoom.tr(),
           condition: doesTheShaftHaveAMachineRoom,
-          onYesTap: () => setState(() => doesTheShaftHaveAMachineRoom = false),
-          onNoTap: () => setState(() => doesTheShaftHaveAMachineRoom = true),
+          onYesTap: () => setState(() {
+            doesTheShaftHaveAMachineRoom = false;
+            widget.viewmodel.setMachineRoom(false);
+          }),
+          onNoTap: () => setState(() {
+            doesTheShaftHaveAMachineRoom = true;
+            widget.viewmodel.setMachineRoom(true);
+          }),
         ),
         Gap(AppSize.s10.h),
         LabelTextFormFieldWidget(
@@ -309,7 +347,6 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           isCenterText: true,
           isButtonEnabledStream: null,
         ),
-        Gap(AppSize.s25.h),
         CustomImagePicker(
           singleImage: _imageFile,
           onTap: _pickImageFromGallery,

@@ -184,6 +184,7 @@ class Strings {
   static const String isTheElevatorUnderWarranty =
       'isTheElevatorUnderWarranty';
   static const String elevatorBrand = 'elevatorBrand';
+  static const String elevatorType = 'elevatorType';
   static const String descriptionOfBreakDown = 'descriptionOfBreakDown';
   static const String filePhotoOrVideo = 'filePhotoOrVideo';
   static const String photos = 'photos';

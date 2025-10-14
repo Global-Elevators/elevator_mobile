@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
@@ -6,6 +8,7 @@ import 'package:elevator/app/extensions.dart';
 import 'package:elevator/app/functions.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/domain/usecase/request_site_survey_usecase.dart';
+import 'package:elevator/domain/usecase/upload_media_usecase.dart';
 import 'package:elevator/presentation/base/baseviewmodel.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
@@ -40,7 +43,7 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
   String _projectAddress = '';
   String _notes = '';
   String _height = '';
-  bool _hasMachineRoom = false;
+  bool _hasMachineRoom = true;
   String _scopeOfWork = '';
   String _projectType = '';
   String _scheduleDate = '';
@@ -51,11 +54,21 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
   String _pitDepthCm = '';
   String _lastFloorHeightCm = '';
   String _numberOfStops = '';
+  bool _underWarrantyOrContract = true;
+  String _elevatorBrand = '';
+  String _elevatorType = '';
+  String _descriptionOfBreakdown = '';
+  final List<String> _photosOrVideos = [];
+  List<MultipartFile>? _imageFiles = [];
 
   final RequestSiteSurveyUsecase _requestSiteSurveyUsecase;
+  final UploadedMediaUseCase _uploadMediaUsecase;
   final _appPref = instance<AppPreferences>();
 
-  RequestSiteSurveyViewmodel(this._requestSiteSurveyUsecase);
+  RequestSiteSurveyViewmodel(
+    this._requestSiteSurveyUsecase,
+    this._uploadMediaUsecase,
+  );
 
   @override
   void start() => inputState.add(ContentState());
@@ -83,9 +96,14 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
   Sink get inPutSirName => _sirNameStreamController.sink;
 
   @override
-  Stream<bool> get outAreAllInputsValid => _areAllInputsValidStreamController
-      .stream
-      .map((_) => _areAllInputsValid());
+  Stream<bool> get outAreAllInputsValid =>
+      _areAllInputsValidStreamController.stream.map((_) {
+        if (_scopeOfWork == 'new_product') {
+          return _areCommonInputsValid() && _areAllINewProductInputsValid();
+        } else {
+          return _areCommonInputsValid();
+        }
+      });
 
   @override
   Stream<bool> get outIsHeightValid =>
@@ -232,7 +250,7 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
     _areAllInputsValidStreamController.add(null);
   }
 
-  bool _areAllInputsValid() =>
+  bool _areCommonInputsValid() =>
       isTextNotEmpty(_name) &&
       isTextNotEmpty(_sirName) &&
       isTextNotEmpty(_middleName) &&
@@ -240,8 +258,9 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
       isTextNotEmpty(_scopeOfWork) &&
       isTextNotEmpty(_projectAddress) &&
       isTextNotEmpty(_projectType) &&
-      isTextNotEmpty(_height) &&
       isTextNotEmpty(_scheduleDate);
+
+  bool _areAllINewProductInputsValid() => isTextNotEmpty(_height);
 
   @override
   void submitSiteSurvey() async {
@@ -265,6 +284,7 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
       );
 
       final extraData = ExtraData(
+        // new product
         height: _height.isEmpty ? 0 : int.parse(_height),
         machineRoom: _hasMachineRoom,
         shaftType: _shaftType.orEmpty(),
@@ -275,6 +295,13 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
             : int.parse(_lastFloorHeightCm),
         pitDepth: _pitDepthCm.isEmpty ? 0 : int.parse(_pitDepthCm),
         shaftDimensions: shaftDimensions,
+        // maintenance
+        underWarrantyOrContract: _underWarrantyOrContract,
+        elevatorBrand: _elevatorBrand,
+        elevatorType: _elevatorType,
+        // repair
+        descriptionOfBreakdown: _descriptionOfBreakdown,
+        photosOrVideos: _photosOrVideos,
       );
 
       final request = RequestSiteSurveyRequest(
@@ -310,10 +337,101 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
       debugPrint("🔥 Exception in requestSiteSurvey: $e\n$stack");
     }
   }
+
+  @override
+  void setElevatorBrand(String elevatorBrand) {
+    _elevatorBrand = elevatorBrand;
+    _areAllInputsValidStreamController.add(null);
+  }
+
+  @override
+  void setElevatorType(String elevatorType) {
+    _elevatorType = elevatorType;
+    _areAllInputsValidStreamController.add(null);
+  }
+
+  @override
+  void setUnderWarrantyOrContract(bool underWarrantyOrContract) {
+    _underWarrantyOrContract = underWarrantyOrContract;
+    _areAllInputsValidStreamController.add(null);
+  }
+
+  @override
+  void setDescriptionOfBreakdown(String descriptionOfBreakdown) {
+    _descriptionOfBreakdown = descriptionOfBreakdown;
+    _areAllInputsValidStreamController.add(null);
+  }
+
+  @override
+  void setImageFile(File? imageFile) async {
+    if (imageFile != null) {
+      final fileName = imageFile.path.split('/').last;
+
+      final multipartFile = await MultipartFile.fromFile(
+        imageFile.path,
+        filename: fileName,
+      );
+
+      _imageFiles ??= [];
+      _imageFiles!.add(multipartFile);
+
+      await uploadMedia();
+    }
+  }
+
+  @override
+  Future<void> uploadMedia() async {
+    try {
+      inputState.add(
+        LoadingState(stateRendererType: StateRendererType.popUpLoadingState),
+      );
+
+      if (_imageFiles == null || _imageFiles!.isEmpty) {
+        inputState.add(
+          ErrorState(
+            StateRendererType.popUpErrorState,
+            "No image selected for upload.",
+          ),
+        );
+        return;
+      }
+
+      final result = await _uploadMediaUsecase.execute(_imageFiles!);
+
+      result.fold(
+        (failure) {
+          inputState.add(
+            ErrorState(StateRendererType.popUpErrorState, failure.message),
+          );
+        },
+        (data) {
+          inputState.add(SuccessState("Image uploaded successfully"));
+
+          final uploadedIds = data.data.uploads
+              .map((upload) => upload.id)
+              .toList();
+
+          _photosOrVideos.addAll(uploadedIds);
+
+          debugPrint("✅ Uploaded media IDs: $_photosOrVideos");
+        },
+      );
+    } catch (e, stack) {
+      inputState.add(
+        ErrorState(
+          StateRendererType.popUpErrorState,
+          "Unexpected error occurred. Please try again.",
+        ),
+      );
+      debugPrint("🔥 Exception in uploadMedia: $e\n$stack");
+    }
+  }
 }
 
 abstract class RequestSiteSurveyViewModelInput {
   void submitSiteSurvey();
+
+  void uploadMedia();
 
   void setName(String name);
 
@@ -350,6 +468,16 @@ abstract class RequestSiteSurveyViewModelInput {
   void setMachineRoom(bool hasMachineRoom);
 
   void setHeight(String height);
+
+  void setElevatorBrand(String elevatorBrand);
+
+  void setElevatorType(String elevatorType);
+
+  void setUnderWarrantyOrContract(bool underWarrantyOrContract);
+
+  void setDescriptionOfBreakdown(String descriptionOfBreakdown);
+
+  void setImageFile(File? imageFile);
 
   Sink get inPutName;
 

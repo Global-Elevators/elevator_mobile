@@ -1,17 +1,13 @@
 import 'package:dropdown_overlay/dropdown_overlay.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
-import 'package:elevator/data/network/app_api.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_viewmodel.dart';
 import 'package:elevator/presentation/main/home/widgets/label_yes_or_no_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/scope_of_work.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
-import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
-import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/app_bar_label.dart';
 import 'package:elevator/presentation/widgets/back_button.dart';

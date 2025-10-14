@@ -149,3 +149,45 @@ class RequestSiteSurveyResponse extends BaseResponse {
       _$RequestSiteSurveyResponseFromJson(json);
   Map<String, dynamic> toJson() => _$RequestSiteSurveyResponseToJson(this);
 }
+
+@JsonSerializable()
+class UploadMediaResponse extends BaseResponse {
+  @JsonKey(name: "data")
+  final UploadedMediaData? data;
+
+  UploadMediaResponse(this.data);
+
+  factory UploadMediaResponse.fromJson(Map<String, dynamic> json) =>
+      _$UploadMediaResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UploadMediaResponseToJson(this);
+}
+
+@JsonSerializable()
+class UploadedMediaData {
+  @JsonKey(name: "uploads")
+  final List<UploadedMedia>? uploads;
+
+  UploadedMediaData(this.uploads);
+
+  factory UploadedMediaData.fromJson(Map<String, dynamic> json) =>
+      _$UploadedMediaDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UploadedMediaDataToJson(this);
+}
+
+@JsonSerializable()
+class UploadedMedia {
+  @JsonKey(name: "media_uuid")
+  final String? id;
+
+  @JsonKey(name: "url")
+  final String? url;
+
+  UploadedMedia(this.id, this.url);
+
+  factory UploadedMedia.fromJson(Map<String, dynamic> json) =>
+      _$UploadedMediaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UploadedMediaToJson(this);
+}

@@ -59,6 +59,13 @@ ExtraData _$ExtraDataFromJson(Map<String, dynamic> json) => ExtraData(
   machineRoom: json['machine_room'] as bool,
   height: (json['height'] as num).toInt(),
   stops: (json['stops'] as num).toInt(),
+  underWarrantyOrContract: json['under_warranty_or_contract'] as bool,
+  elevatorBrand: json['elevator_brand'] as String,
+  elevatorType: json['elevator_type'] as String,
+  descriptionOfBreakdown: json['description_of_breakdown'] as String,
+  photosOrVideos: (json['photos_or_videos'] as List<dynamic>)
+      .map((e) => e as String)
+      .toList(),
 );
 
 Map<String, dynamic> _$ExtraDataToJson(ExtraData instance) => <String, dynamic>{
@@ -70,6 +77,11 @@ Map<String, dynamic> _$ExtraDataToJson(ExtraData instance) => <String, dynamic>{
   'machine_room': instance.machineRoom,
   'height': instance.height,
   'stops': instance.stops,
+  'under_warranty_or_contract': instance.underWarrantyOrContract,
+  'elevator_brand': instance.elevatorBrand,
+  'elevator_type': instance.elevatorType,
+  'description_of_breakdown': instance.descriptionOfBreakdown,
+  'photos_or_videos': instance.photosOrVideos,
 };
 
 ShaftDimensions _$ShaftDimensionsFromJson(Map<String, dynamic> json) =>
