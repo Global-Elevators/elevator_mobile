@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_viewmodel.dart';
 import 'package:elevator/presentation/main/home/widgets/label_drop_down_widget.dart';
@@ -44,8 +45,6 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
   final _elevatorBrandController = TextEditingController();
   final _descriptionOfBreakDownController = TextEditingController();
 
-  // State
-  // final viewmodel = instance<RequestSiteSurveyViewmodel>();
   String? selectedProjectType,
       selectedShaftLocation,
       selectedShaftType,
@@ -56,6 +55,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
   File? _imageFile;
   DateTime? focusedDay;
   String _selectedDay = "";
+  bool isImageLoading = false;
 
   // Data
   final projectTypeItems = [
@@ -82,6 +82,14 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
 
   @override
   void initState() {
+    // track the state
+    widget.viewmodel.outputStateStream.listen((loadingState) {
+      if (loadingState is LoadingState) {
+        isImageLoading = true;
+      } else {
+        isImageLoading = false;
+      }
+    });
     super.initState();
     _stopsController.addListener(_updateDisplayedNumber);
     widget.viewmodel.setScopeOfWork(widget.scopeOfWork);
@@ -351,6 +359,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           singleImage: _imageFile,
           onTap: _pickImageFromGallery,
           placeholderText: Strings.filePhotoOrVideo.tr(),
+          isImageLoading: isImageLoading,
         ),
         Gap(AppSize.s25.h),
       ],

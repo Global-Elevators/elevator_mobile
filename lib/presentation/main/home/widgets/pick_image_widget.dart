@@ -20,6 +20,7 @@ class CustomImagePicker extends StatelessWidget {
   final bool isMultiple;
   final VoidCallback onTap;
   final String placeholderText;
+  final bool isImageLoading;
 
   const CustomImagePicker({
     super.key,
@@ -28,6 +29,7 @@ class CustomImagePicker extends StatelessWidget {
     this.isMultiple = false,
     required this.onTap,
     required this.placeholderText,
+    this.isImageLoading = false,
   });
 
   @override
@@ -94,7 +96,7 @@ class CustomImagePicker extends StatelessWidget {
       if (singleImage == null) {
         return _emptyPlaceholder();
       }
-      return Image.file(singleImage!, fit: BoxFit.cover);
+      return isImageLoading ? CircularProgressIndicator() : Image.file(singleImage!, fit: BoxFit.cover);
     }
   }
 

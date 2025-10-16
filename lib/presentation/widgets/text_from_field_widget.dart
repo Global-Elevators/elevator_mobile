@@ -21,6 +21,7 @@ class TextFromFieldWidget extends StatelessWidget {
   final void Function()? onTap;
   final bool isNotes;
   final String? errorText;
+  final bool readOnly;
 
   const TextFromFieldWidget({
     super.key,
@@ -39,6 +40,7 @@ class TextFromFieldWidget extends StatelessWidget {
     this.centerText = false,
     this.isNotes = false,
     this.errorText,
+    this.readOnly = false,
   });
 
   @override
@@ -46,6 +48,7 @@ class TextFromFieldWidget extends StatelessWidget {
     return SizedBox(
       // height: isNotes ? AppSize.s150.h : AppSize.s55.h,
       child: TextFormField(
+        readOnly: readOnly,
         textAlign: centerText ? TextAlign.center : TextAlign.start,
         controller: controller,
         focusNode: focusNode,

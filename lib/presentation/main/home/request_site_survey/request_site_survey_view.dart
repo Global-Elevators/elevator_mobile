@@ -91,7 +91,7 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
         width: AppSize.s70.w,
         child: selectedValue == null
             ? FloatingActionButton(
-                onPressed: () => viewmodel.submitSiteSurvey(),
+                onPressed: () {},
                 backgroundColor: ColorManager.primaryColor,
                 shape: const CircleBorder(),
                 child: SvgPicture.asset(

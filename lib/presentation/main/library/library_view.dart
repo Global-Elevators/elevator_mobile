@@ -48,20 +48,18 @@ class _LibraryViewState extends State<LibraryView> {
   SizedBox annualPreventiveMaintenanceButton() {
     return SizedBox(
       height: AppSize.s45.h,
-      child: Expanded(
-        child: ButtonWidget(
-          radius: AppSize.s99.r,
-          text: Strings.annualPreventiveMaintenance.tr(),
-          onTap: () {
-            setState(() => selectedIndex = 2);
-          },
-          color: selectedIndex == 2
-              ? ColorManager.primaryColor
-              : Color(0xffF5F5F5),
-          textColor: selectedIndex == 2
-              ? ColorManager.whiteColor
-              : ColorManager.primaryColor,
-        ),
+      child: ButtonWidget(
+        radius: AppSize.s99.r,
+        text: Strings.annualPreventiveMaintenance.tr(),
+        onTap: () {
+          setState(() => selectedIndex = 2);
+        },
+        color: selectedIndex == 2
+            ? ColorManager.primaryColor
+            : Color(0xffF5F5F5),
+        textColor: selectedIndex == 2
+            ? ColorManager.whiteColor
+            : ColorManager.primaryColor,
       ),
     );
   }

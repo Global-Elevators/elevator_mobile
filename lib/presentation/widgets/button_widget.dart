@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ButtonWidget extends StatelessWidget {
-  final double radius, width;
+  final double radius, width,height;
   final String text;
   final void Function()? onTap;
   final Color color;
@@ -15,6 +15,7 @@ class ButtonWidget extends StatelessWidget {
     super.key,
     required this.radius,
     this.width = double.infinity,
+    this.height = AppSize.s55,
     this.color = ColorManager.primaryColor,
     required this.text,
     this.onTap,
@@ -29,7 +30,7 @@ class ButtonWidget extends StatelessWidget {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       child: Container(
-        height: AppSize.s55.h,
+        height: height,
         width: width.w,
         decoration: BoxDecoration(
           color: color,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
@@ -52,6 +54,7 @@ class _RegisterViewState extends State<RegisterView> {
     Strings.consultancy.tr(),
     Strings.jointVenture.tr(),
   ];
+  DateTime selectedDate = DateTime.now();
 
   String? selectedAddress;
   final List<String> addresses = ["Cairo", "Alexandria", "Giza", "Mansoura"];
@@ -177,7 +180,6 @@ class _RegisterViewState extends State<RegisterView> {
                     _registerViewModel.outIsGrandFatherNameValid,
                 nameStream: _registerViewModel.outIsNameValid,
               ),
-              Gap(AppSize.s25.h),
               BuildDateOfBirthSectionWidget(
                 dayController: _dayController,
                 monthController: _monthController,
@@ -190,13 +192,12 @@ class _RegisterViewState extends State<RegisterView> {
                     _monthController.text = date.month.toString();
                     _yearController.text = date.year.toString();
                   });
+                  log(parsedDate);
                 },
               ),
-              Gap(AppSize.s25.h),
               _buildContactSection(),
               Gap(AppSize.s25.h),
               _buildPasswordSection(),
-              Gap(AppSize.s25.h),
               _buildInterestsSection(),
               Gap(AppSize.s25.h),
               _buildSignUpButton(),
@@ -208,8 +209,10 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  Widget _buildBackButton() =>
-      BackToSignInButton(text: Strings.backSignIn.tr(), route: LoginView.loginRoute);
+  Widget _buildBackButton() => BackToSignInButton(
+    text: Strings.backSignIn.tr(),
+    route: LoginView.loginRoute,
+  );
 
   Widget _buildHeader() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,12 +243,10 @@ class _RegisterViewState extends State<RegisterView> {
         controller: _phoneController,
         phoneValidationStream: _registerViewModel.outIsPhoneNumberValid,
       ),
-      Gap(AppSize.s25.h),
       EmailField(
         emailController: _emailController,
         emailValidationStream: _registerViewModel.outIsEmailValid,
       ),
-      Gap(AppSize.s25.h),
       LabelField(Strings.addressLabel.tr()),
       Gap(AppSize.s8.h),
       ItemsDropDown(
@@ -272,7 +273,6 @@ class _RegisterViewState extends State<RegisterView> {
         hintText: Strings.passwordTitle.tr(),
         passwordValidationStream: _registerViewModel.outIsPasswordValid,
       ),
-      Gap(AppSize.s8.h),
       PasswordField(
         controller: _confirmPasswordController,
         hintText: Strings.confirmPassword.tr(),

@@ -383,7 +383,9 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
   Future<void> uploadMedia() async {
     try {
       inputState.add(
-        LoadingState(stateRendererType: StateRendererType.popUpLoadingState),
+        LoadingState(
+          stateRendererType: StateRendererType.popUpLoadingState,
+        ),
       );
 
       if (_imageFiles == null || _imageFiles!.isEmpty) {

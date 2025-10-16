@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:elevator/app/app_pref.dart';
-import 'package:elevator/app/constants.dart';
 import 'package:elevator/data/data_source/remote_data_source.dart';
 import 'package:elevator/data/network/app_api.dart';
 import 'package:elevator/data/network/dio_factory.dart';
@@ -22,7 +21,6 @@ import 'package:elevator/presentation/main/home/request_site_survey/request_site
 import 'package:elevator/presentation/new_password/new_password_viewmodel.dart';
 import 'package:elevator/presentation/register/register_viewmodel.dart';
 import 'package:elevator/presentation/verify/verify_viewmodel.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';

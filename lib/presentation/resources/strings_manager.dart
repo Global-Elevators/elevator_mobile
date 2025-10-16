@@ -127,6 +127,7 @@ class Strings {
   static const String chooseVisitDate = 'chooseVisitDate';
   static const String request = 'request';
   static const String cancel = 'cancel';
+  static const String select = 'select';
   static const String done = 'done';
   static const String requestVisitReschedulingMessage =
       'requestVisitReschedulingMessage';
@@ -205,6 +206,8 @@ class Strings {
 
   // Profile screen keys
   static const String editInformation = 'editInformation';
+  static const String edit = 'Edit';
+  static const String pending = 'Pending';
   static const String contractsStatus = 'contractsStatus';
   static const String requestStatus = 'requestStatus';
   static const String changePassword = 'changePassword';

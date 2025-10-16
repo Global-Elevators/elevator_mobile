@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
+import 'package:elevator/presentation/main/profile/change_password/change_password_viewmodel.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/input_button_widget.dart';
@@ -19,8 +21,29 @@ class ChangePasswordView extends StatefulWidget {
 
 class _ChangePasswordViewState extends State<ChangePasswordView> {
   TextEditingController oldPasswordController = TextEditingController();
-  TextEditingController newPasswordController  = TextEditingController();
-  TextEditingController confirmPasswordController  = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  final viewmodel = ChangePasswordViewmodel();
+
+  @override
+  void initState() {
+    super.initState();
+    updatePasswordValues();
+    viewmodel.start();
+  }
+
+  void updatePasswordValues() {
+    oldPasswordController.addListener(() {
+      viewmodel.setOldPassword(oldPasswordController.text);
+    });
+    newPasswordController.addListener(() {
+      viewmodel.setNewPassword(newPasswordController.text);
+    });
+    confirmPasswordController.addListener(() {
+      viewmodel.setConfirmPassword(confirmPasswordController.text);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,36 +53,48 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
         popOrGo: true,
       ),
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
-        child: Column(
-          children: [
-            PasswordField(
-              controller: oldPasswordController,
-              hintText: Strings.oldPassword.tr(),
-              passwordValidationStream: null,
-            ),
-            Gap(AppSize.s10.h),
-            PasswordField(
-              controller: newPasswordController,
-              hintText: Strings.newPassword.tr(),
-              passwordValidationStream: null,
-            ),
-            Gap(AppSize.s10.h),
-            PasswordField(
-              controller: confirmPasswordController,
-              hintText: Strings.confirmPassword.tr(),
-              passwordValidationStream: null,
-            ),
-            Gap(AppSize.s50.h),
-            InputButtonWidget(
-              radius: AppSize.s14.r,
-              text: Strings.saveChanges.tr(),
-              isButtonEnabledStream: null,
-              onTap: () {},
-            ),
-          ],
-        ),
+      body: StreamBuilder<FlowState>(
+        stream: viewmodel.outputStateStream,
+        builder: (context, snapshot) {
+          return snapshot.data?.getStateWidget(
+                context,
+                _getContentWidget(),
+                () {},
+              ) ??
+              _getContentWidget();
+        },
+      ),
+    );
+  }
+
+  Padding _getContentWidget() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
+      child: Column(
+        children: [
+          PasswordField(
+            controller: oldPasswordController,
+            hintText: Strings.oldPassword.tr(),
+            passwordValidationStream: viewmodel.isOldPasswordValid,
+          ),
+          PasswordField(
+            controller: newPasswordController,
+            hintText: Strings.newPassword.tr(),
+            passwordValidationStream: viewmodel.isNewPasswordValid,
+          ),
+          PasswordField(
+            controller: confirmPasswordController,
+            hintText: Strings.confirmPassword.tr(),
+            passwordValidationStream: viewmodel.isConfirmPasswordValid,
+          ),
+          Gap(AppSize.s50.h),
+          InputButtonWidget(
+            radius: AppSize.s14.r,
+            text: Strings.saveChanges.tr(),
+            isButtonEnabledStream: viewmodel.areAllInputsValid,
+            onTap: () => viewmodel.saveChanges(),
+          ),
+        ],
       ),
     );
   }

@@ -52,7 +52,6 @@ class LoginForm extends StatelessWidget {
               controller: phoneController,
               phoneValidationStream: phoneValidationStream,
             ),
-            Gap(AppSize.s16.h),
             InputLabel(title: Strings.passwordTitle.tr()),
             Gap(AppSize.s8.h),
             PasswordField(
@@ -60,7 +59,6 @@ class LoginForm extends StatelessWidget {
               hintText: Strings.passwordTitle.tr(),
               passwordValidationStream: passwordValidationStream,
             ),
-            // Gap(AppSize.s25.h),
             InputButtonWidget(
               radius: AppSize.s14,
               text: Strings.signInButton.tr(),
