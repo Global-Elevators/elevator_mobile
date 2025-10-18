@@ -143,12 +143,12 @@ Map<String, dynamic> _$RegisterResponseToJson(RegisterResponse instance) =>
 RequestSiteSurveyErrorResponse _$RequestSiteSurveyErrorResponseFromJson(
   Map<String, dynamic> json,
 ) => RequestSiteSurveyErrorResponse(
-  (json['project_type'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  (json['errors'] as List<dynamic>?)?.map((e) => e as String).toList(),
 );
 
 Map<String, dynamic> _$RequestSiteSurveyErrorResponseToJson(
   RequestSiteSurveyErrorResponse instance,
-) => <String, dynamic>{'project_type': instance.projectType};
+) => <String, dynamic>{'errors': instance.errors};
 
 RequestSiteSurveyResponse _$RequestSiteSurveyResponseFromJson(
   Map<String, dynamic> json,

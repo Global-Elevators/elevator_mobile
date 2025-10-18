@@ -23,10 +23,10 @@ class PhoneField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.ideographic,
+      textBaseline: TextBaseline.alphabetic,
       children: [
         Container(
-          height: AppSize.s55.h,
+          height: AppSize.s50.h,
           decoration: BoxDecoration(
             color: ColorManager.whiteColor,
             borderRadius: BorderRadius.circular(AppSize.s14.r),
@@ -35,33 +35,27 @@ class PhoneField extends StatelessWidget {
               width: AppSize.s1.w,
             ),
           ),
-          alignment: Alignment.center,
-          child: Padding(
-            padding: EdgeInsetsDirectional.symmetric(
-              horizontal: AppSize.s12.w,
-              vertical: AppSize.s19.h,
-            ),
-            child: Row(
-              children: [
-                Image.asset(
-                  IconAssets.iraqFlag,
-                  height: AppSize.s20.h,
-                  width: AppSize.s20.w,
+          child: Row(
+            children: [
+              Gap(AppSize.s12.w),
+              Image.asset(
+                IconAssets.iraqFlag,
+                height: AppSize.s20.h,
+                width: AppSize.s20.w,
+              ),
+              Gap(AppSize.s4.w),
+              Text(
+                "+964",
+                style: getRegularTextStyle(
+                  color: ColorManager.primaryColor,
+                  fontSize: AppSize.s18.sp,
                 ),
-                Gap(AppSize.s4.w),
-                Text(
-                  "+964",
-                  style: getRegularTextStyle(
-                    color: ColorManager.primaryColor,
-                    fontSize: AppSize.s18.sp,
-                  ),
-                  overflow: TextOverflow.visible,
-                ),
-              ],
-            ),
+              ),
+              Gap(AppSize.s12.w),
+            ],
           ),
         ),
-        SizedBox(width: AppSize.s8.w),
+        Gap(AppSize.s8.w),
         Expanded(
           child: StreamBuilder<bool>(
             stream: phoneValidationStream,

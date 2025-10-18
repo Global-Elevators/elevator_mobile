@@ -32,7 +32,17 @@ class StopsInputRow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LabelField(Strings.howManyStops.tr(), isOptional: true),
+        Row(
+          children: [
+            LabelField(Strings.howManyStops.tr(), isOptional: true),
+            const Spacer(),
+            Icon(
+              Icons.report_gmailerrorred_outlined,
+              color: ColorManager.greyColor,
+            ),
+          ],
+        ),
+        Gap(AppSize.s8.h),
         Row(
           children: [
             Text(

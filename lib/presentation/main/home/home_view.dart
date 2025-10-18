@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:elevator/presentation/main/home/request_for_technical_view.dart';
+import 'package:elevator/presentation/main/home/request_for_technical/request_for_technical_view.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_view.dart';
 import 'package:elevator/presentation/main/widgets/free_button.dart';
 import 'package:elevator/presentation/main/widgets/home_bar.dart';

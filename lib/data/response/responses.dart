@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'responses.g.dart';
 
+/// TODO Make on error response class for each response
+
 @JsonSerializable()
 class BaseResponse {
   @JsonKey(name: "success")
@@ -126,27 +128,39 @@ class RegisterResponse extends BaseResponse {
   Map<String, dynamic> toJson() => _$RegisterResponseToJson(this);
 }
 
-/// TODO Use same class of RegisterResponse
 @JsonSerializable()
 class RequestSiteSurveyErrorResponse {
-  @JsonKey(name: "project_type")
-  List<String>? projectType;
+  final List<String>? errors;
 
-  RequestSiteSurveyErrorResponse(this.projectType);
+  RequestSiteSurveyErrorResponse(this.errors);
 
-  factory RequestSiteSurveyErrorResponse.fromJson(Map<String, dynamic> json) =>
-      _$RequestSiteSurveyErrorResponseFromJson(json);
+  factory RequestSiteSurveyErrorResponse.fromJson(Map<String, dynamic> json) {
+    final List<String> mergedErrors = [];
 
-  Map<String, dynamic> toJson() => _$RequestSiteSurveyErrorResponseToJson(this);
+    json.forEach((key, value) {
+      if (value is List) {
+        mergedErrors.addAll(value.map((e) => e.toString()));
+      }
+    });
+
+    return RequestSiteSurveyErrorResponse(mergedErrors.isEmpty ? null : mergedErrors);
+  }
+
+  Map<String, dynamic> toJson() => {
+    "errors": errors,
+  };
 }
 
 @JsonSerializable()
 class RequestSiteSurveyResponse extends BaseResponse {
   @JsonKey(name: "errors")
   RequestSiteSurveyErrorResponse? requestSiteSurveyErrorResponse;
+
   RequestSiteSurveyResponse(this.requestSiteSurveyErrorResponse);
+
   factory RequestSiteSurveyResponse.fromJson(Map<String, dynamic> json) =>
       _$RequestSiteSurveyResponseFromJson(json);
+
   Map<String, dynamic> toJson() => _$RequestSiteSurveyResponseToJson(this);
 }
 

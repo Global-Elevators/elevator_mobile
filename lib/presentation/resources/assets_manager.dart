@@ -56,6 +56,6 @@ class IconAssets {
 class JsonAssets {
   static const String emptyState = "$jsonPath/empty.json";
   static const String errorState = "$jsonPath/error.json";
-  static const String loadingState = "$jsonPath/loading.json";
+  static const String loadingState = "$jsonPath/loading_animation.json";
   static const String successState = "$jsonPath/success.json";
 }

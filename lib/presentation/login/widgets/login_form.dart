@@ -3,7 +3,9 @@ import 'package:elevator/presentation/forget_password/forget_password_view.dart'
 import 'package:elevator/presentation/login/widgets/login_texts.dart';
 import 'package:elevator/presentation/register/register_view.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
+import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
+import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:elevator/presentation/widgets/password_field.dart';
@@ -69,7 +71,13 @@ class LoginForm extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(Strings.noAccountMessage.tr()),
+                Text(
+                  Strings.noAccountMessage.tr(),
+                  style: getRegularTextStyle(
+                    color: ColorManager.greyColor,
+                    fontSize: FontSizeManager.s18.sp,
+                  ),
+                ),
                 TextButtonWidget(
                   Strings.signUpButton.tr(),
                   ColorManager.primaryColor,
