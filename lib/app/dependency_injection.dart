@@ -164,9 +164,15 @@ initTechnicalCommercialOffersModule() {
     instance.registerFactory<TechnicalCommercialOffersUsecase>(
       () => TechnicalCommercialOffersUsecase(instance<Repository>()),
     );
+    if (!GetIt.I.isRegistered<UploadedMediaUseCase>()){
+      instance.registerFactory<UploadedMediaUseCase>(
+            () => UploadedMediaUseCase(instance<Repository>()),
+      );
+    }
     instance.registerFactory<RequestForTechnicalViewmodel>(
       () => RequestForTechnicalViewmodel(
         instance<TechnicalCommercialOffersUsecase>(),
+        instance<UploadedMediaUseCase>(),
       ),
     );
   }

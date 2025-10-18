@@ -2,13 +2,17 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:elevator/app/app_pref.dart';
+import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/app/extensions.dart';
 import 'package:elevator/app/functions.dart';
 import 'package:elevator/domain/usecase/technical_commercial_offers_usecase.dart';
+import 'package:elevator/domain/usecase/upload_media_usecase.dart';
 import 'package:elevator/presentation/base/baseviewmodel.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../data/network/requests/technical_commercial_offers_request.dart';
 
@@ -60,8 +64,9 @@ class RequestForTechnicalViewmodel extends BaseViewModel
   double _latitude = 0.0;
 
   final TechnicalCommercialOffersUsecase _technicalCommercialOffersUsecase;
+  final UploadedMediaUseCase _uploadMediaUsecase;
 
-  RequestForTechnicalViewmodel(this._technicalCommercialOffersUsecase);
+  RequestForTechnicalViewmodel(this._technicalCommercialOffersUsecase, this._uploadMediaUsecase);
 
   @override
   void start() => inputState.add(ContentState());
@@ -147,7 +152,25 @@ class RequestForTechnicalViewmodel extends BaseViewModel
   }
 
   @override
-  void setImageFile(File? imageFile) {}
+  void setImageFiles(List<XFile>? imageFiles) async {
+    if (imageFiles!.isEmpty) return;
+
+    _imageFiles ??= [];
+
+    for (final xFile in imageFiles) {
+      final fileName = xFile.path.split('/').last;
+
+      final multipartFile = await MultipartFile.fromFile(
+        xFile.path,
+        filename: fileName,
+      );
+
+      _imageFiles!.add(multipartFile);
+    }
+
+    await uploadMedia();
+  }
+
 
   @override
   void setLastFloorHeightCm(String lastFloorHeightCm) {
@@ -338,7 +361,54 @@ class RequestForTechnicalViewmodel extends BaseViewModel
   }
 
   @override
-  void uploadMedia() {}
+  Future<void> uploadMedia() async {
+    try {
+      inputState.add(
+        LoadingState(
+          stateRendererType: StateRendererType.popUpLoadingState,
+        ),
+      );
+
+      if (_imageFiles == null || _imageFiles!.isEmpty) {
+        inputState.add(
+          ErrorState(
+            StateRendererType.popUpErrorState,
+            "No image selected for upload.",
+          ),
+        );
+        return;
+      }
+
+      final result = await _uploadMediaUsecase.execute(_imageFiles!);
+
+      result.fold(
+            (failure) {
+          inputState.add(
+            ErrorState(StateRendererType.popUpErrorState, failure.message),
+          );
+        },
+            (data) {
+          inputState.add(SuccessState("Image uploaded successfully"));
+
+          final uploadedIds = data.data.uploads
+              .map((upload) => upload.id)
+              .toList();
+
+          _photosOrVideos.addAll(uploadedIds);
+
+          debugPrint("✅ Uploaded media IDs: $_photosOrVideos");
+        },
+      );
+    } catch (e, stack) {
+      inputState.add(
+        ErrorState(
+          StateRendererType.popUpErrorState,
+          "Unexpected error occurred. Please try again.",
+        ),
+      );
+      debugPrint("🔥 Exception in uploadMedia: $e\n$stack");
+    }
+  }
 }
 
 abstract class RequestForTechnicalViewModelInput {
@@ -391,7 +461,7 @@ abstract class RequestForTechnicalViewModelInput {
   void setLatitude(double latitude);
 
   // Media
-  void setImageFile(File? imageFile);
+  void setImageFiles(List<XFile> imageFiles);
 
   // Input Streams (Reactive fields)
   Sink get inPutName;

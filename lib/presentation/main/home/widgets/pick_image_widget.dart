@@ -65,38 +65,44 @@ class CustomImagePicker extends StatelessWidget {
 
   Widget _buildContent() {
     if (isMultiple) {
+      if (isImageLoading) {
+        return const Center(child: CircularProgressIndicator());
+      }
+
       if (multipleImages == null || multipleImages!.isEmpty) {
         return _emptyPlaceholder();
       }
-      return Expanded(
-        child: Padding(
-          padding: EdgeInsetsDirectional.symmetric(horizontal: AppSize.s16.w),
-          child: GridView.builder(
-            itemCount: multipleImages!.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              return Row(
-                children: [
-                  Expanded(
-                    child: Image.file(
-                      File(multipleImages![index].path),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Gap(AppSize.s8.w),
-                ],
-              );
-            },
+
+      return Padding(
+        padding: EdgeInsetsDirectional.symmetric(horizontal: AppSize.s16.w),
+        child: GridView.builder(
+          itemCount: multipleImages!.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
           ),
+          itemBuilder: (BuildContext context, int index) {
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(AppSize.s8.r),
+              child: Image.file(
+                File(multipleImages![index].path),
+                fit: BoxFit.cover,
+              ),
+            );
+          },
         ),
       );
     } else {
+      if (isImageLoading) {
+        return const Center(child: CircularProgressIndicator());
+      }
+
       if (singleImage == null) {
         return _emptyPlaceholder();
       }
-      return isImageLoading ? CircularProgressIndicator() : Image.file(singleImage!, fit: BoxFit.cover);
+
+      return Image.file(singleImage!, fit: BoxFit.cover);
     }
   }
 

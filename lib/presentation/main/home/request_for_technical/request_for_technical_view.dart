@@ -64,6 +64,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   bool isMapVisible = false;
   DateTime? focusedDay;
   String _selectedDay = "";
+  bool isImageLoading = false;
 
   // 📌 Location
   final Completer<GoogleMapController> _controller = Completer();
@@ -104,6 +105,13 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   @override
   void initState() {
     super.initState();
+    _viewmodel.outputStateStream.listen((loadingState) {
+      if (loadingState is LoadingState) {
+        isImageLoading = true;
+      } else {
+        isImageLoading = false;
+      }
+    });
     // UI setup
     _stopsController.addListener(_updateDisplayedNumber);
     _loadCurrentLocation();
@@ -143,6 +151,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
     _notesController.addListener(
       () => _viewmodel.setNotes(_notesController.text),
     );
+
     isRequestCorrect();
   }
 
@@ -212,8 +221,8 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
 
   void isRequestCorrect() {
     _viewmodel.isUserRequestSiteSurvey.stream.listen((
-        isUserRequestForTechnical,
-        ) {
+      isUserRequestForTechnical,
+    ) {
       if (isUserRequestForTechnical) {
         SchedulerBinding.instance.addPostFrameCallback((_) {
           context.go(LoginView.loginRoute);
@@ -221,7 +230,6 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -398,6 +406,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
         ),
         Gap(AppSize.s25.h),
         LabelDropDownWidget(
+          isOptional: true,
           title: Strings.shaftLocation.tr(),
           dropDownItems: shaftLocationItems,
           selectedValue: selectedShaftLocation,
@@ -474,6 +483,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       isMultiple: true,
       onTap: _pickImagesFromGallery,
       placeholderText: Strings.shaftPhoto2BuildingFrontPhoto1.tr(),
+      isImageLoading: isImageLoading,
     );
   }
 
@@ -483,12 +493,12 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       disabledDays: disabledDays,
       focusedDay: focusedDay ?? DateTime.now(),
       onDaySelected: (selectedDay, newFocusedDay) {
-        setState(() {
-          focusedDay = newFocusedDay;
-          _selectedDay =
-              "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
-        });
+        // setState(() {
+        focusedDay = newFocusedDay;
+        _selectedDay =
+            "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
         print(_selectedDay);
+        // });
         _viewmodel.setScheduleDate(_selectedDay);
       },
     );
@@ -521,5 +531,6 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
     final picker = ImagePicker();
     final List<XFile> pickedFiles = await picker.pickMultiImage(limit: 3);
     setState(() => imageFileList = pickedFiles);
+    _viewmodel.setImageFiles(imageFileList);
   }
 }
