@@ -74,6 +74,19 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
   void start() => inputState.add(ContentState());
 
   @override
+  void dispose() {
+    super.dispose();
+    _nameStreamController.close();
+    _sirNameStreamController.close();
+    _middleNameStreamController.close();
+    _phoneNumberStreamController.close();
+    _projectAddressStreamController.close();
+    _heightStreamController.close();
+    _areAllInputsValidStreamController.close();
+    isUserRequestSiteSurvey.close();
+  }
+
+  @override
   Sink get areAllInputsValidController =>
       _areAllInputsValidStreamController.sink;
 

@@ -14,6 +14,7 @@ import 'package:elevator/data/network/requests/login_request.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/network/requests/reset_password_request.dart';
+import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
 import 'package:elevator/domain/models/login_model.dart';
@@ -32,7 +33,9 @@ class RepositoryImpl extends Repository {
 
   // ---------------- LOGIN ----------------
   @override
-  Future<Either<Failure, Authentication>> login(LoginRequest loginRequest) async {
+  Future<Either<Failure, Authentication>> login(
+    LoginRequest loginRequest,
+  ) async {
     if (await hasNetworkConnection()) {
       return _performLogin(loginRequest);
     } else {
@@ -41,8 +44,8 @@ class RepositoryImpl extends Repository {
   }
 
   Future<Either<Failure, Authentication>> _performLogin(
-      LoginRequest loginRequest,
-      ) async {
+    LoginRequest loginRequest,
+  ) async {
     try {
       final response = await _remoteDataSource.login(loginRequest);
       return _mapLoginResponseToResult(response);
@@ -52,8 +55,8 @@ class RepositoryImpl extends Repository {
   }
 
   Either<Failure, Authentication> _mapLoginResponseToResult(
-      LoginResponse response,
-      ) {
+    LoginResponse response,
+  ) {
     return _isSuccessfulResponse(response)
         ? Right(response.toDomain())
         : Left(_mapFailureFromResponse(response));
@@ -70,7 +73,9 @@ class RepositoryImpl extends Repository {
 
   // ---------------- VERIFY ----------------
   @override
-  Future<Either<Failure, VerifyModel>> verify(VerifyRequest verifyRequests) async {
+  Future<Either<Failure, VerifyModel>> verify(
+    VerifyRequest verifyRequests,
+  ) async {
     if (await hasNetworkConnection()) {
       return _performVerify(verifyRequests);
     } else {
@@ -79,8 +84,8 @@ class RepositoryImpl extends Repository {
   }
 
   Future<Either<Failure, VerifyModel>> _performVerify(
-      VerifyRequest verifyRequests,
-      ) async {
+    VerifyRequest verifyRequests,
+  ) async {
     try {
       final response = await _remoteDataSource.verify(verifyRequests);
       return _mapVerifyResponseToResult(response);
@@ -90,8 +95,8 @@ class RepositoryImpl extends Repository {
   }
 
   Either<Failure, VerifyModel> _mapVerifyResponseToResult(
-      VerifyResponse response,
-      ) {
+    VerifyResponse response,
+  ) {
     return _isSuccessfulResponse(response)
         ? Right(response.toDomain())
         : Left(_mapFailureFromResponse(response));
@@ -108,8 +113,8 @@ class RepositoryImpl extends Repository {
   }
 
   Future<Either<Failure, Authentication>> _performForgotPassword(
-      String phone,
-      ) async {
+    String phone,
+  ) async {
     try {
       final response = await _remoteDataSource.forgotPassword(phone);
       return _mapForgotPasswordResponseToResult(response);
@@ -119,8 +124,8 @@ class RepositoryImpl extends Repository {
   }
 
   Either<Failure, Authentication> _mapForgotPasswordResponseToResult(
-      LoginResponse response,
-      ) {
+    LoginResponse response,
+  ) {
     return _isSuccessfulResponse(response)
         ? Right(response.toDomain())
         : Left(_mapFailureFromResponse(response));
@@ -129,8 +134,8 @@ class RepositoryImpl extends Repository {
   // ---------------- VERIFY FORGOT PASSWORD ----------------
   @override
   Future<Either<Failure, VerifyForgotPasswordModel>> verifyForgotPassword(
-      VerifyRequest verifyForgotPasswordRequest,
-      ) async {
+    VerifyRequest verifyForgotPasswordRequest,
+  ) async {
     if (await hasNetworkConnection()) {
       return _performVerifyForgotPassword(verifyForgotPasswordRequest);
     } else {
@@ -140,8 +145,8 @@ class RepositoryImpl extends Repository {
 
   Future<Either<Failure, VerifyForgotPasswordModel>>
   _performVerifyForgotPassword(
-      VerifyRequest verifyForgotPasswordRequest,
-      ) async {
+    VerifyRequest verifyForgotPasswordRequest,
+  ) async {
     try {
       final response = await _remoteDataSource.verifyForgotPassword(
         verifyForgotPasswordRequest,
@@ -154,8 +159,8 @@ class RepositoryImpl extends Repository {
 
   Either<Failure, VerifyForgotPasswordModel>
   _mapVerifyForgotPasswordResponseToResult(
-      VerifyForgotPasswordResponse response,
-      ) {
+    VerifyForgotPasswordResponse response,
+  ) {
     return _isSuccessfulResponse(response)
         ? Right(response.toDomain())
         : Left(_mapFailureFromResponse(response));
@@ -164,8 +169,8 @@ class RepositoryImpl extends Repository {
   // ---------------- RESET PASSWORD ----------------
   @override
   Future<Either<Failure, void>> resetPassword(
-      ResetPasswordRequest resetPasswordRequest,
-      ) async {
+    ResetPasswordRequest resetPasswordRequest,
+  ) async {
     if (await hasNetworkConnection()) {
       return _performResetPassword(resetPasswordRequest);
     } else {
@@ -174,8 +179,8 @@ class RepositoryImpl extends Repository {
   }
 
   Future<Either<Failure, void>> _performResetPassword(
-      ResetPasswordRequest resetPasswordRequest,
-      ) async {
+    ResetPasswordRequest resetPasswordRequest,
+  ) async {
     try {
       await _remoteDataSource.resetPassword(resetPasswordRequest);
       return const Right(null);
@@ -223,11 +228,10 @@ class RepositoryImpl extends Repository {
   }
 
   Either<Failure, void> _mapRegisterResponseToResult(
-      RegisterResponse response,
-      ) =>
-      _isSuccessfulResponse(response)
-          ? const Right(null)
-          : Left(_mapFailureFromRegisterResponse(response.toDomain()));
+    RegisterResponse response,
+  ) => _isSuccessfulResponse(response)
+      ? const Right(null)
+      : Left(_mapFailureFromRegisterResponse(response.toDomain()));
 
   Failure _mapFailureFromRegisterResponse(String response) {
     return Failure(ApiInternalStatus.failure, response);
@@ -236,8 +240,8 @@ class RepositoryImpl extends Repository {
   // ---------------- REQUEST SITE SURVEY ----------------
   @override
   Future<Either<Failure, void>> requestSiteSurvey(
-      RequestSiteSurveyRequest request,
-      ) async {
+    RequestSiteSurveyRequest request,
+  ) async {
     if (await hasNetworkConnection()) {
       return _performRequestSiteSurvey(request);
     } else {
@@ -246,8 +250,8 @@ class RepositoryImpl extends Repository {
   }
 
   Future<Either<Failure, void>> _performRequestSiteSurvey(
-      RequestSiteSurveyRequest request,
-      ) async {
+    RequestSiteSurveyRequest request,
+  ) async {
     try {
       final response = await _remoteDataSource.requestSiteSurvey(request);
       return _mapRequestSiteSurveyResponseToResult(response);
@@ -257,11 +261,10 @@ class RepositoryImpl extends Repository {
   }
 
   Either<Failure, void> _mapRequestSiteSurveyResponseToResult(
-      RequestSiteSurveyResponse response,
-      ) =>
-      _isSuccessfulResponse(response)
-          ? const Right(null)
-          : Left(_mapFailureFromRequestSiteSurveyResponse(response.toDomain()));
+    RequestSiteSurveyResponse response,
+  ) => _isSuccessfulResponse(response)
+      ? const Right(null)
+      : Left(_mapFailureFromRequestSiteSurveyResponse(response.toDomain()));
 
   Failure _mapFailureFromRequestSiteSurveyResponse(String response) {
     return Failure(ApiInternalStatus.failure, response);
@@ -270,8 +273,8 @@ class RepositoryImpl extends Repository {
   // ---------------- UPLOAD MEDIA ----------------
   @override
   Future<Either<Failure, UploadMediaModel>> uploadMedia(
-      List<MultipartFile> files,
-      ) async {
+    List<MultipartFile> files,
+  ) async {
     if (await hasNetworkConnection()) {
       return _performUploadMedia(files);
     } else {
@@ -280,8 +283,8 @@ class RepositoryImpl extends Repository {
   }
 
   Future<Either<Failure, UploadMediaModel>> _performUploadMedia(
-      List<MultipartFile> files,
-      ) async {
+    List<MultipartFile> files,
+  ) async {
     try {
       final response = await _remoteDataSource.uploadMedia(files);
       return _mapUploadMediaResponseToResult(response);
@@ -291,8 +294,8 @@ class RepositoryImpl extends Repository {
   }
 
   Either<Failure, UploadMediaModel> _mapUploadMediaResponseToResult(
-      UploadMediaResponse response,
-      ) {
+    UploadMediaResponse response,
+  ) {
     return _isSuccessfulResponse(response)
         ? Right(response.toDomain())
         : Left(_mapFailureFromUploadMediaResponse(response.message));
@@ -305,4 +308,40 @@ class RepositoryImpl extends Repository {
     );
   }
 
+  // ---------------- TECHNICAL COMMERCIAL OFFERS REQUEST ----------------
+  @override
+  Future<Either<Failure, void>> technicalCommercialOffers(
+    TechnicalCommercialOffersRequest request,
+  ) async {
+    if (await hasNetworkConnection()) {
+      return _performTechnicalCommercialOffers(request);
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  Future<Either<Failure, void>> _performTechnicalCommercialOffers(
+    TechnicalCommercialOffersRequest request,
+  ) async {
+    try {
+      final response = await _remoteDataSource.technicalCommercialOffers(
+        request,
+      );
+      return _mapTechnicalCommercialOffersRequestToResult(response);
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
+
+  Either<Failure, void> _mapTechnicalCommercialOffersRequestToResult(
+    RequestSiteSurveyResponse response,
+  ) => _isSuccessfulResponse(response)
+      ? const Right(null)
+      : Left(
+          _mapFailureFromTechnicalCommercialOffersResponse(response.toDomain()),
+        );
+
+  Failure _mapFailureFromTechnicalCommercialOffersResponse(String response) {
+    return Failure(ApiInternalStatus.failure, response);
+  }
 }

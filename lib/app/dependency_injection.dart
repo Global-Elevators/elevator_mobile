@@ -12,11 +12,13 @@ import 'package:elevator/domain/usecase/register_usecase.dart';
 import 'package:elevator/domain/usecase/request_site_survey_usecase.dart';
 import 'package:elevator/domain/usecase/resend_otp_usecase.dart';
 import 'package:elevator/domain/usecase/reset_password_usecase.dart';
+import 'package:elevator/domain/usecase/technical_commercial_offers_usecase.dart';
 import 'package:elevator/domain/usecase/upload_media_usecase.dart';
 import 'package:elevator/domain/usecase/verify_forgot_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_usecase.dart';
 import 'package:elevator/presentation/forget_password/forget_password_viewmodel.dart';
 import 'package:elevator/presentation/login/login_viewmodel.dart';
+import 'package:elevator/presentation/main/home/request_for_technical/request_for_technical_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_viewmodel.dart';
 import 'package:elevator/presentation/new_password/new_password_viewmodel.dart';
 import 'package:elevator/presentation/register/register_viewmodel.dart';
@@ -152,6 +154,19 @@ initRequestServiceSurveyModule() {
       () => RequestSiteSurveyViewmodel(
         instance<RequestSiteSurveyUsecase>(),
         instance<UploadedMediaUseCase>(),
+      ),
+    );
+  }
+}
+
+initTechnicalCommercialOffersModule() {
+  if (!GetIt.I.isRegistered<TechnicalCommercialOffersUsecase>()) {
+    instance.registerFactory<TechnicalCommercialOffersUsecase>(
+      () => TechnicalCommercialOffersUsecase(instance<Repository>()),
+    );
+    instance.registerFactory<RequestForTechnicalViewmodel>(
+      () => RequestForTechnicalViewmodel(
+        instance<TechnicalCommercialOffersUsecase>(),
       ),
     );
   }

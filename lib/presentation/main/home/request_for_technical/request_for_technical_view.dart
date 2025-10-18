@@ -1,5 +1,9 @@
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:elevator/presentation/login/login_view.dart';
+import 'package:elevator/presentation/main/home/request_for_technical/request_for_technical_viewmodel.dart';
 import 'package:elevator/presentation/main/home/widgets/label_drop_down_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/label_text_form_field_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/label_yes_or_no_widget.dart';
@@ -20,8 +24,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter/scheduler.dart';
 
 class RequestForTechnicalView extends StatefulWidget {
   static const String requestForTechnicalRoute = '/requestForTechnical';
@@ -48,12 +54,16 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   final _lastFloorHeightController = TextEditingController();
   final _requiredDoorWidthController = TextEditingController();
   final _notesController = TextEditingController();
+  final RequestForTechnicalViewmodel _viewmodel =
+      instance<RequestForTechnicalViewmodel>();
 
   // 📌 State variables
   int _displayedNumber = 0;
   bool isProjectBelongsToSameAccount = false;
   bool doesTheShaftHaveAMachineRoom = false;
   bool isMapVisible = false;
+  DateTime? focusedDay;
+  String _selectedDay = "";
 
   // 📌 Location
   final Completer<GoogleMapController> _controller = Completer();
@@ -65,7 +75,19 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   List<XFile>? imageFileList = [];
 
   // 📌 Dropdowns
-  final List<String> projectTypeItems = ["Cairo", "Alex", "Mansoura", "Giza"];
+  final projectTypeItems = [
+    "villa",
+    "residential building",
+    "commercial building",
+    "mall",
+    "hospital",
+    "clinic",
+    "supermarket",
+    "factory",
+    "school",
+    "university",
+  ];
+
   final List<String> shaftTypeItems = ["Cairo", "Alex", "Mansoura", "Giza"];
   final List<String> shaftLocationItems = ["Cairo", "Alex", "Mansoura", "Giza"];
   String? selectedShaftLocation;
@@ -82,14 +104,68 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   @override
   void initState() {
     super.initState();
+    // UI setup
     _stopsController.addListener(_updateDisplayedNumber);
     _loadCurrentLocation();
+
+    // Add listeners for user info (name, phone, etc.)
+    updatingPhoneAndNamesValues();
+
+    // Project info
+    _projectAddressController.addListener(
+      () => _viewmodel.setProjectAddress(_projectAddressController.text),
+    );
+
+    // Shaft / Technical info
+    _widthController.addListener(
+      () => _viewmodel.setWidth(_widthController.text),
+    );
+    _depthController.addListener(
+      () => _viewmodel.setDepth(_depthController.text),
+    );
+    _pitDepthController.addListener(
+      () => _viewmodel.setPitDepthCm(_pitDepthController.text),
+    );
+    _heightController.addListener(
+      () => _viewmodel.setHeight(_heightController.text),
+    );
+    _stopsController.addListener(
+      () => _viewmodel.setNumberOfStops(_stopsController.text),
+    );
+    _lastFloorHeightController.addListener(
+      () => _viewmodel.setLastFloorHeightCm(_lastFloorHeightController.text),
+    );
+    _requiredDoorWidthController.addListener(
+      () => _viewmodel.setRequiredDoorWidth(_requiredDoorWidthController.text),
+    );
+
+    // Notes
+    _notesController.addListener(
+      () => _viewmodel.setNotes(_notesController.text),
+    );
+    isRequestCorrect();
+  }
+
+  void updatingPhoneAndNamesValues() {
+    // User Info
+    _phoneNumberController.addListener(
+      () => _viewmodel.setPhoneNumber(_phoneNumberController.text),
+    );
+    _firstNameController.addListener(
+      () => _viewmodel.setName(_firstNameController.text),
+    );
+    _fatherNameController.addListener(
+      () => _viewmodel.setSirName(_fatherNameController.text),
+    );
+    _grandFatherNameController.addListener(
+      () => _viewmodel.setMiddleName(_grandFatherNameController.text),
+    );
   }
 
   void _updateDisplayedNumber() {
     if (_stopsController.text.isEmpty) return;
     setState(() {
-      int number = int.tryParse(_stopsController.text) ?? 0;
+      final number = int.tryParse(_stopsController.text) ?? 0;
       _displayedNumber = number + 1;
     });
   }
@@ -111,6 +187,8 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
         ),
       );
       setState(() => isMapVisible = true);
+      _viewmodel.setLatitude(position.latitude);
+      _viewmodel.setLongitude(position.longitude);
     } catch (e) {
       debugPrint("Error getting location: $e");
     }
@@ -132,38 +210,65 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
     );
   }
 
+  void isRequestCorrect() {
+    _viewmodel.isUserRequestSiteSurvey.stream.listen((
+        isUserRequestForTechnical,
+        ) {
+      if (isUserRequestForTechnical) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          context.go(LoginView.loginRoute);
+        });
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: AppPadding.p16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(),
-              Gap(AppSize.s25.h),
-              _buildProjectOwnershipSection(),
-              Gap(AppSize.s25.h),
-              _buildPersonalInfoSection(),
-              _buildContactSection(),
-              _buildProjectDetailsSection(),
-              Gap(AppSize.s25.h),
-              _buildMapSection(),
-              Gap(AppSize.s25.h),
-              _buildShaftInfoSection(),
-              _buildStopsSection(),
-              _buildAttachmentsSection(),
-              Gap(AppSize.s25.h),
-              _buildScheduleSection(),
-              Gap(AppSize.s25.h),
-              _buildNotesSection(),
-              _buildSubmitButton(),
-              Gap(AppSize.s14.h),
-            ],
-          ),
+        child: StreamBuilder<FlowState>(
+          stream: _viewmodel.outputStateStream,
+          builder: (context, snapshot) {
+            return snapshot.data?.getStateWidget(
+                  context,
+                  _getContentWidget(),
+                  () {},
+                ) ??
+                _getContentWidget();
+          },
         ),
+      ),
+    );
+  }
+
+  SingleChildScrollView _getContentWidget() {
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.p16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(),
+          Gap(AppSize.s25.h),
+          _buildProjectOwnershipSection(),
+          Gap(AppSize.s25.h),
+          _buildPersonalInfoSection(),
+          _buildContactSection(),
+          _buildProjectDetailsSection(),
+          Gap(AppSize.s25.h),
+          _buildMapSection(),
+          Gap(AppSize.s25.h),
+          _buildShaftInfoSection(),
+          _buildStopsSection(),
+          _buildAttachmentsSection(),
+          Gap(AppSize.s25.h),
+          _buildScheduleSection(),
+          Gap(AppSize.s25.h),
+          _buildNotesSection(),
+          _buildSubmitButton(),
+          Gap(AppSize.s14.h),
+        ],
       ),
     );
   }
@@ -194,9 +299,9 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       firstNameController: _firstNameController,
       fatherNameController: _fatherNameController,
       grandFatherNameController: _grandFatherNameController,
-      nameStream: null,
-      fatherNameStream: null,
-      grandFatherNameStream: null,
+      nameStream: _viewmodel.outIsNameValid,
+      fatherNameStream: _viewmodel.outIsSirNameValid,
+      grandFatherNameStream: _viewmodel.outIsMiddleNameValid,
     );
   }
 
@@ -208,7 +313,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
         LabelField(Strings.phoneNumberWhatsapp.tr()),
         PhoneField(
           controller: _phoneNumberController,
-          phoneValidationStream: null,
+          phoneValidationStream: _viewmodel.outIsPhoneNumberValid,
         ),
       ],
     );
@@ -223,13 +328,16 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           title: Strings.projectAddress.tr(),
           hintText: Strings.projectAddress.tr(),
           controller: _projectAddressController,
-          isButtonEnabledStream: null,
+          isButtonEnabledStream: _viewmodel.outIsProjectAddressValid,
         ),
         LabelDropDownWidget(
           title: Strings.projectType.tr(),
           dropDownItems: projectTypeItems,
           selectedValue: selectedProjectType,
-          onChanged: (value) => setState(() => selectedProjectType = value),
+          onChanged: (value) => setState(() {
+            selectedProjectType = value;
+            _viewmodel.setProjectType(selectedProjectType ?? "");
+          }),
         ),
       ],
     );
@@ -282,7 +390,10 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           title: Strings.shaftType.tr(),
           dropDownItems: shaftTypeItems,
           selectedValue: selectedShaftType,
-          onChanged: (value) => setState(() => selectedShaftType = value),
+          onChanged: (value) => setState(() {
+            selectedShaftType = value;
+            _viewmodel.setShaftType(selectedShaftType ?? "");
+          }),
           isOptional: true,
         ),
         Gap(AppSize.s25.h),
@@ -290,7 +401,10 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           title: Strings.shaftLocation.tr(),
           dropDownItems: shaftLocationItems,
           selectedValue: selectedShaftLocation,
-          onChanged: (value) => setState(() => selectedShaftLocation = value),
+          onChanged: (value) => setState(() {
+            selectedShaftLocation = value;
+            _viewmodel.setShaftLocation(selectedShaftLocation ?? "");
+          }),
         ),
         ShaftDimensionsWidget(
           widthController: _widthController,
@@ -367,8 +481,16 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   Widget _buildScheduleSection() {
     return SelectSuitableTimeWidget(
       disabledDays: disabledDays,
-      focusedDay: DateTime.now(),
-      onDaySelected: (selectedDay, focusedDay) {},
+      focusedDay: focusedDay ?? DateTime.now(),
+      onDaySelected: (selectedDay, newFocusedDay) {
+        setState(() {
+          focusedDay = newFocusedDay;
+          _selectedDay =
+              "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
+        });
+        print(_selectedDay);
+        _viewmodel.setScheduleDate(_selectedDay);
+      },
     );
   }
 
@@ -390,7 +512,8 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
     return InputButtonWidget(
       radius: AppSize.s14.r,
       text: Strings.submit.tr(),
-      onTap: () {},
+      onTap: () => _viewmodel.submitRequestForTechnical(),
+      isButtonEnabledStream: _viewmodel.outAreAllInputsValid,
     );
   }
 

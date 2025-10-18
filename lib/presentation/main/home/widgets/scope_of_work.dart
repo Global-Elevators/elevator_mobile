@@ -410,8 +410,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
       onDaySelected: (selectedDay, newFocusedDay) {
         setState(() {
           focusedDay = newFocusedDay;
-          _selectedDay =
-              "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
+          _selectedDay = "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
         });
         print(_selectedDay);
         widget.viewmodel.setScheduleDate(_selectedDay);

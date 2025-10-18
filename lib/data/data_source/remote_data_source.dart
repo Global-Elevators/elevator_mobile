@@ -6,6 +6,7 @@ import 'package:elevator/data/network/requests/request_site_survey_request.dart'
 import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
+import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart';
 
 abstract class RemoteDataSource {
   Future<LoginResponse> login(LoginRequest loginRequests);
@@ -26,6 +27,10 @@ abstract class RemoteDataSource {
 
   Future<RequestSiteSurveyResponse> requestSiteSurvey(
     RequestSiteSurveyRequest request,
+  );
+
+  Future<RequestSiteSurveyResponse> technicalCommercialOffers(
+    TechnicalCommercialOffersRequest request,
   );
 
   Future<UploadMediaResponse> uploadMedia(List<MultipartFile> files);
@@ -96,5 +101,12 @@ class RemoteDataSourceImp extends RemoteDataSource {
   @override
   Future<UploadMediaResponse> uploadMedia(List<MultipartFile> files) async {
     return await _appServicesClient.uploadMedia(files);
+  }
+
+  @override
+  Future<RequestSiteSurveyResponse> technicalCommercialOffers(
+    TechnicalCommercialOffersRequest request,
+  ) async {
+    return await _appServicesClient.technicalCommercialOffers(request);
   }
 }

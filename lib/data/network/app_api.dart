@@ -1,6 +1,7 @@
 import 'package:elevator/app/constants.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
+import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart';
 import 'package:elevator/data/response/responses.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -55,4 +56,9 @@ abstract class AppServicesClient {
   Future<UploadMediaResponse> uploadMedia(
     @Part(name: "files[]") List<MultipartFile> files,
   );
+
+  @POST("/user/technical-commercial-offers")
+  Future<RequestSiteSurveyResponse> technicalCommercialOffers(
+      @Body() TechnicalCommercialOffersRequest request,
+      );
 }

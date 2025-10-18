@@ -139,17 +139,22 @@ class GoRouterConfig {
         path: RequestSiteSurvey.requestSiteSurveyRoute,
         pageBuilder: (BuildContext context, GoRouterState state) {
           initRequestServiceSurveyModule();
-          return getCustomTransitionPage(state: state, child: RequestSiteSurvey());
+          return getCustomTransitionPage(
+            state: state,
+            child: RequestSiteSurvey(),
+          );
         },
         routes: <RouteBase>[],
       ),
       GoRoute(
         path: RequestForTechnicalView.requestForTechnicalRoute,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(
-              state: state,
-              child: RequestForTechnicalView(),
-            ),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          initTechnicalCommercialOffersModule();
+          return getCustomTransitionPage(
+            state: state,
+            child: RequestForTechnicalView(),
+          );
+        },
         routes: <RouteBase>[],
       ),
       GoRoute(
@@ -161,9 +166,7 @@ class GoRouterConfig {
       GoRoute(
         path: ContractsStatusView.routeName,
         pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: ContractsStatusView(
-
-            )),
+            getCustomTransitionPage(state: state, child: ContractsStatusView()),
         routes: <RouteBase>[],
       ),
       GoRoute(
