@@ -61,4 +61,7 @@ abstract class AppServicesClient {
   Future<RequestSiteSurveyResponse> technicalCommercialOffers(
       @Body() TechnicalCommercialOffersRequest request,
       );
+
+  @POST("/user/sos-alert")
+  Future<void> sos();
 }

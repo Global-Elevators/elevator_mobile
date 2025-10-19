@@ -20,8 +20,9 @@ import 'package:go_router/go_router.dart';
 
 class PremiumContainer extends StatefulWidget {
   final bool isPremium;
+  final void Function()? actionOnTap;
 
-  const PremiumContainer(this.isPremium, {super.key});
+  const PremiumContainer(this.isPremium,this.actionOnTap, {super.key});
 
   @override
   State<PremiumContainer> createState() => _PremiumContainerState();
@@ -53,7 +54,7 @@ class _PremiumContainerState extends State<PremiumContainer> {
         padding: EdgeInsets.all(AppSize.s8.r),
         child: Column(
           children: [
-            SosButton(widget.isPremium),
+            SosButton(widget.isPremium,widget.actionOnTap),
             Gap(AppSize.s16.h),
             SizedBox(
               height: AppSize.s120.h,

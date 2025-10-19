@@ -73,8 +73,10 @@ class GoRouterConfig {
       ),
       GoRoute(
         path: MainView.mainRoute,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: MainView()),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          initMainModule();
+          return getCustomTransitionPage(state: state, child: MainView());
+        },
         routes: <RouteBase>[],
       ),
       GoRoute(
@@ -101,8 +103,9 @@ class GoRouterConfig {
       ),
       GoRoute(
         path: HomePage.homeRoute,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: HomePage()),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return getCustomTransitionPage(state: state, child: HomePage());
+        },
         routes: <RouteBase>[],
       ),
       GoRoute(

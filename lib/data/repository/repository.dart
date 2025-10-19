@@ -344,4 +344,23 @@ class RepositoryImpl extends Repository {
   Failure _mapFailureFromTechnicalCommercialOffersResponse(String response) {
     return Failure(ApiInternalStatus.failure, response);
   }
+
+  // ---------------- SOS ----------------
+  @override
+  Future<Either<Failure, void>> sos() async {
+    if (await hasNetworkConnection()) {
+      return _performSos();
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  Future<Either<Failure, void>> _performSos() async {
+    try {
+      await _remoteDataSource.sos();
+      return const Right(null);
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
 }

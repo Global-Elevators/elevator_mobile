@@ -35,8 +35,7 @@ class TechnicalCommercialOffersRequest {
     required this.extraData,
   });
 
-  factory TechnicalCommercialOffersRequest.fromJson(Map<String, dynamic> json) =>
-      _$TechnicalCommercialOffersFromJson(json);
+  factory TechnicalCommercialOffersRequest.fromJson(Map<String, dynamic> json) => _$TechnicalCommercialOffersFromJson(json);
 
   Map<String, dynamic> toJson() => _$TechnicalCommercialOffersToJson(this);
 }

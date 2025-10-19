@@ -34,6 +34,8 @@ abstract class RemoteDataSource {
   );
 
   Future<UploadMediaResponse> uploadMedia(List<MultipartFile> files);
+
+  Future<void> sos();
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -108,5 +110,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
     TechnicalCommercialOffersRequest request,
   ) async {
     return await _appServicesClient.technicalCommercialOffers(request);
+  }
+
+  @override
+  Future<void> sos() async {
+    return await _appServicesClient.sos();
   }
 }

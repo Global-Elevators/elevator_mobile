@@ -1,4 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:elevator/presentation/main/home/home_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_for_technical/request_for_technical_view.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_view.dart';
 import 'package:elevator/presentation/main/widgets/free_button.dart';
@@ -27,13 +30,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isPremium = true;
+  final _homeViewModel = instance<HomeViewmodel>();
 
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<FlowState>(
+      stream: _homeViewModel.outputStateStream,
+      builder: (context, snapshot) {
+        return snapshot.data?.getStateWidget(
+              context,
+              _getContentWidget(isPremium, () {
+                _homeViewModel.sendAlert();
+              }),
+              () {},
+            ) ??
+            _getContentWidget(isPremium, () {
+              _homeViewModel.sendAlert();
+            });
+      },
+    );
+  }
+
+  SafeArea _getContentWidget(bool isPremium, Function() actionOnTap) {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
-        child: _HomePageBody(isPremium: isPremium),
+        child: _HomePageBody(isPremium: isPremium, actionOnTap: actionOnTap),
       ),
     );
   }
@@ -41,8 +63,9 @@ class _HomePageState extends State<HomePage> {
 
 class _HomePageBody extends StatelessWidget {
   final bool isPremium;
+  final Function() actionOnTap;
 
-  const _HomePageBody({required this.isPremium});
+  const _HomePageBody({required this.isPremium, required this.actionOnTap});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +75,7 @@ class _HomePageBody extends StatelessWidget {
         const HomeBar(),
         Gap(AppSize.s24.h),
         if (isPremium) ...[const RegistrationBox(), Gap(AppSize.s24.h)],
-        PremiumContainer(isPremium),
+        PremiumContainer(isPremium, actionOnTap),
         Gap(AppSize.s24.h),
         Text(
           Strings.servicesTitle.tr(),

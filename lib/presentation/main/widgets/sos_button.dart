@@ -1,4 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/presentation/main/home/home_viewmodel.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -11,11 +13,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class SosButton extends StatelessWidget {
   final bool isPremium;
+  final void Function()? actionOnTap;
 
-  const SosButton(this.isPremium, {super.key});
+  const SosButton(this.isPremium, this.actionOnTap,{super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +81,10 @@ class SosButton extends StatelessWidget {
             Gap(AppSize.s35.h),
             ActionOrCancelButton(
               Strings.yesSendAlert.tr(),
-              () {},
+              () {
+                actionOnTap!();
+                context.pop();
+              },
               actionColor: ColorManager.errorColor,
             ),
             Gap(AppSize.s16.h),
