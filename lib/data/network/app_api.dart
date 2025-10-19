@@ -64,4 +64,7 @@ abstract class AppServicesClient {
 
   @POST("/user/sos-alert")
   Future<void> sos();
+
+  @GET("/auth/me")
+  Future<GetUserResponse> getUserData();
 }

@@ -203,3 +203,59 @@ UploadedMedia _$UploadedMediaFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$UploadedMediaToJson(UploadedMedia instance) =>
     <String, dynamic>{'media_uuid': instance.id, 'url': instance.url};
+
+UserProfileDataResponse _$UserProfileDataResponseFromJson(
+  Map<String, dynamic> json,
+) => UserProfileDataResponse(
+  json['sir_name'] as String?,
+  json['last_name'] as String?,
+);
+
+Map<String, dynamic> _$UserProfileDataResponseToJson(
+  UserProfileDataResponse instance,
+) => <String, dynamic>{
+  'sir_name': instance.sirName,
+  'last_name': instance.lastName,
+};
+
+UserDataResponse _$UserDataResponseFromJson(Map<String, dynamic> json) =>
+    UserDataResponse(
+      (json['id'] as num?)?.toInt(),
+      json['name'] as String?,
+      json['email'] as String?,
+      json['phone'] as String?,
+      json['address'] as String?,
+      json['birthdate'] as String?,
+      json['profile_data'] == null
+          ? null
+          : UserProfileDataResponse.fromJson(
+              json['profile_data'] as Map<String, dynamic>,
+            ),
+    );
+
+Map<String, dynamic> _$UserDataResponseToJson(UserDataResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'email': instance.email,
+      'phone': instance.phone,
+      'address': instance.address,
+      'birthdate': instance.birthdate,
+      'profile_data': instance.profileData,
+    };
+
+GetUserResponse _$GetUserResponseFromJson(Map<String, dynamic> json) =>
+    GetUserResponse(
+        json['data'] == null
+            ? null
+            : UserDataResponse.fromJson(json['data'] as Map<String, dynamic>),
+      )
+      ..success = json['success'] as bool?
+      ..message = json['message'] as String?;
+
+Map<String, dynamic> _$GetUserResponseToJson(GetUserResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'data': instance.userDataResponse,
+    };

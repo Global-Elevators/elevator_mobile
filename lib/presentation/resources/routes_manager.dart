@@ -162,8 +162,13 @@ class GoRouterConfig {
       ),
       GoRoute(
         path: EditInformationView.routeName,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: EditInformationView()),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          initEditInformationModule();
+          return getCustomTransitionPage(
+            state: state,
+            child: EditInformationView(),
+          );
+        },
         routes: <RouteBase>[],
       ),
       GoRoute(

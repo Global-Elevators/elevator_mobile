@@ -3,6 +3,10 @@ import 'package:elevator/presentation/common/state_renderer/state_renderer.dart'
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:flutter/material.dart';
 
+// Track whether we've shown a popup dialog so dismissing only closes dialogs,
+// not regular navigation routes (prevents navigating back when ContentState emitted).
+bool _isDialogShown = false;
+
 abstract class FlowState {
   StateRendererType getStateRendererType();
 
@@ -135,8 +139,15 @@ extension FlowStateExtension on FlowState {
 
   void _dismissDialog(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (Navigator.of(context, rootNavigator: true).canPop()) {
-        Navigator.of(context, rootNavigator: true).pop();
+      if (!_isDialogShown) return; // nothing to dismiss
+      try {
+        if (Navigator.of(context, rootNavigator: true).canPop()) {
+          Navigator.of(context, rootNavigator: true).pop();
+        }
+      } catch (e) {
+        // ignore errors
+      } finally {
+        _isDialogShown = false;
       }
     });
   }
@@ -148,6 +159,7 @@ extension FlowStateExtension on FlowState {
     String title = Constants.empty,
   }) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _isDialogShown = true;
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -157,7 +169,10 @@ extension FlowStateExtension on FlowState {
           title: title,
           retryActionFunction: () {},
         ),
-      );
+      ).then((_) {
+        // Reset flag once the dialog is dismissed by any means
+        _isDialogShown = false;
+      });
     });
   }
 }

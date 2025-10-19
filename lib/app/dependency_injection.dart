@@ -15,6 +15,7 @@ import 'package:elevator/domain/usecase/reset_password_usecase.dart';
 import 'package:elevator/domain/usecase/sos_usecase.dart';
 import 'package:elevator/domain/usecase/technical_commercial_offers_usecase.dart';
 import 'package:elevator/domain/usecase/upload_media_usecase.dart';
+import 'package:elevator/domain/usecase/user_data_usecase.dart';
 import 'package:elevator/domain/usecase/verify_forgot_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_usecase.dart';
 import 'package:elevator/presentation/forget_password/forget_password_viewmodel.dart';
@@ -22,6 +23,7 @@ import 'package:elevator/presentation/login/login_viewmodel.dart';
 import 'package:elevator/presentation/main/home/home_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_for_technical/request_for_technical_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_viewmodel.dart';
+import 'package:elevator/presentation/main/profile/edit_information/edit_information_viewmodel.dart';
 import 'package:elevator/presentation/new_password/new_password_viewmodel.dart';
 import 'package:elevator/presentation/register/register_viewmodel.dart';
 import 'package:elevator/presentation/verify/verify_viewmodel.dart';
@@ -166,9 +168,9 @@ initTechnicalCommercialOffersModule() {
     instance.registerFactory<TechnicalCommercialOffersUsecase>(
       () => TechnicalCommercialOffersUsecase(instance<Repository>()),
     );
-    if (!GetIt.I.isRegistered<UploadedMediaUseCase>()){
+    if (!GetIt.I.isRegistered<UploadedMediaUseCase>()) {
       instance.registerFactory<UploadedMediaUseCase>(
-            () => UploadedMediaUseCase(instance<Repository>()),
+        () => UploadedMediaUseCase(instance<Repository>()),
       );
     }
     instance.registerFactory<RequestForTechnicalViewmodel>(
@@ -188,6 +190,18 @@ initMainModule() {
 
     instance.registerFactory<HomeViewmodel>(
       () => HomeViewmodel(instance<SosUsecase>()),
+    );
+  }
+}
+
+initEditInformationModule() {
+  if (!GetIt.I.isRegistered<UserDataUsecase>()) {
+    instance.registerFactory<UserDataUsecase>(
+      () => UserDataUsecase(instance<Repository>()),
+    );
+
+    instance.registerFactory<EditInformationViewModel>(
+      () => EditInformationViewModel(instance<UserDataUsecase>()),
     );
   }
 }

@@ -205,3 +205,64 @@ class UploadedMedia {
 
   Map<String, dynamic> toJson() => _$UploadedMediaToJson(this);
 }
+
+@JsonSerializable()
+class UserProfileDataResponse {
+  @JsonKey(name: "sir_name")
+  String? sirName;
+  @JsonKey(name: "last_name")
+  String? lastName;
+
+  UserProfileDataResponse(this.sirName, this.lastName);
+
+  factory UserProfileDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$UserProfileDataResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserProfileDataResponseToJson(this);
+}
+
+@JsonSerializable()
+class UserDataResponse {
+  @JsonKey(name: "id")
+  int? id;
+  @JsonKey(name: "name")
+  String? name;
+  @JsonKey(name: "email")
+  String? email;
+  @JsonKey(name: "phone")
+  String? phone;
+  @JsonKey(name: "address")
+  String? address;
+  @JsonKey(name: "birthdate")
+  String? birthdate;
+  @JsonKey(name: "profile_data")
+  UserProfileDataResponse? profileData;
+
+  UserDataResponse(
+      this.id,
+      this.name,
+      this.email,
+      this.phone,
+      this.address,
+      this.birthdate,
+      this.profileData,
+      );
+
+  factory UserDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$UserDataResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserDataResponseToJson(this);
+}
+
+@JsonSerializable()
+class GetUserResponse extends BaseResponse {
+  @JsonKey(name: "data")
+  UserDataResponse? userDataResponse;
+
+  GetUserResponse(this.userDataResponse);
+
+  factory GetUserResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetUserResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetUserResponseToJson(this);
+}

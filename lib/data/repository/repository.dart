@@ -5,6 +5,7 @@ import 'package:elevator/data/mappers/authentication_mapper.dart';
 import 'package:elevator/data/mappers/register_mapper.dart';
 import 'package:elevator/data/mappers/request_site_survey_mapper.dart';
 import 'package:elevator/data/mappers/upload_media_mapper.dart';
+import 'package:elevator/data/mappers/user_data_mapper.dart';
 import 'package:elevator/data/mappers/verify_forgot_password_mapper.dart';
 import 'package:elevator/data/mappers/verify_mapper.dart';
 import 'package:elevator/data/network/exception_handler.dart';
@@ -14,11 +15,12 @@ import 'package:elevator/data/network/requests/login_request.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/network/requests/reset_password_request.dart';
-import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart';
+import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart' hide UserInfo;
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
 import 'package:elevator/domain/models/login_model.dart';
 import 'package:elevator/domain/models/upload_media_model.dart';
+import 'package:elevator/domain/models/user_data_model.dart';
 import 'package:elevator/domain/models/verify_forgot_password_model.dart';
 import 'package:elevator/domain/models/verify_model.dart';
 import 'package:elevator/domain/repository/repository.dart';
@@ -363,4 +365,36 @@ class RepositoryImpl extends Repository {
       return Left(ExceptionHandler.handle(error).failure);
     }
   }
+// ---------------- GET USER DATA ----------------
+
+  @override
+  Future<Either<Failure, GetUserInfo>> getUserData() async {
+    if (await hasNetworkConnection()) {
+      return _performGetUserData();
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  Future<Either<Failure, GetUserInfo>> _performGetUserData() async {
+    try {
+      final response = await _remoteDataSource.getUserData();
+      return _mapGetUserDataResponseToResult(response);
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
+
+  Either<Failure, GetUserInfo> _mapGetUserDataResponseToResult(
+    GetUserResponse response,
+  ) {
+    return _isSuccessfulResponse(response)
+        ? Right(response.toDomain())
+        : Left(_mapFailureFromGetUserDataResponse(response.message ?? ''));
+  }
+
+  Failure _mapFailureFromGetUserDataResponse(String response) {
+    return Failure(ApiInternalStatus.failure, response);
+  }
+
 }
