@@ -49,6 +49,7 @@ class _EditInformationViewState extends State<EditInformationView> {
   // --- ViewModel & Subscription ---
   final _viewmodel = instance<EditInformationViewModel>();
   StreamSubscription<FlowState>? _stateSubscription;
+  DateTime parsedDate = DateTime.now();
 
   @override
   void initState() {
@@ -59,6 +60,7 @@ class _EditInformationViewState extends State<EditInformationView> {
   }
 
   void _handleState(FlowState state) {
+
     if (state is LoadingState || state is ErrorState) return;
 
     final user = _viewmodel.userDataModel?.user;
@@ -70,9 +72,7 @@ class _EditInformationViewState extends State<EditInformationView> {
     _emailController.text = user.email ?? '';
     _phoneController.text = user.phone;
 
-    DateTime? parsedDate;
-
-    parsedDate = DateTime.parse(user.birthdate);
+    DateTime parsedDate = DateTime.tryParse(user.birthdate) ?? DateTime.now();
 
     _dayController.text = parsedDate.day.toString();
     _monthController.text = parsedDate.month.toString();
@@ -125,8 +125,8 @@ class _EditInformationViewState extends State<EditInformationView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildPendingReviewSection(),
-            Gap(AppSize.s20.h),
+            // _buildPendingReviewSection(),
+            // Gap(AppSize.s20.h),
             _buildNameSection(),
             _buildDateOfBirthSection(),
             _buildPhoneSection(),
@@ -183,6 +183,7 @@ class _EditInformationViewState extends State<EditInformationView> {
     monthController: _monthController,
     yearController: _yearController,
     onDateSelected: (date) {
+      parsedDate = date;
       _dayController.text = date.day.toString();
       _monthController.text = date.month.toString();
       _yearController.text = date.year.toString();
@@ -221,11 +222,14 @@ class _EditInformationViewState extends State<EditInformationView> {
     radius: AppSize.s14.r,
     text: Strings.apply.tr(),
     onTap: () {
-      CustomBottomSheet.show(
-        context: context,
-        message: Strings.profileInformationRequestSent.tr(),
-        buttonText: Strings.done.tr(),
-        imagePath: ImageAssets.successfully,
+      _viewmodel.updateUserData(
+        _firstNameController.text,
+        _emailController.text,
+        _phoneController.text,
+        parsedDate.toString(),
+        _selectedAddress ?? "",
+        _fatherNameController.text,
+        _grandFatherNameController.text,
       );
     },
   );

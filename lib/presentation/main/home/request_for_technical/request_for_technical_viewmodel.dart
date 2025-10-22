@@ -33,7 +33,8 @@ class RequestForTechnicalViewmodel extends BaseViewModel
   final StreamController<void> _areAllInputsValidStreamController =
       StreamController<void>.broadcast();
 
-  final StreamController<bool> isUserRequestSiteSurvey = StreamController<bool>();
+  final StreamController<bool> isUserRequestSiteSurvey =
+      StreamController<bool>();
 
   String _name = '';
   String _sirName = '';
@@ -62,11 +63,15 @@ class RequestForTechnicalViewmodel extends BaseViewModel
 
   double _longitude = 0.0;
   double _latitude = 0.0;
+  bool showLoading = false;
 
   final TechnicalCommercialOffersUsecase _technicalCommercialOffersUsecase;
   final UploadedMediaUseCase _uploadMediaUsecase;
 
-  RequestForTechnicalViewmodel(this._technicalCommercialOffersUsecase, this._uploadMediaUsecase);
+  RequestForTechnicalViewmodel(
+    this._technicalCommercialOffersUsecase,
+    this._uploadMediaUsecase,
+  );
 
   @override
   void start() => inputState.add(ContentState());
@@ -170,7 +175,6 @@ class RequestForTechnicalViewmodel extends BaseViewModel
 
     await uploadMedia();
   }
-
 
   @override
   void setLastFloorHeightCm(String lastFloorHeightCm) {
@@ -363,31 +367,34 @@ class RequestForTechnicalViewmodel extends BaseViewModel
   @override
   Future<void> uploadMedia() async {
     try {
-      inputState.add(
-        LoadingState(
-          stateRendererType: StateRendererType.popUpLoadingState,
-        ),
-      );
+      // inputState.add(
+      //   LoadingState(
+      //     stateRendererType: StateRendererType.popUpLoadingState,
+      //   ),
+      // );
+      showLoading = true;
 
-      if (_imageFiles == null || _imageFiles!.isEmpty) {
-        inputState.add(
-          ErrorState(
-            StateRendererType.popUpErrorState,
-            "No image selected for upload.",
-          ),
-        );
-        return;
-      }
+      // if (_imageFiles == null || _imageFiles!.isEmpty) {
+      //   inputState.add(
+      //     ErrorState(
+      //       StateRendererType.popUpErrorState,
+      //       "No image selected for upload.",
+      //     ),
+      //   );
+      //   return;
+      // }
 
       final result = await _uploadMediaUsecase.execute(_imageFiles!);
 
       result.fold(
-            (failure) {
+        (failure) {
+          showLoading = false;
           inputState.add(
             ErrorState(StateRendererType.popUpErrorState, failure.message),
           );
         },
-            (data) {
+        (data) {
+          showLoading = false;
           inputState.add(SuccessState("Image uploaded successfully"));
 
           final uploadedIds = data.data.uploads

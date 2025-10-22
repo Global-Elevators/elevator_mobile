@@ -7,6 +7,7 @@ import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
 import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart';
+import 'package:elevator/data/network/requests/update_user_request.dart';
 
 abstract class RemoteDataSource {
   Future<LoginResponse> login(LoginRequest loginRequests);
@@ -38,6 +39,8 @@ abstract class RemoteDataSource {
   Future<void> sos();
 
   Future<GetUserResponse> getUserData();
+
+  Future<void> updateUser(UpdateUserRequest request);
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -122,5 +125,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
   @override
   Future<GetUserResponse> getUserData() async {
     return await _appServicesClient.getUserData();
+  }
+
+  @override
+  Future<void> updateUser(UpdateUserRequest request) async {
+    return await _appServicesClient.updateUser(request);
   }
 }

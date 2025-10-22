@@ -2,6 +2,7 @@ import 'package:elevator/app/constants.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart';
+import 'package:elevator/data/network/requests/update_user_request.dart';
 import 'package:elevator/data/response/responses.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -59,12 +60,16 @@ abstract class AppServicesClient {
 
   @POST("/user/technical-commercial-offers")
   Future<RequestSiteSurveyResponse> technicalCommercialOffers(
-      @Body() TechnicalCommercialOffersRequest request,
-      );
+    @Body() TechnicalCommercialOffersRequest request,
+  );
 
   @POST("/user/sos-alert")
   Future<void> sos();
 
   @GET("/auth/me")
   Future<GetUserResponse> getUserData();
+
+  // update user data
+  @PUT("/user/profile")
+  Future<void> updateUser(@Body() UpdateUserRequest request);
 }

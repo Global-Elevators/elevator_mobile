@@ -16,6 +16,7 @@ import 'package:elevator/domain/usecase/sos_usecase.dart';
 import 'package:elevator/domain/usecase/technical_commercial_offers_usecase.dart';
 import 'package:elevator/domain/usecase/upload_media_usecase.dart';
 import 'package:elevator/domain/usecase/user_data_usecase.dart';
+import 'package:elevator/domain/usecase/update_data_usecase.dart';
 import 'package:elevator/domain/usecase/verify_forgot_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_usecase.dart';
 import 'package:elevator/presentation/forget_password/forget_password_viewmodel.dart';
@@ -200,8 +201,15 @@ initEditInformationModule() {
       () => UserDataUsecase(instance<Repository>()),
     );
 
+    instance.registerFactory<UpdateDataUsecase>(
+      () => UpdateDataUsecase(instance<Repository>()),
+    );
+
     instance.registerFactory<EditInformationViewModel>(
-      () => EditInformationViewModel(instance<UserDataUsecase>()),
+      () => EditInformationViewModel(
+        instance<UserDataUsecase>(),
+        instance<UpdateDataUsecase>(),
+      ),
     );
   }
 }

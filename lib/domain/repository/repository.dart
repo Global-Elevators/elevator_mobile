@@ -12,6 +12,7 @@ import 'package:elevator/domain/models/upload_media_model.dart';
 import 'package:elevator/domain/models/verify_forgot_password_model.dart';
 import 'package:elevator/domain/models/verify_model.dart';
 import 'package:elevator/domain/models/user_data_model.dart';
+import 'package:elevator/data/network/requests/update_user_request.dart';
 
 abstract class Repository {
   Future<Either<Failure, Authentication>> login(LoginRequest loginRequest);
@@ -47,4 +48,6 @@ abstract class Repository {
   Future<Either<Failure, void>> sos();
 
   Future<Either<Failure, GetUserInfo>> getUserData();
+
+  Future<Either<Failure, void>> updateUser(UpdateUserRequest request);
 }

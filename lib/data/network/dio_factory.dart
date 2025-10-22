@@ -20,9 +20,10 @@ class DioFactory {
       baseUrl: Constants.baseUrl,
       headers: {
         ACCEPT: APPLICATION_JSON,
+        CONTENT_TYPE: APPLICATION_JSON,
         // LANGUAGE: language,
       },
-      receiveDataWhenStatusError: false,
+      receiveDataWhenStatusError: true,
       sendTimeout: const Duration(seconds: Constants.timeout),
       receiveTimeout: const Duration(seconds: Constants.timeout),
       validateStatus: (status) => status != null && status < 500,

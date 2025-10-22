@@ -64,7 +64,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   bool isMapVisible = false;
   DateTime? focusedDay;
   String _selectedDay = "";
-  bool isImageLoading = false;
+  // bool isImageLoading = false;
 
   // 📌 Location
   final Completer<GoogleMapController> _controller = Completer();
@@ -105,13 +105,13 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   @override
   void initState() {
     super.initState();
-    _viewmodel.outputStateStream.listen((loadingState) {
-      if (loadingState is LoadingState) {
-        isImageLoading = true;
-      } else {
-        isImageLoading = false;
-      }
-    });
+    // _viewmodel.outputStateStream.listen((loadingState) {
+    //   if (loadingState is LoadingState) {
+    //     isImageLoading = true;
+    //   } else {
+    //     isImageLoading = false;
+    //   }
+    // });
     // UI setup
     _stopsController.addListener(_updateDisplayedNumber);
     _loadCurrentLocation();
@@ -483,7 +483,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
       isMultiple: true,
       onTap: _pickImagesFromGallery,
       placeholderText: Strings.shaftPhoto2BuildingFrontPhoto1.tr(),
-      isImageLoading: isImageLoading,
+      isImageLoading: _viewmodel.showLoading,
     );
   }
 

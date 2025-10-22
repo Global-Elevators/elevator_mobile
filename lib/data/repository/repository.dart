@@ -16,6 +16,7 @@ import 'package:elevator/data/network/requests/register_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart' hide UserInfo;
+import 'package:elevator/data/network/requests/update_user_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
 import 'package:elevator/domain/models/login_model.dart';
@@ -395,6 +396,25 @@ class RepositoryImpl extends Repository {
 
   Failure _mapFailureFromGetUserDataResponse(String response) {
     return Failure(ApiInternalStatus.failure, response);
+  }
+
+  // ---------------- UPDATE USER DATA ----------------
+  @override
+  Future<Either<Failure, void>> updateUser(UpdateUserRequest request) async {
+    if (await hasNetworkConnection()) {
+      return _performUpdateUser(request);
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  Future<Either<Failure, void>> _performUpdateUser(UpdateUserRequest request) async {
+    try {
+      await _remoteDataSource.updateUser(request);
+      return const Right(null);
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
   }
 
 }

@@ -60,6 +60,7 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
   String _descriptionOfBreakdown = '';
   final List<String> _photosOrVideos = [];
   List<MultipartFile>? _imageFiles = [];
+  bool showLoading = false;
 
   final RequestSiteSurveyUsecase _requestSiteSurveyUsecase;
   final UploadedMediaUseCase _uploadMediaUsecase;
@@ -395,11 +396,12 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
   @override
   Future<void> uploadMedia() async {
     try {
-      inputState.add(
-        LoadingState(
-          stateRendererType: StateRendererType.popUpLoadingState,
-        ),
-      );
+      // inputState.add(
+      //   LoadingState(
+      //     stateRendererType: StateRendererType.popUpLoadingState,
+      //   ),
+      // );
+      showLoading = true;
 
       if (_imageFiles == null || _imageFiles!.isEmpty) {
         inputState.add(
@@ -415,11 +417,13 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
 
       result.fold(
         (failure) {
+          showLoading = false;
           inputState.add(
             ErrorState(StateRendererType.popUpErrorState, failure.message),
           );
         },
         (data) {
+          showLoading = false;
           inputState.add(SuccessState("Image uploaded successfully"));
 
           final uploadedIds = data.data.uploads
