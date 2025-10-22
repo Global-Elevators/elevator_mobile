@@ -6,8 +6,10 @@ import 'package:elevator/data/network/dio_factory.dart';
 import 'package:elevator/data/network/network_info.dart';
 import 'package:elevator/data/repository/repository.dart';
 import 'package:elevator/domain/repository/repository.dart';
+import 'package:elevator/domain/usecase/change_password_usecase.dart';
 import 'package:elevator/domain/usecase/forget_password_usecase.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
+import 'package:elevator/domain/usecase/logout_usecase.dart';
 import 'package:elevator/domain/usecase/register_usecase.dart';
 import 'package:elevator/domain/usecase/request_site_survey_usecase.dart';
 import 'package:elevator/domain/usecase/resend_otp_usecase.dart';
@@ -24,7 +26,9 @@ import 'package:elevator/presentation/login/login_viewmodel.dart';
 import 'package:elevator/presentation/main/home/home_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_for_technical/request_for_technical_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_viewmodel.dart';
+import 'package:elevator/presentation/main/profile/change_password/change_password_viewmodel.dart';
 import 'package:elevator/presentation/main/profile/edit_information/edit_information_viewmodel.dart';
+import 'package:elevator/presentation/main/profile/profile_viewmodel.dart';
 import 'package:elevator/presentation/new_password/new_password_viewmodel.dart';
 import 'package:elevator/presentation/register/register_viewmodel.dart';
 import 'package:elevator/presentation/verify/verify_viewmodel.dart';
@@ -193,6 +197,27 @@ initMainModule() {
       () => HomeViewmodel(instance<SosUsecase>()),
     );
   }
+  if (!GetIt.I.isRegistered<LogoutUsecase>()) {
+    instance.registerFactory<LogoutUsecase>(
+      () => LogoutUsecase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<ProfileViewModel>()) {
+    instance.registerFactory<ProfileViewModel>(
+      () => ProfileViewModel(instance<LogoutUsecase>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<ChangePasswordUsecase>()) {
+    instance.registerFactory<ChangePasswordUsecase>(
+          () => ChangePasswordUsecase(instance<Repository>()),
+    );
+
+    instance.registerFactory<ChangePasswordViewmodel>(
+          () => ChangePasswordViewmodel(instance<ChangePasswordUsecase>()),
+    );
+  }
 }
 
 initEditInformationModule() {
@@ -212,4 +237,9 @@ initEditInformationModule() {
       ),
     );
   }
+}
+
+// Change Password module
+initChangePasswordModule() {
+
 }

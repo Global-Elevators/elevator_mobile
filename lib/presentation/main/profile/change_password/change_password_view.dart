@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
 import 'package:elevator/presentation/main/profile/change_password/change_password_viewmodel.dart';
@@ -23,7 +24,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   TextEditingController oldPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  final viewmodel = ChangePasswordViewmodel();
+  final viewmodel = instance<ChangePasswordViewmodel>();
 
   @override
   void initState() {

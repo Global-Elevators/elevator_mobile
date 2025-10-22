@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/main/profile/change_password/change_password_view.dart';
 import 'package:elevator/presentation/main/profile/contracts_status/contracts_status_view.dart';
 import 'package:elevator/presentation/main/profile/edit_information/edit_information_view.dart';
 import 'package:elevator/presentation/main/profile/help/help_view.dart';
+import 'package:elevator/presentation/main/profile/profile_viewmodel.dart';
 import 'package:elevator/presentation/main/profile/request_status/request_status_view.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
@@ -83,22 +88,49 @@ class _ProfileViewState extends State<ProfileView> {
   ];
 
   final AppPreferences _appPreferences = instance<AppPreferences>();
+  final ProfileViewModel _viewModel = instance<ProfileViewModel>();
+  StreamSubscription<bool>? _logoutSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel.start();
+    _logoutSubscription = _viewModel.outLogoutSuccess.listen((success) {
+      if (success && mounted) context.go(LoginView.loginRoute);
+    });
+  }
+
+  @override
+  void dispose() {
+    _logoutSubscription?.cancel();
+    _viewModel.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
-        child: Column(
-          children: [
-            AppBarLabel(Strings.profile.tr()),
-            Gap(AppSize.s45.h),
-            _buildProfileList(_firstItems),
-            Gap(AppSize.s50.h),
-            _buildProfileList(_secondItems),
-          ],
-        ),
-      ),
+    // Use StreamBuilder to let FlowState (loading/error/success) be rendered
+    return StreamBuilder<FlowState>(
+      stream: _viewModel.outputStateStream,
+      builder: (context, snapshot) {
+        final state = snapshot.data;
+        final content = SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
+            child: Column(
+              children: [
+                AppBarLabel(Strings.profile.tr()),
+                Gap(AppSize.s45.h),
+                _buildProfileList(_firstItems),
+                Gap(AppSize.s50.h),
+                _buildProfileList(_secondItems),
+              ],
+            ),
+          ),
+        );
+
+        return state?.getStateWidget(context, content, () {}) ?? content;
+      },
     );
   }
 
@@ -204,8 +236,8 @@ class _ProfileViewState extends State<ProfileView> {
               Navigator.pop(context);
             }
           } else {
-            // _appPreferences.logout();
-            // context.go('/login');
+            Navigator.pop(context);
+            _viewModel.signOut();
           }
         },
       ),

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:elevator/data/network/failure.dart';
+import 'package:elevator/data/network/requests/change_password_request.dart';
 import 'package:elevator/data/network/requests/login_request.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
@@ -50,4 +51,8 @@ abstract class Repository {
   Future<Either<Failure, GetUserInfo>> getUserData();
 
   Future<Either<Failure, void>> updateUser(UpdateUserRequest request);
+
+  Future<Either<Failure, void>> logout();
+
+  Future<Either<Failure, void>> changePassword(ChangePasswordRequest request);
 }

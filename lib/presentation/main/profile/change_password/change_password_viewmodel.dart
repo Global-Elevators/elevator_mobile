@@ -1,16 +1,34 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/functions.dart';
+import 'package:elevator/domain/usecase/change_password_usecase.dart';
 import 'package:elevator/presentation/base/baseviewmodel.dart';
+import 'package:elevator/presentation/common/state_renderer/state_renderer.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:elevator/presentation/resources/strings_manager.dart';
+import 'package:flutter/material.dart';
 
 class ChangePasswordViewmodel extends BaseViewModel
     implements ChangePasswordViewmodelInputs, ChangePasswordViewmodelOutputs {
+  final ChangePasswordUsecase _changePasswordUsecase;
+
+  ChangePasswordViewmodel(this._changePasswordUsecase);
+
   // ---------------------------------------------------------------------------
   // Lifecycle
   // ---------------------------------------------------------------------------
   @override
   void start() {
     inputState.add(ContentState());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _oldPasswordController.close();
+    _newPasswordController.close();
+    _confirmPasswordController.close();
+    _inputsValidationController.close();
   }
 
   // ---------------------------------------------------------------------------
@@ -65,8 +83,35 @@ class ChangePasswordViewmodel extends BaseViewModel
   }
 
   @override
-  void saveChanges() {
-    // TODO: Implement password change logic (e.g., call API)
+  void saveChanges() async {
+    try {
+      inputState.add(
+        LoadingState(stateRendererType: StateRendererType.popUpLoadingState),
+      );
+
+      final result = await _changePasswordUsecase.execute(
+        ChangePasswordUsecaseInput(_oldPassword, _newPassword, _confirmPassword),
+      );
+
+      result.fold(
+        (failure) {
+          inputState.add(
+            ErrorState(StateRendererType.popUpErrorState, failure.message),
+          );
+        },
+        (_) {
+          inputState.add(SuccessState(Strings.passwordChangedMessage.tr()));
+        },
+      );
+    } catch (e, stack) {
+      inputState.add(
+        ErrorState(
+          StateRendererType.popUpErrorState,
+          "Unexpected error occurred. Please try again.",
+        ),
+      );
+      debugPrint("🔥 Exception in change password(): $e\n$stack");
+    }
   }
 
   // ---------------------------------------------------------------------------

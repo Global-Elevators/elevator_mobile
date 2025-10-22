@@ -72,4 +72,16 @@ abstract class AppServicesClient {
   // update user data
   @PUT("/user/profile")
   Future<void> updateUser(@Body() UpdateUserRequest request);
+
+  // logout
+  @POST("/auth/logout")
+  Future<void> logout();
+
+  // change password
+  @POST("/user/profile/change-password")
+  Future<void> changePassword(
+    @Field("old_password") String oldPassword,
+    @Field("new_password") String newPassword,
+    @Field("new_password_confirmation") String newPasswordConfirmation,
+  );
 }

@@ -11,6 +11,7 @@ import 'package:elevator/data/mappers/verify_mapper.dart';
 import 'package:elevator/data/network/exception_handler.dart';
 import 'package:elevator/data/network/failure.dart';
 import 'package:elevator/data/network/network_info.dart';
+import 'package:elevator/data/network/requests/change_password_request.dart';
 import 'package:elevator/data/network/requests/login_request.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
@@ -414,6 +415,36 @@ class RepositoryImpl extends Repository {
       return const Right(null);
     } catch (error) {
       return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
+
+  // ---------------- CHANGE PASSWORD ----------------
+  @override
+  Future<Either<Failure, void>> changePassword(ChangePasswordRequest request) async {
+    if (await hasNetworkConnection()) {
+      try {
+        await _remoteDataSource.changePassword(request);
+        return const Right(null);
+      } catch (error) {
+        return Left(ExceptionHandler.handle(error).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  // ---------------- LOGOUT ----------------
+  @override
+  Future<Either<Failure, void>> logout() async {
+    if (await hasNetworkConnection()) {
+      try {
+        await _remoteDataSource.logout();
+        return const Right(null);
+      } catch (error) {
+        return Left(ExceptionHandler.handle(error).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
 
