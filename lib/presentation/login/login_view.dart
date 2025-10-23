@@ -99,7 +99,7 @@ class _LoginViewState extends State<LoginView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const LoginLanguageButton(),
+                LoginLanguageButton(),
                 const LoginLogo(),
                 Gap(AppSize.s20.h),
                 LoginForm(

@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/app_pref.dart';
+import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/functions.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
-import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +13,14 @@ class LoginLanguageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentLanguage = context.locale.languageCode;
     return Padding(
       padding: EdgeInsetsDirectional.only(end: AppSize.s16.w),
       child: InkWell(
-        onTap: () {},
+        onTap: () => changeLanguage(context),
         child: Container(
           height: AppSize.s50.h,
-          width: AppSize.s74.w,
+          width: 80.w,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s14.r),
             color: Colors.white,
@@ -27,19 +30,17 @@ class LoginLanguageButton extends StatelessWidget {
             ),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: AppSize.s5.w,
             children: [
-              Padding(
-                padding: EdgeInsetsDirectional.symmetric(
-                  horizontal: AppSize.s10.w,
-                  vertical: AppSize.s13_5.h,
-                ),
-                child: Text(
-                  textAlign: TextAlign.center,
-                  Strings.arabicText.tr(),
-                  style: getRegularTextStyle(
-                    color: ColorManager.primaryColor,
-                    fontSize: AppSize.s16.sp,
-                  ),
+              Text(
+                textAlign: TextAlign.center,
+                currentLanguage == 'en'
+                    ? "عربي"
+                    : "english",
+                style: getRegularTextStyle(
+                  color: ColorManager.primaryColor,
+                  fontSize: AppSize.s16.sp,
                 ),
               ),
               Icon(

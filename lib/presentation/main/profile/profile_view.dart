@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/functions.dart';
+import 'package:elevator/app/navigation_service.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/main/profile/change_password/change_password_view.dart';
@@ -17,11 +19,9 @@ import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
-import 'package:elevator/presentation/splash/splash_view.dart';
 import 'package:elevator/presentation/widgets/app_bar_label.dart';
 import 'package:elevator/presentation/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -37,26 +37,39 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  final NavigationService _navigationService = NavigationService(instance<AppPreferences>());
   late final List<ProfileItemWidget> _firstItems = [
     ProfileItemWidget(
       IconAssets.profile,
       Strings.editInformation.tr(),
-      () => context.push(EditInformationView.routeName),
+      () => _navigationService.navigateWithAuthCheck(
+        context: context,
+        authenticatedRoute: EditInformationView.routeName,
+      ),
     ),
     ProfileItemWidget(
       IconAssets.contractsStatus,
       Strings.contractsStatus.tr(),
-      () => context.push(ContractsStatusView.routeName),
+      () => _navigationService.navigateWithAuthCheck(
+        context: context,
+        authenticatedRoute: ContractsStatusView.routeName,
+      ),
     ),
     ProfileItemWidget(
       IconAssets.request,
       Strings.requestStatus.tr(),
-      () => context.push(RequestStatusView.routeName),
+      () => _navigationService.navigateWithAuthCheck(
+        context: context,
+        authenticatedRoute: RequestStatusView.routeName,
+      ),
     ),
     ProfileItemWidget(
       IconAssets.passwordIconField,
       Strings.changePassword.tr(),
-      () => context.push(ChangePasswordView.routeName),
+      () => _navigationService.navigateWithAuthCheck(
+        context: context,
+        authenticatedRoute: ChangePasswordView.routeName,
+      ),
     ),
     ProfileItemWidget(
       IconAssets.language,
@@ -231,13 +244,16 @@ class _ProfileViewState extends State<ProfileView> {
         onTap: () async {
           if (title == Strings.changeLanguage.tr()) {
             if (currentLanguage == 'en') {
-              _changeLanguage(context);
+              changeLanguage(context);
             } else {
               Navigator.pop(context);
             }
           } else {
             Navigator.pop(context);
-            _viewModel.signOut();
+            _navigationService.navigateWithAuthCheck(
+              context: context,
+              authenticatedRoute: LoginView.loginRoute,
+            );
           }
         },
       ),
@@ -265,7 +281,7 @@ class _ProfileViewState extends State<ProfileView> {
         onTap: () async {
           if (title == Strings.changeLanguage.tr()) {
             if (currentLanguage == 'ar') {
-              _changeLanguage(context);
+              changeLanguage(context);
             } else {
               Navigator.pop(context);
             }
@@ -275,12 +291,6 @@ class _ProfileViewState extends State<ProfileView> {
         },
       ),
     );
-  }
-
-  void _changeLanguage(BuildContext context) async {
-    await _appPreferences.changeAppLanguage();
-    context.go(SplashView.splashRoute);
-    await Phoenix.rebirth(context);
   }
 }
 

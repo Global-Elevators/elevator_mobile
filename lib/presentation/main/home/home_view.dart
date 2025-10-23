@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/app/flavor_config.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
@@ -15,10 +16,10 @@ import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
+import 'package:elevator/app/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   static const String homeRoute = '/home';
@@ -30,7 +31,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // bool isPremium = true;
   final _homeViewModel = instance<HomeViewmodel>();
 
   @override
@@ -38,48 +38,26 @@ class _HomePageState extends State<HomePage> {
     return StreamBuilder<FlowState>(
       stream: _homeViewModel.outputStateStream,
       builder: (context, snapshot) {
-        // return snapshot.data?.getStateWidget(
-        //       context,
-        //       _getContentWidget(isPremium, () {
-        //         _homeViewModel.sendAlert();
-        //       }),
-        //       () {},
-        //     ) ??
-        //     _getContentWidget(isPremium, () {
-        //       _homeViewModel.sendAlert();
-        //     });
-
-        return snapshot.data?.getStateWidget(
-          context,
-          _getContentWidget(() {
-            _homeViewModel.sendAlert();
-          }),
-              () {},
-        ) ??
-            _getContentWidget(() {
-              _homeViewModel.sendAlert();
-            });
+        return snapshot.data?.getStateWidget(context, _buildContent(), () {}) ??
+            _buildContent();
       },
     );
   }
 
-  SafeArea _getContentWidget(Function() actionOnTap) {
+  Widget _buildContent() {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
-        // child: _HomePageBody(isPremium: isPremium, actionOnTap: actionOnTap),
-        child: _HomePageBody(actionOnTap: actionOnTap),
+        child: _HomePageBody(onAlertAction: _homeViewModel.sendAlert),
       ),
     );
   }
 }
 
 class _HomePageBody extends StatelessWidget {
-  // final bool isPremium;
-  final Function() actionOnTap;
+  final VoidCallback onAlertAction;
 
-  // const _HomePageBody({required this.isPremium, required this.actionOnTap});
-  const _HomePageBody({required this.actionOnTap});
+  const _HomePageBody({required this.onAlertAction});
 
   @override
   Widget build(BuildContext context) {
@@ -92,19 +70,41 @@ class _HomePageBody extends StatelessWidget {
           const RegistrationBox(),
           Gap(AppSize.s24.h),
         ],
-        PremiumContainer(FlavorConfig.isAccountPaid, actionOnTap),
+        PremiumContainer(FlavorConfig.isAccountPaid, onAlertAction),
         Gap(AppSize.s24.h),
-        Text(
-          Strings.servicesTitle.tr(),
-          style: getBoldTextStyle(
-            fontSize: FontSizeManager.s23.sp,
-            color: ColorManager.primaryColor,
-          ),
-        ),
+        _buildSectionTitle(context),
         Gap(AppSize.s12.h),
-        _ServicesRow(),
+        const _ServicesRow(),
       ],
     );
+  }
+
+  Widget _buildSectionTitle(BuildContext context) {
+    return Text(
+      Strings.servicesTitle.tr(),
+      style: getBoldTextStyle(
+        fontSize: FontSizeManager.s23.sp,
+        color: ColorManager.primaryColor,
+      ),
+    );
+  }
+}
+
+class ServiceButton extends StatelessWidget {
+  final String title;
+  final String imageAsset;
+  final VoidCallback onTap;
+
+  const ServiceButton({
+    super.key,
+    required this.title,
+    required this.imageAsset,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FreeButton(title: title, imageAsset: imageAsset, onTap: onTap);
   }
 }
 
@@ -113,21 +113,28 @@ class _ServicesRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navigationService = NavigationService(instance<AppPreferences>());
     return SizedBox(
       height: AppSize.s130.h,
       child: Row(
         children: [
-          FreeButton(
+          ServiceButton(
             title: Strings.requestSiteSurvey.tr(),
             imageAsset: IconAssets.worker,
-            onTap: () => context.push(RequestSiteSurvey.requestSiteSurveyRoute),
+            onTap: () => navigationService.navigateWithAuthCheck(
+              context: context,
+              authenticatedRoute: RequestSiteSurvey.requestSiteSurveyRoute,
+            ),
           ),
           Gap(AppSize.s8.w),
-          FreeButton(
+          ServiceButton(
             title: Strings.requestTechnicalOffer.tr(),
             imageAsset: ImageAssets.note,
-            onTap: () =>
-                context.push(RequestForTechnicalView.requestForTechnicalRoute),
+            onTap: () => navigationService.navigateWithAuthCheck(
+              context: context,
+              authenticatedRoute:
+                  RequestForTechnicalView.requestForTechnicalRoute,
+            ),
           ),
         ],
       ),

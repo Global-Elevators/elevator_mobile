@@ -1,4 +1,9 @@
-import 'package:elevator/app/extensions.dart';
+import 'package:elevator/app/app_pref.dart';
+import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/presentation/splash/splash_view.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:go_router/go_router.dart';
 
 bool isTextNotEmpty(String text) => text.isNotEmpty;
 
@@ -7,6 +12,13 @@ bool isPasswordValid(String password) => password.isNotEmpty;
 bool isPhoneValid(String phone) => phone.isNotEmpty;
 
 bool isNumberNotZero(int number) => number != 0;
+
+void changeLanguage(BuildContext context) async {
+  final appPreferences = instance<AppPreferences>();
+  await appPreferences.changeAppLanguage();
+  context.go(SplashView.splashRoute);
+  await Phoenix.rebirth(context);
+}
 // bool isPhoneValid(String phone) {
 //   // Iraqi phone: starts with 07 + 9 digits (total 11 digits)
 //   final phoneRegex = RegExp(r'^07[0-9]{9}$');
@@ -29,4 +41,3 @@ bool isNumberNotZero(int number) => number != 0;
 // bool isNotEmpty(String value) {
 //   return value.trim().isNotEmpty;
 // }
-
