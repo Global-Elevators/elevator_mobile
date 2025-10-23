@@ -18,8 +18,7 @@ class DioFactory {
 
   Future<Dio> getDio() async {
     final options = BaseOptions(
-      baseUrl: FlavorConfig.instance.baseUrl,
-      // baseUrl: Constants.baseUrl,
+      baseUrl: Constants.baseUrl,
       headers: {
         ACCEPT: APPLICATION_JSON,
         CONTENT_TYPE: APPLICATION_JSON,

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/flavor_config.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/main/home/home_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_for_technical/request_for_technical_view.dart';
@@ -29,7 +30,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isPremium = true;
+  // bool isPremium = true;
   final _homeViewModel = instance<HomeViewmodel>();
 
   @override
@@ -37,35 +38,48 @@ class _HomePageState extends State<HomePage> {
     return StreamBuilder<FlowState>(
       stream: _homeViewModel.outputStateStream,
       builder: (context, snapshot) {
+        // return snapshot.data?.getStateWidget(
+        //       context,
+        //       _getContentWidget(isPremium, () {
+        //         _homeViewModel.sendAlert();
+        //       }),
+        //       () {},
+        //     ) ??
+        //     _getContentWidget(isPremium, () {
+        //       _homeViewModel.sendAlert();
+        //     });
+
         return snapshot.data?.getStateWidget(
-              context,
-              _getContentWidget(isPremium, () {
-                _homeViewModel.sendAlert();
-              }),
+          context,
+          _getContentWidget(() {
+            _homeViewModel.sendAlert();
+          }),
               () {},
-            ) ??
-            _getContentWidget(isPremium, () {
+        ) ??
+            _getContentWidget(() {
               _homeViewModel.sendAlert();
             });
       },
     );
   }
 
-  SafeArea _getContentWidget(bool isPremium, Function() actionOnTap) {
+  SafeArea _getContentWidget(Function() actionOnTap) {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
-        child: _HomePageBody(isPremium: isPremium, actionOnTap: actionOnTap),
+        // child: _HomePageBody(isPremium: isPremium, actionOnTap: actionOnTap),
+        child: _HomePageBody(actionOnTap: actionOnTap),
       ),
     );
   }
 }
 
 class _HomePageBody extends StatelessWidget {
-  final bool isPremium;
+  // final bool isPremium;
   final Function() actionOnTap;
 
-  const _HomePageBody({required this.isPremium, required this.actionOnTap});
+  // const _HomePageBody({required this.isPremium, required this.actionOnTap});
+  const _HomePageBody({required this.actionOnTap});
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +88,11 @@ class _HomePageBody extends StatelessWidget {
       children: [
         const HomeBar(),
         Gap(AppSize.s24.h),
-        if (isPremium) ...[const RegistrationBox(), Gap(AppSize.s24.h)],
-        PremiumContainer(isPremium, actionOnTap),
+        if (FlavorConfig.isAccountPaid) ...[
+          const RegistrationBox(),
+          Gap(AppSize.s24.h),
+        ],
+        PremiumContainer(FlavorConfig.isAccountPaid, actionOnTap),
         Gap(AppSize.s24.h),
         Text(
           Strings.servicesTitle.tr(),

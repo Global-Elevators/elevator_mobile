@@ -4,7 +4,7 @@ import 'package:elevator/main_common.dart';
 void main() {
   mainCommon(
     flavor: Flavor.production,
-    baseUrl: 'https://ge-elevators.com/api/v1',
+    isPaid: true,
     name: 'Production',
   );
 }

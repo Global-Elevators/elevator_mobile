@@ -9,10 +9,10 @@ import 'app/app.dart';
 
 void mainCommon({
   required Flavor flavor,
-  required String baseUrl,
+  required bool isPaid,
   required String name,
 }) async {
-  FlavorConfig(flavor: flavor, baseUrl: baseUrl, name: name);
+  FlavorConfig(flavor: flavor, isPaid: isPaid, name: name);
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await initAppModule();

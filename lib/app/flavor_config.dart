@@ -2,23 +2,23 @@ enum Flavor { development, staging, production }
 
 class FlavorConfig {
   final Flavor flavor;
-  final String baseUrl;
+  final bool isPaid;
   final String name;
 
   static FlavorConfig? _instance;
 
   factory FlavorConfig({
     required Flavor flavor,
-    required String baseUrl,
+    required bool isPaid,
     required String name,
   }) {
-    _instance ??= FlavorConfig._(flavor: flavor, baseUrl: baseUrl, name: name);
+    _instance ??= FlavorConfig._(flavor: flavor, isPaid: isPaid, name: name);
     return _instance!;
   }
 
   const FlavorConfig._({
     required this.flavor,
-    required this.baseUrl,
+    required this.isPaid,
     required this.name,
   });
 
@@ -30,9 +30,7 @@ class FlavorConfig {
     return _instance!;
   }
 
-  static bool get isDevelopment => instance.flavor == Flavor.development;
+  static bool get isAccountPaid => instance.isPaid == true;
 
-  static bool get isStaging => instance.flavor == Flavor.staging;
-
-  static bool get isProduction => instance.flavor == Flavor.production;
+  static bool get isAccountNotPaid => instance.isPaid == false;
 }

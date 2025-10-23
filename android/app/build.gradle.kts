@@ -40,24 +40,24 @@ android {
 
     flavorDimensions += "app"
     productFlavors {
-        create("dev") {
+        create("free") {
             dimension = "app"
             resValue(
                 type = "string",
                 name = "app_name",
-                value = "Elevator Dev"
+                value = "Elevator Free"
             )
-            applicationIdSuffix = ".dev"
+            applicationIdSuffix = ".free"
         }
 
-        create("prod") {
+        create("premium") {
             dimension = "app"
             resValue(
                 type = "string",
                 name = "app_name",
-                value = "Elevator"
+                value = "Elevator Premium"
             )
-            applicationIdSuffix = ".prod"
+            applicationIdSuffix = ".premium"
         }
     }
 }
