@@ -1,3 +1,5 @@
+import 'package:elevator/app/flavor_config.dart';
+import 'package:elevator/main_common.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/resources/language_manager.dart';
@@ -5,15 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'app/app.dart';
 
-// This is test branch
-
-void main() async {
+void mainCommon({
+  required Flavor flavor,
+  required String baseUrl,
+  required String name,
+}) async {
+  FlavorConfig(flavor: flavor, baseUrl: baseUrl, name: name);
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await initAppModule();
-  // if (!kReleaseMode) {
-  //   HttpOverrides.global = MyHttpOverrides();
-  // }
   runApp(
     EasyLocalization(
       supportedLocales: [englishLocale, arabicLocale],
@@ -23,5 +25,3 @@ void main() async {
     ),
   );
 }
-
-// line length in dart 80

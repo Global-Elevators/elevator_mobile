@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
+import '../../app/flavor_config.dart';
 const String APPLICATION_JSON = "application/json";
 const String CONTENT_TYPE = "content-type";
 const String ACCEPT = "accept";
@@ -17,7 +18,8 @@ class DioFactory {
 
   Future<Dio> getDio() async {
     final options = BaseOptions(
-      baseUrl: Constants.baseUrl,
+      baseUrl: FlavorConfig.instance.baseUrl,
+      // baseUrl: Constants.baseUrl,
       headers: {
         ACCEPT: APPLICATION_JSON,
         CONTENT_TYPE: APPLICATION_JSON,
