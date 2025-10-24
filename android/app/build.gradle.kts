@@ -37,6 +37,29 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    flavorDimensions += "app"
+    productFlavors {
+        create("free") {
+            dimension = "app"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "Elevator Free"
+            )
+            applicationIdSuffix = ".free"
+        }
+
+        create("premium") {
+            dimension = "app"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "Elevator Premium"
+            )
+            applicationIdSuffix = ".premium"
+        }
+    }
 }
 
 flutter {

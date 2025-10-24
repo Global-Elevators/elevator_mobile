@@ -1,15 +1,14 @@
-import 'package:elevator/app/constants.dart';
+import 'package:dio/dio.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart';
 import 'package:elevator/data/network/requests/update_user_request.dart';
 import 'package:elevator/data/response/responses.dart';
-import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-
 part 'app_api.g.dart';
 
-@RestApi(baseUrl: Constants.baseUrl)
+
+// @RestApi(baseUrl: FlavorConfig.instance.baseUrl)
 abstract class AppServicesClient {
   factory AppServicesClient(Dio dio, {String? baseUrl}) = _AppServicesClient;
 

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/flavor_config.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -19,7 +20,7 @@ class HomeBar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              Strings.welcomeBack.tr(),
+              "${Strings.welcomeBack.tr()} ${FlavorConfig.instance.name}",
               style: getMediumTextStyle(
                 color: ColorManager.orangeColor,
                 fontSize: FontSizeManager.s18.sp,

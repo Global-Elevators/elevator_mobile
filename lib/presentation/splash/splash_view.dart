@@ -25,15 +25,9 @@ class _SplashViewState extends State<SplashView> {
   void goToMainScreen(BuildContext context) => context.go(MainView.mainRoute);
 
   _startDelay() => _timer = Timer(const Duration(seconds: 2), _goNext);
-  final _appPreferences = instance<AppPreferences>();
 
   void _goNext() async {
-    final isLoggedIn = await _appPreferences.isUserLoggedIn("login");
-    if (isLoggedIn) {
-      goToMainScreen(context);
-    } else {
-      goToLoginScreen(context);
-    }
+    goToMainScreen(context);
   }
 
   @override
