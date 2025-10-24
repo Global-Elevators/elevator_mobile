@@ -2,6 +2,7 @@ import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../app/flavor_config.dart';
@@ -18,7 +19,7 @@ class DioFactory {
 
   Future<Dio> getDio() async {
     final options = BaseOptions(
-      baseUrl: Constants.baseUrl,
+      baseUrl: dotenv.env['BASE_URL']!,
       headers: {
         ACCEPT: APPLICATION_JSON,
         CONTENT_TYPE: APPLICATION_JSON,
