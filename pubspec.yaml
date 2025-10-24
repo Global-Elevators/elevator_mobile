@@ -45,6 +45,7 @@ dependencies:
   timeline_tile: ^2.0.0
   easy_localization: ^3.0.8
   flutter_phoenix: ^1.1.1
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +65,7 @@ flutter:
     - assets/pdfs/
     - assets/json/
     - assets/translations/
+    - .env
 
   fonts:
       - family: Tajawal

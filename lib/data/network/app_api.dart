@@ -7,8 +7,6 @@ import 'package:elevator/data/response/responses.dart';
 import 'package:retrofit/retrofit.dart';
 part 'app_api.g.dart';
 
-
-// @RestApi(baseUrl: FlavorConfig.instance.baseUrl)
 abstract class AppServicesClient {
   factory AppServicesClient(Dio dio, {String? baseUrl}) = _AppServicesClient;
 
