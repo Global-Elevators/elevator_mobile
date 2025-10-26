@@ -3,7 +3,7 @@ import 'package:elevator/main_common.dart';
 
 void main() {
   mainCommon(
-    flavor: Flavor.production,
+    flavor: Flavor.premium,
     isPaid: true,
     name: 'premium',
   );

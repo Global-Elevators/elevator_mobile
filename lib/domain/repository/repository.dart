@@ -4,6 +4,7 @@ import 'package:elevator/data/network/failure.dart';
 import 'package:elevator/data/network/requests/change_password_request.dart';
 import 'package:elevator/data/network/requests/login_request.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
+import 'package:elevator/data/network/requests/report_break_down_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart' hide UserInfo;
@@ -55,4 +56,6 @@ abstract class Repository {
   Future<Either<Failure, void>> logout();
 
   Future<Either<Failure, void>> changePassword(ChangePasswordRequest request);
+
+  // Future<Either<Failure, void>> reportBreakDown(ReportBreakDownRequest request);
 }

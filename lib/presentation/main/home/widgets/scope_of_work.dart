@@ -54,7 +54,6 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
   File? _imageFile;
   DateTime? focusedDay;
   String _selectedDay = "";
-  // bool isImageLoading = false;
 
   // Data
   final projectTypeItems = [
@@ -81,14 +80,6 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
 
   @override
   void initState() {
-    // track the state
-    // widget.viewmodel.outputStateStream.listen((loadingState) {
-    //   if (loadingState is LoadingState) {
-    //     isImageLoading = true;
-    //   } else {
-    //     isImageLoading = false;
-    //   }
-    // });
     super.initState();
     _stopsController.addListener(_updateDisplayedNumber);
     widget.viewmodel.setScopeOfWork(widget.scopeOfWork);
@@ -347,7 +338,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
       children: [
         LabelTextFormFieldWidget(
           title: Strings.descriptionOfBreakDown.tr(),
-          hintText: 'Description here !',
+          hintText: Strings.descriptionOfBreakDown.tr(),
           controller: _descriptionOfBreakDownController,
           isOptional: true,
           isNotes: true,
@@ -420,7 +411,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
   Widget _buildNotesSection() {
     return LabelTextFormFieldWidget(
       title: Strings.notes.tr(),
-      hintText: 'notes.',
+      hintText: Strings.notes.tr(),
       controller: _notesController,
       isOptional: true,
       isNotes: true,

@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:elevator/presentation/main/home/report_break_down_view.dart';
+import 'package:elevator/presentation/main/home/report_break_down/report_break_down_view.dart';
 import 'package:elevator/presentation/main/widgets/premium_button.dart';
 import 'package:elevator/presentation/main/widgets/sos_button.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';

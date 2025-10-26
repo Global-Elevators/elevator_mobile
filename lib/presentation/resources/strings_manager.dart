@@ -162,6 +162,7 @@ class Strings {
   static const String manualOrSelect = 'manualOrSelect';
   static const String projectType = 'projectType';
   static const String selectOne = 'selectOne';
+  static const String selectYourAddress = 'selectYourAddress';
   static const String shaftType = 'shaftType';
   static const String shaftLocation = 'shaftLocation';
   static const String shaftDimensions = 'shaftDimensions';
@@ -196,6 +197,7 @@ class Strings {
   // Catalogue screen keys
   static const String call = 'call';
   static const String download = 'download';
+  static const String companyPhone = '+9645559988778';
 
   static const String anyBodyInjuredOrTrappedInsideTheElevator =
       'anyBodyInjuredOrTrappedInsideTheElevator';

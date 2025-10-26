@@ -81,4 +81,7 @@ abstract class AppServicesClient {
     @Field("new_password") String newPassword,
     @Field("new_password_confirmation") String newPasswordConfirmation,
   );
+
+  // @POST("/user/site-surveys/report-break-down")
+  // Future<void> reportBreakDown(@Body() ReportBreakDownRequest request);
 }

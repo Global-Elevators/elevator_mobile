@@ -11,6 +11,7 @@ import 'package:elevator/domain/usecase/forget_password_usecase.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
 import 'package:elevator/domain/usecase/logout_usecase.dart';
 import 'package:elevator/domain/usecase/register_usecase.dart';
+import 'package:elevator/domain/usecase/report_break_down_usecase.dart';
 import 'package:elevator/domain/usecase/request_site_survey_usecase.dart';
 import 'package:elevator/domain/usecase/resend_otp_usecase.dart';
 import 'package:elevator/domain/usecase/reset_password_usecase.dart';
@@ -24,6 +25,7 @@ import 'package:elevator/domain/usecase/verify_usecase.dart';
 import 'package:elevator/presentation/forget_password/forget_password_viewmodel.dart';
 import 'package:elevator/presentation/login/login_viewmodel.dart';
 import 'package:elevator/presentation/main/home/home_viewmodel.dart';
+import 'package:elevator/presentation/main/home/report_break_down/report_break_down_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_for_technical/request_for_technical_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_viewmodel.dart';
 import 'package:elevator/presentation/main/profile/change_password/change_password_viewmodel.dart';
@@ -156,9 +158,11 @@ initRequestServiceSurveyModule() {
     instance.registerFactory<RequestSiteSurveyUsecase>(
       () => RequestSiteSurveyUsecase(instance<Repository>()),
     );
-    instance.registerFactory<UploadedMediaUseCase>(
-      () => UploadedMediaUseCase(instance<Repository>()),
-    );
+    if (!GetIt.I.isRegistered<UploadedMediaUseCase>()) {
+      instance.registerFactory<UploadedMediaUseCase>(
+        () => UploadedMediaUseCase(instance<Repository>()),
+      );
+    }
     instance.registerFactory<RequestSiteSurveyViewmodel>(
       () => RequestSiteSurveyViewmodel(
         instance<RequestSiteSurveyUsecase>(),
@@ -211,11 +215,11 @@ initMainModule() {
 
   if (!GetIt.I.isRegistered<ChangePasswordUsecase>()) {
     instance.registerFactory<ChangePasswordUsecase>(
-          () => ChangePasswordUsecase(instance<Repository>()),
+      () => ChangePasswordUsecase(instance<Repository>()),
     );
 
     instance.registerFactory<ChangePasswordViewmodel>(
-          () => ChangePasswordViewmodel(instance<ChangePasswordUsecase>()),
+      () => ChangePasswordViewmodel(instance<ChangePasswordUsecase>()),
     );
   }
 }
@@ -239,7 +243,41 @@ initEditInformationModule() {
   }
 }
 
-// Change Password module
-initChangePasswordModule() {
+// initReportBreakDownModule() {
+//   if (!GetIt.I.isRegistered<ReportBreakDownUsecase>()) {
+//     instance.registerFactory<ReportBreakDownUsecase>(
+//       () => ReportBreakDownUsecase(instance<Repository>()),
+//     );
+//
+//     if (!GetIt.I.isRegistered<UploadedMediaUseCase>()) {
+//       instance.registerFactory<UploadedMediaUseCase>(
+//             () => UploadedMediaUseCase(instance<Repository>()),
+//       );
+//     }
+//
+//     instance.registerFactory<ReportBreakDownViewmodel>(
+//       () => ReportBreakDownViewmodel(
+//         instance<ReportBreakDownUsecase>(),
+//         instance<UploadedMediaUseCase>(),
+//       ),
+//     );
+//   }
+// }
 
+// make report break down module with viewModel and upload no usecase
+
+initReportBreakDownModule() {
+  if (!GetIt.I.isRegistered<ReportBreakDownViewmodel>()) {
+    instance.registerFactory<ReportBreakDownViewmodel>(
+      () => ReportBreakDownViewmodel(
+        instance<UploadedMediaUseCase>(),
+      ),
+    );
+
+    if (!GetIt.I.isRegistered<UploadedMediaUseCase>()) {
+      instance.registerFactory<UploadedMediaUseCase>(
+            () => UploadedMediaUseCase(instance<Repository>()),
+      );
+    }
+  }
 }

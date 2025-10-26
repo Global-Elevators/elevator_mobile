@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:elevator/data/network/app_api.dart';
 import 'package:elevator/data/network/requests/login_request.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
+import 'package:elevator/data/network/requests/report_break_down_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
@@ -43,10 +44,11 @@ abstract class RemoteDataSource {
 
   Future<void> updateUser(UpdateUserRequest request);
 
-  // logout
   Future<void> logout();
 
   Future<void> changePassword(ChangePasswordRequest request);
+
+  // Future<void> reportBreakDown(ReportBreakDownRequest request);
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -151,4 +153,9 @@ class RemoteDataSourceImp extends RemoteDataSource {
       request.newPasswordConfirmation,
     );
   }
+
+  // @override
+  // Future<void> reportBreakDown(ReportBreakDownRequest request) async {
+  //   return await _appServicesClient.reportBreakDown(request);
+  // }
 }

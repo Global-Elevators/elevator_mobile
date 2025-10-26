@@ -46,8 +46,8 @@ class TextFromFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // height: isNotes ? AppSize.s150.h : AppSize.s55.h,
       child: TextFormField(
+        textDirection: TextDirection.ltr,
         readOnly: readOnly,
         textAlign: centerText ? TextAlign.center : TextAlign.start,
         controller: controller,

@@ -4,6 +4,7 @@ import 'package:elevator/presentation/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 bool isTextNotEmpty(String text) => text.isNotEmpty;
 
@@ -19,6 +20,12 @@ void changeLanguage(BuildContext context) async {
   context.go(SplashView.splashRoute);
   await Phoenix.rebirth(context);
 }
+
+Future<void> openUrl(String link) async {
+  final Uri url = Uri.parse(link);
+  if (!await launchUrl(url)) throw 'Could not launch $url';
+}
+
 // bool isPhoneValid(String phone) {
 //   // Iraqi phone: starts with 07 + 9 digits (total 11 digits)
 //   final phoneRegex = RegExp(r'^07[0-9]{9}$');

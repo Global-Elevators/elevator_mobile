@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
@@ -19,6 +20,7 @@ class InterestItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentLanguage = context.locale.languageCode;
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -30,7 +32,7 @@ class InterestItem extends StatelessWidget {
               ? ColorManager.buttonsBorderColor
               : ColorManager.whiteColor,
         ),
-        alignment: Alignment.centerLeft,
+        alignment: currentLanguage == 'ar' ? Alignment.centerRight : Alignment.centerLeft,
         padding: EdgeInsets.symmetric(horizontal: AppSize.s14),
         child: Text(
           text,

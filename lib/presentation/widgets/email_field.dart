@@ -43,9 +43,6 @@ class EmailField extends StatelessWidget {
                     BlendMode.srcIn,
                   ),
                 ),
-                // errorText: (snapshot.data ?? true)
-                //     ? null
-                //     : Strings.invalidPassword.tr(),
               ),
         ),
       ],

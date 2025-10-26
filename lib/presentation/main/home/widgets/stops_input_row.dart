@@ -16,7 +16,7 @@ class StopsInputRow extends StatelessWidget {
   final num displayedNumber;
   final String leftLabel;
   final String hintText;
-  final String rightLabel;
+  final String? rightLabel;
 
   const StopsInputRow({
     super.key,
@@ -24,7 +24,7 @@ class StopsInputRow extends StatelessWidget {
     required this.displayedNumber,
     this.leftLabel = "G+",
     this.hintText = "x",
-    this.rightLabel = "stops",
+    this.rightLabel,
   });
 
   @override
@@ -71,7 +71,7 @@ class StopsInputRow extends StatelessWidget {
             ),
             Gap(AppSize.s5.w),
             Text(
-              rightLabel,
+              Strings.stops.tr(),
               style: getRegularTextStyle(
                 color: ColorManager.greyColor,
                 fontSize: FontSizeManager.s18.sp,

@@ -58,7 +58,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   String? selectedAddress;
   final List<String> addresses = ["Cairo", "Alexandria", "Giza", "Mansoura"];
-  final String hintText = "Select your address";
+  final String hintText = Strings.selectYourAddress.tr();
 
   final _registerViewModel = instance<RegisterViewModel>();
 
@@ -210,7 +210,6 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   Widget _buildBackButton() => BackToSignInButton(
-    text: Strings.backSignIn.tr(),
     route: LoginView.loginRoute,
   );
 

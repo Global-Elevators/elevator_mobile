@@ -14,6 +14,7 @@ import 'package:elevator/data/network/network_info.dart';
 import 'package:elevator/data/network/requests/change_password_request.dart';
 import 'package:elevator/data/network/requests/login_request.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
+import 'package:elevator/data/network/requests/report_break_down_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart' hide UserInfo;
@@ -447,5 +448,20 @@ class RepositoryImpl extends Repository {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
+
+  // ---------------- REPORT BREAK DOWN ----------------
+  // @override
+  // Future<Either<Failure, void>> reportBreakDown(ReportBreakDownRequest request) async {
+  //   if (await hasNetworkConnection()) {
+  //     try {
+  //       await _remoteDataSource.reportBreakDown(request);
+  //       return const Right(null);
+  //     } catch (error) {
+  //       return Left(ExceptionHandler.handle(error).failure);
+  //     }
+  //   } else {
+  //     return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+  //   }
+  // }
 
 }

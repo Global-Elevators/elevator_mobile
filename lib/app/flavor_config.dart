@@ -1,4 +1,4 @@
-enum Flavor { development, staging, production }
+enum Flavor { free, premium }
 
 class FlavorConfig {
   final Flavor flavor;

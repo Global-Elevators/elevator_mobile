@@ -14,7 +14,6 @@ class ForgetPasswordAppBar extends StatelessWidget
       backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
       title: BackToSignInButton(
-        text: Strings.signInButton.tr(),
         route: LoginView.loginRoute,
       ),
     );

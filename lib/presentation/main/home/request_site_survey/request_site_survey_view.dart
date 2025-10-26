@@ -1,6 +1,7 @@
 import 'package:dropdown_overlay/dropdown_overlay.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/functions.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_viewmodel.dart';
 import 'package:elevator/presentation/main/home/widgets/label_yes_or_no_widget.dart';
@@ -91,7 +92,7 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
         width: AppSize.s70.w,
         child: selectedValue == null
             ? FloatingActionButton(
-                onPressed: () {},
+                onPressed: () => openUrl("tel:${Strings.companyPhone}"),
                 backgroundColor: ColorManager.primaryColor,
                 shape: const CircleBorder(),
                 child: SvgPicture.asset(

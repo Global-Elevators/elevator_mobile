@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/functions.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
@@ -79,8 +80,8 @@ class _HelpViewState extends State<HelpView> {
 
   InkWell contactField(String icon, String title) => InkWell(
     onTap: () => title == "support@elevator.com"
-        ? _launchUrl("mailto:sales@ge-elevators.com")
-        : _launchUrl("tel:+9645559988778"),
+        ? openUrl("mailto:sales@ge-elevators.com")
+        : openUrl("tel:${Strings.companyPhone}"),
     child: Row(
       children: [
         Container(
@@ -109,14 +110,9 @@ class _HelpViewState extends State<HelpView> {
     ),
   );
 
-  static Future<void> _launchUrl(String link) async {
-    final Uri url = Uri.parse(link);
-    if (!await launchUrl(url)) throw 'Could not launch $url';
-  }
-
   socialMediaItem(String icon, String link) => Expanded(
     child: InkWell(
-      onTap: () => _launchUrl(link),
+      onTap: () => openUrl(link),
       child: Container(
         height: AppSize.s60.h,
         decoration: BoxDecoration(

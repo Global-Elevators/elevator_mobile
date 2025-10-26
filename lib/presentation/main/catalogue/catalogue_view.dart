@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/functions.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -59,11 +60,6 @@ class _CatalogueViewState extends State<CatalogueView> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
-  }
-
-  static Future<void> _launchUrl(String link) async {
-    final Uri url = Uri.parse(link);
-    if (!await launchUrl(url)) throw 'Could not launch $url';
   }
 }
 
@@ -194,7 +190,7 @@ class _CallButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _CatalogueViewState._launchUrl("tel:01270492019"),
+      onTap: () => openUrl("tel:${Strings.companyPhone}"),
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: AppPadding.p12.w,

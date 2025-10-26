@@ -10,17 +10,16 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 class BackToSignInButton extends StatelessWidget {
-  final String text;
   final String route;
 
   const BackToSignInButton({
     super.key,
-    required this.text,
     required this.route,
   });
 
   @override
   Widget build(BuildContext context) {
+    final currentLanguage = context.locale.languageCode;
     return InkWell(
       onTap: () => context.go(route),
       child: Container(
@@ -44,7 +43,7 @@ class BackToSignInButton extends StatelessWidget {
                 Strings.backSignIn.tr(),
                 style: getMediumTextStyle(
                   color: ColorManager.primaryColor,
-                  fontSize: FontSizeManager.s18,
+                  fontSize: currentLanguage == 'ar' ? FontSizeManager.s16 : FontSizeManager.s18,
                 ),
               ),
             ],
