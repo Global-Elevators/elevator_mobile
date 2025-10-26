@@ -35,7 +35,6 @@ class ProfileViewModel extends BaseViewModel {
           await _appPreferences.logOut("login");
           await _appPreferences.logOut("tokenType");
           await _appPreferences.logOut("forget_password");
-
           inputState.add(SuccessState("Signed out"));
           _logoutSuccessController.add(true);
         },

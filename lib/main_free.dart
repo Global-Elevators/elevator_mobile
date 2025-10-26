@@ -5,6 +5,6 @@ void main() async {
   mainCommon(
     flavor: Flavor.development,
     isPaid: false,
-    name: 'Dev',
+    name: 'free',
   );
 }

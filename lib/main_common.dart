@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'app/app.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:elevator/domain/notification/app_notification_manager.dart';
 
 void mainCommon({
   required Flavor flavor,
@@ -13,12 +16,19 @@ void mainCommon({
   required String name,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await dotenv.load(fileName: '.env');
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await EasyLocalization.ensureInitialized();
+
+  await AppNotificationManager().initialize();
 
   FlavorConfig(flavor: flavor, isPaid: isPaid, name: name);
 
-  await EasyLocalization.ensureInitialized();
   await initAppModule();
+
   runApp(
     EasyLocalization(
       supportedLocales: [englishLocale, arabicLocale],

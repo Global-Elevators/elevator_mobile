@@ -5,6 +5,6 @@ void main() {
   mainCommon(
     flavor: Flavor.production,
     isPaid: true,
-    name: 'Production',
+    name: 'premium',
   );
 }

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
@@ -37,7 +36,9 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  final NavigationService _navigationService = NavigationService(instance<AppPreferences>());
+  final NavigationService _navigationService = NavigationService(
+    instance<AppPreferences>(),
+  );
   late final List<ProfileItemWidget> _firstItems = [
     ProfileItemWidget(
       IconAssets.profile,
@@ -122,7 +123,6 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    // Use StreamBuilder to let FlowState (loading/error/success) be rendered
     return StreamBuilder<FlowState>(
       stream: _viewModel.outputStateStream,
       builder: (context, snapshot) {
@@ -249,11 +249,9 @@ class _ProfileViewState extends State<ProfileView> {
               Navigator.pop(context);
             }
           } else {
-            Navigator.pop(context);
-            _navigationService.navigateWithAuthCheck(
-              context: context,
-              authenticatedRoute: LoginView.loginRoute,
-            );
+            final isUserLoggedIn = _appPreferences.isUserLoggedIn("login");
+            if (await isUserLoggedIn) return _viewModel.signOut();
+            return context.go(LoginView.loginRoute);
           }
         },
       ),
