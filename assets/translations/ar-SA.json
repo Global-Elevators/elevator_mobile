@@ -177,5 +177,7 @@
   "contactUs": "اتصل بنا",
   "signOutDescription": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
   "inProgress": "قيد التنفيذ",
-  "newProductSupplyInstallation": "توريد وتركيب منتج جديد (NPC)"
+  "newProductSupplyInstallation": "توريد وتركيب منتج جديد (NPC)",
+  "sessionExpired": "انتهت الجلسة",
+  "sessionExpiredMessage": "لأسباب أمنية، انتهت جلستك. يُرجى تسجيل الدخول مرة أخرى لمواصلة استخدام التطبيق."
 }

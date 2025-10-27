@@ -177,5 +177,7 @@
   "contactUs": "Contact us",
   "signOutDescription": "Are you sure you want to sign out?",
   "inProgress": "In Progress",
-  "newProductSupplyInstallation": "New Product Supply & Installation (NPC)"
+  "newProductSupplyInstallation": "New Product Supply & Installation (NPC)",
+  "sessionExpired": "Session Expired",
+  "sessionExpiredMessage": "For your security, your session has ended. Please sign in again to continue using the app."
 }

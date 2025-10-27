@@ -19,6 +19,8 @@ class Strings {
   static const String ok = 'ok';
   static const String retryAgain = 'retryAgain';
 
+  static const String sessionExpired = 'sessionExpired';
+  static const String sessionExpiredMessage = 'sessionExpiredMessage';
   // Sign-up screen keys
   static const String backSignIn = 'backSignIn';
   static const String createAccountTitle = 'createAccountTitle';

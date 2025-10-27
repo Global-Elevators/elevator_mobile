@@ -338,7 +338,7 @@ class RequestSiteSurveyViewmodel extends BaseViewModel
         (data) {
           inputState.add(SuccessState("Welcome back"));
           isUserRequestSiteSurvey.add(true);
-          _appPref.logOut("login");
+          _appPref.logOut();
         },
       );
     } catch (e, stack) {

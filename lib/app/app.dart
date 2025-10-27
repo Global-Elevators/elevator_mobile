@@ -29,15 +29,6 @@ class _MyAppState extends State<MyApp> {
     super.didChangeDependencies();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   _appPreferences.getLocalLanguage().then((locale) {
-  //     if (!mounted) return;
-  //     context.setLocale(locale);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(

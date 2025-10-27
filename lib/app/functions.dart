@@ -26,6 +26,7 @@ Future<void> openUrl(String link) async {
   if (!await launchUrl(url)) throw 'Could not launch $url';
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 // bool isPhoneValid(String phone) {
 //   // Iraqi phone: starts with 07 + 9 digits (total 11 digits)
 //   final phoneRegex = RegExp(r'^07[0-9]{9}$');

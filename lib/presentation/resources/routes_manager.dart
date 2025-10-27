@@ -1,4 +1,5 @@
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/functions.dart';
 import 'package:elevator/presentation/account_verified/account_verified_view.dart';
 import 'package:elevator/presentation/forget_password/forget_password_view.dart';
 import 'package:elevator/presentation/login/login_view.dart';
@@ -26,6 +27,7 @@ import 'package:go_router/go_router.dart';
 class GoRouterConfig {
   static GoRouter get router => _router;
   static final GoRouter _router = GoRouter(
+    navigatorKey: navigatorKey,
     routes: <RouteBase>[
       GoRoute(
         path: SplashView.splashRoute,

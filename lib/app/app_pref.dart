@@ -60,7 +60,7 @@ class AppPreferences {
     return token != null && token.isNotEmpty;
   }
 
-  Future<void> logOut(String key) async {
-    await _secureStorage.delete(key: key);
+  Future<void> logOut() async {
+    await _secureStorage.deleteAll();
   }
 }
