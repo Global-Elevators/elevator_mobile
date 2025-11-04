@@ -57,5 +57,10 @@ abstract class Repository {
 
   Future<Either<Failure, void>> changePassword(ChangePasswordRequest request);
 
-  // Future<Either<Failure, void>> reportBreakDown(ReportBreakDownRequest request);
+  Future<Either<Failure, void>> reportBreakDown(ReportBreakDownRequest request);
+
+  Future<Either<Failure, void>> rescheduleAppointment(String scheduleDate);
+
+  // Save FCM token to server
+  Future<Either<Failure, void>> saveFcmToken(String token);
 }

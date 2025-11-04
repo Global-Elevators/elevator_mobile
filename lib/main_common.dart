@@ -23,11 +23,9 @@ void mainCommon({
 
   await EasyLocalization.ensureInitialized();
 
-  await AppNotificationManager().initialize();
+  await initAppModule();
 
   FlavorConfig(flavor: flavor, isPaid: isPaid, name: name);
-
-  await initAppModule();
 
   runApp(
     EasyLocalization(

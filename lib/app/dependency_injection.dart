@@ -13,6 +13,7 @@ import 'package:elevator/domain/usecase/logout_usecase.dart';
 import 'package:elevator/domain/usecase/register_usecase.dart';
 import 'package:elevator/domain/usecase/report_break_down_usecase.dart';
 import 'package:elevator/domain/usecase/request_site_survey_usecase.dart';
+import 'package:elevator/domain/usecase/reschedule_appointment_usecase.dart';
 import 'package:elevator/domain/usecase/resend_otp_usecase.dart';
 import 'package:elevator/domain/usecase/reset_password_usecase.dart';
 import 'package:elevator/domain/usecase/sos_usecase.dart';
@@ -22,6 +23,7 @@ import 'package:elevator/domain/usecase/user_data_usecase.dart';
 import 'package:elevator/domain/usecase/update_data_usecase.dart';
 import 'package:elevator/domain/usecase/verify_forgot_password_usecase.dart';
 import 'package:elevator/domain/usecase/verify_usecase.dart';
+import 'package:elevator/domain/usecase/save_fcm_token_usecase.dart';
 import 'package:elevator/presentation/forget_password/forget_password_viewmodel.dart';
 import 'package:elevator/presentation/login/login_viewmodel.dart';
 import 'package:elevator/presentation/main/home/home_viewmodel.dart';
@@ -71,6 +73,8 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<Repository>(
     () => RepositoryImpl(instance<RemoteDataSource>(), instance<NetworkInfo>()),
   );
+
+
 }
 
 // This function has all the dependencies that are used in the login module.
@@ -197,8 +201,15 @@ initMainModule() {
       () => SosUsecase(instance<Repository>()),
     );
 
+    instance.registerFactory<RescheduleAppointmentUsecase>(
+      () => RescheduleAppointmentUsecase(instance<Repository>()),
+    );
+
     instance.registerFactory<HomeViewmodel>(
-      () => HomeViewmodel(instance<SosUsecase>()),
+      () => HomeViewmodel(
+        instance<SosUsecase>(),
+        instance<RescheduleAppointmentUsecase>(),
+      ),
     );
   }
   if (!GetIt.I.isRegistered<LogoutUsecase>()) {
@@ -222,6 +233,13 @@ initMainModule() {
       () => ChangePasswordViewmodel(instance<ChangePasswordUsecase>()),
     );
   }
+
+  // Register SaveFcmTokenUsecase for push notifications
+  if (!GetIt.I.isRegistered<SaveFcmTokenUsecase>()) {
+    instance.registerFactory<SaveFcmTokenUsecase>(
+      () => SaveFcmTokenUsecase(instance<Repository>()),
+    );
+  }
 }
 
 initEditInformationModule() {
@@ -243,35 +261,10 @@ initEditInformationModule() {
   }
 }
 
-// initReportBreakDownModule() {
-//   if (!GetIt.I.isRegistered<ReportBreakDownUsecase>()) {
-//     instance.registerFactory<ReportBreakDownUsecase>(
-//       () => ReportBreakDownUsecase(instance<Repository>()),
-//     );
-//
-//     if (!GetIt.I.isRegistered<UploadedMediaUseCase>()) {
-//       instance.registerFactory<UploadedMediaUseCase>(
-//             () => UploadedMediaUseCase(instance<Repository>()),
-//       );
-//     }
-//
-//     instance.registerFactory<ReportBreakDownViewmodel>(
-//       () => ReportBreakDownViewmodel(
-//         instance<ReportBreakDownUsecase>(),
-//         instance<UploadedMediaUseCase>(),
-//       ),
-//     );
-//   }
-// }
-
-// make report break down module with viewModel and upload no usecase
-
 initReportBreakDownModule() {
-  if (!GetIt.I.isRegistered<ReportBreakDownViewmodel>()) {
-    instance.registerFactory<ReportBreakDownViewmodel>(
-      () => ReportBreakDownViewmodel(
-        instance<UploadedMediaUseCase>(),
-      ),
+  if (!GetIt.I.isRegistered<ReportBreakDownUsecase>()) {
+    instance.registerFactory<ReportBreakDownUsecase>(
+      () => ReportBreakDownUsecase(instance<Repository>()),
     );
 
     if (!GetIt.I.isRegistered<UploadedMediaUseCase>()) {
@@ -279,5 +272,30 @@ initReportBreakDownModule() {
             () => UploadedMediaUseCase(instance<Repository>()),
       );
     }
+
+    instance.registerFactory<ReportBreakDownViewmodel>(
+      () => ReportBreakDownViewmodel(
+        instance<ReportBreakDownUsecase>(),
+        instance<UploadedMediaUseCase>(),
+      ),
+    );
   }
 }
+
+// make report break down module with viewModel and upload no usecase
+
+// initReportBreakDownModule() {
+//   if (!GetIt.I.isRegistered<ReportBreakDownViewmodel>()) {
+//     instance.registerFactory<ReportBreakDownViewmodel>(
+//       () => ReportBreakDownViewmodel(
+//         instance<UploadedMediaUseCase>(),
+//       ),
+//     );
+//
+//     if (!GetIt.I.isRegistered<UploadedMediaUseCase>()) {
+//       instance.registerFactory<UploadedMediaUseCase>(
+//             () => UploadedMediaUseCase(instance<Repository>()),
+//       );
+//     }
+//   }
+// }

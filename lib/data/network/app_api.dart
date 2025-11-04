@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
+import 'package:elevator/data/network/requests/report_break_down_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart';
 import 'package:elevator/data/network/requests/update_user_request.dart';
 import 'package:elevator/data/response/responses.dart';
 import 'package:retrofit/retrofit.dart';
+
 part 'app_api.g.dart';
 
 abstract class AppServicesClient {
@@ -82,6 +84,14 @@ abstract class AppServicesClient {
     @Field("new_password_confirmation") String newPasswordConfirmation,
   );
 
-  // @POST("/user/site-surveys/report-break-down")
-  // Future<void> reportBreakDown(@Body() ReportBreakDownRequest request);
+  @POST("/user/make-breakdown-report")
+  Future<void> reportBreakDown(@Body() ReportBreakDownRequest request);
+
+  @POST("/user/reschedule-appoinment")
+  Future<void> rescheduleAppointment(
+    @Field("schedule_date") String scheduleDate,
+  );
+
+  @POST("/save-fcm-token")
+  Future<void> saveFcmToken(@Field("token") String token);
 }

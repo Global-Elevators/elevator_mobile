@@ -17,7 +17,8 @@ import 'package:elevator/data/network/requests/register_request.dart';
 import 'package:elevator/data/network/requests/report_break_down_request.dart';
 import 'package:elevator/data/network/requests/request_site_survey_request.dart';
 import 'package:elevator/data/network/requests/reset_password_request.dart';
-import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart' hide UserInfo;
+import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart'
+    hide UserInfo;
 import 'package:elevator/data/network/requests/update_user_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
@@ -368,7 +369,8 @@ class RepositoryImpl extends Repository {
       return Left(ExceptionHandler.handle(error).failure);
     }
   }
-// ---------------- GET USER DATA ----------------
+
+  // ---------------- GET USER DATA ----------------
 
   @override
   Future<Either<Failure, GetUserInfo>> getUserData() async {
@@ -410,7 +412,9 @@ class RepositoryImpl extends Repository {
     }
   }
 
-  Future<Either<Failure, void>> _performUpdateUser(UpdateUserRequest request) async {
+  Future<Either<Failure, void>> _performUpdateUser(
+    UpdateUserRequest request,
+  ) async {
     try {
       await _remoteDataSource.updateUser(request);
       return const Right(null);
@@ -421,7 +425,9 @@ class RepositoryImpl extends Repository {
 
   // ---------------- CHANGE PASSWORD ----------------
   @override
-  Future<Either<Failure, void>> changePassword(ChangePasswordRequest request) async {
+  Future<Either<Failure, void>> changePassword(
+    ChangePasswordRequest request,
+  ) async {
     if (await hasNetworkConnection()) {
       try {
         await _remoteDataSource.changePassword(request);
@@ -450,18 +456,49 @@ class RepositoryImpl extends Repository {
   }
 
   // ---------------- REPORT BREAK DOWN ----------------
-  // @override
-  // Future<Either<Failure, void>> reportBreakDown(ReportBreakDownRequest request) async {
-  //   if (await hasNetworkConnection()) {
-  //     try {
-  //       await _remoteDataSource.reportBreakDown(request);
-  //       return const Right(null);
-  //     } catch (error) {
-  //       return Left(ExceptionHandler.handle(error).failure);
-  //     }
-  //   } else {
-  //     return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-  //   }
-  // }
+  @override
+  Future<Either<Failure, void>> reportBreakDown(
+    ReportBreakDownRequest request,
+  ) async {
+    if (await hasNetworkConnection()) {
+      try {
+        await _remoteDataSource.reportBreakDown(request);
+        return const Right(null);
+      } catch (error) {
+        return Left(ExceptionHandler.handle(error).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
 
+  // ---------------- RESCHEDULE APPOINTMENT ----------------
+  @override
+  Future<Either<Failure, void>> rescheduleAppointment(String scheduleDate) async {
+    if (await hasNetworkConnection()) {
+      try {
+        await _remoteDataSource.rescheduleAppointment(scheduleDate);
+        return const Right(null);
+      } catch (error) {
+        return Left(ExceptionHandler.handle(error).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  // ---------------- SAVE FCM TOKEN ----------------
+  @override
+  Future<Either<Failure, void>> saveFcmToken(String token) async {
+    if (await hasNetworkConnection()) {
+      try {
+        await _remoteDataSource.saveFcmToken(token);
+        return const Right(null);
+      } catch (error) {
+        return Left(ExceptionHandler.handle(error).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
 }

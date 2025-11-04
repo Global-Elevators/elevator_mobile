@@ -1,5 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:elevator/presentation/main/home/home_viewmodel.dart';
 import 'package:elevator/presentation/main/home/report_break_down/report_break_down_view.dart';
+import 'package:elevator/presentation/main/home/widgets/select_suitable_time_widget.dart';
 import 'package:elevator/presentation/main/widgets/premium_button.dart';
 import 'package:elevator/presentation/main/widgets/sos_button.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
@@ -22,7 +26,7 @@ class PremiumContainer extends StatefulWidget {
   final bool isPremium;
   final void Function()? actionOnTap;
 
-  const PremiumContainer(this.isPremium,this.actionOnTap, {super.key});
+  const PremiumContainer(this.isPremium, this.actionOnTap, {super.key});
 
   @override
   State<PremiumContainer> createState() => _PremiumContainerState();
@@ -34,56 +38,86 @@ class _PremiumContainerState extends State<PremiumContainer> {
     DateTime.utc(2025, 9, 18),
     DateTime.utc(2025, 9, 20),
   ];
+  DateTime? focusedDay;
+  String _selectedDay = "";
+  final viewmodel = instance<HomeViewmodel>();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(AppSize.s22.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.2),
-            spreadRadius: 0,
-            blurRadius: 15,
-            offset: Offset(0, 0),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(AppSize.s8.r),
-        child: Column(
-          children: [
-            SosButton(widget.isPremium,widget.actionOnTap),
-            Gap(AppSize.s16.h),
-            SizedBox(
-              height: AppSize.s120.h,
-              child: Row(
-                children: [
-                  PremiumButton(
-                    title: Strings.reportBreakDown.tr(),
-                    imageAsset: ImageAssets.maintenance,
-                    isPremium: widget.isPremium,
-                    onTap: () =>
-                        context.push(ReportBreakDownView.reportBreakDownRoute),
-                  ),
-                  Gap(AppSize.s8.w),
-                  PremiumButton(
-                    title: Strings.requestVisitRescheduling.tr(),
-                    imageAsset: IconAssets.calendar,
-                    isPremium: widget.isPremium,
-                    onTap: () => showModelOfRequestVisitRescheduling(context),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    return StreamBuilder<FlowState>(
+      stream: viewmodel.outputStateStream,
+      builder: (context, snapshot) {
+        return snapshot.data?.getStateWidget(
+          context,
+          _getContentWidget(context),
+              () {},
+        ) ??
+            _getContentWidget(context);
+      },
     );
   }
 
-  Future<dynamic> showModelOfRequestVisitRescheduling(BuildContext context) {
+  Container _getContentWidget(BuildContext context) {
+    return Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(AppSize.s22.r),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withValues(alpha: 0.2),
+          spreadRadius: 0,
+          blurRadius: 15,
+          offset: Offset(0, 0),
+        ),
+      ],
+    ),
+    child: Padding(
+      padding: EdgeInsets.all(AppSize.s8.r),
+      child: Column(
+        children: [
+          SosButton(widget.isPremium, widget.actionOnTap),
+          Gap(AppSize.s16.h),
+          SizedBox(
+            height: AppSize.s120.h,
+            child: Row(
+              children: [
+                PremiumButton(
+                  title: Strings.reportBreakDown.tr(),
+                  imageAsset: ImageAssets.maintenance,
+                  isPremium: widget.isPremium,
+                  onTap: () =>
+                      context.push(ReportBreakDownView.reportBreakDownRoute),
+                ),
+                Gap(AppSize.s8.w),
+                PremiumButton(
+                  title: Strings.requestVisitRescheduling.tr(),
+                  imageAsset: IconAssets.calendar,
+                  isPremium: widget.isPremium,
+                  onTap: () => showModelOfRequestVisitRescheduling(context, (
+                    selectedDay,
+                    newFocusedDay,
+                  ) {
+                    setState(() {
+                      focusedDay = newFocusedDay;
+                      _selectedDay =
+                          "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
+                    });
+                    viewmodel.setScheduleDate(_selectedDay);
+                  }),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+  }
+
+  Future<dynamic> showModelOfRequestVisitRescheduling(
+    BuildContext context,
+    dynamic Function(DateTime, DateTime)? onDaySelected,
+  ) {
     return showModalBottomSheet(
       backgroundColor: Colors.transparent,
       useRootNavigator: true,
@@ -123,14 +157,11 @@ class _PremiumContainerState extends State<PremiumContainer> {
               TableCalendarWidget(
                 disabledDays: disabledDays,
                 focusedDay: DateTime.now(),
-                onDaySelected: (selectedDay, focusedDay) {
-                  setState(() {
-                    // Update any state if necessary
-                  });
-                },
+                onDaySelected: onDaySelected,
               ),
               Gap(AppSize.s16.h),
               ActionOrCancelButton(Strings.request.tr(), () {
+                viewmodel.requestVisitRescheduling();
                 context.pop();
                 CustomBottomSheet.show(
                   context: context,

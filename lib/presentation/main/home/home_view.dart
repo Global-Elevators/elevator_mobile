@@ -52,6 +52,12 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _homeViewModel.start();
+  }
 }
 
 class _HomePageBody extends StatelessWidget {
@@ -70,7 +76,7 @@ class _HomePageBody extends StatelessWidget {
           const RegistrationBox(),
           Gap(AppSize.s24.h),
         ],
-        PremiumContainer(FlavorConfig.isAccountPaid, onAlertAction),
+        PremiumContainer(FlavorConfig.isAccountPaid, onAlertAction,),
         Gap(AppSize.s24.h),
         _buildSectionTitle(context),
         Gap(AppSize.s12.h),

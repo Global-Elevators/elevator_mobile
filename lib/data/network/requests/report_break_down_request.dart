@@ -3,12 +3,16 @@ part 'report_break_down_request.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class ReportBreakDownRequest {
+  // has_injury
+  @JsonKey(name: 'has_injury')
+  final bool hasInjury;
   @JsonKey(name: 'notes')
   final String notes;
   @JsonKey(name: 'photos_or_videos')
   final List<String> photosOrVideos;
 
   ReportBreakDownRequest({
+    required this.hasInjury,
     required this.notes,
     required this.photosOrVideos,
   });

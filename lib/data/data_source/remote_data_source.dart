@@ -48,7 +48,12 @@ abstract class RemoteDataSource {
 
   Future<void> changePassword(ChangePasswordRequest request);
 
-  // Future<void> reportBreakDown(ReportBreakDownRequest request);
+  Future<void> reportBreakDown(ReportBreakDownRequest request);
+
+  Future<void> rescheduleAppointment(String scheduleDate);
+
+  // Save FCM token on server
+  Future<void> saveFcmToken(String token);
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -154,8 +159,18 @@ class RemoteDataSourceImp extends RemoteDataSource {
     );
   }
 
-  // @override
-  // Future<void> reportBreakDown(ReportBreakDownRequest request) async {
-  //   return await _appServicesClient.reportBreakDown(request);
-  // }
+  @override
+  Future<void> reportBreakDown(ReportBreakDownRequest request) async {
+    return await _appServicesClient.reportBreakDown(request);
+  }
+
+  @override
+  Future<void> rescheduleAppointment(String scheduleDate) async {
+    return await _appServicesClient.rescheduleAppointment(scheduleDate);
+  }
+
+  @override
+  Future<void> saveFcmToken(String token) async {
+    return await _appServicesClient.saveFcmToken(token);
+  }
 }

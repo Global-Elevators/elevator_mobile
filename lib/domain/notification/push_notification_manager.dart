@@ -1,6 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'local_notification_manager.dart';
+import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/domain/usecase/save_fcm_token_usecase.dart';
 
 /// 🔔 PushNotificationManager
 ///
@@ -35,6 +37,19 @@ class PushNotificationManager {
 
     final token = await _messaging?.getToken();
     debugPrint('🔑 FCM Token: $token');
+
+    // If we have a token, save it to the server using the usecase from DI
+    if (token != null && token.isNotEmpty) {
+      try {
+        final result = await instance<SaveFcmTokenUsecase>().execute(token);
+        result.fold(
+          (failure) => debugPrint('⚠️ Failed to save FCM token: ${failure.message}'),
+          (_) => debugPrint('✅ FCM token saved on server'),
+        );
+      } catch (e) {
+        debugPrint('⚠️ Exception when saving FCM token: $e');
+      }
+    }
 
     _initialized = true;
   }
@@ -91,4 +106,3 @@ class PushNotificationManager {
     debugPrint('📦 Background message received: ${message.data}');
   }
 }
-

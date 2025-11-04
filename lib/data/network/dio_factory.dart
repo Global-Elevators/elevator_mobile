@@ -128,6 +128,7 @@ class DioFactory {
     final context = navigatorKey.currentContext;
     if (context != null) {
       context.go(LoginView.loginRoute);
+      Navigator.pop(context);
       Future.delayed(const Duration(seconds: 1), () {
         _showDialogWidget(
           context,

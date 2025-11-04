@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:elevator/data/network/requests/report_break_down_request.dart';
 import 'package:elevator/domain/usecase/report_break_down_usecase.dart';
 import 'package:elevator/domain/usecase/upload_media_usecase.dart';
 import 'package:elevator/presentation/base/baseviewmodel.dart';
@@ -13,13 +15,15 @@ class ReportBreakDownViewmodel extends BaseViewModel {
   bool showLoading = false;
   List<MultipartFile>? _imageFiles = [];
   final List<String> _photosOrVideos = [];
+  final StreamController<bool> isReportBreakDownSuccessfullyController =
+  StreamController<bool>.broadcast();
 
-  // final ReportBreakDownUsecase _reportBreakDownUsecase;
+  final ReportBreakDownUsecase _reportBreakDownUsecase;
 
   final UploadedMediaUseCase _uploadMediaUsecase;
 
   ReportBreakDownViewmodel(
-    // this._reportBreakDownUsecase,
+    this._reportBreakDownUsecase,
     this._uploadMediaUsecase,
   );
 
@@ -59,13 +63,13 @@ class ReportBreakDownViewmodel extends BaseViewModel {
       final result = await _uploadMediaUsecase.execute(_imageFiles!);
 
       result.fold(
-            (failure) {
+        (failure) {
           showLoading = false;
           inputState.add(
             ErrorState(StateRendererType.popUpErrorState, failure.message),
           );
         },
-            (data) {
+        (data) {
           showLoading = false;
           inputState.add(SuccessState("Image uploaded successfully"));
 
@@ -89,5 +93,38 @@ class ReportBreakDownViewmodel extends BaseViewModel {
     }
   }
 
-  Future<void> reportBreakDown() async {}
+  Future<void> reportBreakDown() async {
+    try {
+      inputState.add(
+        LoadingState(stateRendererType: StateRendererType.popUpLoadingState),
+      );
+
+      final result = await _reportBreakDownUsecase.execute(
+        ReportBreakDownRequest(
+          notes: _notes,
+          photosOrVideos: _photosOrVideos,
+          hasInjury: true,
+        ),
+      );
+
+      result.fold(
+        (failure) {
+          inputState.add(
+            ErrorState(StateRendererType.popUpErrorState, failure.message),
+          );
+        },
+        (data) {
+          isReportBreakDownSuccessfullyController.add(true);
+        },
+      );
+    } catch (e, stack) {
+      inputState.add(
+        ErrorState(
+          StateRendererType.popUpErrorState,
+          "Unexpected error occurred. Please try again.",
+        ),
+      );
+      debugPrint("🔥 Exception in reportBreakDown: $e\n$stack");
+    }
+  }
 }

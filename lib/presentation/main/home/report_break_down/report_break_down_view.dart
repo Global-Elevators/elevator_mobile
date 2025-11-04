@@ -38,6 +38,19 @@ class _ReportBreakDownViewState extends State<ReportBreakDownView> {
   void initState() {
     super.initState();
     viewmodel.start();
+    viewmodel.isReportBreakDownSuccessfullyController.stream.listen((
+      isReportBreakDownSuccessfully,
+    ) {
+      if (isReportBreakDownSuccessfully) {
+        Navigator.pop(context);
+        CustomBottomSheet.show(
+          context: context,
+          imagePath: ImageAssets.successfully,
+          message: Strings.yourRequestHadBeenRecorded.tr(),
+          buttonText: Strings.done.tr(),
+        );
+      }
+    });
   }
 
   @override
@@ -98,12 +111,9 @@ class _ReportBreakDownViewState extends State<ReportBreakDownView> {
           ButtonWidget(
             radius: AppSize.s14.r,
             text: Strings.report.tr(),
-            onTap: () => CustomBottomSheet.show(
-              context: context,
-              imagePath: ImageAssets.successfully,
-              message: Strings.yourRequestHadBeenRecorded.tr(),
-              buttonText: Strings.done.tr(),
-            ),
+            onTap: () {
+              viewmodel.reportBreakDown();
+            },
           ),
         ],
       ),
