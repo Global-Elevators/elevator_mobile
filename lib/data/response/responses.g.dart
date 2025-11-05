@@ -259,3 +259,43 @@ Map<String, dynamic> _$GetUserResponseToJson(GetUserResponse instance) =>
       'message': instance.message,
       'data': instance.userDataResponse,
     };
+
+NotificationsResponse _$GetNotificationsResponseFromJson(
+  Map<String, dynamic> json,
+) =>
+    NotificationsResponse(
+        (json['data'] as List<dynamic>?)
+            ?.map(
+              (e) =>
+                  NotificationDataResponse.fromJson(e as Map<String, dynamic>),
+            )
+            .toList(),
+      )
+      ..success = json['success'] as bool?
+      ..message = json['message'] as String?;
+
+Map<String, dynamic> _$GetNotificationsResponseToJson(
+  NotificationsResponse instance,
+) => <String, dynamic>{
+  'success': instance.success,
+  'message': instance.message,
+  'data': instance.notificationDataResponse,
+};
+
+NotificationDataResponse _$NotificationDataResponseFromJson(
+  Map<String, dynamic> json,
+) => NotificationDataResponse(
+  json['id'] as String?,
+  json['type'] as String?,
+  json['title'] as String?,
+  json['body'] as String?,
+);
+
+Map<String, dynamic> _$NotificationDataResponseToJson(
+  NotificationDataResponse instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'type': instance.type,
+  'title': instance.title,
+  'body': instance.body,
+};

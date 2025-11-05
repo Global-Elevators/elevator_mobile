@@ -10,6 +10,7 @@ import 'package:elevator/domain/usecase/change_password_usecase.dart';
 import 'package:elevator/domain/usecase/forget_password_usecase.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
 import 'package:elevator/domain/usecase/logout_usecase.dart';
+import 'package:elevator/domain/usecase/notification_usecase.dart';
 import 'package:elevator/domain/usecase/register_usecase.dart';
 import 'package:elevator/domain/usecase/report_break_down_usecase.dart';
 import 'package:elevator/domain/usecase/request_site_survey_usecase.dart';
@@ -27,6 +28,7 @@ import 'package:elevator/domain/usecase/save_fcm_token_usecase.dart';
 import 'package:elevator/presentation/forget_password/forget_password_viewmodel.dart';
 import 'package:elevator/presentation/login/login_viewmodel.dart';
 import 'package:elevator/presentation/main/home/home_viewmodel.dart';
+import 'package:elevator/presentation/main/home/notification/notification_viewmodel.dart';
 import 'package:elevator/presentation/main/home/report_break_down/report_break_down_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_for_technical/request_for_technical_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_viewmodel.dart';
@@ -282,20 +284,14 @@ initReportBreakDownModule() {
   }
 }
 
-// make report break down module with viewModel and upload no usecase
+initNotificationModule() {
+  if (!GetIt.I.isRegistered<NotificationUsecase>()) {
+    instance.registerFactory<NotificationUsecase>(
+          () => NotificationUsecase(instance<Repository>()),
+    );
 
-// initReportBreakDownModule() {
-//   if (!GetIt.I.isRegistered<ReportBreakDownViewmodel>()) {
-//     instance.registerFactory<ReportBreakDownViewmodel>(
-//       () => ReportBreakDownViewmodel(
-//         instance<UploadedMediaUseCase>(),
-//       ),
-//     );
-//
-//     if (!GetIt.I.isRegistered<UploadedMediaUseCase>()) {
-//       instance.registerFactory<UploadedMediaUseCase>(
-//             () => UploadedMediaUseCase(instance<Repository>()),
-//       );
-//     }
-//   }
-// }
+    instance.registerFactory<NotificationViewModel>(
+          () => NotificationViewModel(instance<NotificationUsecase>()),
+    );
+  }
+}

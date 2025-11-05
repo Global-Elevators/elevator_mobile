@@ -54,6 +54,8 @@ abstract class RemoteDataSource {
 
   // Save FCM token on server
   Future<void> saveFcmToken(String token);
+
+  Future<NotificationsResponse> getNotifications();
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -172,5 +174,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
   @override
   Future<void> saveFcmToken(String token) async {
     return await _appServicesClient.saveFcmToken(token);
+  }
+
+  @override
+  Future<NotificationsResponse> getNotifications() async {
+    return await _appServicesClient.getNotifications();
   }
 }

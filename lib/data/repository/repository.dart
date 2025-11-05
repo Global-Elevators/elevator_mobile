@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:elevator/data/data_source/remote_data_source.dart';
 import 'package:elevator/data/mappers/authentication_mapper.dart';
+import 'package:elevator/data/mappers/notification_mapper.dart';
 import 'package:elevator/data/mappers/register_mapper.dart';
 import 'package:elevator/data/mappers/request_site_survey_mapper.dart';
 import 'package:elevator/data/mappers/upload_media_mapper.dart';
@@ -23,6 +24,7 @@ import 'package:elevator/data/network/requests/update_user_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
 import 'package:elevator/domain/models/login_model.dart';
+import 'package:elevator/domain/models/notifications_model.dart';
 import 'package:elevator/domain/models/upload_media_model.dart';
 import 'package:elevator/domain/models/user_data_model.dart';
 import 'package:elevator/domain/models/verify_forgot_password_model.dart';
@@ -474,7 +476,9 @@ class RepositoryImpl extends Repository {
 
   // ---------------- RESCHEDULE APPOINTMENT ----------------
   @override
-  Future<Either<Failure, void>> rescheduleAppointment(String scheduleDate) async {
+  Future<Either<Failure, void>> rescheduleAppointment(
+    String scheduleDate,
+  ) async {
     if (await hasNetworkConnection()) {
       try {
         await _remoteDataSource.rescheduleAppointment(scheduleDate);
@@ -500,5 +504,32 @@ class RepositoryImpl extends Repository {
     } else {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
+  }
+
+  // ---------------- GET NOTIFICATIONS ----------------
+  @override
+  Future<Either<Failure, NotificationsModel>> getNotifications() async {
+    if (await hasNetworkConnection()) {
+      try {
+        final response = await _remoteDataSource.getNotifications();
+        return _mapGetNotificationsResponseToResult(response);
+      } catch (error) {
+        return Left(ExceptionHandler.handle(error).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  Either<Failure, NotificationsModel> _mapGetNotificationsResponseToResult(
+    NotificationsResponse response,
+  ) {
+    return _isSuccessfulResponse(response)
+        ? Right(response.toDomain())
+        : Left(_mapFailureFromGetNotificationsResponse(response.message ?? ''));
+  }
+
+  Failure _mapFailureFromGetNotificationsResponse(String message) {
+    return Failure(ApiInternalStatus.failure, message);
   }
 }

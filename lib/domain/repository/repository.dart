@@ -10,6 +10,7 @@ import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart' hide UserInfo;
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/domain/models/login_model.dart';
+import 'package:elevator/domain/models/notifications_model.dart';
 import 'package:elevator/domain/models/upload_media_model.dart';
 import 'package:elevator/domain/models/verify_forgot_password_model.dart';
 import 'package:elevator/domain/models/verify_model.dart';
@@ -61,6 +62,8 @@ abstract class Repository {
 
   Future<Either<Failure, void>> rescheduleAppointment(String scheduleDate);
 
-  // Save FCM token to server
   Future<Either<Failure, void>> saveFcmToken(String token);
+
+  Future<Either<Failure, NotificationsModel>> getNotifications();
+
 }

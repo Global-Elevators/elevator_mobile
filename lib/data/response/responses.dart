@@ -143,12 +143,12 @@ class RequestSiteSurveyErrorResponse {
       }
     });
 
-    return RequestSiteSurveyErrorResponse(mergedErrors.isEmpty ? null : mergedErrors);
+    return RequestSiteSurveyErrorResponse(
+      mergedErrors.isEmpty ? null : mergedErrors,
+    );
   }
 
-  Map<String, dynamic> toJson() => {
-    "errors": errors,
-  };
+  Map<String, dynamic> toJson() => {"errors": errors};
 }
 
 @JsonSerializable()
@@ -239,14 +239,14 @@ class UserDataResponse {
   UserProfileDataResponse? profileData;
 
   UserDataResponse(
-      this.id,
-      this.name,
-      this.email,
-      this.phone,
-      this.address,
-      this.birthdate,
-      this.profileData,
-      );
+    this.id,
+    this.name,
+    this.email,
+    this.phone,
+    this.address,
+    this.birthdate,
+    this.profileData,
+  );
 
   factory UserDataResponse.fromJson(Map<String, dynamic> json) =>
       _$UserDataResponseFromJson(json);
@@ -265,4 +265,36 @@ class GetUserResponse extends BaseResponse {
       _$GetUserResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$GetUserResponseToJson(this);
+}
+
+@JsonSerializable()
+class NotificationsResponse extends BaseResponse {
+  @JsonKey(name: "data")
+  List<NotificationDataResponse>? notificationDataResponse;
+
+  NotificationsResponse(this.notificationDataResponse);
+
+  factory NotificationsResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetNotificationsResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetNotificationsResponseToJson(this);
+}
+
+@JsonSerializable()
+class NotificationDataResponse {
+  @JsonKey(name: "id")
+  String? id;
+  @JsonKey(name: "type")
+  String? type;
+  @JsonKey(name: "title")
+  String? title;
+  @JsonKey(name: "body")
+  String? body;
+
+  NotificationDataResponse(this.id, this.type, this.title, this.body);
+
+  factory NotificationDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$NotificationDataResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NotificationDataResponseToJson(this);
 }

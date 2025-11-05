@@ -94,4 +94,7 @@ abstract class AppServicesClient {
 
   @POST("/save-fcm-token")
   Future<void> saveFcmToken(@Field("token") String token);
+
+  @GET("/user/notifications")
+  Future<NotificationsResponse> getNotifications();
 }
