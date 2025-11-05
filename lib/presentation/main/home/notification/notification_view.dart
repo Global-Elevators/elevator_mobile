@@ -66,11 +66,14 @@ class _NotificationViewState extends State<NotificationView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            Strings.markAllAsRead.tr(),
-            style: getMediumTextStyle(
-              color: ColorManager.orangeColor,
-              fontSize: FontSizeManager.s20,
+          InkWell(
+            onTap: () => _viewmodel.readAllNotifications(),
+            child: Text(
+              Strings.markAllAsRead.tr(),
+              style: getMediumTextStyle(
+                color: ColorManager.orangeColor,
+                fontSize: FontSizeManager.s20,
+              ),
             ),
           ),
           Gap(AppSize.s28.h),
@@ -83,6 +86,7 @@ class _NotificationViewState extends State<NotificationView> {
                 return _notificationItem(
                   title: notification.title,
                   body: notification.body,
+                  id: notification.id,
                 );
               },
             ),
@@ -95,56 +99,60 @@ class _NotificationViewState extends State<NotificationView> {
   Widget _notificationItem({
     required String title,
     required String body,
+    required String id,
   }) {
-    return Container(
-      padding: EdgeInsetsDirectional.symmetric(
-        vertical: AppSize.s12.h,
-        horizontal: AppSize.s14.w,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s22.r),
-        color: const Color(0xffF8F8F9),
-      ),
-      child: Row(
-        children: [
-          Container(
-            height: AppSize.s50.h,
-            width: AppSize.s50.w,
-            decoration: BoxDecoration(
-              color: ColorManager.whiteColor,
-              borderRadius: BorderRadius.circular(AppSize.s8.r),
+    return Dismissible (
+      key: UniqueKey(),
+      onDismissed: (direction) => _viewmodel.deleteNotification(id),
+      child: Container(
+        padding: EdgeInsetsDirectional.symmetric(
+          vertical: AppSize.s12.h,
+          horizontal: AppSize.s14.w,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppSize.s22.r),
+          color: const Color(0xffF8F8F9),
+        ),
+        child: Row(
+          children: [
+            Container(
+              height: AppSize.s50.h,
+              width: AppSize.s50.w,
+              decoration: BoxDecoration(
+                color: ColorManager.whiteColor,
+                borderRadius: BorderRadius.circular(AppSize.s8.r),
+              ),
+              child: Icon(
+                Icons.notifications_active_outlined,
+                color: ColorManager.primaryColor,
+                size: AppSize.s24.h,
+              ),
             ),
-            child: Icon(
-              Icons.notifications_active_outlined,
-              color: ColorManager.primaryColor,
-              size: AppSize.s24.h,
-            ),
-          ),
-          Gap(AppSize.s12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: getMediumTextStyle(
-                    color: ColorManager.primaryColor,
-                    fontSize: FontSizeManager.s18.sp,
+            Gap(AppSize.s12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: getMediumTextStyle(
+                      color: ColorManager.primaryColor,
+                      fontSize: FontSizeManager.s18.sp,
+                    ),
                   ),
-                ),
-                Text(
-                  body,
-                  style: getMediumTextStyle(
-                    color: ColorManager.greyColor,
-                    fontSize: FontSizeManager.s14.sp,
+                  Text(
+                    body,
+                    style: getMediumTextStyle(
+                      color: ColorManager.greyColor,
+                      fontSize: FontSizeManager.s14.sp,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-

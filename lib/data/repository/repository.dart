@@ -532,4 +532,24 @@ class RepositoryImpl extends Repository {
   Failure _mapFailureFromGetNotificationsResponse(String message) {
     return Failure(ApiInternalStatus.failure, message);
   }
+
+  @override
+  Future<Either<Failure, void>> deleteNotification(String id) async {
+    try {
+      await _remoteDataSource.deleteNotification(id);
+      return const Right(null);
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> readAllNotification() async {
+    try {
+      await _remoteDataSource.readAllNotifications();
+      return const Right(null);
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
 }

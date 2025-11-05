@@ -66,4 +66,7 @@ abstract class Repository {
 
   Future<Either<Failure, NotificationsModel>> getNotifications();
 
+  Future<Either<Failure, void>> deleteNotification(String notificationId);
+
+  Future<Either<Failure, void>> readAllNotification();
 }

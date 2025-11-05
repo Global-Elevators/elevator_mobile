@@ -56,6 +56,11 @@ abstract class RemoteDataSource {
   Future<void> saveFcmToken(String token);
 
   Future<NotificationsResponse> getNotifications();
+
+  Future<void> deleteNotification(String notificationId);
+
+  Future<void> readAllNotifications();
+
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -179,5 +184,15 @@ class RemoteDataSourceImp extends RemoteDataSource {
   @override
   Future<NotificationsResponse> getNotifications() async {
     return await _appServicesClient.getNotifications();
+  }
+
+  @override
+  Future<void> deleteNotification(String notificationId) async {
+    return await _appServicesClient.deleteNotification(notificationId);
+  }
+
+  @override
+  Future<void> readAllNotifications() async {
+    return await _appServicesClient.readAllNotifications();
   }
 }

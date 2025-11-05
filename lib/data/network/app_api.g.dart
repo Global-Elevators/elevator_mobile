@@ -28,11 +28,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<LoginResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/auth/login',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/auth/login',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -55,11 +55,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<VerifyResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/auth/verify-otp',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/auth/verify-otp',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -82,11 +82,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<LoginResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/auth/forgot-password',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/auth/forgot-password',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -102,9 +102,9 @@ class _AppServicesClient implements AppServicesClient {
 
   @override
   Future<VerifyForgotPasswordResponse> verifyForgotPassword(
-      String phone,
-      String code,
-      ) async {
+    String phone,
+    String code,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -112,11 +112,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<VerifyForgotPasswordResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/auth/verify-forgot-password',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/auth/verify-forgot-password',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -132,10 +132,10 @@ class _AppServicesClient implements AppServicesClient {
 
   @override
   Future<void> resetPassword(
-      String token,
-      String password,
-      String passwordConfirmation,
-      ) async {
+    String token,
+    String password,
+    String passwordConfirmation,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -147,11 +147,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/auth/reset-password',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/auth/reset-password',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -166,11 +166,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/auth/resend-otp',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/auth/resend-otp',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -186,11 +186,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<RegisterResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/auth/register',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/auth/register',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -206,8 +206,8 @@ class _AppServicesClient implements AppServicesClient {
 
   @override
   Future<RequestSiteSurveyResponse> requestSiteSurvey(
-      RequestSiteSurveyRequest request,
-      ) async {
+    RequestSiteSurveyRequest request,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -216,11 +216,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<RequestSiteSurveyResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/user/site-surveys',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/user/site-surveys',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -243,17 +243,17 @@ class _AppServicesClient implements AppServicesClient {
     _data.files.addAll(files.map((i) => MapEntry('files[]', i)));
     final _options = _setStreamType<UploadMediaResponse>(
       Options(
-        method: 'POST',
-        headers: _headers,
-        extra: _extra,
-        contentType: 'multipart/form-data',
-      )
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
           .compose(
-        _dio.options,
-        '/user/site-surveys/media',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/user/site-surveys/media',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -269,8 +269,8 @@ class _AppServicesClient implements AppServicesClient {
 
   @override
   Future<RequestSiteSurveyResponse> technicalCommercialOffers(
-      TechnicalCommercialOffersRequest request,
-      ) async {
+    TechnicalCommercialOffersRequest request,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -279,11 +279,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<RequestSiteSurveyResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/user/technical-commercial-offers',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/user/technical-commercial-offers',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -306,11 +306,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/user/sos-alert',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/user/sos-alert',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -325,11 +325,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<GetUserResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/auth/me',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/auth/me',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -353,11 +353,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<void>(
       Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/user/profile',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/user/profile',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -372,11 +372,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/auth/logout',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/auth/logout',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -384,10 +384,10 @@ class _AppServicesClient implements AppServicesClient {
 
   @override
   Future<void> changePassword(
-      String oldPassword,
-      String newPassword,
-      String newPasswordConfirmation,
-      ) async {
+    String oldPassword,
+    String newPassword,
+    String newPasswordConfirmation,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -399,11 +399,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/user/profile/change-password',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/user/profile/change-password',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -446,11 +446,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/user/make-breakdown-report',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/user/make-breakdown-report',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -466,11 +466,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/user/reschedule-appoinment',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/user/reschedule-appoinment',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -485,18 +485,18 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/save-fcm-token',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/save-fcm-token',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
   }
 
   @override
-  Future<NotificationsResponse> getNotifications() async{
+  Future<NotificationsResponse> getNotifications() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -504,11 +504,11 @@ class _AppServicesClient implements AppServicesClient {
     final _options = _setStreamType<NotificationsResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/user/notifications',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/user/notifications',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -520,5 +520,47 @@ class _AppServicesClient implements AppServicesClient {
       rethrow;
     }
     return _value;
+  }
+
+  @override
+  Future<void> deleteNotification(String notificationId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+
+    final _options = _setStreamType<void>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/user/notifications/$notificationId',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<void> readAllNotifications() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+
+    final _options = _setStreamType<void>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/user/notifications/read-all',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+
+    await _dio.fetch<void>(_options);
   }
 }

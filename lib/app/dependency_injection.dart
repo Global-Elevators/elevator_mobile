@@ -7,10 +7,12 @@ import 'package:elevator/data/network/network_info.dart';
 import 'package:elevator/data/repository/repository.dart';
 import 'package:elevator/domain/repository/repository.dart';
 import 'package:elevator/domain/usecase/change_password_usecase.dart';
+import 'package:elevator/domain/usecase/delete_notification_usecase.dart';
 import 'package:elevator/domain/usecase/forget_password_usecase.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
 import 'package:elevator/domain/usecase/logout_usecase.dart';
 import 'package:elevator/domain/usecase/notification_usecase.dart';
+import 'package:elevator/domain/usecase/read_all_notifications_usecase.dart';
 import 'package:elevator/domain/usecase/register_usecase.dart';
 import 'package:elevator/domain/usecase/report_break_down_usecase.dart';
 import 'package:elevator/domain/usecase/request_site_survey_usecase.dart';
@@ -75,8 +77,6 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<Repository>(
     () => RepositoryImpl(instance<RemoteDataSource>(), instance<NetworkInfo>()),
   );
-
-
 }
 
 // This function has all the dependencies that are used in the login module.
@@ -271,7 +271,7 @@ initReportBreakDownModule() {
 
     if (!GetIt.I.isRegistered<UploadedMediaUseCase>()) {
       instance.registerFactory<UploadedMediaUseCase>(
-            () => UploadedMediaUseCase(instance<Repository>()),
+        () => UploadedMediaUseCase(instance<Repository>()),
       );
     }
 
@@ -287,11 +287,27 @@ initReportBreakDownModule() {
 initNotificationModule() {
   if (!GetIt.I.isRegistered<NotificationUsecase>()) {
     instance.registerFactory<NotificationUsecase>(
-          () => NotificationUsecase(instance<Repository>()),
+      () => NotificationUsecase(instance<Repository>()),
     );
 
+    if (!GetIt.I.isRegistered<DeleteNotificationUsecase>()) {
+      instance.registerFactory<DeleteNotificationUsecase>(
+        () => DeleteNotificationUsecase(instance<Repository>()),
+      );
+    }
+
+    if (!GetIt.I.isRegistered<ReadAllNotificationsUsecase>()) {
+      instance.registerFactory<ReadAllNotificationsUsecase>(
+        () => ReadAllNotificationsUsecase(instance<Repository>()),
+      );
+    }
+
     instance.registerFactory<NotificationViewModel>(
-          () => NotificationViewModel(instance<NotificationUsecase>()),
+      () => NotificationViewModel(
+        instance<NotificationUsecase>(),
+        instance<DeleteNotificationUsecase>(),
+        instance<ReadAllNotificationsUsecase>(),
+      ),
     );
   }
 }

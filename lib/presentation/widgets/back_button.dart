@@ -1,3 +1,7 @@
+import 'package:elevator/app/app_pref.dart';
+import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/navigation_service.dart';
+import 'package:elevator/presentation/main/home/notification/notification_view.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
@@ -8,13 +12,21 @@ import 'package:go_router/go_router.dart';
 
 class BackButtonWidget extends StatelessWidget {
   final bool popOrGo;
+  NavigationService navigationService = NavigationService(
+    instance<AppPreferences>(),
+  );
 
-  const BackButtonWidget({super.key, required this.popOrGo});
+  BackButtonWidget({super.key, required this.popOrGo});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => popOrGo ? context.pop() : context.push('/notification'),
+      onTap: () => popOrGo
+          ? context.pop()
+          : navigationService.navigateWithAuthCheck(
+              context: context,
+              authenticatedRoute: NotificationView.notificationRoute,
+            ),
       child: Stack(
         alignment: Alignment.center,
         children: [

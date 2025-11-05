@@ -97,4 +97,10 @@ abstract class AppServicesClient {
 
   @GET("/user/notifications")
   Future<NotificationsResponse> getNotifications();
+
+  @DELETE("/user/notifications/{id}")
+  Future<void> deleteNotification(@Path("id") String notificationId);
+
+  @POST("/user/notifications/read-all")
+  Future<void> readAllNotifications();
 }
