@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAiHab_hqZWWWnaJYw-n9AtEs5VUhaWRLU',
-    appId: '1:679915918615:android:aaaf1d0279cedd61201352',
-    messagingSenderId: '679915918615',
-    projectId: 'elevator-f48b8',
-    storageBucket: 'elevator-f48b8.firebasestorage.app',
+    apiKey: 'AIzaSyDgMbuboRuwmu6vEg5Jv-jJCAxSCl9QqR0',
+    appId: '1:969468067297:android:3eca9cdd6fcdeafa7526a0',
+    messagingSenderId: '969468067297',
+    projectId: 'ge-app-8ce0c',
+    storageBucket: 'ge-app-8ce0c.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBOn7yGU_EmS6n9IZnLYLwde2LRDT-XR38',
-    appId: '1:679915918615:ios:35a5aa7de4826303201352',
-    messagingSenderId: '679915918615',
-    projectId: 'elevator-f48b8',
-    storageBucket: 'elevator-f48b8.firebasestorage.app',
+    apiKey: 'AIzaSyAn2-I-HS2jlt0HXA6kRQLczXAaADjfgng',
+    appId: '1:969468067297:ios:c8d4c4784aed93d97526a0',
+    messagingSenderId: '969468067297',
+    projectId: 'ge-app-8ce0c',
+    storageBucket: 'ge-app-8ce0c.firebasestorage.app',
     iosBundleId: 'com.example.elevator',
   );
+
 }
