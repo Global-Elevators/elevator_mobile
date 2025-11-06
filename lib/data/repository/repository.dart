@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:elevator/data/data_source/remote_data_source.dart';
 import 'package:elevator/data/mappers/authentication_mapper.dart';
+import 'package:elevator/data/mappers/next_appointment_mapper.dart';
 import 'package:elevator/data/mappers/notification_mapper.dart';
 import 'package:elevator/data/mappers/register_mapper.dart';
 import 'package:elevator/data/mappers/request_site_survey_mapper.dart';
@@ -26,6 +27,7 @@ import 'package:elevator/data/network/requests/update_user_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
 import 'package:elevator/domain/models/login_model.dart';
+import 'package:elevator/domain/models/next_appointment_model.dart';
 import 'package:elevator/domain/models/notifications_model.dart';
 import 'package:elevator/domain/models/upload_media_model.dart';
 import 'package:elevator/domain/models/user_data_model.dart';
@@ -50,8 +52,8 @@ class RepositoryImpl extends Repository {
   // ---------------- LOGIN ----------------
   @override
   Future<Either<Failure, Authentication>> login(
-      LoginRequest loginRequest,
-      ) async {
+    LoginRequest loginRequest,
+  ) async {
     try {
       final response = await _remoteDataSource.login(loginRequest);
       return _isSuccessfulResponse(response)
@@ -65,8 +67,8 @@ class RepositoryImpl extends Repository {
   // ---------------- VERIFY ----------------
   @override
   Future<Either<Failure, VerifyModel>> verify(
-      VerifyRequest verifyRequests,
-      ) async {
+    VerifyRequest verifyRequests,
+  ) async {
     try {
       final response = await _remoteDataSource.verify(verifyRequests);
       return _isSuccessfulResponse(response)
@@ -93,11 +95,12 @@ class RepositoryImpl extends Repository {
   // ---------------- VERIFY FORGOT PASSWORD ----------------
   @override
   Future<Either<Failure, VerifyForgotPasswordModel>> verifyForgotPassword(
-      VerifyRequest verifyForgotPasswordRequest,
-      ) async {
+    VerifyRequest verifyForgotPasswordRequest,
+  ) async {
     try {
-      final response =
-      await _remoteDataSource.verifyForgotPassword(verifyForgotPasswordRequest);
+      final response = await _remoteDataSource.verifyForgotPassword(
+        verifyForgotPasswordRequest,
+      );
       return _isSuccessfulResponse(response)
           ? Right(response.toDomain())
           : Left(_mapFailureFromResponse(response));
@@ -109,8 +112,8 @@ class RepositoryImpl extends Repository {
   // ---------------- RESET PASSWORD ----------------
   @override
   Future<Either<Failure, void>> resetPassword(
-      ResetPasswordRequest resetPasswordRequest,
-      ) async {
+    ResetPasswordRequest resetPasswordRequest,
+  ) async {
     try {
       await _remoteDataSource.resetPassword(resetPasswordRequest);
       return const Right(null);
@@ -146,8 +149,8 @@ class RepositoryImpl extends Repository {
   // ---------------- REQUEST SITE SURVEY ----------------
   @override
   Future<Either<Failure, void>> requestSiteSurvey(
-      RequestSiteSurveyRequest request,
-      ) async {
+    RequestSiteSurveyRequest request,
+  ) async {
     try {
       final response = await _remoteDataSource.requestSiteSurvey(request);
       return response.success == true
@@ -161,8 +164,8 @@ class RepositoryImpl extends Repository {
   // ---------------- UPLOAD MEDIA ----------------
   @override
   Future<Either<Failure, UploadMediaModel>> uploadMedia(
-      List<MultipartFile> files,
-      ) async {
+    List<MultipartFile> files,
+  ) async {
     try {
       final response = await _remoteDataSource.uploadMedia(files);
       return _isSuccessfulResponse(response)
@@ -176,10 +179,12 @@ class RepositoryImpl extends Repository {
   // ---------------- TECHNICAL COMMERCIAL OFFERS ----------------
   @override
   Future<Either<Failure, void>> technicalCommercialOffers(
-      TechnicalCommercialOffersRequest request,
-      ) async {
+    TechnicalCommercialOffersRequest request,
+  ) async {
     try {
-      final response = await _remoteDataSource.technicalCommercialOffers(request);
+      final response = await _remoteDataSource.technicalCommercialOffers(
+        request,
+      );
       return response.success == true
           ? const Right(null)
           : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
@@ -226,8 +231,8 @@ class RepositoryImpl extends Repository {
   // ---------------- CHANGE PASSWORD ----------------
   @override
   Future<Either<Failure, void>> changePassword(
-      ChangePasswordRequest request,
-      ) async {
+    ChangePasswordRequest request,
+  ) async {
     try {
       await _remoteDataSource.changePassword(request);
       return const Right(null);
@@ -250,8 +255,8 @@ class RepositoryImpl extends Repository {
   // ---------------- REPORT BREAKDOWN ----------------
   @override
   Future<Either<Failure, void>> reportBreakDown(
-      ReportBreakDownRequest request,
-      ) async {
+    ReportBreakDownRequest request,
+  ) async {
     try {
       await _remoteDataSource.reportBreakDown(request);
       return const Right(null);
@@ -263,8 +268,8 @@ class RepositoryImpl extends Repository {
   // ---------------- RESCHEDULE APPOINTMENT ----------------
   @override
   Future<Either<Failure, void>> rescheduleAppointment(
-      String scheduleDate,
-      ) async {
+    String scheduleDate,
+  ) async {
     try {
       await _remoteDataSource.rescheduleAppointment(scheduleDate);
       return const Right(null);
@@ -312,6 +317,18 @@ class RepositoryImpl extends Repository {
     try {
       await _remoteDataSource.readAllNotifications();
       return const Right(null);
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, NextAppointmentModel>> nextAppointment() async {
+    try {
+      final response = await _remoteDataSource.nextAppointment();
+      return _isSuccessfulResponse(response)
+          ? Right(response.toDomain())
+          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
     } catch (error) {
       return Left(ExceptionHandler.handle(error).failure);
     }

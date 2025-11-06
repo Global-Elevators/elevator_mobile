@@ -11,6 +11,7 @@ import 'package:elevator/domain/usecase/delete_notification_usecase.dart';
 import 'package:elevator/domain/usecase/forget_password_usecase.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
 import 'package:elevator/domain/usecase/logout_usecase.dart';
+import 'package:elevator/domain/usecase/next_appointment_usecase.dart';
 import 'package:elevator/domain/usecase/notification_usecase.dart';
 import 'package:elevator/domain/usecase/read_all_notifications_usecase.dart';
 import 'package:elevator/domain/usecase/register_usecase.dart';
@@ -214,6 +215,7 @@ initMainModule() {
       () => HomeViewmodel(
         instance<SosUsecase>(),
         instance<RescheduleAppointmentUsecase>(),
+        instance<NextAppointmentUsecase>(),
       ),
     );
   }
@@ -243,6 +245,12 @@ initMainModule() {
   if (!GetIt.I.isRegistered<SaveFcmTokenUsecase>()) {
     instance.registerFactory<SaveFcmTokenUsecase>(
       () => SaveFcmTokenUsecase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<NextAppointmentUsecase>()) {
+    instance.registerFactory<NextAppointmentUsecase>(
+      () => NextAppointmentUsecase(instance<Repository>()),
     );
   }
 }

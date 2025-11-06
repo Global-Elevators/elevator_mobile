@@ -275,9 +275,9 @@ class NotificationsResponse extends BaseResponse {
   NotificationsResponse(this.notificationDataResponse);
 
   factory NotificationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetNotificationsResponseFromJson(json);
+      _$NotificationsResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GetNotificationsResponseToJson(this);
+  Map<String, dynamic> toJson() => _$NotificationsResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -297,4 +297,47 @@ class NotificationDataResponse {
       _$NotificationDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$NotificationDataResponseToJson(this);
+}
+
+@JsonSerializable()
+class NextAppointmentResponse extends BaseResponse {
+  @JsonKey(name: "data")
+  NextAppointmentDataResponse? nextAppointmentDataResponse;
+
+  NextAppointmentResponse(this.nextAppointmentDataResponse);
+
+  factory NextAppointmentResponse.fromJson(Map<String, dynamic> json) =>
+      _$NextAppointmentResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NextAppointmentResponseToJson(this);
+}
+
+@JsonSerializable()
+class NextAppointmentDataResponse {
+  @JsonKey(name: "contract_id")
+  int? id;
+  @JsonKey(name: "site_survey_id")
+  int? siteSurveyId;
+  @JsonKey(name: "project_address")
+  String? projectAddress;
+  @JsonKey(name: "schedule_date")
+  String? scheduleDate;
+  @JsonKey(name: "days_left")
+  String? daysLeft;
+  @JsonKey(name: "contract_status")
+  String? contractStatus;
+
+  NextAppointmentDataResponse(
+    this.id,
+    this.siteSurveyId,
+    this.projectAddress,
+    this.scheduleDate,
+    this.daysLeft,
+    this.contractStatus,
+  );
+
+  factory NextAppointmentDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$NextAppointmentDataResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NextAppointmentDataResponseToJson(this);
 }

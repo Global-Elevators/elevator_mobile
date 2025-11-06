@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/domain/models/next_appointment_model.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -10,7 +11,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
 class RegistrationBox extends StatelessWidget {
-  const RegistrationBox({super.key});
+  final NextAppointmentDataModel data;
+
+  const RegistrationBox(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +51,7 @@ class RegistrationBox extends StatelessWidget {
                 ),
                 Gap(AppSize.s22.h),
                 Text(
-                  Strings.appointmentDate.tr(),
+                  data.scheduleDate,
                   style: getMediumTextStyle(
                     color: ColorManager.whiteColor,
                     fontSize: FontSizeManager.s18.sp,
@@ -68,7 +71,7 @@ class RegistrationBox extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(bottom: AppSize.s16.h),
             child: Text(
-              Strings.daysLeft.tr(),
+              data.daysLeft,
               style: getMediumTextStyle(
                 color: ColorManager.semiLightBlueColor,
                 fontSize: FontSizeManager.s16.sp,

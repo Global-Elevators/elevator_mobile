@@ -260,7 +260,7 @@ Map<String, dynamic> _$GetUserResponseToJson(GetUserResponse instance) =>
       'data': instance.userDataResponse,
     };
 
-NotificationsResponse _$GetNotificationsResponseFromJson(
+NotificationsResponse _$NotificationsResponseFromJson(
   Map<String, dynamic> json,
 ) =>
     NotificationsResponse(
@@ -274,7 +274,7 @@ NotificationsResponse _$GetNotificationsResponseFromJson(
       ..success = json['success'] as bool?
       ..message = json['message'] as String?;
 
-Map<String, dynamic> _$GetNotificationsResponseToJson(
+Map<String, dynamic> _$NotificationsResponseToJson(
   NotificationsResponse instance,
 ) => <String, dynamic>{
   'success': instance.success,
@@ -298,4 +298,47 @@ Map<String, dynamic> _$NotificationDataResponseToJson(
   'type': instance.type,
   'title': instance.title,
   'body': instance.body,
+};
+
+NextAppointmentResponse _$NextAppointmentResponseFromJson(
+  Map<String, dynamic> json,
+) =>
+    NextAppointmentResponse(
+        json['data'] == null
+            ? null
+            : NextAppointmentDataResponse.fromJson(
+                json['data'] as Map<String, dynamic>,
+              ),
+      )
+      ..success = json['success'] as bool?
+      ..message = json['message'] as String?;
+
+Map<String, dynamic> _$NextAppointmentResponseToJson(
+  NextAppointmentResponse instance,
+) => <String, dynamic>{
+  'success': instance.success,
+  'message': instance.message,
+  'data': instance.nextAppointmentDataResponse,
+};
+
+NextAppointmentDataResponse _$NextAppointmentDataResponseFromJson(
+  Map<String, dynamic> json,
+) => NextAppointmentDataResponse(
+  json['contract_id'] as int?,
+  json['site_survey_id'] as int?,
+  json['project_address'] as String?,
+  json['schedule_date'] as String?,
+  json['days_left'] as String?,
+  json['contract_status'] as String?,
+);
+
+Map<String, dynamic> _$NextAppointmentDataResponseToJson(
+  NextAppointmentDataResponse instance,
+) => <String, dynamic>{
+  'contract_id': instance.id,
+  'site_survey_id': instance.siteSurveyId,
+  'project_address': instance.projectAddress,
+  'schedule_date': instance.scheduleDate,
+  'days_left': instance.daysLeft,
+  'contract_status': instance.contractStatus,
 };

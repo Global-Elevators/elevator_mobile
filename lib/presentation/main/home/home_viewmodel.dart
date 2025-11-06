@@ -1,6 +1,8 @@
 import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/domain/models/next_appointment_model.dart';
 import 'package:elevator/domain/notification/app_notification_manager.dart';
+import 'package:elevator/domain/usecase/next_appointment_usecase.dart';
 import 'package:elevator/domain/usecase/sos_usecase.dart';
 import 'package:elevator/domain/usecase/reschedule_appointment_usecase.dart';
 import 'package:elevator/presentation/base/baseviewmodel.dart';
@@ -13,9 +15,15 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
 
   final SosUsecase _sosUsecase;
   final RescheduleAppointmentUsecase _rescheduleAppointmentUsecase;
+  final NextAppointmentUsecase _nextAppointmentUsecase;
+
   final _appPreferences = instance<AppPreferences>();
 
-  HomeViewmodel(this._sosUsecase, this._rescheduleAppointmentUsecase);
+  HomeViewmodel(
+    this._sosUsecase,
+    this._rescheduleAppointmentUsecase,
+    this._nextAppointmentUsecase,
+  );
 
   @override
   void start() async {
@@ -24,6 +32,7 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
     );
     if (isUserLoggedInSuccessfully) {
       await AppNotificationManager().initialize();
+      await getNextAppointment();
     }
   }
 
@@ -105,9 +114,39 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
   void setScheduleDate(String scheduleDate) {
     _scheduleDate = scheduleDate;
   }
+
+  NextAppointmentModel? nextAppointmentModel;
+
+  @override
+  Future<void> getNextAppointment() async {
+    try {
+      final result = await _nextAppointmentUsecase.execute(null);
+      result.fold(
+        (failure) {
+          inputState.add(
+            ErrorState(StateRendererType.popUpErrorState, failure.message),
+          );
+        },
+        (data) {
+          nextAppointmentModel = data;
+          inputState.add(ContentState());
+        },
+      );
+    } catch (e, stack) {
+      inputState.add(
+        ErrorState(
+          StateRendererType.popUpErrorState,
+          "Unexpected error occurred. Please try again.",
+        ),
+      );
+      debugPrint("🔥 Exception in login(): $e\n$stack");
+    }
+  }
 }
 
 abstract class HomeViewmodelInput {
+  void getNextAppointment();
+
   void setScheduleDate(String scheduleDate);
 
   void requestVisitRescheduling();

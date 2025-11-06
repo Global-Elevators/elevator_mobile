@@ -103,4 +103,7 @@ abstract class AppServicesClient {
 
   @POST("/user/notifications/read-all")
   Future<void> readAllNotifications();
+
+  @GET("/user/next-appointment")
+  Future<NextAppointmentResponse> getNextAppointment();
 }

@@ -52,7 +52,6 @@ abstract class RemoteDataSource {
 
   Future<void> rescheduleAppointment(String scheduleDate);
 
-  // Save FCM token on server
   Future<void> saveFcmToken(String token);
 
   Future<NotificationsResponse> getNotifications();
@@ -61,6 +60,7 @@ abstract class RemoteDataSource {
 
   Future<void> readAllNotifications();
 
+  Future<NextAppointmentResponse> nextAppointment();
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -194,5 +194,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
   @override
   Future<void> readAllNotifications() async {
     return await _appServicesClient.readAllNotifications();
+  }
+
+  @override
+  Future<NextAppointmentResponse> nextAppointment() async {
+    return await _appServicesClient.getNextAppointment();
   }
 }
