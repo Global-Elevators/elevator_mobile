@@ -14,7 +14,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class CatalogueView extends StatefulWidget {
   static const String catalogueRoute = '/catalogue';
@@ -42,6 +41,13 @@ class _CatalogueViewState extends State<CatalogueView> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+    pdfViewerController.dispose();
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/network_aware_widget.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
@@ -60,7 +61,6 @@ class _EditInformationViewState extends State<EditInformationView> {
   }
 
   void _handleState(FlowState state) {
-
     if (state is LoadingState || state is ErrorState) return;
 
     final user = _viewmodel.userDataModel?.user;
@@ -82,7 +82,6 @@ class _EditInformationViewState extends State<EditInformationView> {
   @override
   void dispose() {
     _stateSubscription?.cancel();
-
     _firstNameController.dispose();
     _fatherNameController.dispose();
     _grandFatherNameController.dispose();
@@ -97,23 +96,25 @@ class _EditInformationViewState extends State<EditInformationView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CustomAppBar(
-        title: Strings.editInformation.tr(),
-        showBackButton: true,
-        popOrGo: true,
-      ),
-      body: StreamBuilder<FlowState>(
-        stream: _viewmodel.outputStateStream,
-        initialData: LoadingState(
-          stateRendererType: StateRendererType.fullScreenLoadingState,
+    return NetworkAwareWidget(
+      onlineChild: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: CustomAppBar(
+          title: Strings.editInformation.tr(),
+          showBackButton: true,
+          popOrGo: true,
         ),
-        builder: (context, snapshot) {
-          final state = snapshot.data;
-          return state?.getStateWidget(context, _buildContent(), () {}) ??
-              _buildContent();
-        },
+        body: StreamBuilder<FlowState>(
+          stream: _viewmodel.outputStateStream,
+          initialData: LoadingState(
+            stateRendererType: StateRendererType.fullScreenLoadingState,
+          ),
+          builder: (context, snapshot) {
+            final state = snapshot.data;
+            return state?.getStateWidget(context, _buildContent(), () {}) ??
+                _buildContent();
+          },
+        ),
       ),
     );
   }

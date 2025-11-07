@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/network_aware_widget.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/register/register_viewmodel.dart';
@@ -144,17 +145,19 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: StreamBuilder<FlowState>(
-        stream: _registerViewModel.outputStateStream,
-        builder: (context, snapshot) =>
-            snapshot.data?.getStateWidget(
-              context,
+    return NetworkAwareWidget(
+      onlineChild: Scaffold(
+        backgroundColor: Colors.white,
+        body: StreamBuilder<FlowState>(
+          stream: _registerViewModel.outputStateStream,
+          builder: (context, snapshot) =>
+              snapshot.data?.getStateWidget(
+                context,
+                _getContentWidget(),
+                () {},
+              ) ??
               _getContentWidget(),
-              () {},
-            ) ??
-            _getContentWidget(),
+        ),
       ),
     );
   }
@@ -209,9 +212,7 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  Widget _buildBackButton() => BackToSignInButton(
-    route: LoginView.loginRoute,
-  );
+  Widget _buildBackButton() => BackToSignInButton(route: LoginView.loginRoute);
 
   Widget _buildHeader() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,

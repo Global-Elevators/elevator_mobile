@@ -2,6 +2,7 @@ import 'package:dropdown_overlay/dropdown_overlay.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/app/functions.dart';
+import 'package:elevator/app/network_aware_widget.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_viewmodel.dart';
 import 'package:elevator/presentation/main/home/widgets/label_yes_or_no_widget.dart';
@@ -67,6 +68,7 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
     _grandFatherNameController.dispose();
     _phoneNumberController.dispose();
     _singleSelectionController.dispose();
+    viewmodel.dispose();
   }
 
   void updatingPhoneAndNamesValues() {
@@ -86,41 +88,46 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: SizedBox(
-        height: AppSize.s70.h,
-        width: AppSize.s70.w,
-        child: selectedValue == null
-            ? FloatingActionButton(
-                onPressed: () => openUrl("tel:${Strings.companyPhone}"),
-                backgroundColor: ColorManager.primaryColor,
-                shape: const CircleBorder(),
-                child: SvgPicture.asset(
-                  IconAssets.call,
-                  colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                  width: AppSize.s28.w,
-                  height: AppSize.s28.h,
-                ),
-              )
-            : null,
-      ),
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return NetworkAwareWidget(
+      onlineChild: Scaffold(
+        floatingActionButton: SizedBox(
+          height: AppSize.s70.h,
+          width: AppSize.s70.w,
+          child: selectedValue == null
+              ? FloatingActionButton(
+                  onPressed: () => openUrl("tel:${Strings.companyPhone}"),
+                  backgroundColor: ColorManager.primaryColor,
+                  shape: const CircleBorder(),
+                  child: SvgPicture.asset(
+                    IconAssets.call,
+                    colorFilter: ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
+                    ),
+                    width: AppSize.s28.w,
+                    height: AppSize.s28.h,
+                  ),
+                )
+              : null,
+        ),
         backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        title: AppBarLabel(Strings.requestSiteSurvey.tr()),
-        actions: [BackButtonWidget(popOrGo: true), Gap(AppSize.s16.w)],
-      ),
-      body: StreamBuilder<FlowState>(
-        stream: viewmodel.outputStateStream,
-        builder: (context, snapshot) {
-          return snapshot.data?.getStateWidget(
-                context,
-                _getContentWidget(),
-                () {},
-              ) ??
-              _getContentWidget();
-        },
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          title: AppBarLabel(Strings.requestSiteSurvey.tr()),
+          actions: [BackButtonWidget(popOrGo: true), Gap(AppSize.s16.w)],
+        ),
+        body: StreamBuilder<FlowState>(
+          stream: viewmodel.outputStateStream,
+          builder: (context, snapshot) {
+            return snapshot.data?.getStateWidget(
+                  context,
+                  _getContentWidget(),
+                  () {},
+                ) ??
+                _getContentWidget();
+          },
+        ),
       ),
     );
   }

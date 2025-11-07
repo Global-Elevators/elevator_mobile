@@ -123,9 +123,9 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
       final result = await _nextAppointmentUsecase.execute(null);
       result.fold(
         (failure) {
-          inputState.add(
-            ErrorState(StateRendererType.popUpErrorState, failure.message),
-          );
+          // inputState.add(
+          //   ErrorState(StateRendererType.popUpErrorState, failure.message),
+          // );
         },
         (data) {
           nextAppointmentModel = data;

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/network_aware_widget.dart';
 import 'package:elevator/presentation/account_verified/account_verified_view.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/new_password/new_password_view.dart';
@@ -33,6 +34,7 @@ class _VerifyViewState extends State<VerifyView> {
   final _viewModel = instance<VerifyViewModel>();
   final ValueNotifier<int> _secondsNotifier = ValueNotifier<int>(30);
   final _appPref = instance<AppPreferences>();
+
   @override
   void initState() {
     super.initState();
@@ -88,18 +90,20 @@ class _VerifyViewState extends State<VerifyView> {
   Widget build(BuildContext context) {
     final String firstThree = widget.codes[0].substring(0, 3);
     final String stars = 'X' * (widget.codes[0].length - 3);
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: StreamBuilder<FlowState>(
-        stream: _viewModel.outputStateStream,
-        builder: (context, snapshot) {
-          return snapshot.data?.getStateWidget(
-                context,
-                _getContentWidget(firstThree, stars),
-                () {},
-              ) ??
-              _getContentWidget(firstThree, stars);
-        },
+    return NetworkAwareWidget(
+      onlineChild: Scaffold(
+        backgroundColor: Colors.white,
+        body: StreamBuilder<FlowState>(
+          stream: _viewModel.outputStateStream,
+          builder: (context, snapshot) {
+            return snapshot.data?.getStateWidget(
+                  context,
+                  _getContentWidget(firstThree, stars),
+                  () {},
+                ) ??
+                _getContentWidget(firstThree, stars);
+          },
+        ),
       ),
     );
   }

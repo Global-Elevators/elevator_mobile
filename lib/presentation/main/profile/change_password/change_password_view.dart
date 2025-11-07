@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/network_aware_widget.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
 import 'package:elevator/presentation/main/profile/change_password/change_password_viewmodel.dart';
@@ -33,6 +34,15 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
     viewmodel.start();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    viewmodel.dispose();
+    oldPasswordController.dispose();
+    newPasswordController.dispose();
+    confirmPasswordController.dispose();
+  }
+
   void updatePasswordValues() {
     oldPasswordController.addListener(() {
       viewmodel.setOldPassword(oldPasswordController.text);
@@ -47,23 +57,25 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: Strings.changePassword.tr(),
-        showBackButton: true,
-        popOrGo: true,
-      ),
-      backgroundColor: Colors.white,
-      body: StreamBuilder<FlowState>(
-        stream: viewmodel.outputStateStream,
-        builder: (context, snapshot) {
-          return snapshot.data?.getStateWidget(
-                context,
-                _getContentWidget(),
-                () {},
-              ) ??
-              _getContentWidget();
-        },
+    return NetworkAwareWidget(
+      onlineChild: Scaffold(
+        appBar: CustomAppBar(
+          title: Strings.changePassword.tr(),
+          showBackButton: true,
+          popOrGo: true,
+        ),
+        backgroundColor: Colors.white,
+        body: StreamBuilder<FlowState>(
+          stream: viewmodel.outputStateStream,
+          builder: (context, snapshot) {
+            return snapshot.data?.getStateWidget(
+                  context,
+                  _getContentWidget(),
+                  () {},
+                ) ??
+                _getContentWidget();
+          },
+        ),
       ),
     );
   }

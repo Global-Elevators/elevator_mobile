@@ -1,6 +1,8 @@
 import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/network_aware_widget.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/main/home/request_for_technical/request_for_technical_viewmodel.dart';
@@ -11,7 +13,6 @@ import 'package:elevator/presentation/main/home/widgets/pick_image_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/select_suitable_time_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/shaft_dimensions_widget.dart';
 import 'package:elevator/presentation/main/home/widgets/stops_input_row.dart';
-import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/app_bar_label.dart';
@@ -21,13 +22,13 @@ import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:elevator/presentation/widgets/label_field.dart';
 import 'package:elevator/presentation/widgets/phone_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/scheduler.dart';
 
 class RequestForTechnicalView extends StatefulWidget {
   static const String requestForTechnicalRoute = '/requestForTechnical';
@@ -64,7 +65,6 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   bool isMapVisible = false;
   DateTime? focusedDay;
   String _selectedDay = "";
-  // bool isImageLoading = false;
 
   // 📌 Location
   final Completer<GoogleMapController> _controller = Completer();
@@ -105,14 +105,6 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
   @override
   void initState() {
     super.initState();
-    // _viewmodel.outputStateStream.listen((loadingState) {
-    //   if (loadingState is LoadingState) {
-    //     isImageLoading = true;
-    //   } else {
-    //     isImageLoading = false;
-    //   }
-    // });
-    // UI setup
     _stopsController.addListener(_updateDisplayedNumber);
     _loadCurrentLocation();
 
@@ -153,6 +145,25 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
     );
 
     isRequestCorrect();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _stopsController.removeListener(_updateDisplayedNumber);
+    _firstNameController.dispose();
+    _fatherNameController.dispose();
+    _grandFatherNameController.dispose();
+    _phoneNumberController.dispose();
+    _projectAddressController.dispose();
+    _widthController.dispose();
+    _depthController.dispose();
+    _pitDepthController.dispose();
+    _heightController.dispose();
+    _stopsController.dispose();
+    _lastFloorHeightController.dispose();
+    _requiredDoorWidthController.dispose();
+    _notesController.dispose();
   }
 
   void updatingPhoneAndNamesValues() {
@@ -233,19 +244,21 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: StreamBuilder<FlowState>(
-          stream: _viewmodel.outputStateStream,
-          builder: (context, snapshot) {
-            return snapshot.data?.getStateWidget(
-                  context,
-                  _getContentWidget(),
-                  () {},
-                ) ??
-                _getContentWidget();
-          },
+    return NetworkAwareWidget(
+      onlineChild: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: StreamBuilder<FlowState>(
+            stream: _viewmodel.outputStateStream,
+            builder: (context, snapshot) {
+              return snapshot.data?.getStateWidget(
+                    context,
+                    _getContentWidget(),
+                    () {},
+                  ) ??
+                  _getContentWidget();
+            },
+          ),
         ),
       ),
     );

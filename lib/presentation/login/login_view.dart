@@ -1,4 +1,5 @@
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/network_aware_widget.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/login/login_viewmodel.dart';
 import 'package:elevator/presentation/login/widgets/logo_background.dart';
@@ -74,17 +75,19 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: StreamBuilder<FlowState>(
-        stream: _loginViewModel.outputStateStream,
-        builder: (context, snapshot) {
-          return snapshot.data?.getStateWidget(
-                context,
-                _getContentWidget(),
-                () {},
-              ) ??
-              _getContentWidget();
-        },
+    return NetworkAwareWidget(
+      onlineChild: Scaffold(
+        body: StreamBuilder<FlowState>(
+          stream: _loginViewModel.outputStateStream,
+          builder: (context, snapshot) {
+            return snapshot.data?.getStateWidget(
+              context,
+              _getContentWidget(),
+                  () {},
+            ) ??
+                _getContentWidget();
+          },
+        ),
       ),
     );
   }

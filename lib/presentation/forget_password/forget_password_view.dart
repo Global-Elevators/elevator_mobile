@@ -1,4 +1,5 @@
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/network_aware_widget.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/forget_password/forget_password_viewmodel.dart';
 import 'package:elevator/presentation/forget_password/widgets/forget_password_appbar.dart';
@@ -41,13 +42,6 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
               VerifyView.verifyRoute,
               extra: [_phoneController.text, "forget-password"],
             );
-            // Navigator.of(context, rootNavigator: true).push(
-            //   MaterialPageRoute(
-            //     builder: (context) => VerifyView(
-            //       codes: [_phoneController.text, "forget-password"],
-            //     ),
-            //   ),
-            // );
           });
         }
       },
@@ -59,18 +53,30 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
     super.dispose();
     _phoneController.dispose();
     _forgetPasswordViewmodel.dispose();
+    _forgetPasswordViewmodel.didTheUserEnterTheCorrectPhoneNumber.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: ForgetPasswordAppBar(),
-      body: StreamBuilder<FlowState>(
-        stream: _forgetPasswordViewmodel.outputStateStream,
-        builder: (BuildContext context, snapshot) =>
-            snapshot.data?.getStateWidget(
-              context,
+    return NetworkAwareWidget(
+      onlineChild: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: ForgetPasswordAppBar(),
+        body: StreamBuilder<FlowState>(
+          stream: _forgetPasswordViewmodel.outputStateStream,
+          builder: (BuildContext context, snapshot) =>
+              snapshot.data?.getStateWidget(
+                context,
+                ForgetPasswordBody(
+                  phoneController: _phoneController,
+                  onGetCode: () {
+                    _forgetPasswordViewmodel.sendVerificationCode();
+                  },
+                  isButtonEnabledStream:
+                      _forgetPasswordViewmodel.outIsPhoneValid,
+                ),
+                () {},
+              ) ??
               ForgetPasswordBody(
                 phoneController: _phoneController,
                 onGetCode: () {
@@ -78,15 +84,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                 },
                 isButtonEnabledStream: _forgetPasswordViewmodel.outIsPhoneValid,
               ),
-              () {},
-            ) ??
-            ForgetPasswordBody(
-              phoneController: _phoneController,
-              onGetCode: () {
-                _forgetPasswordViewmodel.sendVerificationCode();
-              },
-              isButtonEnabledStream: _forgetPasswordViewmodel.outIsPhoneValid,
-            ),
+        ),
       ),
     );
   }

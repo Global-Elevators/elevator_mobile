@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/network_aware_widget.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/main/home/report_break_down/report_break_down_viewmodel.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
@@ -54,24 +55,34 @@ class _ReportBreakDownViewState extends State<ReportBreakDownView> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    viewmodel.dispose();
+    _descriptionOfBreakDownController.dispose();
+    _imageFile = null;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CustomAppBar(
-        title: Strings.reportBreakDown.tr(),
-        showBackButton: true,
-        popOrGo: true,
-      ),
-      body: StreamBuilder<FlowState>(
-        stream: viewmodel.outputStateStream,
-        builder: (context, snapshot) {
-          return snapshot.data?.getStateWidget(
-                context,
-                _getContentWidget(context),
-                () {},
-              ) ??
-              _getContentWidget(context);
-        },
+    return NetworkAwareWidget(
+      onlineChild: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: CustomAppBar(
+          title: Strings.reportBreakDown.tr(),
+          showBackButton: true,
+          popOrGo: true,
+        ),
+        body: StreamBuilder<FlowState>(
+          stream: viewmodel.outputStateStream,
+          builder: (context, snapshot) {
+            return snapshot.data?.getStateWidget(
+                  context,
+                  _getContentWidget(context),
+                  () {},
+                ) ??
+                _getContentWidget(context);
+          },
+        ),
       ),
     );
   }

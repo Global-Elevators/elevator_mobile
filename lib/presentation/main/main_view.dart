@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/network_aware_widget.dart';
 import 'package:elevator/presentation/main/catalogue/catalogue_view.dart';
 import 'package:elevator/presentation/main/home/home_view.dart';
 import 'package:elevator/presentation/main/library/library_view.dart';
@@ -36,12 +37,14 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: _pages[_currentIndex],
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: _currentIndex,
-        onTap: _onItemTapped,
+    return NetworkAwareWidget(
+      onlineChild: Scaffold(
+        backgroundColor: Colors.white,
+        body: _pages[_currentIndex],
+        bottomNavigationBar: BottomNavBar(
+          currentIndex: _currentIndex,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
