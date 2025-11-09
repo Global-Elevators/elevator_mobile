@@ -61,6 +61,8 @@ abstract class RemoteDataSource {
   Future<void> readAllNotifications();
 
   Future<NextAppointmentResponse> nextAppointment();
+
+  Future<LibraryResponse> getLibrary();
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -199,5 +201,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
   @override
   Future<NextAppointmentResponse> nextAppointment() async {
     return await _appServicesClient.getNextAppointment();
+  }
+
+  @override
+  Future<LibraryResponse> getLibrary()async {
+    return await _appServicesClient.getLibrary();
   }
 }

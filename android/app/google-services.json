@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "969468067297",
+    "project_id": "ge-app-8ce0c",
+    "storage_bucket": "ge-app-8ce0c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:969468067297:android:3eca9cdd6fcdeafa7526a0",
+        "android_client_info": {
+          "package_name": "com.example.elevator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgMbuboRuwmu6vEg5Jv-jJCAxSCl9QqR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

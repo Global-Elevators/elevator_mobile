@@ -30,9 +30,9 @@ mixin _$LoginObject {
 /// @nodoc
 abstract class $LoginObjectCopyWith<$Res> {
   factory $LoginObjectCopyWith(
-    LoginObject value,
-    $Res Function(LoginObject) then,
-  ) = _$LoginObjectCopyWithImpl<$Res, LoginObject>;
+      LoginObject value,
+      $Res Function(LoginObject) then,
+      ) = _$LoginObjectCopyWithImpl<$Res, LoginObject>;
   @useResult
   $Res call({String phone, String password});
 }
@@ -54,16 +54,16 @@ class _$LoginObjectCopyWithImpl<$Res, $Val extends LoginObject>
   $Res call({Object? phone = null, Object? password = null}) {
     return _then(
       _value.copyWith(
-            phone: null == phone
-                ? _value.phone
-                : phone // ignore: cast_nullable_to_non_nullable
-                      as String,
-            password: null == password
-                ? _value.password
-                : password // ignore: cast_nullable_to_non_nullable
-                      as String,
-          )
-          as $Val,
+        phone: null == phone
+            ? _value.phone
+            : phone // ignore: cast_nullable_to_non_nullable
+        as String,
+        password: null == password
+            ? _value.password
+            : password // ignore: cast_nullable_to_non_nullable
+        as String,
+      )
+      as $Val,
     );
   }
 }
@@ -72,9 +72,9 @@ class _$LoginObjectCopyWithImpl<$Res, $Val extends LoginObject>
 abstract class _$$LoginObjectImplCopyWith<$Res>
     implements $LoginObjectCopyWith<$Res> {
   factory _$$LoginObjectImplCopyWith(
-    _$LoginObjectImpl value,
-    $Res Function(_$LoginObjectImpl) then,
-  ) = __$$LoginObjectImplCopyWithImpl<$Res>;
+      _$LoginObjectImpl value,
+      $Res Function(_$LoginObjectImpl) then,
+      ) = __$$LoginObjectImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String phone, String password});
@@ -85,9 +85,9 @@ class __$$LoginObjectImplCopyWithImpl<$Res>
     extends _$LoginObjectCopyWithImpl<$Res, _$LoginObjectImpl>
     implements _$$LoginObjectImplCopyWith<$Res> {
   __$$LoginObjectImplCopyWithImpl(
-    _$LoginObjectImpl _value,
-    $Res Function(_$LoginObjectImpl) _then,
-  ) : super(_value, _then);
+      _$LoginObjectImpl _value,
+      $Res Function(_$LoginObjectImpl) _then,
+      ) : super(_value, _then);
 
   /// Create a copy of LoginObject
   /// with the given fields replaced by the non-null parameter values.
@@ -99,11 +99,11 @@ class __$$LoginObjectImplCopyWithImpl<$Res>
         null == phone
             ? _value.phone
             : phone // ignore: cast_nullable_to_non_nullable
-                  as String,
+        as String,
         null == password
             ? _value.password
             : password // ignore: cast_nullable_to_non_nullable
-                  as String,
+        as String,
       ),
     );
   }
@@ -148,7 +148,7 @@ class _$LoginObjectImpl implements _LoginObject {
 
 abstract class _LoginObject implements LoginObject {
   factory _LoginObject(final String phone, final String password) =
-      _$LoginObjectImpl;
+  _$LoginObjectImpl;
 
   @override
   String get phone;

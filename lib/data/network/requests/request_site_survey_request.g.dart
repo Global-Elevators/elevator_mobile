@@ -7,8 +7,8 @@ part of 'request_site_survey_request.dart';
 // **************************************************************************
 
 RequestSiteSurveyRequest _$RequestSiteSurveyRequestFromJson(
-  Map<String, dynamic> json,
-) => RequestSiteSurveyRequest(
+    Map<String, dynamic> json,
+    ) => RequestSiteSurveyRequest(
   userInfo: UserInfo.fromJson(json['user_info'] as Map<String, dynamic>),
   scopeOfWork: json['scope_of_work'] as String,
   projectAddress: json['project_address'] as String,
@@ -19,8 +19,8 @@ RequestSiteSurveyRequest _$RequestSiteSurveyRequestFromJson(
 );
 
 Map<String, dynamic> _$RequestSiteSurveyRequestToJson(
-  RequestSiteSurveyRequest instance,
-) => <String, dynamic>{
+    RequestSiteSurveyRequest instance,
+    ) => <String, dynamic>{
   'user_info': instance.userInfo.toJson(),
   'scope_of_work': instance.scopeOfWork,
   'project_address': instance.projectAddress,

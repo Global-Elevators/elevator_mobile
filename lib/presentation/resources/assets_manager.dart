@@ -24,6 +24,7 @@ class IconAssets {
   static const String calendar = "$iconsPath/calendar.png";
   static const String worker = "$iconsPath/worker.png";
   static const String pdf = "$iconsPath/pdf.png";
+  static const String download = "$iconsPath/download.svg";
   static const String progressNote = "$iconsPath/progress_note.png";
   static const String request = "$iconsPath/request.svg";
   static const String signOut = "$iconsPath/signout.svg";

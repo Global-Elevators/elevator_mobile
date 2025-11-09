@@ -16,13 +16,13 @@ UpdateUserRequest _$UpdateUserRequestFromJson(Map<String, dynamic> json) =>
       profileData: json['profile_data'] == null
           ? null
           : UpdateProfileData.fromJson(
-              json['profile_data'] as Map<String, dynamic>,
-            ),
+        json['profile_data'] as Map<String, dynamic>,
+      ),
     );
 
 Map<String, dynamic> _$UpdateUserRequestToJson(
-  UpdateUserRequest instance,
-) => <String, dynamic>{
+    UpdateUserRequest instance,
+    ) => <String, dynamic>{
   'name': instance.name,
   if (instance.email case final value?) 'email': value,
   'phone': instance.phone,

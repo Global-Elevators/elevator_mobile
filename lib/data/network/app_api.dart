@@ -1,3 +1,4 @@
+import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 import 'package:elevator/data/network/requests/register_request.dart';
 import 'package:elevator/data/network/requests/report_break_down_request.dart';
@@ -5,7 +6,6 @@ import 'package:elevator/data/network/requests/request_site_survey_request.dart'
 import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart';
 import 'package:elevator/data/network/requests/update_user_request.dart';
 import 'package:elevator/data/response/responses.dart';
-import 'package:retrofit/retrofit.dart';
 
 part 'app_api.g.dart';
 
@@ -106,4 +106,7 @@ abstract class AppServicesClient {
 
   @GET("/user/next-appointment")
   Future<NextAppointmentResponse> getNextAppointment();
+
+  @GET("/user/library")
+  Future<LibraryResponse> getLibrary();
 }

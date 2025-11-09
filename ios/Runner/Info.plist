@@ -11,6 +11,8 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Elevator</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We need access to save downloaded files</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

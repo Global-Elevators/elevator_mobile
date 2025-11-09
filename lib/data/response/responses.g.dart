@@ -342,3 +342,50 @@ Map<String, dynamic> _$NextAppointmentDataResponseToJson(
   'days_left': instance.daysLeft,
   'contract_status': instance.contractStatus,
 };
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+LibraryResponse _$LibraryResponseFromJson(Map<String, dynamic> json) =>
+    LibraryResponse(
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => DatumResponse.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+          [],
+    )
+      ..success = json['success'] as bool?
+      ..message = json['message'] as String?;
+
+Map<String, dynamic> _$LibraryResponseToJson(LibraryResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'data': instance.data.map((e) => e.toJson()).toList(),
+    };
+
+DatumResponse _$DatumFromJson(Map<String, dynamic> json) => DatumResponse(
+  type: json['type'] as String? ?? '',
+  typeLabel: json['type_label'] as String? ?? '',
+  attachments: (json['attachments'] as List<dynamic>?)
+      ?.map((e) => AttachmentResponse.fromJson(e as Map<String, dynamic>))
+      .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$DatumToJson(DatumResponse instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'type_label': instance.typeLabel,
+      'attachments': instance.attachments.map((e) => e.toJson()).toList(),
+    };
+
+AttachmentResponse _$AttachmentFromJson(Map<String, dynamic> json) =>
+    AttachmentResponse(
+      name: json['name'] as String? ?? '',
+      url: json['url'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$AttachmentToJson(AttachmentResponse instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'url': instance.url,
+    };

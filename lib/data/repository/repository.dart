@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:elevator/data/data_source/remote_data_source.dart';
 import 'package:elevator/data/mappers/authentication_mapper.dart';
+import 'package:elevator/data/mappers/library_mapper.dart';
 import 'package:elevator/data/mappers/next_appointment_mapper.dart';
 import 'package:elevator/data/mappers/notification_mapper.dart';
 import 'package:elevator/data/mappers/register_mapper.dart';
@@ -26,6 +27,7 @@ import 'package:elevator/data/network/requests/technical_commercial_offers_reque
 import 'package:elevator/data/network/requests/update_user_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
+import 'package:elevator/domain/models/library_model.dart';
 import 'package:elevator/domain/models/login_model.dart';
 import 'package:elevator/domain/models/next_appointment_model.dart';
 import 'package:elevator/domain/models/notifications_model.dart';
@@ -326,6 +328,19 @@ class RepositoryImpl extends Repository {
   Future<Either<Failure, NextAppointmentModel>> nextAppointment() async {
     try {
       final response = await _remoteDataSource.nextAppointment();
+      return _isSuccessfulResponse(response)
+          ? Right(response.toDomain())
+          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, LibraryAttachment>> getLibrary() async {
+    try {
+      final response = await _remoteDataSource.getLibrary();
+      print("The success state of lib : ${response.success}" );
       return _isSuccessfulResponse(response)
           ? Right(response.toDomain())
           : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));

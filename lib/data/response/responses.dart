@@ -341,3 +341,56 @@ class NextAppointmentDataResponse {
 
   Map<String, dynamic> toJson() => _$NextAppointmentDataResponseToJson(this);
 }
+
+@JsonSerializable()
+class LibraryResponse extends BaseResponse {
+  @JsonKey(name: "data")
+  List<DatumResponse> data;
+
+  LibraryResponse({
+    required this.data,
+  });
+
+  factory LibraryResponse.fromJson(Map<String, dynamic> json) =>
+      _$LibraryResponseFromJson
+    (json);
+
+  Map<String, dynamic> toJson() => _$LibraryResponseToJson(this);
+}
+
+@JsonSerializable()
+class DatumResponse {
+  @JsonKey(name: "type")
+  String type;
+  @JsonKey(name: "type_label")
+  String typeLabel;
+  @JsonKey(name: "attachments")
+  List<AttachmentResponse> attachments;
+
+  DatumResponse({
+    required this.type,
+    required this.typeLabel,
+    required this.attachments,
+  });
+
+  factory DatumResponse.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DatumToJson(this);
+}
+
+@JsonSerializable()
+class AttachmentResponse {
+  @JsonKey(name: "name")
+  String name;
+  @JsonKey(name: "url")
+  String url;
+
+  AttachmentResponse({
+    required this.name,
+    required this.url,
+  });
+
+  factory AttachmentResponse.fromJson(Map<String, dynamic> json) => _$AttachmentFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AttachmentToJson(this);
+}

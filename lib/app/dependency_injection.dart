@@ -9,6 +9,7 @@ import 'package:elevator/domain/repository/repository.dart';
 import 'package:elevator/domain/usecase/change_password_usecase.dart';
 import 'package:elevator/domain/usecase/delete_notification_usecase.dart';
 import 'package:elevator/domain/usecase/forget_password_usecase.dart';
+import 'package:elevator/domain/usecase/library_usecase.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
 import 'package:elevator/domain/usecase/logout_usecase.dart';
 import 'package:elevator/domain/usecase/next_appointment_usecase.dart';
@@ -35,6 +36,7 @@ import 'package:elevator/presentation/main/home/notification/notification_viewmo
 import 'package:elevator/presentation/main/home/report_break_down/report_break_down_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_for_technical/request_for_technical_viewmodel.dart';
 import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_viewmodel.dart';
+import 'package:elevator/presentation/main/library/library_viewmodel.dart';
 import 'package:elevator/presentation/main/profile/change_password/change_password_viewmodel.dart';
 import 'package:elevator/presentation/main/profile/edit_information/edit_information_viewmodel.dart';
 import 'package:elevator/presentation/main/profile/profile_viewmodel.dart';
@@ -251,6 +253,16 @@ initMainModule() {
   if (!GetIt.I.isRegistered<NextAppointmentUsecase>()) {
     instance.registerFactory<NextAppointmentUsecase>(
       () => NextAppointmentUsecase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<LibraryUsecase>()) {
+    instance.registerFactory<LibraryUsecase>(
+      () => LibraryUsecase(instance<Repository>()),
+    );
+
+    instance.registerFactory<LibraryViewModel>(
+      () => LibraryViewModel(instance<LibraryUsecase>()),
     );
   }
 }
