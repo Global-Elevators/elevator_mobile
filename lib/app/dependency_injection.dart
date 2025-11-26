@@ -265,18 +265,22 @@ initMainModule() {
       () => LibraryViewModel(instance<LibraryUsecase>()),
     );
   }
-}
-
-initEditInformationModule() {
   if (!GetIt.I.isRegistered<UserDataUsecase>()) {
     instance.registerFactory<UserDataUsecase>(
       () => UserDataUsecase(instance<Repository>()),
     );
+  }
+}
 
+initEditInformationModule() {
+
+  if (!GetIt.I.isRegistered<UpdateDataUsecase>()) {
     instance.registerFactory<UpdateDataUsecase>(
       () => UpdateDataUsecase(instance<Repository>()),
     );
+  }
 
+  if (!GetIt.I.isRegistered<EditInformationViewModel>()) {
     instance.registerFactory<EditInformationViewModel>(
       () => EditInformationViewModel(
         instance<UserDataUsecase>(),

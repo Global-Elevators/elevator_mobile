@@ -21,9 +21,9 @@ class BuildNameSection extends StatelessWidget {
     required this.firstNameController,
     required this.fatherNameController,
     required this.grandFatherNameController,
-    required this.nameStream,
-    required this.fatherNameStream,
-    required this.grandFatherNameStream,
+    this.nameStream,
+    this.fatherNameStream,
+    this.grandFatherNameStream,
   });
 
   @override

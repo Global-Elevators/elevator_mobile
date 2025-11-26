@@ -9,6 +9,7 @@ import 'package:elevator/presentation/base/baseviewmodel.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:flutter/material.dart';
+import 'package:elevator/domain/usecase/user_data_usecase.dart';
 
 class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
   String _scheduleDate = '';
@@ -25,6 +26,9 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
     this._nextAppointmentUsecase,
   );
 
+  // Exposed user name for UI
+  String? userName;
+
   @override
   void start() async {
     bool isUserLoggedInSuccessfully = await _appPreferences.isUserLoggedIn(
@@ -32,7 +36,30 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
     );
     if (isUserLoggedInSuccessfully) {
       await AppNotificationManager().initialize();
+
+      // Load next appointment as before
       await getNextAppointment();
+
+      // Also load user data (name) to be displayed in HomeBar
+
+      final userDataUsecase = instance<UserDataUsecase>();
+      final result = await userDataUsecase.execute(null);
+      result.fold(
+        (failure) {
+          // ignore - keep userName null
+        },
+        (data) {
+          final name = data.user?.name,
+              midName = data.user?.profile?.sirName,
+              lastName = data.user?.profile?.lastName;
+          if (name != null && name.isNotEmpty) {
+            userName = "$name ${midName!} ${lastName!}";
+          }
+        },
+      );
+
+      // Notify listeners/ui that content may have updated
+      inputState.add(ContentState());
     }
   }
 

@@ -17,7 +17,7 @@ class EmailField extends StatelessWidget {
   const EmailField({
     super.key,
     required this.emailController,
-    required this.emailValidationStream,
+    this.emailValidationStream,
   });
 
   @override

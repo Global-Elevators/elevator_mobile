@@ -75,7 +75,6 @@ class Strings {
 
   // Welcome screen keys
   static const String welcomeBack = 'welcomeBack';
-  static const String userName = 'userName';
 
   // SOS section keys
   static const String sosTitle = 'sosTitle';

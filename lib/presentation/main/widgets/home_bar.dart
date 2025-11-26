@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeBar extends StatelessWidget {
-  const HomeBar({super.key});
+  final String? userName;
+
+  const HomeBar({super.key, this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class HomeBar extends StatelessWidget {
               ),
             ),
             Text(
-              Strings.userName.tr(),
+              userName ?? "",
               style: getBoldTextStyle(
                 color: ColorManager.primaryColor,
                 fontSize: FontSizeManager.s22.sp,

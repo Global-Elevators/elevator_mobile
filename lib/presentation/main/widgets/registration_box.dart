@@ -23,16 +23,15 @@ class RegistrationBox extends StatelessWidget {
         color: ColorManager.primaryColor,
         borderRadius: BorderRadius.circular(AppSize.s22.r),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Padding(
-            padding: EdgeInsetsDirectional.only(
-              start: AppSize.s16.w,
-              top: AppSize.s16.h,
-              bottom: AppSize.s16.h,
-            ),
-            child: Column(
+      child: Padding(
+        padding: EdgeInsetsDirectional.symmetric(
+          horizontal: AppSize.s16.w,
+          vertical: AppSize.s16.h,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -59,26 +58,26 @@ class RegistrationBox extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          ClipRRect(
-            child: Image.asset(
-              ImageAssets.blueLine,
-              height: AppSize.s150.h,
-              width: AppSize.s105.w,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: AppSize.s16.h),
-            child: Text(
-              data.daysLeft,
-              style: getMediumTextStyle(
-                color: ColorManager.semiLightBlueColor,
-                fontSize: FontSizeManager.s16.sp,
+            ClipRRect(
+              child: Image.asset(
+                ImageAssets.blueLine,
+                height: AppSize.s150.h,
+                width: AppSize.s105.w,
+                fit: BoxFit.fill,
               ),
             ),
-          ),
-        ],
+            Flexible(
+              child: Text(
+                data.daysLeft,
+                style: getMediumTextStyle(
+                  color: ColorManager.semiLightBlueColor,
+                  fontSize: FontSizeManager.s16.sp,
+                ),
+                softWrap: true,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

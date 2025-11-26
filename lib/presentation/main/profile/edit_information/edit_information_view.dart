@@ -5,22 +5,18 @@ import 'package:elevator/presentation/common/state_renderer/state_renderer.dart'
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
 import 'package:elevator/presentation/main/profile/edit_information/edit_information_viewmodel.dart';
-import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/build_date_of_birth_section_widget.dart';
 import 'package:elevator/presentation/widgets/build_name_section.dart';
 import 'package:elevator/presentation/widgets/button_widget.dart';
-import 'package:elevator/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:elevator/presentation/widgets/email_field.dart';
 import 'package:elevator/presentation/widgets/items_drop_down.dart';
 import 'package:elevator/presentation/widgets/label_field.dart';
 import 'package:elevator/presentation/widgets/phone_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'dart:async';
 
 class EditInformationView extends StatefulWidget {
   static const String routeName = '/edit-information';
@@ -32,65 +28,76 @@ class EditInformationView extends StatefulWidget {
 }
 
 class _EditInformationViewState extends State<EditInformationView> {
-  // --- Controllers ---
-  final _firstNameController = TextEditingController();
-  final _fatherNameController = TextEditingController();
-  final _grandFatherNameController = TextEditingController();
-  final _dayController = TextEditingController();
-  final _monthController = TextEditingController();
-  final _yearController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _emailController = TextEditingController();
+  // ---------------- CONTROLLERS ----------------
+  final _firstName = TextEditingController();
+  final _fatherName = TextEditingController();
+  final _grandFather = TextEditingController();
+  final _day = TextEditingController();
+  final _month = TextEditingController();
+  final _year = TextEditingController();
+  final _phone = TextEditingController();
+  final _email = TextEditingController();
 
-  // --- Local data ---
-  final List<String> _addresses = ['Cairo', 'Alexandria', 'Mansoura'];
+  // ---------------- ADDRESS ----------------
+  final _addresses = ['Cairo', 'Alexandria', 'Mansoura'];
   String? _selectedAddress;
-  final String _addressHint = "Select your address";
 
-  // --- ViewModel & Subscription ---
+  // ---------------- VIEWMODEL ----------------
   final _viewmodel = instance<EditInformationViewModel>();
-  StreamSubscription<FlowState>? _stateSubscription;
-  DateTime parsedDate = DateTime.now();
+
+  // ---------------- DATE ----------------
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
     super.initState();
     _viewmodel.start();
 
-    _stateSubscription = _viewmodel.outputStateStream.listen(_handleState);
+    // Fill UI when ContentState is produced
+    _viewmodel.outputStateStream.listen(
+      (state) => (state is ContentState) ? _fillUI() : null,
+    );
   }
 
-  void _handleState(FlowState state) {
-    if (state is LoadingState || state is ErrorState) return;
-
+  void _fillUI() {
     final user = _viewmodel.userDataModel?.user;
     if (user == null) return;
 
-    _firstNameController.text = user.name;
-    _fatherNameController.text = user.profile?.sirName ?? '';
-    _grandFatherNameController.text = user.profile?.lastName ?? '';
-    _emailController.text = user.email ?? '';
-    _phoneController.text = user.phone;
+    _firstName.text = user.name;
+    _fatherName.text = user.profile?.sirName ?? '';
+    _grandFather.text = user.profile?.lastName ?? '';
+    _email.text = user.email ?? '';
+    _phone.text = user.phone;
 
-    DateTime parsedDate = DateTime.tryParse(user.birthdate) ?? DateTime.now();
+    // Date
+    final bd = DateTime.tryParse(user.birthdate);
+    if (bd != null) {
+      _selectedDate = bd;
+      _day.text = bd.day.toString();
+      _month.text = bd.month.toString();
+      _year.text = bd.year.toString();
+    }
 
-    _dayController.text = parsedDate.day.toString();
-    _monthController.text = parsedDate.month.toString();
-    _yearController.text = parsedDate.year.toString();
+    final backendAddress = user.address.trim();
+    _selectedAddress = _addresses.firstWhere(
+      (a) => a.toLowerCase() == backendAddress.toLowerCase(),
+      orElse: () => '',
+    );
+    if (_selectedAddress!.isEmpty) _selectedAddress = null;
+
+    setState(() {});
   }
 
   @override
   void dispose() {
-    _stateSubscription?.cancel();
-    _firstNameController.dispose();
-    _fatherNameController.dispose();
-    _grandFatherNameController.dispose();
-    _dayController.dispose();
-    _monthController.dispose();
-    _yearController.dispose();
-    _phoneController.dispose();
-    _emailController.dispose();
-
+    _firstName.dispose();
+    _fatherName.dispose();
+    _grandFather.dispose();
+    _day.dispose();
+    _month.dispose();
+    _year.dispose();
+    _phone.dispose();
+    _email.dispose();
     super.dispose();
   }
 
@@ -110,8 +117,11 @@ class _EditInformationViewState extends State<EditInformationView> {
             stateRendererType: StateRendererType.fullScreenLoadingState,
           ),
           builder: (context, snapshot) {
-            final state = snapshot.data;
-            return state?.getStateWidget(context, _buildContent(), () {}) ??
+            return snapshot.data?.getStateWidget(
+                  context,
+                  _buildContent(),
+                  () {},
+                ) ??
                 _buildContent();
           },
         ),
@@ -119,7 +129,8 @@ class _EditInformationViewState extends State<EditInformationView> {
     );
   }
 
-  SafeArea _buildContent() {
+  // ---------------- UI CONTENT ----------------
+  Widget _buildContent() {
     return SafeArea(
       child: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
@@ -128,110 +139,77 @@ class _EditInformationViewState extends State<EditInformationView> {
           children: [
             // _buildPendingReviewSection(),
             // Gap(AppSize.s20.h),
-            _buildNameSection(),
-            _buildDateOfBirthSection(),
-            _buildPhoneSection(),
-            _buildEmailSection(),
-            _buildAddressSection(),
+
+            // Name Section
+            BuildNameSection(
+              firstNameController: _firstName,
+              fatherNameController: _fatherName,
+              grandFatherNameController: _grandFather,
+            ),
+
+            // Date of Birth
+            BuildDateOfBirthSectionWidget(
+              dayController: _day,
+              monthController: _month,
+              yearController: _year,
+              onDateSelected: (date) {
+                _selectedDate = date;
+                _day.text = date.day.toString();
+                _month.text = date.month.toString();
+                _year.text = date.year.toString();
+              },
+            ),
+
+            // Phone
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                LabelField(Strings.phoneNumberTitle.tr()),
+                Gap(AppSize.s8.h),
+                PhoneField(controller: _phone),
+              ],
+            ),
+
+            // Email
+            EmailField(emailController: _email),
+
+            // Address
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                LabelField(Strings.addressLabel.tr()),
+                Gap(AppSize.s8.h),
+                ItemsDropDown(
+                  items: _addresses,
+                  hintText: "Select your address",
+                  selectedItem: _selectedAddress,
+                  onChanged: (v) => setState(() => _selectedAddress = v),
+                ),
+              ],
+            ),
+
             Gap(AppSize.s20.h),
-            _buildApplyButton(),
+
+            // Apply Button
+            ButtonWidget(
+              radius: AppSize.s14.r,
+              text: Strings.apply.tr(),
+              onTap: () {
+                _viewmodel.updateUserData(
+                  _firstName.text,
+                  _email.text,
+                  _phone.text,
+                  _selectedDate.toString(),
+                  _selectedAddress ?? "",
+                  _fatherName.text,
+                  _grandFather.text,
+                );
+              },
+            ),
             Gap(AppSize.s16.h),
           ],
         ),
       ),
     );
   }
-
-  Widget _buildPendingReviewSection() {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: AppPadding.p16.h,
-        horizontal: AppPadding.p16.w,
-      ),
-      decoration: BoxDecoration(
-        color: const Color(0xffFFF5E9),
-        borderRadius: BorderRadius.circular(AppSize.s12.r),
-      ),
-      child: Row(
-        children: [
-          SvgPicture.asset(
-            IconAssets.warning,
-            height: AppSize.s22.h,
-            width: AppSize.s22.w,
-            colorFilter: const ColorFilter.mode(
-              Color(0xffFF9408),
-              BlendMode.srcIn,
-            ),
-          ),
-          Gap(AppSize.s16.w),
-          Text(Strings.profileEditsAreBeingReviewed.tr()),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNameSection() => BuildNameSection(
-    firstNameController: _firstNameController,
-    fatherNameController: _fatherNameController,
-    grandFatherNameController: _grandFatherNameController,
-    nameStream: null,
-    fatherNameStream: null,
-    grandFatherNameStream: null,
-  );
-
-  Widget _buildDateOfBirthSection() => BuildDateOfBirthSectionWidget(
-    dayController: _dayController,
-    monthController: _monthController,
-    yearController: _yearController,
-    onDateSelected: (date) {
-      parsedDate = date;
-      _dayController.text = date.day.toString();
-      _monthController.text = date.month.toString();
-      _yearController.text = date.year.toString();
-    },
-  );
-
-  Widget _buildPhoneSection() => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      LabelField(Strings.phoneNumberTitle.tr()),
-      Gap(AppSize.s8.h),
-      PhoneField(controller: _phoneController, phoneValidationStream: null),
-    ],
-  );
-
-  Widget _buildEmailSection() => EmailField(
-    emailController: _emailController,
-    emailValidationStream: null,
-  );
-
-  Widget _buildAddressSection() => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      LabelField(Strings.addressLabel.tr()),
-      Gap(AppSize.s8.h),
-      ItemsDropDown(
-        items: _addresses,
-        hintText: _addressHint,
-        selectedItem: _selectedAddress,
-        onChanged: (value) => setState(() => _selectedAddress = value),
-      ),
-    ],
-  );
-
-  Widget _buildApplyButton() => ButtonWidget(
-    radius: AppSize.s14.r,
-    text: Strings.apply.tr(),
-    onTap: () {
-      _viewmodel.updateUserData(
-        _firstNameController.text,
-        _emailController.text,
-        _phoneController.text,
-        parsedDate.toString(),
-        _selectedAddress ?? "",
-        _fatherNameController.text,
-        _grandFatherNameController.text,
-      );
-    },
-  );
 }

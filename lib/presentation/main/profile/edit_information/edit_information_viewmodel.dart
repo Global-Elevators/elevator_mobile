@@ -10,9 +10,6 @@ import '../../../../domain/models/user_data_model.dart';
 import 'package:elevator/data/network/requests/update_user_request.dart';
 
 class EditInformationViewModel extends BaseViewModel {
-  @override
-  void start() => getUserData();
-
   final UserDataUsecase _userDataUsecase;
   final UpdateDataUsecase _updateDataUsecase;
 
@@ -20,69 +17,29 @@ class EditInformationViewModel extends BaseViewModel {
 
   GetUserInfo? userDataModel;
 
+  @override
+  void start() => getUserData();
+
+  // ------------------ FETCH USER ------------------
   Future<void> getUserData() async {
     inputState.add(
       LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState),
     );
-    try {
-      final result = await _userDataUsecase.execute(null);
-      result.fold(
-        (failure) {
-          inputState.add(
-            ErrorState(StateRendererType.fullScreenErrorState, failure.message),
-          );
-        },
-        (data) {
-          userDataModel = data;
-          inputState.add(ContentState());
-        },
-      );
-    } catch (e, stack) {
-      inputState.add(
-        ErrorState(
-          StateRendererType.popUpErrorState,
-          "Unexpected error occurred. Please try again.",
-        ),
-      );
-      debugPrint("🔥 Exception in getUserData(): $e\n$stack");
-    }
+
+    final result = await _userDataUsecase.execute(null);
+
+    result.fold(
+      (failure) => inputState.add(
+        ErrorState(StateRendererType.fullScreenErrorState, failure.message),
+      ),
+      (data) {
+        userDataModel = data;
+        inputState.add(ContentState());
+      },
+    );
   }
 
-  String _normalizeBirthdate(String? raw) {
-    if (raw == null || raw.trim().isEmpty) return '';
-    final s = raw.trim();
-    // Try ISO parse first
-    try {
-      final dt = DateTime.parse(s);
-      return DateFormat('yyyy-MM-dd').format(dt);
-    } catch (_) {}
-
-    // Try common d-m-y or d/m/y or y-m-d patterns
-    final parts = s.split(RegExp(r'[-/]'));
-    if (parts.length == 3) {
-      try {
-        if (parts[0].length == 4) {
-          // yyyy-mm-dd
-          final dt = DateTime(
-            int.parse(parts[0]),
-            int.parse(parts[1]),
-            int.parse(parts[2]),
-          );
-          return DateFormat('yyyy-MM-dd').format(dt);
-        } else {
-          // assume dd-mm-yyyy
-          final dt = DateTime(
-            int.parse(parts[2]),
-            int.parse(parts[1]),
-            int.parse(parts[0]),
-          );
-          return DateFormat('yyyy-MM-dd').format(dt);
-        }
-      } catch (_) {}
-    }
-    return s;
-  }
-
+  // ------------------ UPDATE USER ------------------
   Future<void> updateUserData(
     String name,
     String? email,
@@ -92,54 +49,54 @@ class EditInformationViewModel extends BaseViewModel {
     String sirName,
     String lastName,
   ) async {
-
     inputState.add(
       LoadingState(stateRendererType: StateRendererType.popUpLoadingState),
     );
 
-    try {
-      final profile = UserProfile(sirName, lastName);
-      final user = User(0, name, email, phone, address, birthdate, profile);
+    final request = UpdateUserRequest(
+      name: name,
+      email: email?.isNotEmpty == true ? email : null,
+      phone: phone,
+      birthdate: _normalizeBirthdate(birthdate),
+      address: address.isNotEmpty ? address : null,
+      profileData: UpdateProfileData(sirName: sirName, lastName: lastName),
+    );
 
-      final profileData = UpdateProfileData(
-        sirName: profile.sirName,
-        lastName: profile.lastName,
-      );
+    final result = await _updateDataUsecase.execute(request);
 
-      final normalizedBirth = _normalizeBirthdate(user.birthdate);
+    await result.fold(
+      (failure) {
+        inputState.add(
+          ErrorState(StateRendererType.popUpErrorState, failure.message),
+        );
+      },
+      (_) async {
+        final updated = await _userDataUsecase.execute(null);
 
-      final request = UpdateUserRequest(
-        name: user.name,
-        email: (user.email != null && user.email!.isNotEmpty)
-            ? user.email
-            : null,
-        phone: user.phone,
-        birthdate: normalizedBirth.isNotEmpty ? normalizedBirth : null,
-        address: (user.address.isNotEmpty) ? user.address : null,
-        profileData: profileData,
-      );
-
-      final result = await _updateDataUsecase.execute(request);
-
-      result.fold(
-        (failure) {
-          inputState.add(
+        updated.fold(
+          (failure) => inputState.add(
             ErrorState(StateRendererType.popUpErrorState, failure.message),
-          );
-        },
-        (_) async {
-          await getUserData();
-          inputState.add(SuccessState(Strings.profileInformationRequestSent.tr()));
-        },
-      );
-    } catch (e, stack) {
-      inputState.add(
-        ErrorState(
-          StateRendererType.popUpErrorState,
-          "Unexpected error occurred. Please try again.",
-        ),
-      );
-      debugPrint("🔥 Exception in updateUserData(): $e\n$stack");
+          ),
+          (data) {
+            userDataModel = data;
+
+            inputState.add(ContentState());
+
+            inputState.add(
+              SuccessState(Strings.profileInformationRequestSent.tr()),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  String? _normalizeBirthdate(String raw) {
+    try {
+      final dt = DateTime.parse(raw);
+      return DateFormat("yyyy-MM-dd").format(dt);
+    } catch (_) {
+      return raw;
     }
   }
 }

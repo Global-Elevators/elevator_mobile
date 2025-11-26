@@ -16,7 +16,7 @@ class PhoneField extends StatelessWidget {
   const PhoneField({
     super.key,
     required this.controller,
-    required this.phoneValidationStream,
+    this.phoneValidationStream,
   });
 
   @override

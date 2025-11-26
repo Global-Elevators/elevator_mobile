@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage> {
           onAlertAction: _homeViewModel.sendAlert,
           getNextAppointment: _homeViewModel.getNextAppointment,
           nextAppointmentModel: _homeViewModel.nextAppointmentModel,
+          userName: _homeViewModel.userName,
         ),
       ),
     );
@@ -69,11 +70,13 @@ class _HomePageBody extends StatelessWidget {
   final VoidCallback onAlertAction;
   final VoidCallback getNextAppointment;
   final NextAppointmentModel? nextAppointmentModel;
+  final String? userName;
 
   const _HomePageBody({
     required this.onAlertAction,
     required this.getNextAppointment,
     required this.nextAppointmentModel,
+    required this.userName,
   });
 
   @override
@@ -83,11 +86,10 @@ class _HomePageBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const HomeBar(),
+        HomeBar(userName: userName),
         Gap(AppSize.s24.h),
 
-        if (nextAppointmentModel == null)
-          Container(),
+        if (nextAppointmentModel == null) Container(),
 
         if (FlavorConfig.isAccountPaid && data != null) ...[
           RegistrationBox(data),
