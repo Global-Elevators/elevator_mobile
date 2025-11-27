@@ -35,10 +35,17 @@ class _HomePageState extends State<HomePage> {
   final _homeViewModel = instance<HomeViewmodel>();
 
   @override
+  void initState() {
+    super.initState();
+    _homeViewModel.start();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<FlowState>(
       stream: _homeViewModel.outputStateStream,
       builder: (context, snapshot) {
+        // Rebuild whenever state changes (including when userName is loaded)
         return snapshot.data?.getStateWidget(context, _buildContent(), () {}) ??
             _buildContent();
       },
@@ -57,12 +64,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _homeViewModel.start();
   }
 }
 
@@ -159,7 +160,7 @@ class _ServicesRow extends StatelessWidget {
             onTap: () => navigationService.navigateWithAuthCheck(
               context: context,
               authenticatedRoute:
-                  RequestForTechnicalView.requestForTechnicalRoute,
+              RequestForTechnicalView.requestForTechnicalRoute,
             ),
           ),
         ],

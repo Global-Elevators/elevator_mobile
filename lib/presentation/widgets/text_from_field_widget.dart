@@ -66,9 +66,19 @@ class TextFromFieldWidget extends StatelessWidget {
         onTap: onTap,
         decoration: InputDecoration(
           errorText: errorText,
+          // contentPadding: isNotes
+          //     ? EdgeInsets.symmetric(vertical: AppPadding.p90.h)
+          //     : EdgeInsetsDirectional.symmetric(vertical: AppPadding.p12.h),
           contentPadding: isNotes
-              ? EdgeInsets.symmetric(vertical: AppPadding.p90.h)
-              : EdgeInsetsDirectional.symmetric(vertical: AppPadding.p12.h),
+              ? EdgeInsets.symmetric(
+                  vertical: AppPadding.p90.h,
+                  horizontal: AppPadding.p12.w,
+                )
+              : EdgeInsets.symmetric(
+                  vertical: AppPadding.p18.h,
+                  horizontal: AppPadding.p12.w,
+                ),
+
           hintText: hintText,
           filled: true,
           fillColor: ColorManager.whiteColor,

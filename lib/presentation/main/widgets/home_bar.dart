@@ -28,13 +28,14 @@ class HomeBar extends StatelessWidget {
                 fontSize: FontSizeManager.s18.sp,
               ),
             ),
-            Text(
-              userName ?? "",
-              style: getBoldTextStyle(
-                color: ColorManager.primaryColor,
-                fontSize: FontSizeManager.s22.sp,
+            if (userName != null && userName!.isNotEmpty)
+              Text(
+                userName!,
+                style: getBoldTextStyle(
+                  color: ColorManager.primaryColor,
+                  fontSize: FontSizeManager.s22.sp,
+                ),
               ),
-            ),
           ],
         ),
         const Spacer(),

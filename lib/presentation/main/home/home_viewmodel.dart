@@ -17,14 +17,16 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
   final SosUsecase _sosUsecase;
   final RescheduleAppointmentUsecase _rescheduleAppointmentUsecase;
   final NextAppointmentUsecase _nextAppointmentUsecase;
+  final UserDataUsecase _userDataUsecase;
 
   final _appPreferences = instance<AppPreferences>();
 
   HomeViewmodel(
-    this._sosUsecase,
-    this._rescheduleAppointmentUsecase,
-    this._nextAppointmentUsecase,
-  );
+      this._sosUsecase,
+      this._rescheduleAppointmentUsecase,
+      this._nextAppointmentUsecase,
+      this._userDataUsecase,
+      );
 
   // Exposed user name for UI
   String? userName;
@@ -37,30 +39,47 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
     if (isUserLoggedInSuccessfully) {
       await AppNotificationManager().initialize();
 
-      // Load next appointment as before
+      // Load user data first (will use cache if available)
+      await _loadUserData();
+
+      // Load next appointment
       await getNextAppointment();
 
-      // Also load user data (name) to be displayed in HomeBar
+      // Notify listeners/ui that content is ready
+      inputState.add(ContentState());
+    }
+  }
 
-      final userDataUsecase = instance<UserDataUsecase>();
-      final result = await userDataUsecase.execute(null);
+  /// Loads user data from cache or remote source
+  /// This method doesn't show loading state - it loads silently
+  Future<void> _loadUserData() async {
+    try {
+      final result = await _userDataUsecase.execute(null);
       result.fold(
-        (failure) {
-          // ignore - keep userName null
+            (failure) {
+          // Keep userName null on failure
+          debugPrint("Failed to load user data: ${failure.message}");
         },
-        (data) {
-          final name = data.user?.name,
-              midName = data.user?.profile?.sirName,
-              lastName = data.user?.profile?.lastName;
+            (data) {
+          final name = data.user?.name;
+          final midName = data.user?.profile?.sirName;
+          final lastName = data.user?.profile?.lastName;
+
           if (name != null && name.isNotEmpty) {
-            userName = "$name ${midName!} ${lastName!}";
+            userName = "$name ${midName ?? ''} ${lastName ?? ''}".trim();
+            // Notify UI immediately when userName is loaded
+            inputState.add(ContentState());
           }
         },
       );
-
-      // Notify listeners/ui that content may have updated
-      inputState.add(ContentState());
+    } catch (e, stack) {
+      debugPrint("Exception loading user data: $e\n$stack");
     }
+  }
+
+  /// Public method to refresh user data (e.g., after profile update)
+  Future<void> refreshUserData() async {
+    await _loadUserData();
   }
 
   @override
@@ -72,14 +91,13 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
 
       final result = await _sosUsecase.execute(null);
       result.fold(
-        (failure) {
+            (failure) {
           inputState.add(
             ErrorState(StateRendererType.popUpErrorState, failure.message),
           );
         },
-        (data) {
+            (data) {
           inputState.add(SuccessState("Welcome back"));
-          // isUserLoggedInSuccessfullyController.add(true);
         },
       );
     } catch (e, stack) {
@@ -89,7 +107,7 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
           "Unexpected error occurred. Please try again.",
         ),
       );
-      debugPrint("🔥 Exception in login(): $e\n$stack");
+      debugPrint("🔥 Exception in sendAlert(): $e\n$stack");
     }
   }
 
@@ -103,29 +121,29 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
       _rescheduleAppointmentUsecase
           .execute(_scheduleDate)
           .then((result) {
-            result.fold(
+        result.fold(
               (failure) {
-                inputState.add(
-                  ErrorState(
-                    StateRendererType.popUpErrorState,
-                    failure.message,
-                  ),
-                );
-              },
-              (data) {
-                inputState.add(SuccessState("Appointment rescheduled"));
-              },
-            );
-          })
-          .catchError((e, stack) {
             inputState.add(
               ErrorState(
                 StateRendererType.popUpErrorState,
-                "Unexpected error occurred. Please try again.",
+                failure.message,
               ),
             );
-            debugPrint("🔥 Exception in requestVisitRescheduling: $e\n$stack");
-          });
+          },
+              (data) {
+            inputState.add(SuccessState("Appointment rescheduled"));
+          },
+        );
+      })
+          .catchError((e, stack) {
+        inputState.add(
+          ErrorState(
+            StateRendererType.popUpErrorState,
+            "Unexpected error occurred. Please try again.",
+          ),
+        );
+        debugPrint("🔥 Exception in requestVisitRescheduling: $e\n$stack");
+      });
     } catch (e, stack) {
       inputState.add(
         ErrorState(
@@ -149,24 +167,17 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
     try {
       final result = await _nextAppointmentUsecase.execute(null);
       result.fold(
-        (failure) {
-          // inputState.add(
-          //   ErrorState(StateRendererType.popUpErrorState, failure.message),
-          // );
+            (failure) {
+          // Silently fail - don't show error for appointment
+          debugPrint("Failed to load next appointment: ${failure.message}");
         },
-        (data) {
+            (data) {
           nextAppointmentModel = data;
           inputState.add(ContentState());
         },
       );
     } catch (e, stack) {
-      inputState.add(
-        ErrorState(
-          StateRendererType.popUpErrorState,
-          "Unexpected error occurred. Please try again.",
-        ),
-      );
-      debugPrint("🔥 Exception in login(): $e\n$stack");
+      debugPrint("🔥 Exception in getNextAppointment(): $e\n$stack");
     }
   }
 }

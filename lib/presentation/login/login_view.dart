@@ -77,14 +77,15 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return NetworkAwareWidget(
       onlineChild: Scaffold(
+        backgroundColor: Colors.white,
         body: StreamBuilder<FlowState>(
           stream: _loginViewModel.outputStateStream,
           builder: (context, snapshot) {
             return snapshot.data?.getStateWidget(
-              context,
-              _getContentWidget(),
+                  context,
+                  _getContentWidget(),
                   () {},
-            ) ??
+                ) ??
                 _getContentWidget();
           },
         ),

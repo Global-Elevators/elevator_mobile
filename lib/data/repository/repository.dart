@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:elevator/data/data_source/local_data_source.dart';
 import 'package:elevator/data/data_source/remote_data_source.dart';
 import 'package:elevator/data/mappers/authentication_mapper.dart';
 import 'package:elevator/data/mappers/library_mapper.dart';
@@ -39,8 +40,9 @@ import 'package:elevator/domain/repository/repository.dart';
 
 class RepositoryImpl extends Repository {
   final RemoteDataSource _remoteDataSource;
+  final LocalDataSource _localDataSource;
 
-  RepositoryImpl(this._remoteDataSource);
+  RepositoryImpl(this._remoteDataSource, this._localDataSource);
 
   bool _isSuccessfulResponse(BaseResponse response) => response.success == true;
 
@@ -54,8 +56,8 @@ class RepositoryImpl extends Repository {
   // ---------------- LOGIN ----------------
   @override
   Future<Either<Failure, Authentication>> login(
-    LoginRequest loginRequest,
-  ) async {
+      LoginRequest loginRequest,
+      ) async {
     try {
       final response = await _remoteDataSource.login(loginRequest);
       return _isSuccessfulResponse(response)
@@ -69,8 +71,8 @@ class RepositoryImpl extends Repository {
   // ---------------- VERIFY ----------------
   @override
   Future<Either<Failure, VerifyModel>> verify(
-    VerifyRequest verifyRequests,
-  ) async {
+      VerifyRequest verifyRequests,
+      ) async {
     try {
       final response = await _remoteDataSource.verify(verifyRequests);
       return _isSuccessfulResponse(response)
@@ -97,8 +99,8 @@ class RepositoryImpl extends Repository {
   // ---------------- VERIFY FORGOT PASSWORD ----------------
   @override
   Future<Either<Failure, VerifyForgotPasswordModel>> verifyForgotPassword(
-    VerifyRequest verifyForgotPasswordRequest,
-  ) async {
+      VerifyRequest verifyForgotPasswordRequest,
+      ) async {
     try {
       final response = await _remoteDataSource.verifyForgotPassword(
         verifyForgotPasswordRequest,
@@ -114,8 +116,8 @@ class RepositoryImpl extends Repository {
   // ---------------- RESET PASSWORD ----------------
   @override
   Future<Either<Failure, void>> resetPassword(
-    ResetPasswordRequest resetPasswordRequest,
-  ) async {
+      ResetPasswordRequest resetPasswordRequest,
+      ) async {
     try {
       await _remoteDataSource.resetPassword(resetPasswordRequest);
       return const Right(null);
@@ -151,8 +153,8 @@ class RepositoryImpl extends Repository {
   // ---------------- REQUEST SITE SURVEY ----------------
   @override
   Future<Either<Failure, void>> requestSiteSurvey(
-    RequestSiteSurveyRequest request,
-  ) async {
+      RequestSiteSurveyRequest request,
+      ) async {
     try {
       final response = await _remoteDataSource.requestSiteSurvey(request);
       return response.success == true
@@ -166,8 +168,8 @@ class RepositoryImpl extends Repository {
   // ---------------- UPLOAD MEDIA ----------------
   @override
   Future<Either<Failure, UploadMediaModel>> uploadMedia(
-    List<MultipartFile> files,
-  ) async {
+      List<MultipartFile> files,
+      ) async {
     try {
       final response = await _remoteDataSource.uploadMedia(files);
       return _isSuccessfulResponse(response)
@@ -181,8 +183,8 @@ class RepositoryImpl extends Repository {
   // ---------------- TECHNICAL COMMERCIAL OFFERS ----------------
   @override
   Future<Either<Failure, void>> technicalCommercialOffers(
-    TechnicalCommercialOffersRequest request,
-  ) async {
+      TechnicalCommercialOffersRequest request,
+      ) async {
     try {
       final response = await _remoteDataSource.technicalCommercialOffers(
         request,
@@ -206,16 +208,28 @@ class RepositoryImpl extends Repository {
     }
   }
 
-  // ---------------- GET USER DATA ----------------
+  // ---------------- GET USER DATA (WITH CACHE) ----------------
   @override
   Future<Either<Failure, GetUserInfo>> getUserData() async {
     try {
-      final response = await _remoteDataSource.getUserData();
-      return _isSuccessfulResponse(response)
-          ? Right(response.toDomain())
-          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
-    } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      // Try to get data from cache first
+      final cachedResponse = await _localDataSource.getUserData();
+      return Right(cachedResponse);
+    } catch (cacheError) {
+      // If cache fails, fetch from remote
+      try {
+        final response = await _remoteDataSource.getUserData();
+
+        if (_isSuccessfulResponse(response)) {
+          // Save to cache for future use
+          await _localDataSource.saveUserDataToCache(response.toDomain());
+          return Right(response.toDomain());
+        } else {
+          return Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+        }
+      } catch (error) {
+        return Left(ExceptionHandler.handle(error).failure);
+      }
     }
   }
 
@@ -224,6 +238,8 @@ class RepositoryImpl extends Repository {
   Future<Either<Failure, void>> updateUser(UpdateUserRequest request) async {
     try {
       await _remoteDataSource.updateUser(request);
+      // Clear user data cache after update
+      _localDataSource.removeFromCache(CACHE_USER_DATA_KEY);
       return const Right(null);
     } catch (error) {
       return Left(ExceptionHandler.handle(error).failure);
@@ -233,8 +249,8 @@ class RepositoryImpl extends Repository {
   // ---------------- CHANGE PASSWORD ----------------
   @override
   Future<Either<Failure, void>> changePassword(
-    ChangePasswordRequest request,
-  ) async {
+      ChangePasswordRequest request,
+      ) async {
     try {
       await _remoteDataSource.changePassword(request);
       return const Right(null);
@@ -248,6 +264,8 @@ class RepositoryImpl extends Repository {
   Future<Either<Failure, void>> logout() async {
     try {
       await _remoteDataSource.logout();
+      // Clear all cache on logout
+      _localDataSource.clearCache();
       return const Right(null);
     } catch (error) {
       return Left(ExceptionHandler.handle(error).failure);
@@ -257,8 +275,8 @@ class RepositoryImpl extends Repository {
   // ---------------- REPORT BREAKDOWN ----------------
   @override
   Future<Either<Failure, void>> reportBreakDown(
-    ReportBreakDownRequest request,
-  ) async {
+      ReportBreakDownRequest request,
+      ) async {
     try {
       await _remoteDataSource.reportBreakDown(request);
       return const Right(null);
@@ -270,8 +288,8 @@ class RepositoryImpl extends Repository {
   // ---------------- RESCHEDULE APPOINTMENT ----------------
   @override
   Future<Either<Failure, void>> rescheduleAppointment(
-    String scheduleDate,
-  ) async {
+      String scheduleDate,
+      ) async {
     try {
       await _remoteDataSource.rescheduleAppointment(scheduleDate);
       return const Right(null);
@@ -327,12 +345,25 @@ class RepositoryImpl extends Repository {
   @override
   Future<Either<Failure, NextAppointmentModel>> nextAppointment() async {
     try {
-      final response = await _remoteDataSource.nextAppointment();
-      return _isSuccessfulResponse(response)
-          ? Right(response.toDomain())
-          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
-    } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      // Try to get data from cache first
+      final cachedData = await _localDataSource.getNextAppointment();
+      return Right(cachedData);
+    } catch (cacheError) {
+      // If cache fails, fetch from remote
+      try {
+        final response = await _remoteDataSource.nextAppointment();
+
+        if (_isSuccessfulResponse(response)) {
+          final domainModel = response.toDomain();
+          // Save to cache for future use
+          await _localDataSource.saveNextAppointmentToCache(domainModel);
+          return Right(domainModel);
+        } else {
+          return Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+        }
+      } catch (error) {
+        return Left(ExceptionHandler.handle(error).failure);
+      }
     }
   }
 
@@ -340,7 +371,7 @@ class RepositoryImpl extends Repository {
   Future<Either<Failure, LibraryAttachment>> getLibrary() async {
     try {
       final response = await _remoteDataSource.getLibrary();
-      print("The success state of lib : ${response.success}" );
+      print("The success state of lib : ${response.success}");
       return _isSuccessfulResponse(response)
           ? Right(response.toDomain())
           : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));

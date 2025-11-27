@@ -243,6 +243,7 @@ class _RegisterViewState extends State<RegisterView> {
         controller: _phoneController,
         phoneValidationStream: _registerViewModel.outIsPhoneNumberValid,
       ),
+      Gap(AppSize.s25.h),
       EmailField(
         emailController: _emailController,
         emailValidationStream: _registerViewModel.outIsEmailValid,

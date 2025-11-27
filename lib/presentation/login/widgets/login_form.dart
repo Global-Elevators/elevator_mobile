@@ -49,13 +49,12 @@ class LoginForm extends StatelessWidget {
             const WelcomeMessage(),
             Gap(AppSize.s34.h),
             InputLabel(title: Strings.phoneNumberTitle.tr()),
-            Gap(AppSize.s8.h),
             PhoneField(
               controller: phoneController,
               phoneValidationStream: phoneValidationStream,
             ),
+            Gap(AppSize.s20.h),
             InputLabel(title: Strings.passwordTitle.tr()),
-            Gap(AppSize.s8.h),
             PasswordField(
               controller: passwordController,
               hintText: Strings.passwordTitle.tr(),

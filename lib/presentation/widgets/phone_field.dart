@@ -21,56 +21,89 @@ class PhoneField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
-      children: [
-        Container(
-          height: AppSize.s50.h,
-          decoration: BoxDecoration(
-            color: ColorManager.whiteColor,
-            borderRadius: BorderRadius.circular(AppSize.s14.r),
-            border: Border.all(
-              color: ColorManager.formFieldsBorderColor,
-              width: AppSize.s1.w,
-            ),
-          ),
-          child: Row(
-            children: [
-              Gap(AppSize.s12.w),
-              Image.asset(
-                IconAssets.iraqFlag,
-                height: AppSize.s20.h,
-                width: AppSize.s20.w,
-              ),
-              Gap(AppSize.s4.w),
-              Text(
-                "+964",
-                style: getRegularTextStyle(
-                  color: ColorManager.primaryColor,
-                  fontSize: AppSize.s18.sp,
+    return StreamBuilder<bool>(
+      stream: phoneValidationStream,
+      builder: (context, snapshot) {
+        final hasError = !(snapshot.data ?? true);
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: AppSize.s60.h,
+              decoration: BoxDecoration(
+                color: ColorManager.whiteColor,
+                borderRadius: BorderRadius.circular(AppSize.s14.r),
+                border: Border.all(
+                  color: hasError
+                      ? ColorManager.errorColor
+                      : ColorManager.formFieldsBorderColor,
+                  width: AppSize.s1.w,
                 ),
               ),
-              Gap(AppSize.s12.w),
-            ],
-          ),
-        ),
-        Gap(AppSize.s8.w),
-        Expanded(
-          child: StreamBuilder<bool>(
-            stream: phoneValidationStream,
-            builder: (context, snapshot) => TextFromFieldWidget(
-              hintText: Strings.phoneNumberTitle.tr(),
-              controller: controller,
-              keyboardType: TextInputType.phone,
-              textInputAction: TextInputAction.done,
-              errorText: (snapshot.data ?? true)
-                  ? null
-                  : Strings.invalidPhoneNumber.tr(),
+              child: Row(
+                children: [
+                  Gap(AppSize.s12.w),
+                  Image.asset(
+                    IconAssets.iraqFlag,
+                    height: AppSize.s25.h,
+                    width: AppSize.s25.w,
+                  ),
+                  Gap(AppSize.s8.w),
+                  Padding(
+                    padding:  EdgeInsetsDirectional.only(
+                      top: 4.h,
+                    ),
+                    child: Text(
+                      "+964",
+                      style: getRegularTextStyle(
+                        color: ColorManager.primaryColor,
+                        fontSize: AppSize.s18.sp,
+                      ),
+                    ),
+                  ),
+                  Gap(AppSize.s12.w),
+                  Expanded(
+                    child: TextField(
+                      controller: controller,
+                      keyboardType: TextInputType.phone,
+                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                        hintText: Strings.phoneNumberTitle.tr(),
+                        border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        focusedErrorBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.zero,
+                        isDense: true,
+                      ),
+                      style: getRegularTextStyle(
+                        color: ColorManager.primaryColor,
+                        fontSize: AppSize.s18.sp,
+                      ),
+                    ),
+                  ),
+                  Gap(AppSize.s12.w),
+                ],
+              ),
             ),
-          ),
-        ),
-      ],
+            if (hasError) ...[
+              Gap(AppSize.s8.h),
+              Padding(
+                padding: EdgeInsets.only(left: AppSize.s12.w),
+                child: Text(
+                  Strings.invalidPhoneNumber.tr(),
+                  style: getRegularTextStyle(
+                    color: ColorManager.errorColor,
+                    fontSize: AppSize.s12.sp,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        );
+      },
     );
   }
 }

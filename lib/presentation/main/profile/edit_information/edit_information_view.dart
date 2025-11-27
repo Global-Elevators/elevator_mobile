@@ -161,31 +161,23 @@ class _EditInformationViewState extends State<EditInformationView> {
             ),
 
             // Phone
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                LabelField(Strings.phoneNumberTitle.tr()),
-                Gap(AppSize.s8.h),
-                PhoneField(controller: _phone),
-              ],
-            ),
+            LabelField(Strings.phoneNumberTitle.tr()),
+            Gap(AppSize.s8.h),
+            PhoneField(controller: _phone),
+            Gap(AppSize.s20.h),
+
 
             // Email
             EmailField(emailController: _email),
 
             // Address
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                LabelField(Strings.addressLabel.tr()),
-                Gap(AppSize.s8.h),
-                ItemsDropDown(
-                  items: _addresses,
-                  hintText: "Select your address",
-                  selectedItem: _selectedAddress,
-                  onChanged: (v) => setState(() => _selectedAddress = v),
-                ),
-              ],
+            LabelField(Strings.addressLabel.tr()),
+            Gap(AppSize.s8.h),
+            ItemsDropDown(
+              items: _addresses,
+              hintText: "Select your address",
+              selectedItem: _selectedAddress,
+              onChanged: (v) => setState(() => _selectedAddress = v),
             ),
 
             Gap(AppSize.s20.h),

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:elevator/app/app_pref.dart';
+import 'package:elevator/data/data_source/local_data_source.dart';
 import 'package:elevator/data/data_source/remote_data_source.dart';
 import 'package:elevator/data/network/app_api.dart';
 import 'package:elevator/data/network/dio_factory.dart';
@@ -77,10 +78,14 @@ Future<void> initAppModule() async {
     () => RemoteDataSourceImp(instance<AppServicesClient>()),
   );
 
+  instance.registerLazySingleton<LocalDataSource>(
+    () => LocalDataSourceImpl(),
+  );
+
   instance.registerLazySingleton<Repository>(
     () => RepositoryImpl(
       instance<RemoteDataSource>(),
-      // instance<NetworkInfo>()
+      instance<LocalDataSource>(),
     ),
   );
 }
@@ -218,6 +223,7 @@ initMainModule() {
         instance<SosUsecase>(),
         instance<RescheduleAppointmentUsecase>(),
         instance<NextAppointmentUsecase>(),
+        instance<UserDataUsecase>(),
       ),
     );
   }

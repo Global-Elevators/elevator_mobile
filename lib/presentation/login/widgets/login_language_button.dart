@@ -20,7 +20,7 @@ class LoginLanguageButton extends StatelessWidget {
         onTap: () => changeLanguage(context),
         child: Container(
           height: AppSize.s50.h,
-          width: 80.w,
+          width: AppSize.s80.w,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s14.r),
             color: Colors.white,

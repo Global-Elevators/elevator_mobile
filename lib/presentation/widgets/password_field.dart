@@ -29,17 +29,21 @@ class PasswordField extends StatelessWidget {
             obscureText: true,
             keyboardType: TextInputType.visiblePassword,
             textInputAction: TextInputAction.done,
-            prefixIcon: SvgPicture.asset(
-              IconAssets.passwordIconField,
-              fit: BoxFit.scaleDown,
-              colorFilter: ColorFilter.mode(
-                ColorManager.primaryColor,
-                BlendMode.srcIn,
+
+            prefixIcon: Transform.scale(
+              scale: .50, // adjust as needed
+              child: SvgPicture.asset(
+                IconAssets.passwordIconField,
+                colorFilter: ColorFilter.mode(
+                  ColorManager.primaryColor,
+                  BlendMode.srcIn,
+                ),
               ),
-              width: 21,
-              height: 21,
             ),
-            errorText: (snapshot.data ?? true) ? null : Strings.invalidPassword.tr(),
+
+            errorText: (snapshot.data ?? true)
+                ? null
+                : Strings.invalidPassword.tr(),
           ),
     );
   }

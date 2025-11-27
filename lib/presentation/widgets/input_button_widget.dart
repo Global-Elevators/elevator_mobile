@@ -35,6 +35,7 @@ class InputButtonWidget extends StatelessWidget {
           splashColor: isEnabled ? null : Colors.transparent,
           highlightColor: isEnabled ? null : Colors.transparent,
           child: Container(
+            alignment: Alignment.center,
             height: AppSize.s55.h,
             width: width.w,
             decoration: BoxDecoration(
@@ -45,15 +46,13 @@ class InputButtonWidget extends StatelessWidget {
                 width: AppSize.s1.w,
               ),
             ),
-            child: Center(
-              child: Text(
-                text,
-                style: getMediumTextStyle(
-                  color: isEnabled
-                      ? textColor
-                      : ColorManager.whiteColor.withValues(alpha: 0.7),
-                  fontSize: AppSize.s18.sp,
-                ),
+            child: Text(
+              text,
+              style: getMediumTextStyle(
+                color: isEnabled
+                    ? textColor
+                    : ColorManager.whiteColor.withValues(alpha: 0.7),
+                fontSize: AppSize.s18.sp,
               ),
             ),
           ),
