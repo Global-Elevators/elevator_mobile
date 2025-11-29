@@ -86,7 +86,7 @@ class TextFromFieldWidget extends StatelessWidget {
             color: ColorManager.greyColor,
             fontSize: AppSize.s16.sp,
           ),
-          helperText: "",
+          // helperText: "",
           // helperStyle: getRegularTextStyle(
           //   color: ColorManager.greyColor,
           //   fontSize: AppSize.s8.sp,

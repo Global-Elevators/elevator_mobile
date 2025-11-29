@@ -37,13 +37,16 @@ class BackToSignInButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.arrow_back_ios_new, size: AppSize.s16),
-              Gap(AppSize.s10.w),
-              Text(
-                textAlign: TextAlign.center,
-                Strings.backSignIn.tr(),
-                style: getMediumTextStyle(
-                  color: ColorManager.primaryColor,
-                  fontSize: currentLanguage == 'ar' ? FontSizeManager.s16 : FontSizeManager.s18,
+              Gap(AppSize.s8.w),
+              Padding(
+                padding: const EdgeInsetsDirectional.only(top: 6),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  Strings.backSignIn.tr(),
+                  style: getMediumTextStyle(
+                    color: ColorManager.primaryColor,
+                    fontSize: currentLanguage == 'ar' ? FontSizeManager.s16 : FontSizeManager.s18,
+                  ),
                 ),
               ),
             ],
