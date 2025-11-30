@@ -1,6 +1,3 @@
-import 'package:elevator/presentation/resources/color_manager.dart';
-import 'package:elevator/presentation/resources/font_manager.dart';
-import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/app_bar_label.dart';
 import 'package:elevator/presentation/widgets/back_button.dart';

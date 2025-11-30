@@ -190,8 +190,10 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
         if (isMaintenance || isRepair) _buildWarrantySection(),
         if (isNewProduct) _buildNewProductSection(),
         _buildStopsSection(),
-        if (isRepair) _buildRepairSection(),
+        if (isRepair) ...[Gap(AppSize.s25.h), _buildRepairSection()],
+        Gap(AppSize.s25.h),
         _buildScheduleSection(),
+        Gap(AppSize.s25.h),
         _buildNotesSection(),
         _buildSubmitButton(),
         Gap(AppSize.s25.h),
@@ -213,6 +215,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           controller: _projectAddressController,
           isButtonEnabledStream: widget.viewmodel.outIsProjectAddressValid,
         ),
+        Gap(AppSize.s25.h),
         LabelDropDownWidget(
           title: Strings.projectType.tr(),
           dropDownItems: projectTypeItems,
@@ -262,6 +265,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           controller: _elevatorBrandController,
           isButtonEnabledStream: null,
         ),
+        Gap(AppSize.s25.h),
         LabelDropDownWidget(
           isOptional: true,
           title: Strings.elevatorType.tr(),
@@ -296,7 +300,9 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           widthController: _widthController,
           depthController: _depthController,
         ),
+        Gap(AppSize.s25.h),
         _buildPitDepthAndLastFloor(),
+        Gap(AppSize.s25.h),
         LabelYesOrNoWidget(
           title: Strings.doesTheShaftHaveAMachineRoom.tr(),
           condition: doesTheShaftHaveAMachineRoom,
@@ -317,6 +323,7 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           isCenterText: true,
           isButtonEnabledStream: widget.viewmodel.outIsHeightValid,
         ),
+        Gap(AppSize.s25.h),
       ],
     );
   }
@@ -345,13 +352,13 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
           isCenterText: true,
           isButtonEnabledStream: null,
         ),
+        Gap(AppSize.s25.h),
         CustomImagePicker(
           singleImage: _imageFile,
           onTap: _pickImageFromGallery,
           placeholderText: Strings.filePhotoOrVideo.tr(),
           isImageLoading: widget.viewmodel.showLoading,
         ),
-        Gap(AppSize.s25.h),
       ],
     );
   }
@@ -400,7 +407,8 @@ class _ScopeOfWorkState extends State<ScopeOfWork> {
       onDaySelected: (selectedDay, newFocusedDay) {
         setState(() {
           focusedDay = newFocusedDay;
-          _selectedDay = "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
+          _selectedDay =
+              "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
         });
         print(_selectedDay);
         widget.viewmodel.setScheduleDate(_selectedDay);

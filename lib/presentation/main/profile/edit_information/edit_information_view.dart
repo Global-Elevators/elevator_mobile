@@ -147,6 +147,8 @@ class _EditInformationViewState extends State<EditInformationView> {
               grandFatherNameController: _grandFather,
             ),
 
+            Gap(AppSize.s20.h),
+
             // Date of Birth
             BuildDateOfBirthSectionWidget(
               dayController: _day,
@@ -160,15 +162,17 @@ class _EditInformationViewState extends State<EditInformationView> {
               },
             ),
 
+            Gap(AppSize.s20.h),
+
             // Phone
             LabelField(Strings.phoneNumberTitle.tr()),
             Gap(AppSize.s8.h),
             PhoneField(controller: _phone),
             Gap(AppSize.s20.h),
 
-
             // Email
             EmailField(emailController: _email),
+            Gap(AppSize.s20.h),
 
             // Address
             LabelField(Strings.addressLabel.tr()),

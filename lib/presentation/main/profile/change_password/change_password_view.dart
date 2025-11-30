@@ -90,11 +90,13 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
             hintText: Strings.oldPassword.tr(),
             passwordValidationStream: viewmodel.isOldPasswordValid,
           ),
+          Gap(AppSize.s25.h),
           PasswordField(
             controller: newPasswordController,
             hintText: Strings.newPassword.tr(),
             passwordValidationStream: viewmodel.isNewPasswordValid,
           ),
+          Gap(AppSize.s25.h),
           PasswordField(
             controller: confirmPasswordController,
             hintText: Strings.confirmPassword.tr(),

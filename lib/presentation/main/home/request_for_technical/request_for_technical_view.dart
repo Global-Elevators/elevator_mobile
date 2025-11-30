@@ -275,13 +275,17 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           _buildProjectOwnershipSection(),
           Gap(AppSize.s25.h),
           _buildPersonalInfoSection(),
+          Gap(AppSize.s25.h),
           _buildContactSection(),
+          Gap(AppSize.s25.h),
           _buildProjectDetailsSection(),
           Gap(AppSize.s25.h),
           _buildMapSection(),
           Gap(AppSize.s25.h),
           _buildShaftInfoSection(),
+          Gap(AppSize.s25.h),
           _buildStopsSection(),
+          Gap(AppSize.s25.h),
           _buildAttachmentsSection(),
           Gap(AppSize.s25.h),
           _buildScheduleSection(),
@@ -351,6 +355,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           controller: _projectAddressController,
           isButtonEnabledStream: _viewmodel.outIsProjectAddressValid,
         ),
+        Gap(AppSize.s25.h),
         LabelDropDownWidget(
           title: Strings.projectType.tr(),
           dropDownItems: projectTypeItems,
@@ -428,10 +433,12 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
             _viewmodel.setShaftLocation(selectedShaftLocation ?? "");
           }),
         ),
+
         ShaftDimensionsWidget(
           widthController: _widthController,
           depthController: _depthController,
         ),
+        Gap(AppSize.s25.h),
         LabelTextFormFieldWidget(
           title: Strings.pitDepth.tr(),
           hintText: Strings.cm.tr(),
@@ -440,6 +447,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           isOptional: true,
           isButtonEnabledStream: null,
         ),
+        Gap(AppSize.s25.h),
         LabelYesOrNoWidget(
           title: Strings.doesTheShaftHaveAMachineRoom.tr(),
           isOptional: true,
@@ -469,6 +477,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           controller: _stopsController,
           displayedNumber: _displayedNumber,
         ),
+        Gap(AppSize.s25.h),
         LabelTextFormFieldWidget(
           title: Strings.lastFloorHeight.tr(),
           hintText: Strings.cm.tr(),
@@ -477,6 +486,7 @@ class _RequestForTechnicalViewState extends State<RequestForTechnicalView> {
           isOptional: true,
           isButtonEnabledStream: null,
         ),
+        Gap(AppSize.s25.h),
         LabelTextFormFieldWidget(
           title: Strings.requiredDoorWidth.tr(),
           hintText: Strings.cm.tr(),

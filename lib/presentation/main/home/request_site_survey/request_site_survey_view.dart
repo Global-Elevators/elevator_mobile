@@ -158,12 +158,13 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
               fatherNameStream: viewmodel.outIsSirNameValid,
               grandFatherNameStream: viewmodel.outIsMiddleNameValid,
             ),
+            Gap(AppSize.s25.h),
             LabelField(Strings.phoneNumberWhatsapp.tr()),
             PhoneField(
               controller: _phoneNumberController,
               phoneValidationStream: viewmodel.outIsPhoneNumberValid,
             ),
-            Gap(AppSize.s10.h),
+            Gap(AppSize.s25.h),
             LabelField(Strings.scopeOfWork.tr()),
             DropdownScope(
               controller: _singleSelectionController,
@@ -172,7 +173,7 @@ class _RequestSiteSurveyState extends State<RequestSiteSurvey> {
                 setState(() => selectedValue = value);
               },
             ),
-            Gap(AppSize.s18.h),
+            Gap(AppSize.s25.h),
             Visibility(
               visible: selectedValue != null,
               child: Builder(

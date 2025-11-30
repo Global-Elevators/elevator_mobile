@@ -66,9 +66,7 @@ class TextFromFieldWidget extends StatelessWidget {
         onTap: onTap,
         decoration: InputDecoration(
           errorText: errorText,
-          // contentPadding: isNotes
-          //     ? EdgeInsets.symmetric(vertical: AppPadding.p90.h)
-          //     : EdgeInsetsDirectional.symmetric(vertical: AppPadding.p12.h),
+
           contentPadding: isNotes
               ? EdgeInsets.symmetric(
                   vertical: AppPadding.p90.h,
@@ -111,6 +109,7 @@ class TextFromFieldWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppSize.s14.r),
             borderSide: BorderSide(color: ColorManager.errorColor),
           ),
+
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppSize.s14.r),
             borderSide: BorderSide(

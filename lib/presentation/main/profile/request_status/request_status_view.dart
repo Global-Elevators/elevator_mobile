@@ -1,16 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/presentation/main/home/widgets/custom_app_bar.dart';
-import 'package:elevator/presentation/resources/assets_manager.dart';
-import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
-import 'package:elevator/presentation/resources/color_manager.dart';
-import 'package:elevator/presentation/resources/styles_manager.dart';
-import 'package:elevator/presentation/resources/values_manager.dart';
-import 'package:elevator/presentation/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gap/gap.dart';
 
 class RequestStatusView extends StatefulWidget {
   static const String routeName = '/request-status';

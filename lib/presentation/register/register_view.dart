@@ -183,6 +183,7 @@ class _RegisterViewState extends State<RegisterView> {
                     _registerViewModel.outIsGrandFatherNameValid,
                 nameStream: _registerViewModel.outIsNameValid,
               ),
+              Gap(AppSize.s25.h),
               BuildDateOfBirthSectionWidget(
                 dayController: _dayController,
                 monthController: _monthController,
@@ -198,9 +199,11 @@ class _RegisterViewState extends State<RegisterView> {
                   log(parsedDate);
                 },
               ),
+              Gap(AppSize.s25.h),
               _buildContactSection(),
               Gap(AppSize.s25.h),
               _buildPasswordSection(),
+              Gap(AppSize.s25.h),
               _buildInterestsSection(),
               Gap(AppSize.s25.h),
               _buildSignUpButton(),
@@ -248,6 +251,7 @@ class _RegisterViewState extends State<RegisterView> {
         emailController: _emailController,
         emailValidationStream: _registerViewModel.outIsEmailValid,
       ),
+      Gap(AppSize.s25.h),
       LabelField(Strings.addressLabel.tr()),
       Gap(AppSize.s8.h),
       ItemsDropDown(
@@ -274,6 +278,7 @@ class _RegisterViewState extends State<RegisterView> {
         hintText: Strings.passwordTitle.tr(),
         passwordValidationStream: _registerViewModel.outIsPasswordValid,
       ),
+      Gap(AppSize.s8.h),
       PasswordField(
         controller: _confirmPasswordController,
         hintText: Strings.confirmPassword.tr(),

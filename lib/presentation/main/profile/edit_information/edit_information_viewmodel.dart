@@ -5,7 +5,6 @@ import 'package:elevator/presentation/base/baseviewmodel.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
-import 'package:flutter/material.dart';
 import '../../../../domain/models/user_data_model.dart';
 import 'package:elevator/data/network/requests/update_user_request.dart';
 

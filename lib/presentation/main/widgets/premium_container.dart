@@ -3,7 +3,6 @@ import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/main/home/home_viewmodel.dart';
 import 'package:elevator/presentation/main/home/report_break_down/report_break_down_view.dart';
-import 'package:elevator/presentation/main/home/widgets/select_suitable_time_widget.dart';
 import 'package:elevator/presentation/main/widgets/premium_button.dart';
 import 'package:elevator/presentation/main/widgets/sos_button.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
@@ -14,11 +13,9 @@ import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:elevator/presentation/widgets/action_or_cancel_button.dart';
 import 'package:elevator/presentation/widgets/custom_bottom_sheet.dart';
-import 'package:elevator/presentation/widgets/input_button_widget.dart';
 import 'package:elevator/presentation/widgets/table_calendar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
@@ -48,10 +45,10 @@ class _PremiumContainerState extends State<PremiumContainer> {
       stream: viewmodel.outputStateStream,
       builder: (context, snapshot) {
         return snapshot.data?.getStateWidget(
-          context,
-          _getContentWidget(context),
+              context,
+              _getContentWidget(context),
               () {},
-        ) ??
+            ) ??
             _getContentWidget(context);
       },
     );
@@ -59,59 +56,59 @@ class _PremiumContainerState extends State<PremiumContainer> {
 
   Container _getContentWidget(BuildContext context) {
     return Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(AppSize.s22.r),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withValues(alpha: 0.2),
-          spreadRadius: 0,
-          blurRadius: 15,
-          offset: Offset(0, 0),
-        ),
-      ],
-    ),
-    child: Padding(
-      padding: EdgeInsets.all(AppSize.s8.r),
-      child: Column(
-        children: [
-          SosButton(widget.isPremium, widget.actionOnTap),
-          Gap(AppSize.s16.h),
-          SizedBox(
-            height: AppSize.s120.h,
-            child: Row(
-              children: [
-                PremiumButton(
-                  title: Strings.reportBreakDown.tr(),
-                  imageAsset: ImageAssets.maintenance,
-                  isPremium: widget.isPremium,
-                  onTap: () =>
-                      context.push(ReportBreakDownView.reportBreakDownRoute),
-                ),
-                Gap(AppSize.s8.w),
-                PremiumButton(
-                  title: Strings.requestVisitRescheduling.tr(),
-                  imageAsset: IconAssets.calendar,
-                  isPremium: widget.isPremium,
-                  onTap: () => showModelOfRequestVisitRescheduling(context, (
-                    selectedDay,
-                    newFocusedDay,
-                  ) {
-                    setState(() {
-                      focusedDay = newFocusedDay;
-                      _selectedDay =
-                          "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
-                    });
-                    viewmodel.setScheduleDate(_selectedDay);
-                  }),
-                ),
-              ],
-            ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppSize.s22.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withValues(alpha: 0.2),
+            spreadRadius: 0,
+            blurRadius: 15,
+            offset: Offset(0, 0),
           ),
         ],
       ),
-    ),
-  );
+      child: Padding(
+        padding: EdgeInsets.all(AppSize.s8.r),
+        child: Column(
+          children: [
+            SosButton(widget.isPremium, widget.actionOnTap),
+            Gap(AppSize.s16.h),
+            SizedBox(
+              height: AppSize.s120.h,
+              child: Row(
+                children: [
+                  PremiumButton(
+                    title: Strings.reportBreakDown.tr(),
+                    imageAsset: ImageAssets.maintenance,
+                    isPremium: widget.isPremium,
+                    onTap: () =>
+                        context.push(ReportBreakDownView.reportBreakDownRoute),
+                  ),
+                  Gap(AppSize.s8.w),
+                  PremiumButton(
+                    title: Strings.requestVisitRescheduling.tr(),
+                    imageAsset: IconAssets.calendar,
+                    isPremium: widget.isPremium,
+                    onTap: () => showModelOfRequestVisitRescheduling(context, (
+                      selectedDay,
+                      newFocusedDay,
+                    ) {
+                      setState(() {
+                        focusedDay = newFocusedDay;
+                        _selectedDay =
+                            "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
+                      });
+                      viewmodel.setScheduleDate(_selectedDay);
+                    }),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<dynamic> showModelOfRequestVisitRescheduling(

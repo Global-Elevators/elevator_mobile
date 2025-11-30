@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:elevator/app/app_pref.dart';
-import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/app/extensions.dart';
 import 'package:elevator/app/functions.dart';
 import 'package:elevator/domain/usecase/technical_commercial_offers_usecase.dart';

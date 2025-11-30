@@ -43,9 +43,12 @@ class BuildNameSection extends StatelessWidget {
               size: AppSize.s30,
               color: ColorManager.primaryColor,
             ),
-            errorText: (snapshot.data ?? true) ? null : Strings.invalidName.tr(),
+            errorText: (snapshot.data ?? true)
+                ? null
+                : Strings.invalidName.tr(),
           ),
         ),
+        Gap(AppSize.s8.h),
         Row(
           children: [
             StreamBuilder<bool>(
