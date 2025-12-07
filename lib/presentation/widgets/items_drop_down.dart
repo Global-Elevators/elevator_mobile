@@ -4,7 +4,7 @@ import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ItemsDropDown extends StatefulWidget {
+class ItemsDropDown extends StatelessWidget {
   final List<String> items;
   final String? selectedItem;
   final String hintText;
@@ -19,37 +19,80 @@ class ItemsDropDown extends StatefulWidget {
   });
 
   @override
-  State<ItemsDropDown> createState() => _ItemsDropDownState();
-}
-
-class _ItemsDropDownState extends State<ItemsDropDown> {
-  @override
   Widget build(BuildContext context) {
-    return Container(
-      height: AppSize.s55.h,
-      padding: EdgeInsets.symmetric(horizontal: AppSize.s16.w),
-      decoration: BoxDecoration(
-        color: ColorManager.whiteColor,
-        borderRadius: BorderRadius.circular(AppSize.s12),
-        border: Border.all(
-          color: ColorManager.formFieldsBorderColor,
-          width: AppSize.s1.w,
+    return PopupMenuTheme(
+      data: const PopupMenuThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
+        elevation: 8,
+        color: Colors.white,
       ),
-      child: DropdownButton(
-        underline: SizedBox.shrink(),
-        hint: Text(widget.hintText),
-        isExpanded: true,
-        style: getMediumTextStyle(
-          color: ColorManager.primaryColor,
-          fontSize: AppSize.s18.sp,
+      child: PopupMenuButton<String>(
+        padding: EdgeInsets.zero,
+        offset: Offset(0, 56.h),
+        // This is the magic: force menu width = trigger width
+        constraints: const BoxConstraints(minWidth: double.infinity),
+
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSize.s12.r),
+          side: BorderSide(color: ColorManager.buttonsBorderColor, width: 1.5),
         ),
-        value: widget.selectedItem,
-        icon: Icon(Icons.keyboard_arrow_down_outlined),
-        items: widget.items
-            .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+
+        itemBuilder: (context) => items
+            .map(
+              (item) => PopupMenuItem(
+                value: item,
+                height: 52.h,
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    item,
+                    style: getMediumTextStyle(
+                      color: ColorManager.primaryColor,
+                      fontSize: AppSize.s18.sp,
+                    ),
+                  ),
+                ),
+              ),
+            )
             .toList(),
-        onChanged: widget.onChanged,
+
+        onSelected: onChanged,
+
+        child: Container(
+          height: 56.h,
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(AppSize.s12.r),
+            border: Border.all(
+              color: ColorManager.buttonsBorderColor,
+              width: 1.5,
+            ),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  selectedItem ?? hintText,
+                  style: getMediumTextStyle(
+                    color: selectedItem != null
+                        ? ColorManager.primaryColor
+                        : ColorManager.greyColor,
+                    fontSize: AppSize.s18.sp,
+                  ),
+                ),
+              ),
+              Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: ColorManager.primaryColor,
+                size: 28.r,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

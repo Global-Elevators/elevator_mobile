@@ -148,6 +148,15 @@ class _RegisterViewState extends State<RegisterView> {
     return NetworkAwareWidget(
       onlineChild: Scaffold(
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: Padding(
+            padding: EdgeInsets.only(left: AppSize.s16),
+            child: BackToSignInButton(route: LoginView.loginRoute),
+          ),
+          leadingWidth: AppSize.s170.w,
+        ),
         body: StreamBuilder<FlowState>(
           stream: _registerViewModel.outputStateStream,
           builder: (context, snapshot) =>
@@ -170,7 +179,6 @@ class _RegisterViewState extends State<RegisterView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildBackButton(),
               Gap(AppSize.s12.h),
               _buildHeader(),
               Gap(AppSize.s22.h),
@@ -214,8 +222,6 @@ class _RegisterViewState extends State<RegisterView> {
       ),
     );
   }
-
-  Widget _buildBackButton() => BackToSignInButton(route: LoginView.loginRoute);
 
   Widget _buildHeader() => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
