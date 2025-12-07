@@ -1,233 +1,337 @@
-# 📱 Flutter Clean Architecture App
+# 🚧 Elevator Maintenance Request App
 
-This is a Flutter mobile application built using **Clean Architecture** principles.
-The project is structured to be **scalable, testable, and easy to maintain**, with a clear separation between **UI, business logic, and data sources**.
+## 🏗️ Architecture Overview
+
+This project follows **Clean Architecture** with strict, production-ready separation of concerns:
+
+```
+Presentation (UI + ViewModels + State Management)
+        ↓
+Domain (Entities + Use Cases + Business Rules)
+        ↓
+Data (Repositories + Data Sources + DTOs + API Layer)
+        ↓
+Remote APIs / Local Storage / Firebase Services
+```
+
+### Architectural Patterns Used
+
+* Clean Architecture
+* MVVM (Model–View–ViewModel)
+* Repository Pattern
+* Dependency Injection (GetIt + Injectable)
+* State Rendering using FlowState
+* Functional error handling with Either<Failure, T>
 
 ---
 
-## 🧱 Project Architecture
-
-The project follows this layered structure:
+## 🧩 Project Structure
 
 ```
 lib/
-├── app/           → Core app configuration and helpers
-├── data/          → API, local storage, DTOs, and repositories implementation
-├── domain/        → Business logic (models, use cases, repositories contracts)
-├── presentation/  → UI layer (screens, widgets, view models)
+├── app/
+├── data/
+├── domain/
+├── presentation/
+├── firebase_options.dart
+├── main_common.dart
+├── main_free.dart
+├── main_premium.dart
 ```
 
-Each layer has a single responsibility:
-
-| Layer          | Responsibility               |
-| -------------- | ---------------------------- |
-| `app`          | App-level config & utilities |
-| `data`         | Fetching and mapping data    |
-| `domain`       | Business rules & use cases   |
-| `presentation` | UI and state management      |
+Each layer is completely isolated to maintain scalability and testability.
 
 ---
 
-## 🗂 Folder Structure Explanation
+## 📁 Layer Responsibilities (Detailed)
 
-### 1. `app/` – Core Application Setup
+### 1. `app/` – Application Core Layer
 
-Contains global configuration and helpers:
+This module manages the **foundation of the application**:
 
-| File                           | Description                               |
-| ------------------------------ | ----------------------------------------- |
-| `app_pref.dart`                | SharedPreferences wrapper (local storage) |
-| `constants.dart`               | Global constants                          |
-| `dependency_injection.dart`    | GetIt + Injectable setup                  |
-| `extensions.dart`              | Dart extension methods                    |
-| `flavor_config.dart`           | App flavors (Free / Premium / Common)     |
-| `functions.dart`               | Reusable global helper functions          |
-| `insecure_http_overrides.dart` | Allow self-signed SSL (dev only)          |
-| `navigation_service.dart`      | Global navigation without context         |
-| `network_aware_widget.dart`    | Detects network connection state          |
+**Key responsibilities:**
+
+* Flavor management (Free / Premium / Common)
+* Global dependency injection bootstrap
+* Secure preference handling
+* Global constants & helper utilities
+* Custom navigation without BuildContext
+* Network connectivity awareness
+* HTTP override for development/testing environments
+
+**Important files:**
+
+* `dependency_injection.dart` → Initializes all services via GetIt + Injectable
+* `navigation_service.dart` → Global navigator using keys
+* `app_pref.dart` → SharedPreferences abstraction
+* `network_aware_widget.dart` → Online/Offline UI awareness
 
 ---
 
-### 2. `data/` – Data Layer (External & Local Data)
+### 2. `data/` – Data Layer (Infrastructure Layer)
 
-Responsible for **fetching and converting raw data**.
+Handles **all external data interactions**.
 
-#### `data_source/`
+#### ✅ Core Responsibilities
 
-| File                      | Description              |
-| ------------------------- | ------------------------ |
-| `local_data_source.dart`  | Reads/writes cached data |
-| `remote_data_source.dart` | Handles API calls        |
+* REST API communication
+* Local caching
+* Request/Response serialization
+* Exception → Failure mapping
+* DTO → Domain model transformations
 
-#### `mappers/`
+---
 
-Converts API models (DTOs) into domain models.
+### 📡 Remote Networking System
+
+Uses **Dio + Retrofit**.
+
+#### Key Components:
+
+| File                     | Purpose                                        |
+| ------------------------ | ---------------------------------------------- |
+| `dio_factory.dart`       | Configures Dio client, timeouts & interceptors |
+| `app_api.dart`           | Retrofit endpoint definitions                  |
+| `exception_handler.dart` | Centralized error handler                      |
+| `network_info.dart`      | Runtime connectivity checker                   |
+| `failure.dart`           | Failure object model                           |
+
+---
+
+### 📨 API Request Models
+
+Located in:
+
+```
+data/network/requests/
+```
+
+Examples:
+
+* `login_request.dart`
+* `register_request.dart`
+* `change_password_request.dart`
+* `report_break_down_request.dart`
+* `request_site_survey_request.dart`
+* `technical_commercial_offers_request.dart`
+* `update_user_request.dart`
+* `verify_request.dart`
+
+---
+
+### 🔄 Mappers
+
+Located in:
+
+```
+data/mappers/
+```
+
+Their job is:
+
+```
+API Response DTO → Domain Model
+Domain Model → API Request DTO
+```
 
 Examples:
 
 * `authentication_mapper.dart`
-* `library_mapper.dart`
 * `user_data_mapper.dart`
-* `verify_mapper.dart`
-
-#### `network/`
-
-Handles all network operations.
-
-| Folder/File              | Description                  |
-| ------------------------ | ---------------------------- |
-| `requests/`              | API request bodies (DTOs)    |
-| `app_api.dart`           | Retrofit API definitions     |
-| `dio_factory.dart`       | Dio HTTP client config       |
-| `exception_handler.dart` | Central API error handler    |
-| `failure.dart`           | Custom failure models        |
-| `network_info.dart`      | Network connectivity checker |
-
-#### `repository/`
-
-Concrete implementation of domain repositories.
+* `library_mapper.dart`
+* `notification_mapper.dart`
+* `upload_media_mapper.dart`
 
 ---
 
-### 3. `domain/` – Business Logic Layer
+### 🗄️ Data Sources
 
-This layer contains the **core logic of the app**.
+| Component          | Description                         |
+| ------------------ | ----------------------------------- |
+| `RemoteDataSource` | Calls REST APIs                     |
+| `LocalDataSource`  | Caches data using SharedPreferences |
 
-#### `models/`
+---
 
-Pure business models used by the app:
+### 🧾 Repository Implementations
 
-* `login_model.dart`
-* `user_data_model.dart`
-* `notifications_model.dart`
-* `library_model.dart`, etc.
+Concrete implementations of domain repositories:
 
-#### `repository/`
+```
+data/repository/repository.dart
+```
 
-Abstract repository contracts (interfaces).
+This layer decides **where the data comes from**:
 
-#### `usecase/`
+* API
+* Cache
+* Fallback strategies
 
-Each **use case represents a single business action**.
+---
+
+## 🧠 Domain Layer (Business Logic)
+
+This is the **heart of the system**.
+
+### ✅ Models
+
+Pure Dart entities under:
+
+```
+domain/models/
+```
 
 Examples:
 
-| Use Case                         | Responsibility            |
-| -------------------------------- | ------------------------- |
-| `login_usecase.dart`             | User login                |
-| `register_usecase.dart`          | User registration         |
-| `report_break_down_usecase.dart` | Report elevator breakdown |
-| `upload_media_usecase.dart`      | Upload images/files       |
-| `notification_usecase.dart`      | Handle notifications      |
+* `login_model.dart`
+* `user_data_model.dart`
+* `library_model.dart`
+* `notifications_model.dart`
+* `upload_media_model.dart`
 
 ---
 
-### 4. `presentation/` – UI Layer
+### 🔐 Notification System
 
-Contains **screens, UI widgets, and ViewModels**.
-
-#### Screens (Examples)
-
-| Feature       | Files                                                   |
-| ------------- | ------------------------------------------------------- |
-| Login         | `login_view.dart`, `login_viewmodel.dart`               |
-| Register      | `register_view.dart`, `register_viewmodel.dart`         |
-| Verify        | `verify_view.dart`, `verify_viewmodel.dart`             |
-| Home          | `home_view.dart`, `home_viewmodel.dart`                 |
-| Notifications | `notification_view.dart`, `notification_viewmodel.dart` |
-| Library       | `library_view.dart`, `library_viewmodel.dart`           |
-| Profile       | Profile-related screens & viewmodels                    |
-
-#### `common/`
-
-Contains reusable UI states:
-
-* `state_renderer.dart` → Loading / Error / Success UI
-* `freezed_data_classes.dart` → Freezed state models
-
-#### `resources/`
-
-App styling and constants:
-
-| File                  | Purpose           |
-| --------------------- | ----------------- |
-| `color_manager.dart`  | App colors        |
-| `font_manager.dart`   | Fonts             |
-| `routes_manager.dart` | Navigation routes |
-| `styles_manager.dart` | Text styles       |
-| `theme_manager.dart`  | App themes        |
-
----
-
-### 5. Firebase & Main Files
-
-| File                    | Purpose                         |
-| ----------------------- | ------------------------------- |
-| `firebase_options.dart` | Firebase configuration          |
-| `main_common.dart`      | Entry point for common flavor   |
-| `main_free.dart`        | Entry point for Free version    |
-| `main_premium.dart`     | Entry point for Premium version |
-
----
-
-## ✨ Key Features
-
-✅ Authentication (Login, Register, OTP, Reset Password)
-✅ User Profile Management
-✅ Notifications (Local & Push)
-✅ Library / Catalogue Module
-✅ File & Media Upload
-✅ Technical Requests & Site Surveys
-✅ Multi-Flavors (Free / Premium)
-✅ Offline Handling
-✅ Clean Architecture & Dependency Injection
-
----
-
-## 🔧 Tech Stack
-
-* Flutter (Dart)
-* Clean Architecture
-* MVVM
-* GetIt + Injectable (DI)
-* Dio + Retrofit
-* Freezed
-* Firebase
-* SharedPreferences
-
----
-
-## 🧭 How the App Works (Flow)
+Implemented under:
 
 ```
-UI → ViewModel → UseCase → Repository (Domain)
-→ Remote/Local Data Source → API/Cache
-→ Mapper → Domain Model → Back to UI
+domain/notification/
 ```
+
+Features:
+
+* Local notifications
+* Push notifications (Firebase)
+* Notification lifecycle management
+* Read/delete tracking
+
+---
+
+### 📌 Use Cases (Full Feature Coverage)
+
+Each file in `domain/usecase/` represents a **real business feature**:
+
+| Use Case                                   | Feature                      |
+| ------------------------------------------ | ---------------------------- |
+| `login_usecase.dart`                       | User authentication          |
+| `logout_usecase.dart`                      | End session                  |
+| `register_usecase.dart`                    | User registration            |
+| `verify_usecase.dart`                      | OTP verification             |
+| `resend_otp_usecase.dart`                  | Resend verification codes    |
+| `forget_password_usecase.dart`             | Forgot password flow         |
+| `reset_password_usecase.dart`              | Reset user password          |
+| `change_password_usecase.dart`             | Change password from profile |
+| `user_data_usecase.dart`                   | Fetch profile data           |
+| `update_data_usecase.dart`                 | Update user information      |
+| `library_usecase.dart`                     | Fetch documents & manuals    |
+| `upload_media_usecase.dart`                | Upload images/files          |
+| `report_break_down_usecase.dart`           | Report elevator breakdown    |
+| `request_site_survey_usecase.dart`         | Request site inspections     |
+| `technical_commercial_offers_usecase.dart` | Request technical offers     |
+| `next_appointment_usecase.dart`            | Get upcoming appointments    |
+| `reschedule_appointment_usecase.dart`      | Reschedule service visits    |
+| `notification_usecase.dart`                | Fetch notifications          |
+| `read_all_notifications_usecase.dart`      | Mark notifications as read   |
+| `delete_notification_usecase.dart`         | Delete notifications         |
+| `save_fcm_token_usecase.dart`              | Register device push token   |
+| `sos_usecase.dart`                         | Emergency SOS requests       |
+
+---
+
+## 🖥️ Presentation Layer (UI + MVVM)
+
+### ✅ ViewModel Architecture
+
+Each screen has:
+
+```
+View  →  ViewModel  →  UseCase
+```
+
+ViewModels only talk to **domain use cases**, never to data sources directly.
+
+---
+
+### 📱 Feature Modules
+
+| Feature        | Screens                                                         |
+| -------------- | --------------------------------------------------------------- |
+| Authentication | Login, Register, Verify, Forgot Password, Reset Password        |
+| Home           | Dashboard, Notifications, Technical Requests, Breakdown Reports |
+| Library        | Document listing & PDF viewer                                   |
+| Profile        | Change password, Edit profile, Contract status                  |
+| SOS            | Emergency request system                                        |
+
+---
+
+### 🔄 State Management
+
+Handled via:
+
+* `FlowState` for loading/content/error/empty states
+* `Freezed` for immutable data classes
+* `StateRenderer` to unify UI state behavior
+
+---
+
+## 🔐 Security & Infrastructure
+
+* JWT token handling
+* Encrypted preferences where supported
+* Dio interceptors for token injection
+* Safe failure wrapping using Either pattern
+* SSL bypass only in debug mode
+
+---
+
+## ⚡ Offline Support
+
+* Network availability detection
+* Graceful fallback UI when offline
+* Cached data via local data source
+
+---
+
+## 🌍 Localization
+
+Powered by:
+
+```
+easy_localization
+```
+
+Supports:
+
+* Arabic (`ar`)
+* English (`en`)
+
+Dynamic RTL/LTR switching supported.
 
 ---
 
 ## 🚀 Running the Project
 
+Install packages:
+
 ```bash
 flutter pub get
-flutter run -t lib/main_common.dart
 ```
 
-For flavors:
+Run flavors:
 
 ```bash
+flutter run -t lib/main_common.dart
 flutter run -t lib/main_free.dart
 flutter run -t lib/main_premium.dart
 ```
 
 ---
 
-## 🧠 Project Goal
+## 📌 Design Principles
 
-This project is designed to demonstrate:
-
-* Strong architecture principles
-* Scalable codebase
-* Clean separation of concerns
-* Real-world production-ready structure
+* SOLID
+* Dependency Inversion
+* Modular architecture
+* Scalability-first
+* Testability-first
