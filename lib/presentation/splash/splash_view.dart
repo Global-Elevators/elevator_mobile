@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'package:elevator/app/app_pref.dart';
-import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/main/main_view.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';

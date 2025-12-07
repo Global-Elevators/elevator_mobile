@@ -4,7 +4,6 @@ import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
-import 'package:elevator/presentation/widgets/text_from_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -51,9 +50,7 @@ class PhoneField extends StatelessWidget {
                   ),
                   Gap(AppSize.s8.w),
                   Padding(
-                    padding:  EdgeInsetsDirectional.only(
-                      top: 4.h,
-                    ),
+                    padding: EdgeInsetsDirectional.only(top: 4.h),
                     child: Text(
                       "+964",
                       style: getRegularTextStyle(

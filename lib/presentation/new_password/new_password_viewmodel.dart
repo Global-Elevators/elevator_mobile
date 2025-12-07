@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'package:elevator/app/functions.dart';
-import 'package:elevator/domain/usecase/login_usecase.dart';
 import 'package:elevator/domain/usecase/reset_password_usecase.dart';
 import 'package:elevator/presentation/base/baseviewmodel.dart';
-import 'package:elevator/presentation/common/freezed_data_classes.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:flutter/material.dart';

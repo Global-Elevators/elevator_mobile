@@ -4,7 +4,6 @@ import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/app/functions.dart';
 import 'package:elevator/app/navigation_service.dart';
 import 'package:elevator/presentation/main/home/request_for_technical/request_for_technical_view.dart';
-import 'package:elevator/presentation/main/home/request_site_survey/request_site_survey_view.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
 import 'package:elevator/presentation/resources/font_manager.dart';
@@ -146,7 +145,9 @@ InkWell contactButton(BuildContext context) {
             Strings.contactSalesDept.tr(),
             style: getMediumTextStyle(
               color: ColorManager.whiteColor,
-              fontSize: currentLanguage == 'ar' ? FontSizeManager.s14.sp : FontSizeManager.s18.sp,
+              fontSize: currentLanguage == 'ar'
+                  ? FontSizeManager.s14.sp
+                  : FontSizeManager.s18.sp,
             ),
           ),
         ],

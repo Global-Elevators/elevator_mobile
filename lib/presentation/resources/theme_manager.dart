@@ -1,5 +1,4 @@
 import 'package:elevator/presentation/resources/color_manager.dart';
-import 'package:elevator/presentation/resources/font_manager.dart';
 import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';

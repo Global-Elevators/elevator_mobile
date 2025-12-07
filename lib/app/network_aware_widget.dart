@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'package:elevator/data/network/network_info.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,32 +19,29 @@ class NetworkAwareWidget extends StatefulWidget {
 }
 
 class _NetworkAwareWidgetState extends State<NetworkAwareWidget> {
-  final NetworkInfo _networkInfo = instance<NetworkInfo>();
-  late StreamSubscription _subscription;
+  final Connectivity _connectivity = Connectivity();
+  StreamSubscription<List<ConnectivityResult>>? _subscription;
   bool _isOnline = true;
 
   @override
   void initState() {
     super.initState();
-    _checkConnection();
-    _subscription = Stream.periodic(const Duration(seconds: 2))
-        .asyncMap((_) => _networkInfo.isConnected)
-        .listen((connected) {
+    _subscription = _connectivity.onConnectivityChanged.listen((results) {
+      if (!mounted) return;
+
+      final connected =
+          results.isNotEmpty && !results.contains(ConnectivityResult.none);
+
       if (_isOnline != connected) {
         setState(() => _isOnline = connected);
       }
     });
   }
 
-  Future<void> _checkConnection() async {
-    final connected = await _networkInfo.isConnected;
-    setState(() => _isOnline = connected);
-  }
-
   @override
   void dispose() {
+    _subscription?.cancel();
     super.dispose();
-    _subscription.cancel();
   }
 
   @override
@@ -71,7 +67,7 @@ class _DefaultOfflineScreen extends StatelessWidget {
               Icon(Icons.wifi_off, size: 80.sp, color: Colors.grey),
               SizedBox(height: AppSize.s20.h),
               Text(
-                "You’re offline",
+                "You're offline",
                 style: TextStyle(
                   fontSize: 22.sp,
                   fontWeight: FontWeight.bold,
@@ -82,21 +78,7 @@ class _DefaultOfflineScreen extends StatelessWidget {
               Text(
                 "Check your internet connection and try again.",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: Colors.black54,
-                ),
-              ),
-              SizedBox(height: AppSize.s20.h),
-              ElevatedButton(
-                onPressed: () async {
-                  final snackBar = SnackBar(
-                    content: const Text("Rechecking connection..."),
-                    duration: const Duration(seconds: 2),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                },
-                child: const Text("Retry"),
+                style: TextStyle(fontSize: 16.sp, color: Colors.black54),
               ),
             ],
           ),
