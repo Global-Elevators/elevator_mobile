@@ -31,9 +31,9 @@ class ItemsDropDown extends StatelessWidget {
       child: PopupMenuButton<String>(
         padding: EdgeInsets.zero,
         offset: Offset(0, 56.h),
-        // This is the magic: force menu width = trigger width
-        constraints: const BoxConstraints(minWidth: double.infinity),
 
+        // This is the magic: force menu width = trigger width
+        constraints: BoxConstraints(minWidth: 370.w),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s12.r),
           side: BorderSide(color: ColorManager.buttonsBorderColor, width: 1.5),

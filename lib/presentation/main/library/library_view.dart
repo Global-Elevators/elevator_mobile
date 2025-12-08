@@ -2,9 +2,11 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/main/library/library_viewmodel.dart';
 import 'package:elevator/presentation/resources/assets_manager.dart';
 import 'package:elevator/presentation/resources/color_manager.dart';
@@ -18,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -38,11 +41,12 @@ class LibraryView extends StatefulWidget {
 class _LibraryViewState extends State<LibraryView> {
   int selectedIndex = 0;
   final viewmodel = instance<LibraryViewModel>();
+  final AppPreferences _appPreferences = instance<AppPreferences>();
+  bool _started = false;
 
   @override
   void initState() {
     super.initState();
-    viewmodel.start();
   }
 
   @override
@@ -62,18 +66,40 @@ class _LibraryViewState extends State<LibraryView> {
             ),
             Gap(AppSize.s24.h),
             Expanded(
-              child: StreamBuilder<FlowState>(
-                initialData: LoadingState(
-                  stateRendererType: StateRendererType.fullScreenLoadingState,
-                ),
-                stream: viewmodel.outputStateStream,
+              child: FutureBuilder<bool>(
+                future: _appPreferences.isUserLoggedIn("login"),
                 builder: (context, snapshot) {
-                  return snapshot.data?.getStateWidget(
-                        context,
-                        _getContentWidget(context),
-                        () {},
-                      ) ??
-                      _getContentWidget(context);
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  final isLoggedIn = snapshot.data ?? false;
+
+                  if (!isLoggedIn) {
+                    return _buildNotLoggedInWidget(context);
+                  }
+
+                  if (!_started) {
+                    _started = true;
+                    viewmodel.start();
+                  }
+
+                  // User is logged in → show your normal StreamBuilder
+                  return StreamBuilder<FlowState>(
+                    initialData: LoadingState(
+                      stateRendererType:
+                          StateRendererType.fullScreenLoadingState,
+                    ),
+                    stream: viewmodel.outputStateStream,
+                    builder: (context, snapshot) {
+                      return snapshot.data?.getStateWidget(
+                            context,
+                            _getContentWidget(context),
+                            () {},
+                          ) ??
+                          _getContentWidget(context);
+                    },
+                  );
                 },
               ),
             ),
@@ -87,6 +113,34 @@ class _LibraryViewState extends State<LibraryView> {
   void dispose() {
     viewmodel.dispose();
     super.dispose();
+  }
+
+  Widget _buildNotLoggedInWidget(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.lock, size: 80, color: ColorManager.primaryColor),
+          SizedBox(height: 16),
+          Text(
+            Strings.pleaseLoginToAccessDocuments.tr(),
+            style: getMediumTextStyle(
+              color: ColorManager.primaryColor,
+              fontSize: FontSizeManager.s20.sp,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 24),
+          ButtonWidget(
+            text: Strings.signInButton.tr(),
+            onTap: () => context.push(LoginView.loginRoute),
+            radius: 20,
+            color: ColorManager.primaryColor,
+            textColor: Colors.white,
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _getContentWidget(BuildContext context) {
@@ -103,7 +157,7 @@ class _LibraryViewState extends State<LibraryView> {
     // Filter attachments by type
     final attachments = data
         .where((d) => d.type == selectedType)
-        .expand((d) => d.attachments ?? [])
+        .expand((d) => d.attachments)
         .toList();
 
     return ListView.separated(

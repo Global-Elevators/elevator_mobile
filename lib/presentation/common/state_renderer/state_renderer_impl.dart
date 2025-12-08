@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/constants.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer.dart';
 import 'package:elevator/presentation/resources/strings_manager.dart';
@@ -15,12 +16,12 @@ abstract class FlowState {
 
 class LoadingState extends FlowState {
   final StateRendererType stateRendererType;
-  final String message;
+  late final String message;
 
-  LoadingState({
-    required this.stateRendererType,
-    this.message = Strings.loading,
-  });
+  LoadingState({required this.stateRendererType, String? message}) {
+    // If user didn't pass custom message → use translated loading text
+    this.message = message ?? Strings.loading.tr();
+  }
 
   @override
   StateRendererType getStateRendererType() => stateRendererType;
@@ -123,7 +124,7 @@ extension FlowStateExtension on FlowState {
     Function retryActionFunction,
   ) {
     if (getStateRendererType().isPopup) {
-      if(!(getStateRendererType() == StateRendererType.popUpLoadingState)) {
+      if (!(getStateRendererType() == StateRendererType.popUpLoadingState)) {
         _dismissDialog(context);
       }
       _showPopup(context, getStateRendererType(), getMessage());

@@ -92,6 +92,8 @@ class Strings {
   static const String catalogTab = 'catalogTab';
   static const String libraryTab = 'libraryTab';
   static const String profileTab = 'profileTab';
+  static const String pleaseLoginToAccessDocuments =
+      'pleaseLoginToAccessDocuments';
 
   // Service detail keys
   static const String contactSalesDept = 'contactSalesDept';
@@ -184,8 +186,7 @@ class Strings {
   static const String height = 'height';
   static const String notes = 'notes';
   static const String submit = 'submit';
-  static const String isTheElevatorUnderWarranty =
-      'isTheElevatorUnderWarranty';
+  static const String isTheElevatorUnderWarranty = 'isTheElevatorUnderWarranty';
   static const String elevatorBrand = 'elevatorBrand';
   static const String elevatorType = 'elevatorType';
   static const String descriptionOfBreakDown = 'descriptionOfBreakDown';
@@ -203,8 +204,7 @@ class Strings {
   static const String anyBodyInjuredOrTrappedInsideTheElevator =
       'anyBodyInjuredOrTrappedInsideTheElevator';
   static const String report = 'report';
-  static const String yourRequestHadBeenRecorded =
-      'yourRequestHadBeenRecorded';
+  static const String yourRequestHadBeenRecorded = 'yourRequestHadBeenRecorded';
   static const String documents = 'documents';
 
   // Profile screen keys
@@ -233,4 +233,3 @@ class Strings {
   static const String newProductSupplyInstallation =
       'newProductSupplyInstallation';
 }
-
