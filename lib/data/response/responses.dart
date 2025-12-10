@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'dart:convert';
 
 part 'responses.g.dart';
 
@@ -347,13 +348,10 @@ class LibraryResponse extends BaseResponse {
   @JsonKey(name: "data")
   List<DatumResponse> data;
 
-  LibraryResponse({
-    required this.data,
-  });
+  LibraryResponse({required this.data});
 
   factory LibraryResponse.fromJson(Map<String, dynamic> json) =>
-      _$LibraryResponseFromJson
-    (json);
+      _$LibraryResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$LibraryResponseToJson(this);
 }
@@ -373,7 +371,8 @@ class DatumResponse {
     required this.attachments,
   });
 
-  factory DatumResponse.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
+  factory DatumResponse.fromJson(Map<String, dynamic> json) =>
+      _$DatumFromJson(json);
 
   Map<String, dynamic> toJson() => _$DatumToJson(this);
 }
@@ -385,12 +384,116 @@ class AttachmentResponse {
   @JsonKey(name: "url")
   String url;
 
-  AttachmentResponse({
-    required this.name,
-    required this.url,
-  });
+  AttachmentResponse({required this.name, required this.url});
 
-  factory AttachmentResponse.fromJson(Map<String, dynamic> json) => _$AttachmentFromJson(json);
+  factory AttachmentResponse.fromJson(Map<String, dynamic> json) =>
+      _$AttachmentFromJson(json);
 
   Map<String, dynamic> toJson() => _$AttachmentToJson(this);
+}
+
+@JsonSerializable()
+class ContractsStatusResponse extends BaseResponse {
+  @JsonKey(name: "data")
+  List<ContractsStatusDataResponse> data;
+
+  ContractsStatusResponse({required this.data});
+
+  factory ContractsStatusResponse.fromJson(Map<String, dynamic> json) =>
+      _$ContractsStatusResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ContractsStatusResponseToJson(this);
+}
+
+@JsonSerializable()
+class ContractsStatusDataResponse {
+  @JsonKey(name: "id")
+  int id;
+  @JsonKey(name: "status")
+  Status status;
+  @JsonKey(name: "start_date")
+  DateTime startDate;
+  @JsonKey(name: "end_date")
+  DateTime endDate;
+  @JsonKey(name: "timeline")
+  Timeline timeline;
+
+  ContractsStatusDataResponse({
+    required this.id,
+    required this.status,
+    required this.startDate,
+    required this.endDate,
+    required this.timeline,
+  });
+
+  factory ContractsStatusDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$ContractsStatusDataResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ContractsStatusDataResponseToJson(this);
+}
+
+@JsonSerializable()
+class Status {
+  @JsonKey(name: "value")
+  String value;
+  @JsonKey(name: "label")
+  String label;
+  @JsonKey(name: "color")
+  String color;
+
+  Status({required this.value, required this.label, required this.color});
+
+  factory Status.fromJson(Map<String, dynamic> json) => _$StatusFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StatusToJson(this);
+}
+
+@JsonSerializable()
+class Timeline {
+  @JsonKey(name: "scope_label")
+  String scopeLabel;
+  @JsonKey(name: "current_status_label")
+  String currentStatusLabel;
+  @JsonKey(name: "items")
+  List<Item> items;
+
+  Timeline({
+    required this.scopeLabel,
+    required this.currentStatusLabel,
+    required this.items,
+  });
+
+  factory Timeline.fromJson(Map<String, dynamic> json) =>
+      _$TimelineFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TimelineToJson(this);
+}
+
+@JsonSerializable()
+class Item {
+  @JsonKey(name: "value")
+  String value;
+  @JsonKey(name: "label")
+  String label;
+  @JsonKey(name: "icon")
+  String icon;
+  @JsonKey(name: "color")
+  String color;
+  @JsonKey(name: "state")
+  String state;
+  @JsonKey(name: "deadline")
+  DateTime deadline;
+
+  Item({
+    required this.value,
+    required this.label,
+    required this.icon,
+    required this.color,
+    required this.state,
+    required this.deadline,
+  });
+
+  factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ItemToJson(this);
 }

@@ -8,6 +8,7 @@ import 'package:elevator/data/mappers/next_appointment_mapper.dart';
 import 'package:elevator/data/mappers/notification_mapper.dart';
 import 'package:elevator/data/mappers/upload_media_mapper.dart';
 import 'package:elevator/data/mappers/user_data_mapper.dart';
+import 'package:elevator/data/mappers/contracts_status_mapper.dart';
 import 'package:elevator/data/mappers/verify_forgot_password_mapper.dart';
 import 'package:elevator/data/mappers/verify_mapper.dart';
 import 'package:elevator/data/network/exception_handler.dart';
@@ -23,6 +24,7 @@ import 'package:elevator/data/network/requests/technical_commercial_offers_reque
 import 'package:elevator/data/network/requests/update_user_request.dart';
 import 'package:elevator/data/network/requests/verify_request.dart';
 import 'package:elevator/data/response/responses.dart';
+import 'package:elevator/domain/models/contracts_status_model.dart';
 import 'package:elevator/domain/models/library_model.dart';
 import 'package:elevator/domain/models/login_model.dart';
 import 'package:elevator/domain/models/next_appointment_model.dart';
@@ -363,6 +365,25 @@ class RepositoryImpl extends Repository {
       } catch (error) {
         return Left(ExceptionHandler.handle(error).failure);
       }
+    }
+  }
+
+  @override
+  /*************  ✨ Windsurf Command ⭐  *************/
+  /// Gets the status of all contracts.
+  ///
+  /// Returns a [ContractsStatusModel] which contains the status of all contracts.
+  ///
+  /// Throws a [Failure] if an error occurs during the API call.
+  /*******  5206d2b7-0808-4063-abe7-be3ccf1ec3e0  *******/
+  Future<Either<Failure, ContractsStatusModel>> getContractsStatus() async {
+    try {
+      final response = await _remoteDataSource.getContractsStatus();
+      return _isSuccessfulResponse(response)
+          ? Right(response.toDomain())
+          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
     }
   }
 

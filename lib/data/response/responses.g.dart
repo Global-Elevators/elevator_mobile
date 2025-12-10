@@ -347,11 +347,12 @@ Map<String, dynamic> _$NextAppointmentDataResponseToJson(
 
 LibraryResponse _$LibraryResponseFromJson(Map<String, dynamic> json) =>
     LibraryResponse(
-      data: (json['data'] as List<dynamic>?)
-          ?.map((e) => DatumResponse.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-          [],
-    )
+        data:
+            (json['data'] as List<dynamic>?)
+                ?.map((e) => DatumResponse.fromJson(e as Map<String, dynamic>))
+                .toList() ??
+            [],
+      )
       ..success = json['success'] as bool?
       ..message = json['message'] as String?;
 
@@ -365,18 +366,18 @@ Map<String, dynamic> _$LibraryResponseToJson(LibraryResponse instance) =>
 DatumResponse _$DatumFromJson(Map<String, dynamic> json) => DatumResponse(
   type: json['type'] as String? ?? '',
   typeLabel: json['type_label'] as String? ?? '',
-  attachments: (json['attachments'] as List<dynamic>?)
-      ?.map((e) => AttachmentResponse.fromJson(e as Map<String, dynamic>))
-      .toList() ??
+  attachments:
+      (json['attachments'] as List<dynamic>?)
+          ?.map((e) => AttachmentResponse.fromJson(e as Map<String, dynamic>))
+          .toList() ??
       [],
 );
 
-Map<String, dynamic> _$DatumToJson(DatumResponse instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-      'type_label': instance.typeLabel,
-      'attachments': instance.attachments.map((e) => e.toJson()).toList(),
-    };
+Map<String, dynamic> _$DatumToJson(DatumResponse instance) => <String, dynamic>{
+  'type': instance.type,
+  'type_label': instance.typeLabel,
+  'attachments': instance.attachments.map((e) => e.toJson()).toList(),
+};
 
 AttachmentResponse _$AttachmentFromJson(Map<String, dynamic> json) =>
     AttachmentResponse(
@@ -385,7 +386,95 @@ AttachmentResponse _$AttachmentFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$AttachmentToJson(AttachmentResponse instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'url': instance.url,
-    };
+    <String, dynamic>{'name': instance.name, 'url': instance.url};
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+ContractsStatusResponse _$ContractsStatusResponseFromJson(
+  Map<String, dynamic> json,
+) =>
+    ContractsStatusResponse(
+        data:
+            (json['data'] as List<dynamic>?)
+                ?.map(
+                  (e) => ContractsStatusDataResponse.fromJson(
+                    e as Map<String, dynamic>,
+                  ),
+                )
+                .toList() ??
+            [],
+      )
+      ..success = json['success'] as bool?
+      ..message = json['message'] as String?;
+
+Map<String, dynamic> _$ContractsStatusResponseToJson(
+  ContractsStatusResponse instance,
+) => <String, dynamic>{
+  'success': instance.success,
+  'message': instance.message,
+  'data': instance.data.map((e) => e.toJson()).toList(),
+};
+
+ContractsStatusDataResponse _$ContractsStatusDataResponseFromJson(
+  Map<String, dynamic> json,
+) => ContractsStatusDataResponse(
+  id: (json['id'] as num).toInt(),
+  status: Status.fromJson(json['status'] as Map<String, dynamic>),
+  startDate: DateTime.parse(json['start_date'] as String),
+  endDate: DateTime.parse(json['end_date'] as String),
+  timeline: Timeline.fromJson(json['timeline'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$ContractsStatusDataResponseToJson(
+  ContractsStatusDataResponse instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'status': instance.status.toJson(),
+  'start_date': instance.startDate.toIso8601String(),
+  'end_date': instance.endDate.toIso8601String(),
+  'timeline': instance.timeline.toJson(),
+};
+
+Status _$StatusFromJson(Map<String, dynamic> json) => Status(
+  value: json['value'] as String,
+  label: json['label'] as String,
+  color: json['color'] as String,
+);
+
+Map<String, dynamic> _$StatusToJson(Status instance) => <String, dynamic>{
+  'value': instance.value,
+  'label': instance.label,
+  'color': instance.color,
+};
+
+Timeline _$TimelineFromJson(Map<String, dynamic> json) => Timeline(
+  scopeLabel: json['scope_label'] as String,
+  currentStatusLabel: json['current_status_label'] as String,
+  items: (json['items'] as List<dynamic>)
+      .map((e) => Item.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$TimelineToJson(Timeline instance) => <String, dynamic>{
+  'scope_label': instance.scopeLabel,
+  'current_status_label': instance.currentStatusLabel,
+  'items': instance.items.map((e) => e.toJson()).toList(),
+};
+
+Item _$ItemFromJson(Map<String, dynamic> json) => Item(
+  value: json['value'] as String,
+  label: json['label'] as String,
+  icon: json['icon'] as String,
+  color: json['color'] as String,
+  state: json['state'] as String,
+  deadline: DateTime.parse(json['deadline'] as String),
+);
+
+Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
+  'value': instance.value,
+  'label': instance.label,
+  'icon': instance.icon,
+  'color': instance.color,
+  'state': instance.state,
+  'deadline': instance.deadline.toIso8601String(),
+};

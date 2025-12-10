@@ -14,6 +14,7 @@ import 'package:elevator/domain/usecase/library_usecase.dart';
 import 'package:elevator/domain/usecase/login_usecase.dart';
 import 'package:elevator/domain/usecase/logout_usecase.dart';
 import 'package:elevator/domain/usecase/next_appointment_usecase.dart';
+import 'package:elevator/domain/usecase/contracts_status_usecase.dart';
 import 'package:elevator/domain/usecase/notification_usecase.dart';
 import 'package:elevator/domain/usecase/read_all_notifications_usecase.dart';
 import 'package:elevator/domain/usecase/register_usecase.dart';
@@ -41,6 +42,7 @@ import 'package:elevator/presentation/main/library/library_viewmodel.dart';
 import 'package:elevator/presentation/main/profile/change_password/change_password_viewmodel.dart';
 import 'package:elevator/presentation/main/profile/edit_information/edit_information_viewmodel.dart';
 import 'package:elevator/presentation/main/profile/profile_viewmodel.dart';
+import 'package:elevator/presentation/main/profile/contracts_status/contracts_status_viewmodel.dart';
 import 'package:elevator/presentation/new_password/new_password_viewmodel.dart';
 import 'package:elevator/presentation/register/register_viewmodel.dart';
 import 'package:elevator/presentation/verify/verify_viewmodel.dart';
@@ -78,9 +80,7 @@ Future<void> initAppModule() async {
     () => RemoteDataSourceImp(instance<AppServicesClient>()),
   );
 
-  instance.registerLazySingleton<LocalDataSource>(
-    () => LocalDataSourceImpl(),
-  );
+  instance.registerLazySingleton<LocalDataSource>(() => LocalDataSourceImpl());
 
   instance.registerLazySingleton<Repository>(
     () => RepositoryImpl(
@@ -271,6 +271,15 @@ initMainModule() {
       () => LibraryViewModel(instance<LibraryUsecase>()),
     );
   }
+  if (!GetIt.I.isRegistered<ContractsStatusUsecase>()) {
+    instance.registerFactory<ContractsStatusUsecase>(
+      () => ContractsStatusUsecase(instance<Repository>()),
+    );
+
+    instance.registerFactory<ContractsStatusViewModel>(
+      () => ContractsStatusViewModel(instance<ContractsStatusUsecase>()),
+    );
+  }
   if (!GetIt.I.isRegistered<UserDataUsecase>()) {
     instance.registerFactory<UserDataUsecase>(
       () => UserDataUsecase(instance<Repository>()),
@@ -279,7 +288,6 @@ initMainModule() {
 }
 
 initEditInformationModule() {
-
   if (!GetIt.I.isRegistered<UpdateDataUsecase>()) {
     instance.registerFactory<UpdateDataUsecase>(
       () => UpdateDataUsecase(instance<Repository>()),

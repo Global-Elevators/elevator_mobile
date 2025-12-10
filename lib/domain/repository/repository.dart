@@ -10,6 +10,7 @@ import 'package:elevator/data/network/requests/reset_password_request.dart';
 import 'package:elevator/data/network/requests/technical_commercial_offers_request.dart'
     hide UserInfo;
 import 'package:elevator/data/network/requests/verify_request.dart';
+import 'package:elevator/domain/models/contracts_status_model.dart';
 import 'package:elevator/domain/models/library_model.dart';
 import 'package:elevator/domain/models/login_model.dart';
 import 'package:elevator/domain/models/next_appointment_model.dart';
@@ -76,4 +77,6 @@ abstract class Repository {
   Future<Either<Failure, NextAppointmentModel>> nextAppointment();
 
   Future<Either<Failure, LibraryAttachment>> getLibrary();
+
+  Future<Either<Failure, ContractsStatusModel>> getContractsStatus();
 }

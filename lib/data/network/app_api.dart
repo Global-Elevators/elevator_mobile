@@ -109,4 +109,7 @@ abstract class AppServicesClient {
 
   @GET("/user/library")
   Future<LibraryResponse> getLibrary();
+
+  @GET("/user/contracts")
+  Future<ContractsStatusResponse> getContractsStatus();
 }
