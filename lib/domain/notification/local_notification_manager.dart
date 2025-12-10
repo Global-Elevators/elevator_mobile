@@ -7,13 +7,15 @@ import 'package:flutter/material.dart';
 /// Responsible for showing local notifications while the app is in the foreground.
 /// Uses the singleton pattern to ensure a single instance across the app lifecycle.
 class LocalNotificationManager {
-  static final LocalNotificationManager _instance = LocalNotificationManager._internal();
+  static final LocalNotificationManager _instance =
+      LocalNotificationManager._internal();
 
   factory LocalNotificationManager() => _instance;
 
   LocalNotificationManager._internal();
 
-  final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _plugin =
+      FlutterLocalNotificationsPlugin();
   bool _initialized = false;
 
   static const _channelId = 'high_importance_channel';
@@ -36,10 +38,24 @@ class LocalNotificationManager {
       playSound: true,
     );
 
+    // Ensure the FCM fallback channel uses high importance so server-side
+    // notification payloads sent without `android_channel_id` still show as
+    // heads-up notifications when the platform posts them.
+    const fcmFallbackChannel = AndroidNotificationChannel(
+      'fcm_fallback_notification_channel',
+      'FCM Fallback Channel',
+      description: 'Used for Firebase Console fallback notifications',
+      importance: Importance.max,
+      playSound: true,
+    );
+
     // 🧱 Create notification channel (Android only)
-    final androidImplementation = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    final androidImplementation = _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     await androidImplementation?.createNotificationChannel(androidChannel);
+    await androidImplementation?.createNotificationChannel(fcmFallbackChannel);
 
     // 📱 Initialization settings for both platforms
     const initSettings = InitializationSettings(
@@ -72,7 +88,9 @@ class LocalNotificationManager {
     String? payload,
   }) async {
     if (!_initialized) {
-      debugPrint('⚠️ LocalNotificationManager not initialized yet. Initializing now...');
+      debugPrint(
+        '⚠️ LocalNotificationManager not initialized yet. Initializing now...',
+      );
       await initialize();
     }
 
