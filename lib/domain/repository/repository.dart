@@ -15,6 +15,7 @@ import 'package:elevator/domain/models/library_model.dart';
 import 'package:elevator/domain/models/login_model.dart';
 import 'package:elevator/domain/models/next_appointment_model.dart';
 import 'package:elevator/domain/models/notifications_model.dart';
+import 'package:elevator/domain/models/request_status_model.dart';
 import 'package:elevator/domain/models/upload_media_model.dart';
 import 'package:elevator/domain/models/verify_forgot_password_model.dart';
 import 'package:elevator/domain/models/verify_model.dart';
@@ -79,4 +80,6 @@ abstract class Repository {
   Future<Either<Failure, LibraryAttachment>> getLibrary();
 
   Future<Either<Failure, ContractsStatusModel>> getContractsStatus();
+
+  Future<Either<Failure, RequestStatusModel>> getRequestStatus();
 }

@@ -493,3 +493,40 @@ class Item {
 
   Map<String, dynamic> toJson() => _$ItemToJson(this);
 }
+
+@JsonSerializable()
+class RequestStatusResponse extends BaseResponse {
+  @JsonKey(name: "data")
+  List<RequestStatusDataResponse> data;
+
+  RequestStatusResponse({required this.data}) : super();
+
+  factory RequestStatusResponse.fromJson(Map<String, dynamic> json) =>
+      _$RequestStatusResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RequestStatusResponseToJson(this);
+}
+
+@JsonSerializable()
+class RequestStatusDataResponse {
+  @JsonKey(name: "id")
+  int id;
+  @JsonKey(name: "label")
+  String label;
+  @JsonKey(name: "status")
+  String status;
+  @JsonKey(name: "created_at")
+  DateTime createdAt;
+
+  RequestStatusDataResponse({
+    required this.id,
+    required this.label,
+    required this.status,
+    required this.createdAt,
+  });
+
+  factory RequestStatusDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$RequestStatusDataResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RequestStatusDataResponseToJson(this);
+}

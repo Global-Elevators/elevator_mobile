@@ -65,6 +65,8 @@ abstract class RemoteDataSource {
   Future<LibraryResponse> getLibrary();
 
   Future<ContractsStatusResponse> getContractsStatus();
+
+  Future<RequestStatusResponse> requestStatusSiteSurvey();
 }
 
 class RemoteDataSourceImp extends RemoteDataSource {
@@ -213,5 +215,10 @@ class RemoteDataSourceImp extends RemoteDataSource {
   @override
   Future<ContractsStatusResponse> getContractsStatus() async {
     return await _appServicesClient.getContractsStatus();
+  }
+
+  @override
+  Future<RequestStatusResponse> requestStatusSiteSurvey() async {
+    return await _appServicesClient.requestStatusSiteSurvey();
   }
 }

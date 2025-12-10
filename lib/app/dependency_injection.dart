@@ -15,6 +15,7 @@ import 'package:elevator/domain/usecase/login_usecase.dart';
 import 'package:elevator/domain/usecase/logout_usecase.dart';
 import 'package:elevator/domain/usecase/next_appointment_usecase.dart';
 import 'package:elevator/domain/usecase/contracts_status_usecase.dart';
+import 'package:elevator/domain/usecase/request_status_usecase.dart';
 import 'package:elevator/domain/usecase/notification_usecase.dart';
 import 'package:elevator/domain/usecase/read_all_notifications_usecase.dart';
 import 'package:elevator/domain/usecase/register_usecase.dart';
@@ -43,6 +44,7 @@ import 'package:elevator/presentation/main/profile/change_password/change_passwo
 import 'package:elevator/presentation/main/profile/edit_information/edit_information_viewmodel.dart';
 import 'package:elevator/presentation/main/profile/profile_viewmodel.dart';
 import 'package:elevator/presentation/main/profile/contracts_status/contracts_status_viewmodel.dart';
+import 'package:elevator/presentation/main/profile/request_status/request_status_viewmodel.dart';
 import 'package:elevator/presentation/new_password/new_password_viewmodel.dart';
 import 'package:elevator/presentation/register/register_viewmodel.dart';
 import 'package:elevator/presentation/verify/verify_viewmodel.dart';
@@ -278,6 +280,15 @@ initMainModule() {
 
     instance.registerFactory<ContractsStatusViewModel>(
       () => ContractsStatusViewModel(instance<ContractsStatusUsecase>()),
+    );
+  }
+  if (!GetIt.I.isRegistered<RequestStatusUsecase>()) {
+    instance.registerFactory<RequestStatusUsecase>(
+      () => RequestStatusUsecase(instance<Repository>()),
+    );
+
+    instance.registerFactory<RequestStatusViewModel>(
+      () => RequestStatusViewModel(instance<RequestStatusUsecase>()),
     );
   }
   if (!GetIt.I.isRegistered<UserDataUsecase>()) {

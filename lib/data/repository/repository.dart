@@ -6,9 +6,11 @@ import 'package:elevator/data/mappers/authentication_mapper.dart';
 import 'package:elevator/data/mappers/library_mapper.dart';
 import 'package:elevator/data/mappers/next_appointment_mapper.dart';
 import 'package:elevator/data/mappers/notification_mapper.dart';
+import 'package:elevator/data/mappers/request_status_mapper.dart';
 import 'package:elevator/data/mappers/upload_media_mapper.dart';
 import 'package:elevator/data/mappers/user_data_mapper.dart';
 import 'package:elevator/data/mappers/contracts_status_mapper.dart';
+import 'package:elevator/data/mappers/request_status_mapper.dart';
 import 'package:elevator/data/mappers/verify_forgot_password_mapper.dart';
 import 'package:elevator/data/mappers/verify_mapper.dart';
 import 'package:elevator/data/network/exception_handler.dart';
@@ -29,6 +31,7 @@ import 'package:elevator/domain/models/library_model.dart';
 import 'package:elevator/domain/models/login_model.dart';
 import 'package:elevator/domain/models/next_appointment_model.dart';
 import 'package:elevator/domain/models/notifications_model.dart';
+import 'package:elevator/domain/models/request_status_model.dart';
 import 'package:elevator/domain/models/upload_media_model.dart';
 import 'package:elevator/domain/models/user_data_model.dart';
 import 'package:elevator/domain/models/verify_forgot_password_model.dart';
@@ -379,6 +382,24 @@ class RepositoryImpl extends Repository {
   Future<Either<Failure, ContractsStatusModel>> getContractsStatus() async {
     try {
       final response = await _remoteDataSource.getContractsStatus();
+      return _isSuccessfulResponse(response)
+          ? Right(response.toDomain())
+          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+    } catch (error) {
+      return Left(ExceptionHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, RequestStatusModel>> getRequestStatus() async {
+    try {
+      final response = await _remoteDataSource.requestStatusSiteSurvey();
+      // Debug log to help diagnose unexpected error states despite 200 HTTP status
+      try {
+        print(
+          'RequestStatusResponse -> success: \\${response.success}, message: \\${response.message}, dataCount: \\${response.data.length}',
+        );
+      } catch (_) {}
       return _isSuccessfulResponse(response)
           ? Right(response.toDomain())
           : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));

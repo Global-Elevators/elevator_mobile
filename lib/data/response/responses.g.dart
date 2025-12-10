@@ -459,3 +459,46 @@ Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
   'state': instance.state,
   'deadline': instance.deadline.toIso8601String(),
 };
+
+RequestStatusResponse _$RequestStatusResponseFromJson(
+  Map<String, dynamic> json,
+) =>
+    RequestStatusResponse(
+        data:
+            (json['data'] as List<dynamic>?)
+                ?.map(
+                  (e) => RequestStatusDataResponse.fromJson(
+                    e as Map<String, dynamic>,
+                  ),
+                )
+                .toList() ??
+            [],
+      )
+      ..success = json['success'] as bool?
+      ..message = json['message'] as String?;
+
+Map<String, dynamic> _$RequestStatusResponseToJson(
+  RequestStatusResponse instance,
+) => <String, dynamic>{
+  'success': instance.success,
+  'message': instance.message,
+  'data': instance.data.map((e) => e.toJson()).toList(),
+};
+
+RequestStatusDataResponse _$RequestStatusDataResponseFromJson(
+  Map<String, dynamic> json,
+) => RequestStatusDataResponse(
+  id: json['id'] as int,
+  label: json['label'] as String,
+  status: json['status'] as String,
+  createdAt: DateTime.parse(json['created_at'] as String),
+);
+
+Map<String, dynamic> _$RequestStatusDataResponseToJson(
+  RequestStatusDataResponse instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'label': instance.label,
+  'status': instance.status,
+  'created_at': instance.createdAt.toIso8601String(),
+};
