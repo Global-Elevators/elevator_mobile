@@ -8,10 +8,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
 class ShaftDimensionsWidget extends StatelessWidget {
-  TextEditingController widthController = TextEditingController();
-  TextEditingController depthController = TextEditingController();
+  final TextEditingController widthController;
+  final TextEditingController depthController;
 
-  ShaftDimensionsWidget({
+  const ShaftDimensionsWidget({
     super.key,
     required this.widthController,
     required this.depthController,

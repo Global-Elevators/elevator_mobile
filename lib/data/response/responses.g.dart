@@ -6,13 +6,6 @@ part of 'responses.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BaseResponse _$BaseResponseFromJson(Map<String, dynamic> json) => BaseResponse()
-  ..success = json['success'] as bool?
-  ..message = json['message'] as String?;
-
-Map<String, dynamic> _$BaseResponseToJson(BaseResponse instance) =>
-    <String, dynamic>{'success': instance.success, 'message': instance.message};
-
 CustomerDataResponse _$CustomerDataResponseFromJson(
   Map<String, dynamic> json,
 ) => CustomerDataResponse(
@@ -139,16 +132,6 @@ Map<String, dynamic> _$RegisterResponseToJson(RegisterResponse instance) =>
       'message': instance.message,
       'errors': instance.registerErrorResponse,
     };
-
-RequestSiteSurveyErrorResponse _$RequestSiteSurveyErrorResponseFromJson(
-  Map<String, dynamic> json,
-) => RequestSiteSurveyErrorResponse(
-  (json['errors'] as List<dynamic>?)?.map((e) => e as String).toList(),
-);
-
-Map<String, dynamic> _$RequestSiteSurveyErrorResponseToJson(
-  RequestSiteSurveyErrorResponse instance,
-) => <String, dynamic>{'errors': instance.errors};
 
 RequestSiteSurveyResponse _$RequestSiteSurveyResponseFromJson(
   Map<String, dynamic> json,
@@ -387,8 +370,6 @@ AttachmentResponse _$AttachmentFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$AttachmentToJson(AttachmentResponse instance) =>
     <String, dynamic>{'name': instance.name, 'url': instance.url};
-
-// GENERATED CODE - DO NOT MODIFY BY HAND
 
 ContractsStatusResponse _$ContractsStatusResponseFromJson(
   Map<String, dynamic> json,

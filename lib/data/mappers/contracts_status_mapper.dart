@@ -50,7 +50,7 @@ extension TimelineResponseMapper on Timeline? {
     return TimelineModel(
       scopeLabel: this?.scopeLabel.orEmpty() ?? Constants.empty,
       currentStatusLabel: this?.currentStatusLabel.orEmpty() ?? Constants.empty,
-      items: this?.items?.map((e) => e.toDomain()).toList() ?? [],
+      items: this?.items.map((e) => e.toDomain()).toList() ?? [],
     );
   }
 }

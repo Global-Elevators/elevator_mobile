@@ -38,7 +38,7 @@ class NotificationViewModel extends BaseViewModel {
         (data) {
           notificationsModel = data;
 
-          final notifications = data.notifications ?? [];
+          final notifications = data.notifications;
 
           if (notifications.isEmpty) {
             inputState.add(EmptyState("No notifications found."));
@@ -84,16 +84,15 @@ class NotificationViewModel extends BaseViewModel {
   }
 
   Future<void> readAllNotifications() async {
-
     try {
       final result = await _readAllNotificationsUsecase.execute(null);
       result.fold(
-            (failure) {
+        (failure) {
           inputState.add(
             ErrorState(StateRendererType.popUpErrorState, failure.message),
           );
         },
-            (data) {
+        (data) {
           inputState.add(SuccessState("All notifications marked as read."));
           getNotifications(); // Refresh notifications after marking all as read
         },
@@ -108,5 +107,4 @@ class NotificationViewModel extends BaseViewModel {
       debugPrint("🔥 Exception in readAllNotifications(): $e\n$stack");
     }
   }
-
 }

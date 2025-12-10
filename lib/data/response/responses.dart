@@ -1,9 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'dart:convert';
-
 part 'responses.g.dart';
-
-/// TODO Make on error response class for each response
 
 @JsonSerializable()
 class BaseResponse {

@@ -35,7 +35,6 @@ class RegisterViewModel extends BaseViewModel
       _password = '',
       _confirmPassword = '',
       _birthDate = '',
-      _email = '',
       _address = '';
 
   @override
@@ -201,7 +200,6 @@ class RegisterViewModel extends BaseViewModel
 
   @override
   void setEmail(String email) {
-    _email = email;
     inPutEmail.add(email);
     _areAllInputsValidController.add(null);
   }

@@ -13,7 +13,7 @@ import 'package:elevator/presentation/resources/styles_manager.dart';
 import 'package:elevator/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:timeline_tile/timeline_tile.dart';
@@ -70,13 +70,16 @@ class _ContractsStatusViewState extends State<ContractsStatusView> {
   Widget _buildContent() {
     final contracts = _viewmodel.contractsStatusModel?.contracts ?? [];
     if (contracts.isEmpty) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     final firstContract = contracts.first;
     final statusLabel = firstContract.status.label;
     final scopeLabel = firstContract.timeline.scopeLabel;
     final items = firstContract.timeline.items;
+
+    final startDate = DateFormat('yyyy-MM-dd').format(firstContract.startDate);
+    final endDate = DateFormat('yyyy-MM-dd').format(firstContract.endDate);
 
     return SingleChildScrollView(
       child: Padding(
@@ -99,27 +102,29 @@ class _ContractsStatusViewState extends State<ContractsStatusView> {
                   Row(
                     children: [
                       Image.asset(IconAssets.progressNote),
-                      Spacer(),
+                      const Spacer(),
                       Container(
                         padding: EdgeInsets.symmetric(
                           vertical: AppSize.s8.h,
                           horizontal: AppSize.s12.w,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(0xff34C759),
+                          color: const Color(0xff34C759),
                           borderRadius: BorderRadius.circular(AppSize.s99.r),
                         ),
                         child: Text(
                           statusLabel,
                           style: getMediumTextStyle(
-                            color: Color(0xffFFFFFF),
+                            color: Colors.white,
                             fontSize: FontSizeManager.s16.sp,
                           ),
                         ),
                       ),
                     ],
                   ),
+
                   Gap(AppSize.s12.h),
+
                   Text(
                     scopeLabel,
                     style: getMediumTextStyle(
@@ -127,11 +132,35 @@ class _ContractsStatusViewState extends State<ContractsStatusView> {
                       fontSize: FontSizeManager.s22.sp,
                     ),
                   ),
+
+                  Gap(AppSize.s8.h),
+
+                  Row(
+                    children: [
+                      Text(
+                        "Start : $startDate",
+                        style: getRegularTextStyle(
+                          color: ColorManager.whiteColor,
+                          fontSize: FontSizeManager.s16.sp,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        "End : $endDate",
+                        style: getRegularTextStyle(
+                          color: ColorManager.whiteColor,
+                          fontSize: FontSizeManager.s16.sp,
+                        ),
+                      ),
+                    ],
+                  ), // ✔ FIXED MISSING BRACKET
                 ],
               ),
             ),
+
+            // ------------------- Timeline -------------------
             ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: items.length,
               itemBuilder: (context, index) {
@@ -139,7 +168,7 @@ class _ContractsStatusViewState extends State<ContractsStatusView> {
                 final isFirst = index == 0;
                 final isLast = index == items.length - 1;
 
-                final isCurrent = (item.state.toLowerCase() == 'current');
+                final isCurrent = item.state.toLowerCase() == 'current';
 
                 final formattedDate = (() {
                   try {
@@ -148,6 +177,7 @@ class _ContractsStatusViewState extends State<ContractsStatusView> {
                     return item.deadline.toIso8601String();
                   }
                 })();
+
                 return TimelineTile(
                   isFirst: isFirst,
                   isLast: isLast,
@@ -187,7 +217,7 @@ class _ContractsStatusViewState extends State<ContractsStatusView> {
                         Text(
                           formattedDate,
                           style: getMediumTextStyle(
-                            color: Color(0xFF9C9C9C),
+                            color: const Color(0xFF9C9C9C),
                             fontSize: FontSizeManager.s14.sp,
                           ),
                         ),
