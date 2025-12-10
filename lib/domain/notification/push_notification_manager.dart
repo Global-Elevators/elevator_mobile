@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'local_notification_manager.dart';
 import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/domain/usecase/save_fcm_token_usecase.dart';
@@ -11,14 +12,16 @@ import 'package:elevator/domain/usecase/save_fcm_token_usecase.dart';
 /// notifications in background or terminated states.
 @pragma('vm:entry-point')
 class PushNotificationManager {
-  static final PushNotificationManager _instance = PushNotificationManager._internal();
+  static final PushNotificationManager _instance =
+      PushNotificationManager._internal();
 
   factory PushNotificationManager() => _instance;
 
   PushNotificationManager._internal();
 
   FirebaseMessaging? _messaging;
-  final LocalNotificationManager _localNotificationManager = LocalNotificationManager();
+  final LocalNotificationManager _localNotificationManager =
+      LocalNotificationManager();
 
   bool _initialized = false;
 
@@ -31,7 +34,8 @@ class PushNotificationManager {
     if (_initialized) return; // ✅ prevent reinitialization
 
     _messaging = FirebaseMessaging.instance; // ✅ now it's safe
-    FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
+    // Register top-level background handler which will show a local notification
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
     await _requestPermission();
 
@@ -43,7 +47,8 @@ class PushNotificationManager {
       try {
         final result = await instance<SaveFcmTokenUsecase>().execute(token);
         result.fold(
-          (failure) => debugPrint('⚠️ Failed to save FCM token: ${failure.message}'),
+          (failure) =>
+              debugPrint('⚠️ Failed to save FCM token: ${failure.message}'),
           (_) => debugPrint('✅ FCM token saved on server'),
         );
       } catch (e) {
@@ -100,9 +105,70 @@ class PushNotificationManager {
     debugPrint('📩 Notification opened: ${message.data}');
     // TODO: Navigate or trigger logic based on message.data (if needed)
   }
+}
 
-  @pragma('vm:entry-point')
-  static Future<void> _backgroundHandler(RemoteMessage message) async {
-    debugPrint('📦 Background message received: ${message.data}');
+/// Top-level background handler that runs in its own isolate.
+/// It initializes its own `FlutterLocalNotificationsPlugin` and shows
+/// a local notification so background/terminated messages popup.
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  try {
+    final FlutterLocalNotificationsPlugin plugin =
+        FlutterLocalNotificationsPlugin();
+
+    const channel = AndroidNotificationChannel(
+      'high_importance_channel',
+      'High Importance Notifications',
+      description: 'Used for important notifications.',
+      importance: Importance.max,
+      playSound: true,
+    );
+
+    // Initialize plugin for the background isolate (Android icon required)
+    const initSettings = InitializationSettings(
+      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+      iOS: DarwinInitializationSettings(),
+    );
+
+    await plugin.initialize(initSettings);
+
+    final androidImpl = plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
+    await androidImpl?.createNotificationChannel(channel);
+
+    final notification = message.notification;
+    final title =
+        notification?.title ?? message.data['title'] ?? 'Notification';
+    final body = notification?.body ?? message.data['body'] ?? '';
+
+    final androidDetails = AndroidNotificationDetails(
+      channel.id,
+      channel.name,
+      channelDescription: channel.description,
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+      icon: '@mipmap/ic_launcher',
+    );
+
+    const iosDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+
+    await plugin.show(
+      message.hashCode,
+      title,
+      body,
+      NotificationDetails(android: androidDetails, iOS: iosDetails),
+      payload: message.data.toString(),
+    );
+
+    debugPrint('📦 Background notification shown: $title - $body');
+  } catch (e) {
+    debugPrint('⚠️ Error in background handler showing notification: $e');
   }
 }
