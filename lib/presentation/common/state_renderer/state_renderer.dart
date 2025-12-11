@@ -107,6 +107,7 @@ class StateRenderer extends StatelessWidget {
             color: ColorManager.blackColor,
             fontSize: FontSizeManager.s18,
           ),
+          textAlign: TextAlign.center,
         ),
       ),
     );
@@ -135,6 +136,7 @@ class StateRenderer extends StatelessWidget {
                 color: ColorManager.whiteColor,
                 fontSize: FontSizeManager.s18,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
         ),

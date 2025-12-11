@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/domain/models/next_appointment_model.dart';
@@ -8,6 +9,7 @@ import 'package:elevator/domain/usecase/reschedule_appointment_usecase.dart';
 import 'package:elevator/presentation/base/baseviewmodel.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:elevator/presentation/resources/strings_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:elevator/domain/usecase/user_data_usecase.dart';
 
@@ -22,11 +24,11 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
   final _appPreferences = instance<AppPreferences>();
 
   HomeViewmodel(
-      this._sosUsecase,
-      this._rescheduleAppointmentUsecase,
-      this._nextAppointmentUsecase,
-      this._userDataUsecase,
-      );
+    this._sosUsecase,
+    this._rescheduleAppointmentUsecase,
+    this._nextAppointmentUsecase,
+    this._userDataUsecase,
+  );
 
   // Exposed user name for UI
   String? userName;
@@ -56,11 +58,11 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
     try {
       final result = await _userDataUsecase.execute(null);
       result.fold(
-            (failure) {
+        (failure) {
           // Keep userName null on failure
           debugPrint("Failed to load user data: ${failure.message}");
         },
-            (data) {
+        (data) {
           final name = data.user?.name;
           final midName = data.user?.profile?.sirName;
           final lastName = data.user?.profile?.lastName;
@@ -91,13 +93,13 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
 
       final result = await _sosUsecase.execute(null);
       result.fold(
-            (failure) {
+        (failure) {
           inputState.add(
             ErrorState(StateRendererType.popUpErrorState, failure.message),
           );
         },
-            (data) {
-          inputState.add(SuccessState("Welcome back"));
+        (data) {
+          inputState.add(SuccessState(Strings.alertSentSuccessfully.tr()));
         },
       );
     } catch (e, stack) {
@@ -121,29 +123,29 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
       _rescheduleAppointmentUsecase
           .execute(_scheduleDate)
           .then((result) {
-        result.fold(
+            result.fold(
               (failure) {
+                inputState.add(
+                  ErrorState(
+                    StateRendererType.popUpErrorState,
+                    failure.message,
+                  ),
+                );
+              },
+              (data) {
+                inputState.add(SuccessState("Appointment rescheduled"));
+              },
+            );
+          })
+          .catchError((e, stack) {
             inputState.add(
               ErrorState(
                 StateRendererType.popUpErrorState,
-                failure.message,
+                "Unexpected error occurred. Please try again.",
               ),
             );
-          },
-              (data) {
-            inputState.add(SuccessState("Appointment rescheduled"));
-          },
-        );
-      })
-          .catchError((e, stack) {
-        inputState.add(
-          ErrorState(
-            StateRendererType.popUpErrorState,
-            "Unexpected error occurred. Please try again.",
-          ),
-        );
-        debugPrint("🔥 Exception in requestVisitRescheduling: $e\n$stack");
-      });
+            debugPrint("🔥 Exception in requestVisitRescheduling: $e\n$stack");
+          });
     } catch (e, stack) {
       inputState.add(
         ErrorState(
@@ -167,11 +169,11 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
     try {
       final result = await _nextAppointmentUsecase.execute(null);
       result.fold(
-            (failure) {
+        (failure) {
           // Silently fail - don't show error for appointment
           debugPrint("Failed to load next appointment: ${failure.message}");
         },
-            (data) {
+        (data) {
           nextAppointmentModel = data;
           inputState.add(ContentState());
         },

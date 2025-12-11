@@ -80,6 +80,7 @@ class Strings {
   static const String sosTitle = 'sosTitle';
   static const String reportBreakDown = 'reportBreakDown';
   static const String requestRescheduling = 'requestRescheduling';
+  static const String alertSentSuccessfully = 'alertSentSuccessfully';
 
   // Services section keys
   static const String servicesTitle = 'servicesTitle';
