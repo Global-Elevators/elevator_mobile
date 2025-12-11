@@ -1,10 +1,22 @@
 import 'package:elevator/app/constants.dart';
-import 'package:elevator/app/extensions.dart';
-import 'package:elevator/data/response/responses.dart';
 
-extension RegisterResponseMapper on RegisterResponse? {
+extension ErrorResponseMapper on Map<String, dynamic>? {
   String toDomain() {
-    return this?.registerErrorResponse!.phone!.first.orEmpty() ??
-        Constants.empty;
+    if (this == null) return Constants.empty;
+
+    // Check if there's an errors object with validation messages
+    final errors = this!['errors'];
+    if (errors is Map<String, dynamic> && errors.isNotEmpty) {
+      // Get the first error field (phone, email, etc.)
+      final firstErrorField = errors.values.first;
+
+      // Extract the first error message from the array
+      if (firstErrorField is List && firstErrorField.isNotEmpty) {
+        return firstErrorField.first.toString();
+      }
+    }
+
+    // Fallback to the message field
+    return this!['message']?.toString() ?? Constants.empty;
   }
 }

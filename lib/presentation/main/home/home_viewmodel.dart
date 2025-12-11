@@ -136,6 +136,9 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
                 inputState.add(SuccessState("Appointment rescheduled"));
               },
             );
+            Future.delayed(const Duration(milliseconds: 500), () {
+              inputState.add(ContentState());
+            });
           })
           .catchError((e, stack) {
             inputState.add(

@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
+import 'package:elevator/app/navigation_service.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:elevator/presentation/main/home/home_viewmodel.dart';
 import 'package:elevator/presentation/main/home/report_break_down/report_break_down_view.dart';
@@ -38,6 +40,7 @@ class _PremiumContainerState extends State<PremiumContainer> {
   DateTime? focusedDay;
   String _selectedDay = "";
   final viewmodel = instance<HomeViewmodel>();
+  final navigationService = NavigationService(instance<AppPreferences>());
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +85,11 @@ class _PremiumContainerState extends State<PremiumContainer> {
                     title: Strings.reportBreakDown.tr(),
                     imageAsset: ImageAssets.maintenance,
                     isPremium: widget.isPremium,
-                    onTap: () =>
-                        context.push(ReportBreakDownView.reportBreakDownRoute),
+                    onTap: () => navigationService.navigateWithAuthCheck(
+                      context: context,
+                      authenticatedRoute:
+                          ReportBreakDownView.reportBreakDownRoute,
+                    ),
                   ),
                   Gap(AppSize.s8.w),
                   PremiumButton(
@@ -151,22 +157,61 @@ class _PremiumContainerState extends State<PremiumContainer> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              TableCalendarWidget(
-                disabledDays: disabledDays,
-                focusedDay: DateTime.now(),
-                onDaySelected: onDaySelected,
+              // make the modal stateful so the request button updates immediately
+              // when the user selects a date
+              Builder(
+                builder: (context) {
+                  String modalSelectedDay = _selectedDay;
+                  DateTime modalFocusedDay = focusedDay ?? DateTime.now();
+                  return StatefulBuilder(
+                    builder: (context, setModalState) => Column(
+                      children: [
+                        TableCalendarWidget(
+                          disabledDays: disabledDays,
+                          focusedDay: modalFocusedDay,
+                          onDaySelected: (selectedDay, newFocusedDay) {
+                            final formatted =
+                                "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
+                            setModalState(() {
+                              modalSelectedDay = formatted;
+                              modalFocusedDay = newFocusedDay;
+                            });
+                            setState(() {
+                              focusedDay = newFocusedDay;
+                              _selectedDay = formatted;
+                            });
+                            if (onDaySelected != null) {
+                              onDaySelected(selectedDay, newFocusedDay);
+                            }
+                            viewmodel.setScheduleDate(formatted);
+                          },
+                        ),
+                        Gap(AppSize.s16.h),
+                        ActionOrCancelButton(
+                          Strings.request.tr(),
+                          modalSelectedDay.isNotEmpty
+                              ? () {
+                                  viewmodel.requestVisitRescheduling();
+                                  context.pop();
+                                  CustomBottomSheet.show(
+                                    context: context,
+                                    imagePath: ImageAssets.successfully,
+                                    message: Strings
+                                        .requestVisitReschedulingMessage
+                                        .tr(),
+                                    buttonText: Strings.done.tr(),
+                                  );
+                                }
+                              : null,
+                          actionColor: modalSelectedDay.isNotEmpty
+                              ? ColorManager.primaryColor
+                              : ColorManager.greyColor,
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
-              Gap(AppSize.s16.h),
-              ActionOrCancelButton(Strings.request.tr(), () {
-                viewmodel.requestVisitRescheduling();
-                context.pop();
-                CustomBottomSheet.show(
-                  context: context,
-                  imagePath: ImageAssets.successfully,
-                  message: Strings.requestVisitReschedulingMessage.tr(),
-                  buttonText: Strings.done.tr(),
-                );
-              }, actionColor: ColorManager.primaryColor),
             ],
           ),
         ),

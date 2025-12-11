@@ -6,6 +6,7 @@ import 'package:elevator/data/mappers/authentication_mapper.dart';
 import 'package:elevator/data/mappers/library_mapper.dart';
 import 'package:elevator/data/mappers/next_appointment_mapper.dart';
 import 'package:elevator/data/mappers/notification_mapper.dart';
+import 'package:elevator/data/mappers/register_mapper.dart';
 import 'package:elevator/data/mappers/request_status_mapper.dart';
 import 'package:elevator/data/mappers/upload_media_mapper.dart';
 import 'package:elevator/data/mappers/user_data_mapper.dart';
@@ -52,6 +53,23 @@ class RepositoryImpl extends Repository {
     );
   }
 
+  // Generic error handler that extracts backend messages from DioException
+  Either<Failure, T> _handleError<T>(dynamic error) {
+    try {
+      final data = error.response!.data as Map<String, dynamic>;
+      final message = data.toDomain();
+
+      return Left(
+        Failure(
+          error.response!.statusCode ?? ApiInternalStatus.failure,
+          message.isNotEmpty ? message : ResponseMessage.defaultError,
+        ),
+      );
+    } catch (_) {}
+
+    return Left(ExceptionHandler.handle(error).failure);
+  }
+
   // ---------------- LOGIN ----------------
   @override
   Future<Either<Failure, Authentication>> login(
@@ -63,7 +81,7 @@ class RepositoryImpl extends Repository {
           ? Right(response.toDomain())
           : Left(_mapFailureFromResponse(response));
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -78,7 +96,7 @@ class RepositoryImpl extends Repository {
           ? Right(response.toDomain())
           : Left(_mapFailureFromResponse(response));
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -91,7 +109,7 @@ class RepositoryImpl extends Repository {
           ? Right(response.toDomain())
           : Left(_mapFailureFromResponse(response));
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -108,7 +126,7 @@ class RepositoryImpl extends Repository {
           ? Right(response.toDomain())
           : Left(_mapFailureFromResponse(response));
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -121,7 +139,7 @@ class RepositoryImpl extends Repository {
       await _remoteDataSource.resetPassword(resetPasswordRequest);
       return const Right(null);
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -132,7 +150,7 @@ class RepositoryImpl extends Repository {
       await _remoteDataSource.resendOtp(phone);
       return const Right(null);
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -141,11 +159,11 @@ class RepositoryImpl extends Repository {
   Future<Either<Failure, void>> register(UserData userData) async {
     try {
       final response = await _remoteDataSource.register(userData);
-      return response.success == true
+      return _isSuccessfulResponse(response)
           ? const Right(null)
-          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+          : Left(_mapFailureFromResponse(response));
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -156,11 +174,11 @@ class RepositoryImpl extends Repository {
   ) async {
     try {
       final response = await _remoteDataSource.requestSiteSurvey(request);
-      return response.success == true
+      return _isSuccessfulResponse(response)
           ? const Right(null)
-          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+          : Left(_mapFailureFromResponse(response));
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -173,9 +191,9 @@ class RepositoryImpl extends Repository {
       final response = await _remoteDataSource.uploadMedia(files);
       return _isSuccessfulResponse(response)
           ? Right(response.toDomain())
-          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+          : Left(_mapFailureFromResponse(response));
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -188,11 +206,11 @@ class RepositoryImpl extends Repository {
       final response = await _remoteDataSource.technicalCommercialOffers(
         request,
       );
-      return response.success == true
+      return _isSuccessfulResponse(response)
           ? const Right(null)
-          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+          : Left(_mapFailureFromResponse(response));
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -203,7 +221,7 @@ class RepositoryImpl extends Repository {
       await _remoteDataSource.sos();
       return const Right(null);
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -211,25 +229,19 @@ class RepositoryImpl extends Repository {
   @override
   Future<Either<Failure, GetUserInfo>> getUserData() async {
     try {
-      // Try to get data from cache first
       final cachedResponse = await _localDataSource.getUserData();
       return Right(cachedResponse);
     } catch (cacheError) {
-      // If cache fails, fetch from remote
       try {
         final response = await _remoteDataSource.getUserData();
-
         if (_isSuccessfulResponse(response)) {
-          // Save to cache for future use
           await _localDataSource.saveUserDataToCache(response.toDomain());
           return Right(response.toDomain());
         } else {
-          return Left(
-            Failure(ApiInternalStatus.failure, response.message ?? ''),
-          );
+          return Left(_mapFailureFromResponse(response));
         }
       } catch (error) {
-        return Left(ExceptionHandler.handle(error).failure);
+        return _handleError(error);
       }
     }
   }
@@ -239,11 +251,10 @@ class RepositoryImpl extends Repository {
   Future<Either<Failure, void>> updateUser(UpdateUserRequest request) async {
     try {
       await _remoteDataSource.updateUser(request);
-      // Clear user data cache after update
       _localDataSource.removeFromCache(CACHE_USER_DATA_KEY);
       return const Right(null);
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -256,7 +267,7 @@ class RepositoryImpl extends Repository {
       await _remoteDataSource.changePassword(request);
       return const Right(null);
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -265,11 +276,10 @@ class RepositoryImpl extends Repository {
   Future<Either<Failure, void>> logout() async {
     try {
       await _remoteDataSource.logout();
-      // Clear all cache on logout
       _localDataSource.clearCache();
       return const Right(null);
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -282,7 +292,7 @@ class RepositoryImpl extends Repository {
       await _remoteDataSource.reportBreakDown(request);
       return const Right(null);
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -295,7 +305,7 @@ class RepositoryImpl extends Repository {
       await _remoteDataSource.rescheduleAppointment(scheduleDate);
       return const Right(null);
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -306,7 +316,7 @@ class RepositoryImpl extends Repository {
       await _remoteDataSource.saveFcmToken(token);
       return const Right(null);
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -317,9 +327,9 @@ class RepositoryImpl extends Repository {
       final response = await _remoteDataSource.getNotifications();
       return _isSuccessfulResponse(response)
           ? Right(response.toDomain())
-          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+          : Left(_mapFailureFromResponse(response));
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -329,7 +339,7 @@ class RepositoryImpl extends Repository {
       await _remoteDataSource.deleteNotification(id);
       return const Right(null);
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -339,53 +349,40 @@ class RepositoryImpl extends Repository {
       await _remoteDataSource.readAllNotifications();
       return const Right(null);
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
   @override
   Future<Either<Failure, NextAppointmentModel>> nextAppointment() async {
     try {
-      // Try to get data from cache first
       final cachedData = await _localDataSource.getNextAppointment();
       return Right(cachedData);
     } catch (cacheError) {
-      // If cache fails, fetch from remote
       try {
         final response = await _remoteDataSource.nextAppointment();
-
         if (_isSuccessfulResponse(response)) {
           final domainModel = response.toDomain();
-          // Save to cache for future use
           await _localDataSource.saveNextAppointmentToCache(domainModel);
           return Right(domainModel);
         } else {
-          return Left(
-            Failure(ApiInternalStatus.failure, response.message ?? ''),
-          );
+          return Left(_mapFailureFromResponse(response));
         }
       } catch (error) {
-        return Left(ExceptionHandler.handle(error).failure);
+        return _handleError(error);
       }
     }
   }
 
   @override
-  /*************  ✨ Windsurf Command ⭐  *************/
-  /// Gets the status of all contracts.
-  ///
-  /// Returns a [ContractsStatusModel] which contains the status of all contracts.
-  ///
-  /// Throws a [Failure] if an error occurs during the API call.
-  /*******  5206d2b7-0808-4063-abe7-be3ccf1ec3e0  *******/
   Future<Either<Failure, ContractsStatusModel>> getContractsStatus() async {
     try {
       final response = await _remoteDataSource.getContractsStatus();
       return _isSuccessfulResponse(response)
           ? Right(response.toDomain())
-          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+          : Left(_mapFailureFromResponse(response));
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -395,9 +392,9 @@ class RepositoryImpl extends Repository {
       final response = await _remoteDataSource.requestStatusSiteSurvey();
       return _isSuccessfulResponse(response)
           ? Right(response.toDomain())
-          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+          : Left(_mapFailureFromResponse(response));
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 
@@ -405,12 +402,11 @@ class RepositoryImpl extends Repository {
   Future<Either<Failure, LibraryAttachment>> getLibrary() async {
     try {
       final response = await _remoteDataSource.getLibrary();
-      print("The success state of lib : ${response.success}");
       return _isSuccessfulResponse(response)
           ? Right(response.toDomain())
-          : Left(Failure(ApiInternalStatus.failure, response.message ?? ''));
+          : Left(_mapFailureFromResponse(response));
     } catch (error) {
-      return Left(ExceptionHandler.handle(error).failure);
+      return _handleError(error);
     }
   }
 }
