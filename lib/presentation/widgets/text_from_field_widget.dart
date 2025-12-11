@@ -66,6 +66,13 @@ class TextFromFieldWidget extends StatelessWidget {
         onTap: onTap,
         decoration: InputDecoration(
           errorText: errorText,
+          // helperText: "",
+          // helperStyle: getRegularTextStyle(
+          //   color: ColorManager.greyColor,
+          //   fontSize: AppSize.s8.sp,
+          // ),
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
 
           contentPadding: isNotes
               ? EdgeInsets.symmetric(
@@ -84,13 +91,7 @@ class TextFromFieldWidget extends StatelessWidget {
             color: ColorManager.greyColor,
             fontSize: AppSize.s16.sp,
           ),
-          // helperText: "",
-          // helperStyle: getRegularTextStyle(
-          //   color: ColorManager.greyColor,
-          //   fontSize: AppSize.s8.sp,
-          // ),
-          prefixIcon: prefixIcon,
-          suffixIcon: suffixIcon,
+
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppSize.s14.r),
             borderSide: BorderSide(

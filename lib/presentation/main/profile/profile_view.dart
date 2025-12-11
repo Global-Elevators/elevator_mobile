@@ -134,7 +134,7 @@ class _ProfileViewState extends State<ProfileView> {
             child: Column(
               children: [
                 AppBarLabel(Strings.profile.tr()),
-                Gap(AppSize.s45.h),
+                Gap(AppSize.s40.h),
                 _buildProfileList(_firstItems),
                 Gap(AppSize.s50.h),
                 _buildProfileList(_secondItems),

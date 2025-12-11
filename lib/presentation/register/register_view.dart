@@ -149,6 +149,7 @@ class _RegisterViewState extends State<RegisterView> {
       onlineChild: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           backgroundColor: Colors.white,
           elevation: 0,
           leading: Padding(
