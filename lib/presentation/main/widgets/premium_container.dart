@@ -3,6 +3,7 @@ import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
 import 'package:elevator/app/navigation_service.dart';
 import 'package:elevator/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:elevator/presentation/login/login_view.dart';
 import 'package:elevator/presentation/main/home/home_viewmodel.dart';
 import 'package:elevator/presentation/main/home/report_break_down/report_break_down_view.dart';
 import 'package:elevator/presentation/main/widgets/premium_button.dart';
@@ -58,6 +59,7 @@ class _PremiumContainerState extends State<PremiumContainer> {
   }
 
   Container _getContentWidget(BuildContext context) {
+    final appPreferences = instance<AppPreferences>();
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -96,16 +98,24 @@ class _PremiumContainerState extends State<PremiumContainer> {
                     title: Strings.requestVisitRescheduling.tr(),
                     imageAsset: IconAssets.calendar,
                     isPremium: widget.isPremium,
-                    onTap: () => showModelOfRequestVisitRescheduling(context, (
-                      selectedDay,
-                      newFocusedDay,
+                    onTap: () => appPreferences.isUserLoggedIn("login").then((
+                      isLoggedIn,
                     ) {
-                      setState(() {
-                        focusedDay = newFocusedDay;
-                        _selectedDay =
-                            "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
-                      });
-                      viewmodel.setScheduleDate(_selectedDay);
+                      if (isLoggedIn) {
+                        showModelOfRequestVisitRescheduling(context, (
+                          selectedDay,
+                          newFocusedDay,
+                        ) {
+                          setState(() {
+                            focusedDay = newFocusedDay;
+                            _selectedDay =
+                                "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
+                          });
+                          viewmodel.setScheduleDate(_selectedDay);
+                        });
+                      } else {
+                        context.go(LoginView.loginRoute);
+                      }
                     }),
                   ),
                 ],
@@ -193,14 +203,14 @@ class _PremiumContainerState extends State<PremiumContainer> {
                               ? () {
                                   viewmodel.requestVisitRescheduling();
                                   context.pop();
-                                  CustomBottomSheet.show(
-                                    context: context,
-                                    imagePath: ImageAssets.successfully,
-                                    message: Strings
-                                        .requestVisitReschedulingMessage
-                                        .tr(),
-                                    buttonText: Strings.done.tr(),
-                                  );
+                                  // CustomBottomSheet.show(
+                                  //   context: context,
+                                  //   imagePath: ImageAssets.successfully,
+                                  //   message: Strings
+                                  //       .requestVisitReschedulingMessage
+                                  //       .tr(),
+                                  //   buttonText: Strings.done.tr(),
+                                  // );
                                 }
                               : null,
                           actionColor: modalSelectedDay.isNotEmpty

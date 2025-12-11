@@ -124,6 +124,8 @@ class Strings {
   static const String library = 'library';
   static const String profile = 'profile';
   static const String nextAppointment = 'nextAppointment';
+  static const String appointmentRescheduledSuccessfully =
+      'appointmentRescheduledSuccessfully';
   static const String elevatorMaintenance = 'elevatorMaintenance';
   static const String appointmentDate = 'appointmentDate';
   static const String daysLeft = 'daysLeft';

@@ -97,6 +97,7 @@
   "nextAppointment": "الموعد القادم",
   "elevatorMaintenance": "صيانة المصعد",
   "appointmentDate": "9 يونيو 2025",
+  "appointmentRescheduledSuccessfully": "تم إعادة جدولة الموعد بنجاح",
   "daysLeft": "متبقي 25 يومًا",
   "requestVisitRescheduling": "طلب إعادة جدولة الزيارة",
   "chooseVisitDate": "اختر تاريخًا جديدًا للزيارة",

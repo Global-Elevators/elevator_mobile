@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elevator/app/app_pref.dart';
 import 'package:elevator/app/dependency_injection.dart';
@@ -133,7 +135,9 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
                 );
               },
               (data) {
-                inputState.add(SuccessState("Appointment rescheduled"));
+                inputState.add(
+                  SuccessState(Strings.appointmentRescheduledSuccessfully.tr()),
+                );
               },
             );
             Future.delayed(const Duration(milliseconds: 500), () {
@@ -164,6 +168,9 @@ class HomeViewmodel extends BaseViewModel implements HomeViewmodelInput {
   void setScheduleDate(String scheduleDate) {
     _scheduleDate = scheduleDate;
   }
+
+  /// Returns the currently selected schedule date (as stored string), if any.
+  String get scheduleDate => _scheduleDate;
 
   NextAppointmentModel? nextAppointmentModel;
 

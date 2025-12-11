@@ -96,6 +96,7 @@
   "nextAppointment": "Next appointment",
   "elevatorMaintenance": "Elevator maintenance",
   "appointmentDate": "9 June, 2025",
+  "appointmentRescheduledSuccessfully": "Appointment rescheduled successfully",
   "daysLeft": "25 days left",
   "requestVisitRescheduling": "Request Visit Rescheduling",
   "chooseVisitDate": "Choose a new visit date",
