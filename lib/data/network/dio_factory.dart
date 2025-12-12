@@ -18,6 +18,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:elevator/data/mappers/error_response_mapper.dart';
 
 const String APPLICATION_JSON = "application/json";
 const String CONTENT_TYPE = "content-type";
@@ -36,6 +37,7 @@ class DioFactory {
       baseUrl: dotenv.env['BASE_URL']!,
       headers: {ACCEPT: APPLICATION_JSON, CONTENT_TYPE: APPLICATION_JSON},
       receiveDataWhenStatusError: true,
+      //  Sets maximum time to wait for sending/receiving data before giving up
       sendTimeout: const Duration(seconds: Constants.timeout),
       receiveTimeout: const Duration(seconds: Constants.timeout),
       // Dio will treat only 200–399 responses as success and send everything else (like 401, 404, 500) to onError in your InterceptorsWrapper.
@@ -43,24 +45,32 @@ class DioFactory {
           status != null &&
           status >= 200 &&
           status < 400, // Accept status codes from 200-399
-      // validateStatus: (status) => status != null && status < 500,
     );
 
     final dioInstance = Dio(baseDioOptions);
 
-    // Interceptors
+    //  Interceptors are like middleware - they run before every request and after every response.
     dioInstance.interceptors.add(
       InterceptorsWrapper(
         onRequest:
             (RequestOptions options, RequestInterceptorHandler handler) async {
-              print("DioFactory onRequest");
+              // User makes API call → GET /api/profile
+              // Interceptor triggers → "Wait! Let me add the auth token first"
+              // Calls _addAuthorizationHeaderIfLoggedIn()
+              // Adds header → Authorization: Bearer abc123xyz
+              // Sends modified request to server
               await _addAuthorizationHeaderIfLoggedIn(options);
               handler.next(options);
             },
         onError: (DioException error, ErrorInterceptorHandler handler) async {
-          print("DioFactory onError");
           if (_isUnauthorizedError(error)) {
-            await _handleUnauthorizedError(dioInstance, error, handler);
+            // Is it a 401?
+            if (_isSessionExpired(error)) {
+              // Is it REALLY session expiry?
+              await _handleUnauthorizedError(error, handler); // Logout the user
+            } else {
+              handler.next(error); // Just a regular 401, pass it along
+            }
           } else {
             handler.next(error);
           }
@@ -83,6 +93,7 @@ class DioFactory {
     return dioInstance;
   }
 
+  // Automatically adds the token to every API call so you don't have to do it manually.
   Future<void> _addAuthorizationHeaderIfLoggedIn(RequestOptions options) async {
     try {
       final accessToken = await _appPreferences.getUserToken("login");
@@ -103,8 +114,29 @@ class DioFactory {
   bool _isUnauthorizedError(DioException error) =>
       error.response?.statusCode == 401;
 
+  /// Inspect the error response body to decide if a 401 is due to an
+  /// expired session (server indicates session/token expiry) or some
+  /// other client/auth error (wrong credentials, invalid OTP, etc.).
+  /// Inspect the error response body to decide if a 401 is due to an
+  /// expired session. Since the server only sends "Unauthorized" for
+  /// session expiry, we just check for that specific message.
+  bool _isSessionExpired(DioException error) {
+    try {
+      final data = error.response?.data as Map<String, dynamic>?;
+
+      final message = data?.toDomain() ?? '';
+      // final lowered = message.toLowerCase();
+      print('🔍 401 Error message: $message');
+
+      // Check if the message contains "unauthorized"
+      return message.contains('Unauthenticated.');
+    } catch (e) {
+      debugPrint('⚠️ Failed to parse 401 body for session expiry: $e');
+      return false;
+    }
+  }
+
   Future<void> _handleUnauthorizedError(
-    Dio dioInstance,
     DioException error,
     ErrorInterceptorHandler handler,
   ) async {
@@ -195,8 +227,3 @@ class DioFactory {
     );
   }
 }
-
-/*
-sendTimeout:  Maximum time Dio waits while sending data to the server.
-receiveTimeout: Maximum time Dio waits to receive a response after sending a request.
-*/

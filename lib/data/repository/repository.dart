@@ -6,7 +6,7 @@ import 'package:elevator/data/mappers/authentication_mapper.dart';
 import 'package:elevator/data/mappers/library_mapper.dart';
 import 'package:elevator/data/mappers/next_appointment_mapper.dart';
 import 'package:elevator/data/mappers/notification_mapper.dart';
-import 'package:elevator/data/mappers/register_mapper.dart';
+import 'package:elevator/data/mappers/error_response_mapper.dart';
 import 'package:elevator/data/mappers/request_status_mapper.dart';
 import 'package:elevator/data/mappers/upload_media_mapper.dart';
 import 'package:elevator/data/mappers/user_data_mapper.dart';
